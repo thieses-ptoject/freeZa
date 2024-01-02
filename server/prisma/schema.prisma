@@ -1,0 +1,144 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int     @id @default(autoincrement())
+  firstName     String
+  lastName      String
+  email         String
+  image         String  @db.Text
+  strawberries  Int     @default(5)
+  rate          Int     @default(0)
+  level         String  @default("BabyGiver")
+  accountType   Boolean @default(false)
+  nbrOfDonation Int     @default(0)
+  nbrOfTakes    Int     @default(0)
+  address       String
+  phone         String
+
+  Items    Item[]
+  Comments Comments[]
+
+  MessagesSend    Messages[]       @relation("messageSender")
+  MessageRecieved Messages[]       @relation("messageRecieved")
+  Rater           Rate[]           @relation("rater")
+  Rated           Rate[]           @relation("rated")
+  Favourite       Favourite[]
+  GiversFollower  GiversFollowed[] @relation("follower")
+  GiversFollowed  GiversFollowed[] @relation("followed")
+  Giver           Appointments[]   @relation("giver")
+  Reciver         Appointments[]   @relation("reciver")
+}
+
+model Item {
+  id           Int            @id @default(autoincrement())
+  name         String
+  description  String         @db.Text
+  image        String[]       @db.Text
+  strawberries Int
+  type         String
+  location     String
+  state        String
+  exclusive    Boolean
+  createdAt    DateTime       @default(now())
+  owner        User           @relation(fields: [ownerId], references: [id])
+  ownerId      Int
+  types        Types          @relation(fields: [typeId], references: [id])
+  typeId       Int
+  Favourite    Favourite[]
+  Appointments Appointments[]
+}
+
+model Admin {
+  id    Int    @id @default(autoincrement())
+  name  String
+  image String @db.Text
+  email String
+}
+
+model Category {
+  id    Int     @id @default(autoincrement())
+  name  String
+  Types Types[]
+}
+
+model Types {
+  id         Int      @id @default(autoincrement())
+  type       String
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId Int
+  Item       Item[]
+}
+
+model Posts {
+  id       Int        @id @default(autoincrement())
+  image    String?    @db.Text
+  body     String     @db.Text
+  Comments Comments[]
+}
+
+model Comments {
+  id     Int    @id @default(autoincrement())
+  body   String @db.Text
+  post   Posts  @relation(fields: [postId], references: [id])
+  postId Int
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int
+}
+
+model Messages {
+  id         Int    @id @default(autoincrement())
+  body       String @db.Text
+  sender     User   @relation("messageSender", fields: [senderId], references: [id])
+  senderId   Int
+  reciever   User   @relation("messageRecieved", fields: [recieverId], references: [id])
+  recieverId Int
+}
+
+model Rate {
+  id         Int    @id @default(autoincrement())
+  nbrOfStars Int
+  comments   String @db.Text
+  rater      User   @relation("rater", fields: [raterId], references: [id])
+  raterId    Int
+  rated      User   @relation("rated", fields: [ratedId], references: [id])
+  ratedId    Int
+}
+
+model Favourite {
+  id     Int  @id @default(autoincrement())
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+  item   Item @relation(fields: [itemId], references: [id])
+  itemId Int
+}
+
+model GiversFollowed {
+  id         Int  @id @default(autoincrement())
+  follower   User @relation("follower", fields: [followerId], references: [id])
+  followerId Int
+  followed   User @relation("followed", fields: [followedId], references: [id])
+  followedId Int
+}
+
+model Appointments {
+  id        Int     @id @default(autoincrement())
+  time      String
+  location  String
+  status    Boolean @default(false)
+  giver     User    @relation("giver", fields: [giverId], references: [id])
+  giverId   Int
+  reciver   User    @relation("reciver", fields: [reciverId], references: [id])
+  reciverId Int
+  Item      Item    @relation(fields: [ItemId], references: [id])
+  ItemId    Int
+}
