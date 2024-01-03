@@ -58,7 +58,7 @@ model Item {
 }
 
 model Admin {
-  id    Int    @id @default(autoincrement())
+  id    Int    @id 
   name  String
   image String @db.Text
   email String
