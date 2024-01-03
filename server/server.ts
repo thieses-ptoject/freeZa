@@ -7,7 +7,7 @@ import commentRouter from "./routes/commentRoute"
 import favouriteRouter from "./routes/favouriteRoute"
 import followersRouter from "./routes/followersRoute"
 import itemRouter from "./routes/itemRoute"
-import messageRouter from "./routes/messageRoute"
+
 import postRouter from "./routes/postRoute"
 import rateRouter from "./routes/rateRoute"
 import statisticsRouter from "./routes/statisticsRoute"
@@ -31,8 +31,7 @@ app.use("/favorite", favouriteRouter)
 app.use("/followers", followersRouter)
 //item
 app.use("/item", itemRouter)
-//message
-app.use("/message", messageRouter)
+
 //post
 app.use("/post", postRouter)
 //rate
