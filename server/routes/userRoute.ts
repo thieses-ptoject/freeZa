@@ -1,4 +1,4 @@
-import * as userRouter from "../controllers/userController"
+import { addUser } from "../controllers/userController"; 
 
 const route = require("express").Router();
 
