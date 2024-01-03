@@ -1,5 +1,8 @@
-import * as userRouter from "../controllers/userController"
+import { addUser } from "../controllers/userController";
+import { Router } from "express";
 
-const route = require("express").Router();
+const router = Router();
 
-export default route;
+router.post("/", addUser);
+
+export default router;
