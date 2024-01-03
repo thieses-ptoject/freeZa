@@ -1,5 +1,9 @@
-import * as appointmentRouter from "../controllers/appointmentController"
+import { done , deleteAppo } from "../controllers/appointmentController";
+import { Router } from "express";
 
-const route = require("express").Router();
+const router = Router();
 
-export default route;
+
+router.put("/", done)
+router.delete("/:id", deleteAppo)
+export default router;

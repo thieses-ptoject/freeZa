@@ -3,6 +3,8 @@ import { Request, Response } from "express";
 const prisma = new PrismaClient();
 
 
-export const signUp = async()=>{
+export const follow = async(req:Request,res:Response)=>{
+    const {followerId, followedId }=req.body
+    
     
 }
