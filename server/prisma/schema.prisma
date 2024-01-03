@@ -11,10 +11,10 @@ datasource db {
 }
 
 model User {
-  id           String     @id 
-  firstName     String
+  id            String  @id
+  firstName     String 
   lastName      String
-  email         String @unique
+  email         String  @unique
   image         String  @db.Text
   strawberries  Int     @default(5)
   rate          Int     @default(0)
@@ -24,18 +24,18 @@ model User {
   nbrOfTakes    Int     @default(0)
   address       String
   phone         String
-
   Items    Item[]
   Comments Comments[]
 
-  
-  Rater           Rate[]           @relation("rater")
-  Rated           Rate[]           @relation("rated")
-  Favourite       Favourite[]
-  GiversFollower  GiversFollowed[] @relation("follower")
-  GiversFollowed  GiversFollowed[] @relation("followed")
-  Giver           Appointments[]   @relation("giver")
-  Reciver         Appointments[]   @relation("reciver")
+  Rater          Rate[]           @relation("rater")
+  Rated          Rate[]           @relation("rated")
+  Favourite      Favourite[]
+  GiversFollower GiversFollowed[] @relation("follower")
+  GiversFollowed GiversFollowed[] @relation("followed")
+  Giver          Appointments[]   @relation("giver")
+  Reciver        Appointments[]   @relation("reciver")
+  Like           Like[]
+  Posts          Posts[]
 }
 
 model Item {
@@ -58,7 +58,7 @@ model Item {
 }
 
 model Admin {
-  id    Int    @id 
+  id    String @id
   name  String
   image String @db.Text
   email String
@@ -82,7 +82,10 @@ model Posts {
   id       Int        @id @default(autoincrement())
   image    String?    @db.Text
   body     String     @db.Text
+  user     User       @relation(fields: [userId], references: [id])
+  userId   String
   Comments Comments[]
+  Like     Like[]
 }
 
 model Comments {
@@ -94,7 +97,13 @@ model Comments {
   userId String
 }
 
-
+model Like {
+  id      Int    @id @default(autoincrement())
+  user    User   @relation(fields: [likerId], references: [id])
+  likerId String
+  post    Posts  @relation(fields: [postId], references: [id])
+  postId  Int
+}
 
 model Rate {
   id         Int    @id @default(autoincrement())
@@ -107,18 +116,18 @@ model Rate {
 }
 
 model Favourite {
-  id     Int  @id @default(autoincrement())
-  user   User @relation(fields: [userId], references: [id])
+  id     Int    @id @default(autoincrement())
+  user   User   @relation(fields: [userId], references: [id])
   userId String
-  item   Item @relation(fields: [itemId], references: [id])
+  item   Item   @relation(fields: [itemId], references: [id])
   itemId Int
 }
 
 model GiversFollowed {
-  id         Int  @id @default(autoincrement())
-  follower   User @relation("follower", fields: [followerId], references: [id])
+  id         Int    @id @default(autoincrement())
+  follower   User   @relation("follower", fields: [followerId], references: [id])
   followerId String
-  followed   User @relation("followed", fields: [followedId], references: [id])
+  followed   User   @relation("followed", fields: [followedId], references: [id])
   followedId String
 }
 
