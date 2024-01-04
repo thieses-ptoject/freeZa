@@ -91,7 +91,6 @@ export const addNewPost = async(req:Request,res:Response): Promise<void>=>{
       export const deletePost = async (req: Request, res: Response): Promise<void> => {
         try {
           const { postId, userId } = req.params
-         
           const deletePost = await prisma.posts.delete({
             where: {
               id: +postId,
@@ -103,3 +102,4 @@ export const addNewPost = async(req:Request,res:Response): Promise<void>=>{
           res.status(500).json(error);
       }
       }
+

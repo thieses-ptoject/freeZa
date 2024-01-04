@@ -103,6 +103,7 @@ model Like {
   likerId String
   post    Posts  @relation(fields: [postId], references: [id] , onDelete: Cascade)
   postId  Int
+  likes Int @default(0)
 }
 
 model Rate {
