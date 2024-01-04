@@ -12,7 +12,7 @@ datasource db {
 
 model User {
   id            String  @id
-  firstName     String
+  firstName     String 
   lastName      String
   email         String  @unique
   image         String  @db.Text
@@ -24,11 +24,10 @@ model User {
   nbrOfTakes    Int     @default(0)
   address       String
   phone         String
-
   Items    Item[]
   Comments Comments[]
 
-  Rater          Rate[]           @relation("rater")
+  Rater          Rate[]           @relation("rater" ) 
   Rated          Rate[]           @relation("rated")
   Favourite      Favourite[]
   GiversFollower GiversFollowed[] @relation("follower")
@@ -50,7 +49,7 @@ model Item {
   state        String
   exclusive    Boolean
   createdAt    DateTime       @default(now())
-  owner        User           @relation(fields: [ownerId], references: [id])
+  owner        User           @relation(fields: [ownerId], references: [id] , onDelete: Cascade)
   ownerId      String
   types        Types          @relation(fields: [typeId], references: [id])
   typeId       Int
@@ -83,7 +82,7 @@ model Posts {
   id       Int        @id @default(autoincrement())
   image    String?    @db.Text
   body     String     @db.Text
-  user     User       @relation(fields: [userId], references: [id])
+  user     User       @relation(fields: [userId], references: [id] , onDelete: Cascade)
   userId   String
   Comments Comments[]
   Like     Like[]
@@ -94,32 +93,31 @@ model Comments {
   body   String @db.Text
   post   Posts  @relation(fields: [postId], references: [id])
   postId Int
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id] , onDelete: Cascade)
   userId String
 }
 
 model Like {
   id      Int    @id @default(autoincrement())
-  user    User   @relation(fields: [likerId], references: [id])
+  user    User   @relation(fields: [likerId], references: [id] ,onDelete: Cascade)
   likerId String
   post    Posts  @relation(fields: [postId], references: [id])
   postId  Int
-  like Int @default(0)
 }
 
 model Rate {
   id         Int    @id @default(autoincrement())
   nbrOfStars Int
   comments   String @db.Text
-  rater      User   @relation("rater", fields: [raterId], references: [id])
-  raterId    String
-  rated      User   @relation("rated", fields: [ratedId], references: [id])
+  rater      User   @relation("rater", fields: [raterId], references: [id], onDelete: Cascade)
+  raterId    String 
+  rated      User   @relation("rated", fields: [ratedId], references: [id] ,onDelete: Cascade)
   ratedId    String
 }
 
 model Favourite {
   id     Int    @id @default(autoincrement())
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id] , onDelete: Cascade)
   userId String
   item   Item   @relation(fields: [itemId], references: [id])
   itemId Int
@@ -127,9 +125,9 @@ model Favourite {
 
 model GiversFollowed {
   id         Int    @id @default(autoincrement())
-  follower   User   @relation("follower", fields: [followerId], references: [id])
+  follower   User   @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
   followerId String
-  followed   User   @relation("followed", fields: [followedId], references: [id])
+  followed   User   @relation("followed", fields: [followedId], references: [id] , onDelete: Cascade)
   followedId String
 }
 
@@ -138,10 +136,10 @@ model Appointments {
   time      String
   location  String
   status    Boolean @default(false)
-  giver     User    @relation("giver", fields: [giverId], references: [id])
-  giverId   String
-  reciver   User    @relation("reciver", fields: [reciverId], references: [id])
-  reciverId String
+  giver     User    @relation("giver", fields: [giverId], references: [id] , onDelete: Cascade)
+  giverId   String  
+  reciver   User    @relation("reciver", fields: [reciverId], references: [id] , onDelete: Cascade)
+  reciverId String  
   Item      Item    @relation(fields: [ItemId], references: [id])
   ItemId    Int
 }
