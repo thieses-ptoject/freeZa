@@ -59,11 +59,6 @@ export const DeleteItem = async(req:Request,res:Response): Promise<void>=>{
 
 
 
-
-
-
-
-
 //Getting Items: 
 
 export const GetAllItems = async(req:Request,res:Response): Promise<void>=>{
@@ -258,7 +253,7 @@ const strawberries = parseInt(req.params.strawberries)
       res.status(500).send(error) 
     }
   } 
-  
+
   export const UpdateLocation= async (req: Request, res: Response): Promise<void> => {
     const {location}= req.body
     const id= parseInt(req.params.id)
