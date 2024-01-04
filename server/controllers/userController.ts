@@ -28,11 +28,12 @@ export const addUser = async(req: Request, res: Response)=>{
       data:{ 
         id:id,
         firstName:firstName,
-        lastName:lastName
-        ,email:email,
-         image:image, 
-         address:address,
-         phone: phone}
+        lastName:lastName,
+        email:email,
+        image:image, 
+        address:address,
+        phone: phone
+      }
       })
       res.send(query)
     }catch(error){
@@ -113,49 +114,3 @@ export const getUser = async (req: Request, res: Response) => {
     }
   }
   
-//   export const updateRate = async (req: Request, res: Response) => {
-//   try {
-//     const userEmail = req.body.email;
-//     const user = await prisma.user.findUnique({
-//       where: {
-//         email: userEmail,
-//       },
-//     });
-
-//     if (!user) {
-//       return res.status(404).send("User not found");
-//     }
-
-//     const rateId =req.body.rateId  /* get the rateId from your request body or another source */;
-//     const newVote = req.body.vote /* get the new vote value from your request body */;
-
-//     // Find the existing rate record
-//     const existingRateRecord = await prisma.rate.findUnique({
-//       where: {
-//         id: rateId,
-//       },
-//     });
-
-//     if (!existingRateRecord) {
-//       return res.status(404).send("Rate record not found");
-//     }
-
-//     // Update the rate record with the new vote
-//     const updatedRateRecord = await prisma.rate.update({
-//       where: {
-//         id: rateId,
-//       },
-//       data: {
-//         nbrOfStars: [...(existingRateRecord.nbrOfStars || []), newVote], // Ensure nbrOfStars is an array
-//       },
-//     });
-
-//     // Calculate the average rating
-//     const averageRating = updatedRateRecord.nbrOfStars.reduce((sum, rating) => sum + rating, 0) / updatedRateRecord.nbrOfStars.length;
-
-//     res.send({ averageRating });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send("Internal Server Error");
-//   } 
-// };
