@@ -40,7 +40,7 @@ export const GetTypesBycategory = async(req:Request,res:Response): Promise<void>
             res.status(404).send([])
             return;
         } 
-        res.status(200).json(alltypes)
+        res.status(200).json(alltypes[0].Types)
 
         
     } catch (error) {
