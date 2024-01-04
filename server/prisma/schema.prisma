@@ -104,6 +104,7 @@ model Like {
   likerId String
   post    Posts  @relation(fields: [postId], references: [id])
   postId  Int
+  like Int @default(0)
 }
 
 model Rate {
