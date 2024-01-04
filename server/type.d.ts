@@ -9,3 +9,10 @@ export type posts= {
     postId: number,
     userId: string
   }
+
+
+  export type like ={
+    likerId: String,
+    postId:  number,
+    likes: number
+  }

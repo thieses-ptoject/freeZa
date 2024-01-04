@@ -35,6 +35,9 @@ export const addNewComment = async(req:Request,res:Response): Promise<void>=>{
           const getComments = await prisma.comments.findMany({
             where :{
                 postId:postId
+            },
+            include:{
+              user:true
             }
           });
           res.status(201).json(getComments);
@@ -102,7 +105,7 @@ export const addNewComment = async(req:Request,res:Response): Promise<void>=>{
             if (getUser[0].userId === userId){
               const deletecomment = await prisma.comments.deleteMany({
                 where: {
-                  postId
+                  postId:postId,
                 },
               });
               res.status(203).json(deletecomment );

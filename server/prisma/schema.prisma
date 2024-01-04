@@ -82,6 +82,7 @@ model Posts {
   id       Int        @id @default(autoincrement())
   image    String?    @db.Text
   body     String     @db.Text
+  createdAt    DateTime       @default(now())
   user     User       @relation(fields: [userId], references: [id] , onDelete: Cascade)
   userId   String
   Comments Comments[]
@@ -91,6 +92,7 @@ model Posts {
 model Comments {
   id     Int    @id @default(autoincrement())
   body   String @db.Text
+  createdAt    DateTime       @default(now())
   post   Posts  @relation(fields: [postId], references: [id] , onDelete: Cascade)
   postId Int
   user   User   @relation(fields: [userId], references: [id] , onDelete: Cascade)
