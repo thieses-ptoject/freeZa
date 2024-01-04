@@ -51,7 +51,7 @@ model Item {
   createdAt    DateTime       @default(now())
   owner        User           @relation(fields: [ownerId], references: [id] , onDelete: Cascade)
   ownerId      String
-  types        Types          @relation(fields: [typeId], references: [id])
+  types        Types          @relation(fields: [typeId], references: [id] , onDelete: Cascade)
   typeId       Int
   Favourite    Favourite[]
   Appointments Appointments[]
@@ -73,7 +73,7 @@ model Category {
 model Types {
   id         Int      @id @default(autoincrement())
   type       String
-  category   Category @relation(fields: [categoryId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id] , onDelete: Cascade)
   categoryId Int
   Item       Item[]
 }
@@ -91,17 +91,17 @@ model Posts {
 model Comments {
   id     Int    @id @default(autoincrement())
   body   String @db.Text
-  post   Posts  @relation(fields: [postId], references: [id])
+  post   Posts  @relation(fields: [postId], references: [id] , onDelete: Cascade)
   postId Int
   user   User   @relation(fields: [userId], references: [id] , onDelete: Cascade)
   userId String
 }
 
 model Like {
-  id      Int    @id @default(autoincrement())
+  id      Int    @id @default(autoincrement())  
   user    User   @relation(fields: [likerId], references: [id] ,onDelete: Cascade)
   likerId String
-  post    Posts  @relation(fields: [postId], references: [id])
+  post    Posts  @relation(fields: [postId], references: [id] , onDelete: Cascade)
   postId  Int
 }
 
@@ -119,7 +119,7 @@ model Favourite {
   id     Int    @id @default(autoincrement())
   user   User   @relation(fields: [userId], references: [id] , onDelete: Cascade)
   userId String
-  item   Item   @relation(fields: [itemId], references: [id])
+  item   Item   @relation(fields: [itemId], references: [id] , onDelete: Cascade)
   itemId Int
 }
 
@@ -140,6 +140,6 @@ model Appointments {
   giverId   String  
   reciver   User    @relation("reciver", fields: [reciverId], references: [id] , onDelete: Cascade)
   reciverId String  
-  Item      Item    @relation(fields: [ItemId], references: [id])
+  Item      Item    @relation(fields: [ItemId], references: [id] , onDelete: Cascade)
   ItemId    Int
 }

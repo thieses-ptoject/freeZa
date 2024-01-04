@@ -82,8 +82,24 @@ export const addNewPost = async(req:Request,res:Response): Promise<void>=>{
       
           res.status(200).json(updatedPost);
         }catch (error) {
-          console.error(error);
-          res.status(500).json({ error: 'Internal server error' });
-        }
+          res.status(500).json(error);
+      }
       }
       
+
+
+      export const deletePost = async (req: Request, res: Response): Promise<void> => {
+        try {
+          const { postId, userId } = req.params
+         
+          const deletePost = await prisma.posts.delete({
+            where: {
+              id: +postId,
+            },
+          });
+      
+          res.status(200).json(deletePost);
+        }catch (error) {
+          res.status(500).json(error);
+      }
+      }
