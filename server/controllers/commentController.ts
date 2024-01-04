@@ -30,7 +30,7 @@ export const addNewComment = async(req:Request,res:Response): Promise<void>=>{
 
     export const getallcommentOfonePost = async(req:Request,res:Response): Promise<void>=>{
       try {
-          const { postId} : comments = req.body;
+          const { postId}  = req.body;
 
           const getComments = await prisma.comments.findMany({
             where :{
@@ -40,8 +40,9 @@ export const addNewComment = async(req:Request,res:Response): Promise<void>=>{
               user:true
             }
           });
-          res.status(201).json(getComments);
-        }   catch (error) {
+          const filtred = getComments.map((ele)=>{return {body:ele.body, createdAt:ele.createdAt,firstName:ele.user.firstName, lastName:ele.user.lastName, image:ele.user.image}})
+          res.status(201).json(filtred);
+        }catch (error) {
         console.log(error)
           res.status(500).send(error)  
       }
