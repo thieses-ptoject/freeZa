@@ -24,11 +24,10 @@ export default function App() {
 
     // </View>
     <NavigationContainer>
-
-      {auth ? <Stack.Navigator initialRouteName='tabs'>
-        <Stack.Screen name="tabs"  options={{headerShown:false}} component={BottomScreenTab}/>
-        <Stack.Screen name="test" component={Test}/>
-      </Stack.Navigator> : <StackScreens/>}
+      {auth ? <Stack.Navigator >
+        <Stack.Screen name="tabs" options={{headerShown:false}} component={BottomScreenTab}/>
+        <Stack.Screen name="test" options={{headerShown:false}} component={Test}/>
+      </Stack.Navigator> : <StackScreens />}
     </NavigationContainer>
   );
 }
