@@ -40,15 +40,11 @@ export const addNewComment = async(req:Request,res:Response): Promise<void>=>{
               user:true
             }
           });
-<<<<<<< HEAD
-          const filtred = getComments.map((ele)=>{return {body:ele.body, createdAt:ele.createdAt,firstName:ele.user.firstName, lastName:ele.user.lastName, image:ele.user.image}})
-=======
 
           
 
           const filtred = getComments.map((ele)=>{return {body:ele.body, createdAt:ele.createdAt,firstName:ele.user.firstName, lastName:ele.user.lastName, image:ele.user.image}})
 
->>>>>>> 3dd5db56c1f47d0d5ccf089a79467dacdc860f53
           res.status(201).json(filtred);
         }catch (error) {
         console.log(error)
