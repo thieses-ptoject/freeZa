@@ -1,130 +1,139 @@
 import { Comments, PrismaClient } from "@prisma/client";
-import {comments} from "../type"
+import { comments } from "../type";
 import { Request, Response } from "express";
 const prisma = new PrismaClient();
 
+// create new Comment:
 
+export const addNewComment = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  // try {
+  //     const { postId}  = req.body;
+  //     const getComments = await prisma.comments.findMany({
+  //       where :{
+  //           postId:postId
+  //       },
+  //       include:{
+  //         user:true
+  //       }
+  //     });
+  //     const newComments = await prisma.comments.create({
+  //       data : {
+  //         body,
+  //         userId: userId,
+  //         postId:+postId,
+  //       }
+  //     });
+  //     res.status(201).json(newComments);
+  //   }   catch (error) {
+  //   console.log(error)
+  //     res.status(500).send(error)
+  // }
+};
 
+export const getallcommentOfonePost = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { postId } = req.body;
 
- // create new Comment:
+    const getComments = await prisma.comments.findMany({
+      where: {
+        postId: postId,
+      },
+      include: {
+        user: true,
+      },
+    });
 
-export const addNewComment = async(req:Request,res:Response): Promise<void>=>{
+    const filtred = getComments.map((ele) => {
+      return {
+        body: ele.body,
+        createdAt: ele.createdAt,
+        firstName: ele.user.firstName,
+        lastName: ele.user.lastName,
+        image: ele.user.image,
+      };
+    });
+    res.status(201).json(filtred);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+};
+
+export const updateComment = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+      const { body, postId, commentId}  = req.body;
+      const { userId}  = req.params;
+      const updateComments = await prisma.comments.update({
+        where: {
+          id: +commentId,
+        },
+        data: {
+          body,
+          postId,
+          userId: userId
+        },
+      });
+      res.status(201).json(updateComments);
+    }   catch (error) {
+    console.log(error)
+      res.status(500).send(error)
+  }
+};
+
+export const deleteoneComment = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
     try {
-        const { body , postId} : comments  = req.body;
-        const { userId } = req.params
+      const { userId } = req.params
+      const { commentId, postId } = req.body
+      const deletecomment = await prisma.comments.delete({
+        where: {
+          id: +commentId,
+          postId,
+          userId
+        },
+      });
+      res.status(200).json(deletecomment );
+    }catch (error) {
+      res.status(500).json(error);
+  }
+};
 
-        const newComments = await prisma.comments.create({
-          data : {
-            body,
-            userId: userId,
-            postId:+postId,
-          }
+export const deleteAllCommentS = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+    try {
+      const { userId } = req.params
+      const {  postId } = req.body
+      const getUser =await prisma.posts.findUnique({
+        where:{
+          id: +postId
+        }
+      })
+      console.log(getUser);
+      if (getUser?.userId === userId){
+        const deletecomment = await prisma.comments.deleteMany({
+          where: {
+            postId:postId,
+          },
         });
-        res.status(201).json(newComments);
-      }   catch (error) {
-      console.log(error)
-        res.status(500).send(error)  
-    }
-    } 
-
-
-    export const getallcommentOfonePost = async(req:Request,res:Response): Promise<void>=>{
-      try {
-          const { postId}  = req.body;
-
-          const getComments = await prisma.comments.findMany({
-            where :{
-                postId:postId
-            },
-            include:{
-              user:true
-            }
-          });
-<<<<<<< HEAD
-          const filtred = getComments.map((ele)=>{return {body:ele.body, createdAt:ele.createdAt,firstName:ele.user.firstName, lastName:ele.user.lastName, image:ele.user.image}})
-=======
-
-          
-
-          const filtred = getComments.map((ele)=>{return {body:ele.body, createdAt:ele.createdAt,firstName:ele.user.firstName, lastName:ele.user.lastName, image:ele.user.image}})
-
->>>>>>> 3dd5db56c1f47d0d5ccf089a79467dacdc860f53
-          res.status(201).json(filtred);
-        }catch (error) {
-        console.log(error)
-          res.status(500).send(error)
+        res.status(203).json(deletecomment );
       }
-      }
-
-
-      export const updateComment = async(req:Request,res:Response): Promise<void>=>{
-        try {
-            const { body, postId, commentId}  = req.body;
-            const { userId}  = req.params;
-            const updateComments = await prisma.comments.update({
-              where: {
-                id: +commentId,
-              },
-
-              data: {
-                body,
-                postId,
-                userId: userId
-              },
-            });
-
-            res.status(201).json(updateComments);
-          }   catch (error) {
-          console.log(error)
-            res.status(500).send(error)  
-        }
-        } 
-
-
-
-        export const deleteoneComment = async (req: Request, res: Response): Promise<void> => {
-          try {
-            const { userId } = req.params
-            const { commentId, postId } = req.body
-
-            const deletecomment = await prisma.comments.delete({
-              where: {
-                id: +commentId,
-                postId,
-                userId 
-              },
-            });
-        
-            res.status(200).json(deletecomment );
-          }catch (error) {
-            res.status(500).json(error);
-        }
-        }
-
-
-        export const deleteAllCommentS = async (req: Request, res: Response): Promise<void> => {
-          try {
-            const { userId } = req.params
-            const {  postId } = req.body
-            const getUser=await prisma.posts.findMany({
-              where:{
-                id:+postId
-              }
-            })
-            if (getUser[0].userId === userId){
-              const deletecomment = await prisma.comments.deleteMany({
-                where: {
-                  postId:postId,
-                },
-              });
-              res.status(203).json(deletecomment );
-
-            }
-           else{
-            res.status(403).send('not allowed')
-           }
-           
-          }catch (error) {
-            res.status(500).json(error);
-        }
-        }
+     else{
+      res.status(403).send('not allowed')
+     }
+    }catch (error) {
+      res.status(500).json(error);
+  }
+};
