@@ -40,13 +40,17 @@ export const addNewComment = async(req:Request,res:Response): Promise<void>=>{
               user:true
             }
           });
+
+          
+
           const filtred = getComments.map((ele)=>{return {body:ele.body, createdAt:ele.createdAt,firstName:ele.user.firstName, lastName:ele.user.lastName, image:ele.user.image}})
+
           res.status(201).json(filtred);
         }catch (error) {
         console.log(error)
-          res.status(500).send(error)  
+          res.status(500).send(error)
       }
-      } 
+      }
 
 
       export const updateComment = async(req:Request,res:Response): Promise<void>=>{
