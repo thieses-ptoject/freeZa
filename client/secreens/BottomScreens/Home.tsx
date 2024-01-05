@@ -1,10 +1,10 @@
 import React from 'react'
-import { View,Text } from 'react-native'
-
-export const Home = ({navigation}) => {
-  return (
+import { View } from 'react-native';
+import { NavBar } from '../../componets/NavBar';
+export const Home = ({ navigation }) => {
+  return(
     <View>
-        <Text onPress={()=>navigation.navigate('test')}>go to test screen</Text>
+      <NavBar />
     </View>
   )
 }

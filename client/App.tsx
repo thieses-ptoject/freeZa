@@ -8,9 +8,10 @@ import { Test } from './componets/Test';
 import { useState } from 'react';
 import { StackScreens } from './secreens/FirstScreens/StackScreens';
 
+
 const Stack = createStackNavigator();
 export default function App() {
-  const [auth,setAuth]=useState(false)
+  const [auth,setAuth]=useState(true)
   return (
     // <View style={styles.container}>
     //   <Svg style={styles.up} width={241} height={172} viewBox="0 0 241 172" fill="none">
@@ -23,8 +24,9 @@ export default function App() {
 
     // </View>
     <NavigationContainer>
-      {auth ? <Stack.Navigator>
-        <Stack.Screen name="tabs" component={BottomScreenTab}/>
+
+      {auth ? <Stack.Navigator initialRouteName='tabs'>
+        <Stack.Screen name="tabs"  options={{headerShown:false}} component={BottomScreenTab}/>
         <Stack.Screen name="test" component={Test}/>
       </Stack.Navigator> : <StackScreens/>}
     </NavigationContainer>
