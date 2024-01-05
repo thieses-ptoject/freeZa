@@ -1,8 +1,8 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Image } from "react-native";
+import { StyleSheet, View, Text, Image, Pressable } from "react-native";
 import { Color, FontFamily, FontSize, Border } from "../../GlobalStyles/Login"
 
-const Login = () => {
+const Login = ({ navigation } : any) => {
   return (
     <View style={styles.login}>
       <Image
@@ -25,10 +25,12 @@ const Login = () => {
       <View style={styles.form}>
         <Text style={styles.emailOrPhone1}>Email</Text>
       </View>
-      <View style={[styles.nextButton, styles.nextButtonPosition]}>
-        <View style={[styles.nextButtonChild, styles.backgroundIconPosition]} />
-        <Text style={[styles.next, styles.timeFlexBox]}>Next</Text>
-      </View>
+      <Pressable onPress={()=>navigation.navigate('password')}>
+        <View style={[styles.nextButton, styles.nextButtonPosition]}>
+          <View style={[styles.nextButtonChild, styles.backgroundIconPosition]} />
+          <Text style={[styles.next, styles.timeFlexBox]}>Next</Text>
+        </View>
+      </Pressable>
     </View>
   );
 };
