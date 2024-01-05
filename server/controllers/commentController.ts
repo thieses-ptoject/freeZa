@@ -40,12 +40,13 @@ export const addNewComment = async(req:Request,res:Response): Promise<void>=>{
               user:true
             }
           });
-          res.status(201).json(getComments);
-        }   catch (error) {
+          const filtred = getComments.map((ele)=>{return {body:ele.body,firstName:ele.user.firstName, lastName:ele.user.lastName, image:ele.user.image}})
+          res.status(201).json(filtred);
+        }catch (error) {
         console.log(error)
-          res.status(500).send(error)  
+          res.status(500).send(error)
       }
-      } 
+      }
 
 
       export const updateComment = async(req:Request,res:Response): Promise<void>=>{
