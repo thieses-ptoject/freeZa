@@ -31,16 +31,43 @@ export const Welcome = () => {
           fill="#78CA46"
         />
       </Svg>
-      <View style={styles.doura}></View>
+      <View style={styles.doura}>
 
-      <Image
-        style={styles.freeza}
-        source={require("../../assets/freeza.png")}
-      />
+          <Image
+            style={styles.freeza}
+            source={require("../../assets/freeza.png")}
+          />
+      </View>
+      <View>
+        <Text style={styles.text}>FreeZa</Text>
+      </View>
+
+      <View style = {styles.quoteContainer}>
+        <Text style={styles.quote}> The More We Share The More We Have</Text>
+      </View>
     </View>
   );
 };
 const styles = StyleSheet.create({
+    quoteContainer:{
+        width: 200,
+        backgroundColor: "red",
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: "9%",
+            
+    },
+    quote: {
+        textAlign: 'center',
+        fontSize: 19,
+        color: "#BBBBBB"
+  },
+  text: {
+    color: "#78CA46",
+    fontSize: 52,
+    textAlign: "center",
+    marginTop: 2,
+  },
   doura: {
     backgroundColor: "#FFECF6",
     height: 200,
@@ -48,13 +75,14 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     shadowColor: "#000",
     shadowOffset: {
-        width: 0,
-        height: 12,
+      width: 0,
+      height: 12,
     },
     shadowOpacity: 0.58,
-    shadowRadius: 16.00,
+    shadowRadius: 16.0,
     elevation: 24,
-    marginLeft: 100,
+    marginLeft: "auto",
+    marginRight: "auto"
   },
   circle: {
     marginLeft: 100,
@@ -82,12 +110,16 @@ const styles = StyleSheet.create({
     height: 266.77,
     flexShrink: 0,
     position: "absolute",
-    left: 320,
+    right: 0,
     top: 10,
   },
   freeza: {
-    position: "absolute",
-    left: "32%",
-    top: "48%",
+    position: "relative", 
+    marginLeft: 23,
+    
+    // marginRight: "50%",
+    // marginLeft: "50%",
+    
+
   },
 });
