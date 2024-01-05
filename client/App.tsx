@@ -11,7 +11,7 @@ import { StackScreens } from './secreens/FirstScreens/StackScreens';
 
 const Stack = createStackNavigator();
 export default function App() {
-  const [auth,setAuth]=useState(false)
+  const [auth,setAuth]=useState(true)
   return (
 
     <NavigationContainer>
