@@ -1,4 +1,6 @@
+
 import React from 'react'
+import { NavBar } from "../../componets/Home/NavBar"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Home } from './Home';
 import { Chat } from './Chat';
@@ -10,7 +12,6 @@ import { StyleSheet } from 'react-native';
 const Tab = createBottomTabNavigator();
 
 export const BottomScreenTab = () => {
-
   return (
     <Tab.Navigator 
     screenOptions={({ route }) => ({
@@ -46,7 +47,7 @@ export const BottomScreenTab = () => {
         tabBarStyle: { backgroundColor: '#FFECF6'},
       })}
      >
-        <Tab.Screen name ="Home"   component={Home}/>
+        <Tab.Screen name ="Home" options={{headerShown:false}} component={Home}/>
         <Tab.Screen name="Chat"  options={{headerShown:false}} component={Chat}/>
         <Tab.Screen name="CreateItem"  options={{headerShown:false}} component={CreateItem}/>
         <Tab.Screen name="Wishlist"  options={{headerShown:false}} component={Wishlist}/>

@@ -1,10 +1,23 @@
 import React from 'react'
-import { View,Text } from 'react-native'
-
-export const Home = ({navigation}) => {
-  return (
-    <View>
-        <Text onPress={()=>navigation.navigate('test')}>go to test screen</Text>
+import { View,StyleSheet } from 'react-native';
+import { NavBar } from '../../componets/Home/NavBar';
+import { Categories } from '../../componets/Home/category';
+import {WelcomeText} from '../../componets/Home/WelcomeText'
+export const Home = ({ navigation }) => {
+  return(
+    <View style={styles.container}>
+      <NavBar />
+      <View style={{columnGap:10}}>
+      <Categories /> 
+      <WelcomeText/>
+      </View>
     </View>
   )
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    
+    
+  }
+})
