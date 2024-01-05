@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,128 +8,127 @@ datasource db {
 }
 
 model User {
-  id            String  @id
-  firstName     String 
-  lastName      String
-  email         String  @unique 
-  image         String  @db.Text
-  strawberries  Int     @default(5)
-  rate          Int     @default(0)
-  level         String  @default("BabyGiver")
-  accountType   Boolean @default(false)
-  nbrOfDonation Int     @default(0)
-  nbrOfTakes    Int     @default(0)
-  address       String
-  phone         String
-  Items    Item[]
-  Comments Comments[]
-
-  Rater          Rate[]           @relation("rater" ) 
-  Rated          Rate[]           @relation("rated")
-  Favourite      Favourite[]
-  GiversFollower GiversFollowed[] @relation("follower")
-  GiversFollowed GiversFollowed[] @relation("followed")
+  id             String           @id
+  firstName      String
+  lastName       String
+  email          String           @unique
+  image          String
+  strawberries   Int              @default(5)
+  rate           Int              @default(0)
+  level          String           @default("BabyGiver")
+  accountType    Boolean          @default(false)
+  nbrOfDonation  Int              @default(0)
+  nbrOfTakes     Int              @default(0)
+  address        String
+  phone          String
   Giver          Appointments[]   @relation("giver")
   Reciver        Appointments[]   @relation("reciver")
+  Comments       Comments[]
+  Favourite      Favourite[]
+  GiversFollowed GiversFollowed[] @relation("followed")
+  GiversFollower GiversFollowed[] @relation("follower")
+  Items          Item[]
   Like           Like[]
   Posts          Posts[]
+  Rated          Rate[]           @relation("rated")
+  Rater          Rate[]           @relation("rater")
 }
 
 model Item {
   id           Int            @id @default(autoincrement())
   name         String
-  description  String         @db.Text
-  image        String[]       @db.Text
+  description  String
+  image        String[]
   strawberries Int
   type         String
   location     String
   state        String
   exclusive    Boolean
   createdAt    DateTime       @default(now())
-  owner        User           @relation(fields: [ownerId], references: [id] , onDelete: Cascade)
   ownerId      String
-  types        Types          @relation(fields: [typeId], references: [id] , onDelete: Cascade)
   typeId       Int
-  Favourite    Favourite[]
   Appointments Appointments[]
+  Favourite    Favourite[]
+  owner        User           @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  types        Types          @relation(fields: [typeId], references: [id], onDelete: Cascade)
 }
 
 model Admin {
   id    String @id
   name  String
-  image String @db.Text
+  image String
   email String
 }
 
 model Category {
   id    Int     @id @default(autoincrement())
   name  String
-  image String @db.Text
+  image String
   Types Types[]
 }
 
 model Types {
   id         Int      @id @default(autoincrement())
   type       String
-  category   Category @relation(fields: [categoryId], references: [id] , onDelete: Cascade)
   categoryId Int
   Item       Item[]
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 }
 
 model Posts {
-  id       Int        @id @default(autoincrement())
-  image    String?    @db.Text
-  body     String     @db.Text
-  createdAt    DateTime       @default(now())
-  user     User       @relation(fields: [userId], references: [id] , onDelete: Cascade)
-  userId   String
-  Comments Comments[]
-  Like     Like[]
+  id        Int        @id @default(autoincrement())
+  image     String?
+  body      String
+  createdAt DateTime   @default(now())
+  userId    String
+  Comments  Comments[]
+  Like      Like[]
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Comments {
-  id     Int    @id @default(autoincrement())
-  body   String @db.Text
-  createdAt    DateTime       @default(now())
-  post   Posts  @relation(fields: [postId], references: [id] , onDelete: Cascade)
-  postId Int
-  user   User   @relation(fields: [userId], references: [id] , onDelete: Cascade)
-  userId String
+  id        Int      @id @default(autoincrement())
+  body      String
+  createdAt DateTime @default(now())
+  postId    Int
+  userId    String
+  post      Posts    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Like {
-  id      Int    @id @default(autoincrement())  
-  user    User   @relation(fields: [likerId], references: [id] ,onDelete: Cascade)
+  id      Int    @id @default(autoincrement())
   likerId String
-  post    Posts  @relation(fields: [postId], references: [id] , onDelete: Cascade)
   postId  Int
-  likes Int @default(0)
+  likes   Int    @default(0)
+  user    User   @relation(fields: [likerId], references: [id], onDelete: Cascade)
+  post    Posts  @relation(fields: [postId], references: [id], onDelete: Cascade)
 }
 
 model Rate {
   id         Int    @id @default(autoincrement())
   nbrOfStars Int
-  comments   String @db.Text
-  rater      User   @relation("rater", fields: [raterId], references: [id], onDelete: Cascade)
-  raterId    String 
-  rated      User   @relation("rated", fields: [ratedId], references: [id] ,onDelete: Cascade)
+  comments   String
+  raterId    String
   ratedId    String
+  rated      User   @relation("rated", fields: [ratedId], references: [id], onDelete: Cascade)
+  rater      User   @relation("rater", fields: [raterId], references: [id], onDelete: Cascade)
 }
 
 model Favourite {
   id     Int    @id @default(autoincrement())
-  user   User   @relation(fields: [userId], references: [id] , onDelete: Cascade)
   userId String
-  item   Item   @relation(fields: [itemId], references: [id] , onDelete: Cascade)
   itemId Int
+  item   Item   @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model GiversFollowed {
   id         Int    @id @default(autoincrement())
-  follower   User   @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
   followerId String
-  followed   User   @relation("followed", fields: [followedId], references: [id] , onDelete: Cascade)
   followedId String
+  followed   User   @relation("followed", fields: [followedId], references: [id], onDelete: Cascade)
+  follower   User   @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
 }
 
 model Appointments {
@@ -140,10 +136,10 @@ model Appointments {
   time      String
   location  String
   status    Boolean @default(false)
-  giver     User    @relation("giver", fields: [giverId], references: [id] , onDelete: Cascade)
-  giverId   String  
-  reciver   User    @relation("reciver", fields: [reciverId], references: [id] , onDelete: Cascade)
-  reciverId String  
-  Item      Item    @relation(fields: [ItemId], references: [id] , onDelete: Cascade)
+  giverId   String
+  reciverId String
   ItemId    Int
+  Item      Item    @relation(fields: [ItemId], references: [id], onDelete: Cascade)
+  giver     User    @relation("giver", fields: [giverId], references: [id], onDelete: Cascade)
+  reciver   User    @relation("reciver", fields: [reciverId], references: [id], onDelete: Cascade)
 }

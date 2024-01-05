@@ -1,17 +1,17 @@
 import {
   View,Text,StatusBar,StyleSheet,Image,SafeAreaView} from "react-native";
-import straw from "../assets/freeza.png";
-import star from "../assets/star.png"
-import bell from "../assets/bell.png"
-import strawberry from "../assets/strawberry.png"
-import search from "../assets/search.png"
+import straw from "../../assets/freeza.png";
+import star from "../../assets/star.png"
+import bell from "../../assets/bell.png"
+import strawberry from "../../assets/strawberry.png"
+import search from "../../assets/search.png"
 import Svg, { Ellipse } from 'react-native-svg';
-import {Color, FontFamily, FontSize, Border}from '../GlobalStyles/Home'
+import {Color, FontFamily, FontSize, Border}from '../../GlobalStyles/Home'
 
 export const NavBar = ({ navigation }) => {
   return (
     <SafeAreaView>
-      <View style={styles.container}>
+      <View>
         <StatusBar backgroundColor="#ffff" />
         <View style={styles.rectangle}>
           <View style={{flexDirection:"row-reverse" ,alignItems:"center"}}>
@@ -23,7 +23,13 @@ export const NavBar = ({ navigation }) => {
           <View style={{ flexDirection: "row" , gap:25}}>
             <Image source={star} style={styles.star}/>
             <Image source={strawberry} style={styles.strawberry}/>
+            <View style={styles.badgeContainerStraw}>
+      <Text style={styles.badgeTextStraw}>0</Text>
+           </View>
             <Image source={bell} style={styles.notification}/>
+            <View style={styles.badgeContainer}>
+      <Text style={styles.badgeText}>0</Text>
+            </View>
             <Image source={search} style={styles.search}/>
           </View>
         </View>
@@ -31,6 +37,13 @@ export const NavBar = ({ navigation }) => {
     </SafeAreaView>
   );
 }; 
+// const Badge = () => {
+//   return (
+//     <View style={styles.badgeContainer}>
+//       <Text style={styles.badgeText}>0</Text>
+//     </View>
+//   );
+// };
 
 const styles = StyleSheet.create({
   container: {
@@ -45,16 +58,17 @@ const styles = StyleSheet.create({
     // left: 0,
     // width: 400,
     height: 68,
-    backgroundColor: "#FFECF6",
+    backgroundColor: "#FBD0E6",
     alignItems: "center",
     // justifyContent: "center",
     flexDirection: 'row',
     justifyContent: 'space-between'
+    
   },
   circle: {
     width: 56,
     height: 55,
-    backgroundColor: "#FFECF6",
+    backgroundColor: "#FBD0E6",
     borderRadius: 100,
     position: "relative",
     justifyContent: "center",
@@ -78,6 +92,7 @@ const styles = StyleSheet.create({
    color: "#78CA46",
    fontSize:32,
    fontWeight:"700",
+   paddingLeft:5
   }, 
   star :{
   width: 21,
@@ -102,6 +117,39 @@ notification :{
   height: 30,
   alignSelf:'center',
   // top:18
-}
+},
+badgeContainer: {
+  position: 'absolute',
+  top: 0,
+  right: 58,
+  backgroundColor: 'white', // Customize the badge background color
+  borderRadius:10,
+  paddingHorizontal: 4,
+  paddingVertical: 1,
+  justifyContent: 'center',
+  alignItems: 'center',
+},
+badgeText: {
+  color: 'red', // Customize the badge text color
+  fontSize: 12,
+  fontWeight: 'bold',
+}, 
+
+badgeContainerStraw: {
+  position: 'absolute',
+  top: 0,
+  right: 105,
+  backgroundColor: 'white', // Customize the badge background color
+  borderRadius:10,
+  paddingHorizontal: 4,
+  paddingVertical: 1,
+  justifyContent: 'center',
+  alignItems: 'center',
+},
+badgeTextStraw: {
+  color: 'red', // Customize the badge text color
+  fontSize: 12,
+  fontWeight: 'bold',
+},
 
 });

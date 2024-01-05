@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { NavBar } from "../../componets/NavBar"
+import { NavBar } from "../../componets/Home/NavBar"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Home } from './Home';
 import { Chat } from './Chat';
