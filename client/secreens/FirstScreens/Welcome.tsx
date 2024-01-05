@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Button, Pressable, Alert } from "react-native";
 import Svg, { Defs, Path, Pattern } from "react-native-svg";
 import DropShadow from "react-native-drop-shadow";
 import { Shadow } from "react-native-shadow-2";
@@ -31,42 +31,94 @@ export const Welcome = () => {
           fill="#78CA46"
         />
       </Svg>
-      <View style={styles.doura}>
-
+      <View style={styles.container}>
+        <View style={styles.doura}>
           <Image
             style={styles.freeza}
             source={require("../../assets/freeza.png")}
           />
-      </View>
-      <View>
-        <Text style={styles.text}>FreeZa</Text>
-      </View>
+        </View>
+        <View>
+          <Text style={styles.text}>FreeZa</Text>
+        </View>
+        <View style={styles.quoteContainer}>
+          <Text style={styles.quote}> The More We Share The More We Have</Text>
+        </View>
 
-      <View style = {styles.quoteContainer}>
-        <Text style={styles.quote}> The More We Share The More We Have</Text>
+        <View style={styles.buttonContainer}>
+        
+      <View>
+          <Text onPress={()=>Alert.alert("hi")} style={styles.buttonText}> Let's get started</Text>
+      </View>
+        </View>
+       <View style= {styles.nextPageContainer}>
+        <Text style= {styles.textToNextPage} >I already have an account?</Text>
+
+        <Pressable onPress={()=>Alert.alert("hi")}>
+            <Image
+            
+                style={styles.freeza}
+                source={require("../../assets/Button.png")}
+              />
+        </Pressable>
+        </View> 
       </View>
     </View>
   );
 };
 const styles = StyleSheet.create({
-    quoteContainer:{
-        width: 200,
-        backgroundColor: "red",
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: "9%",
-            
+    nextPage :{
+        marginLeft: "4%",
+        backgroundColor: "#F20B32CC",
+        height: 30,
+        width: 30,
+        borderRadius: 100,
+        
+     
     },
-    quote: {
-        textAlign: 'center',
-        fontSize: 19,
-        color: "#BBBBBB"
+    nextPageContainer : {
+        marginTop : "12%",
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    textToNextPage : {  
+        fontSize: 15,
+        fontWeight: "300"
+    },
+    buttonContainer: {
+        paddingHorizontal: "25%",
+        paddingVertical: "4%",
+        backgroundColor: "#F20B32",
+        borderRadius: 16,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: "12%"
+        },
+        buttonText: {
+        color: "#fff",
+        fontSize: 16,
+        },
+  container: {
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  quoteContainer: {
+    width: 200,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: "12%",
+  },
+  quote: {
+    textAlign: "center",
+    fontSize: 19,
+    color: "#BBBBBB",
   },
   text: {
     color: "#78CA46",
     fontSize: 52,
     textAlign: "center",
-    marginTop: 2,
+    marginTop: "2%",
+   fontWeight:"700",
   },
   doura: {
     backgroundColor: "#FFECF6",
@@ -82,7 +134,7 @@ const styles = StyleSheet.create({
     shadowRadius: 16.0,
     elevation: 24,
     marginLeft: "auto",
-    marginRight: "auto"
+    marginRight: "auto",
   },
   circle: {
     marginLeft: 100,
@@ -114,12 +166,7 @@ const styles = StyleSheet.create({
     top: 10,
   },
   freeza: {
-    position: "relative", 
+    position: "relative",
     marginLeft: 23,
-    
-    // marginRight: "50%",
-    // marginLeft: "50%",
-    
-
   },
 });
