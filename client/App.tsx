@@ -16,9 +16,9 @@ export default function App() {
 
     <NavigationContainer>
       {auth ? <Stack.Navigator >
-        <Stack.Screen name="tabs" component={BottomScreenTab}/>
-        <Stack.Screen name="test" component={Test}/>
-      </Stack.Navigator> : <StackScreens/>}
+        <Stack.Screen name="tabs" options={{headerShown:false}} component={BottomScreenTab}/>
+        <Stack.Screen name="test" options={{headerShown:false}} component={Test}/>
+      </Stack.Navigator> : <StackScreens />}
     </NavigationContainer>
   );
 }
