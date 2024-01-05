@@ -8,13 +8,14 @@ import { Test } from './componets/Test';
 import { useState } from 'react';
 import { StackScreens } from './secreens/FirstScreens/StackScreens';
 
+
 const Stack = createStackNavigator();
 export default function App() {
   const [auth,setAuth]=useState(false)
   return (
 
     <NavigationContainer>
-      {auth ? <Stack.Navigator>
+      {auth ? <Stack.Navigator >
         <Stack.Screen name="tabs" component={BottomScreenTab}/>
         <Stack.Screen name="test" component={Test}/>
       </Stack.Navigator> : <StackScreens/>}

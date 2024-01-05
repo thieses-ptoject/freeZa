@@ -4,7 +4,7 @@ import Svg, { Defs, Path, Pattern } from "react-native-svg";
 import DropShadow from "react-native-drop-shadow";
 import { Shadow } from "react-native-shadow-2";
 
-export const Welcome = () => {
+export const Welcome = ({ navigation } : any) => {
   return (
     <View>
       <Svg
@@ -48,7 +48,7 @@ export const Welcome = () => {
         <View style={styles.buttonContainer}>
         
       <View>
-          <Text onPress={()=>Alert.alert("hi")} style={styles.buttonText}> Let's get started</Text>
+          <Text onPress={()=>navigation.navigate('signup')} style={styles.buttonText}> Let's get started</Text>
       </View>
         </View>
        <View style= {styles.nextPageContainer}>
@@ -170,3 +170,4 @@ const styles = StyleSheet.create({
     marginLeft: 23,
   },
 });
+
