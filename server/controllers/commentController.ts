@@ -9,28 +9,29 @@ export const addNewComment = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  // try {
-  //     const { postId}  = req.body;
-  //     const getComments = await prisma.comments.findMany({
-  //       where :{
-  //           postId:postId
-  //       },
-  //       include:{
-  //         user:true
-  //       }
-  //     });
-  //     const newComments = await prisma.comments.create({
-  //       data : {
-  //         body,
-  //         userId: userId,
-  //         postId:+postId,
-  //       }
-  //     });
-  //     res.status(201).json(newComments);
-  //   }   catch (error) {
-  //   console.log(error)
-  //     res.status(500).send(error)
-  // }
+  try {
+     const {userId,body}=req.params
+      const { postId}  = req.body;
+      const getComments = await prisma.comments.findMany({
+        where :{
+            postId:postId
+        },
+        include:{
+          user:true
+        }
+      });
+      const newComments = await prisma.comments.create({
+        data : {
+          body,
+          userId: userId,
+          postId:+postId,
+        }
+      });
+      res.status(201).json(newComments);
+    }   catch (error) {
+    console.log(error)
+      res.status(500).send(error)
+  }
 };
 
 export const getallcommentOfonePost = async (
