@@ -54,7 +54,7 @@ export const BottomScreenTab = () => {
         <Tab.Screen name="Chat"  options={{headerShown:false}} component={Chat}/>
         <Tab.Screen name="CreateItem"  options={{headerShown:false}} component={CreateItem}/>
         <Tab.Screen name="Wishlist"  options={{headerShown:false}} component={Wishlist}/>
-        <Tab.Screen name="Account"  options={{headerShown:false}} component={Account}/> 
+        <Tab.Screen name="Account"  options={{headerShown:true}} component={Account}/> 
         
     </Tab.Navigator>
   )
