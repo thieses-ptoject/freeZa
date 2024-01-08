@@ -5,10 +5,13 @@ import star from "../../assets/star.png"
 import bell from "../../assets/bell.png"
 import strawberry from "../../assets/strawberry.png"
 import search from "../../assets/search.png"
+
 import Svg, { Ellipse } from 'react-native-svg';
 import {Color, FontFamily, FontSize, Border}from '../../GlobalStyles/Home'
+import { useNavigation } from "@react-navigation/native";
 
-export const NavBar = ({ navigation }) => {
+export const NavBar = () => {
+  const navigate=useNavigation();
   return (
     <SafeAreaView>
       <View>
