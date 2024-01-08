@@ -14,11 +14,12 @@ export const GetAllcategories = async(req:Request,res:Response): Promise<void>=>
     
 } 
 export const AddCategory = async(req:Request,res:Response): Promise<void>=>{
-    const {name} = req.body 
+    const {name,image}= req.body
     try {
         const NewCategory = await prisma.category.create({
             data:{
-                name:name
+                name:name,
+                image:image
             }
         }) 
         res.status(200).send(NewCategory)

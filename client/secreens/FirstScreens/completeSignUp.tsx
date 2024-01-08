@@ -3,65 +3,36 @@ import { View, Text, StyleSheet, Image, Button, Pressable, Alert } from "react-n
 // import { Image } from "expo-image";
 import { Color, FontSize } from "../../GlobalStyles/Singup";
 import { TextInput } from "react-native-gesture-handler";
+import GreenRed from "../../componets/LoginComponents/greenRed";
 
-export const Signup = ({ navigation } : any) => {
+export const CompleteSignUp = ({ navigation } : any) => {
     return (
         <View style={styles.androidLarge1}>
+            <GreenRed/>
         <View style={[styles.bar, styles.barLayout]}>
           <View style={[styles.bar1, styles.bar1Position]} />
         </View>
         <Text style={styles.title}>Cancel</Text>
-        <Pressable onPress={()=>Alert.alert("hi")}>
-            <Image
-              style={styles.uploadPhotoIcon}
-            //   contentFit="cover"
-              source={require("../../assets/Signup/upload-photo.png")}
-            />
-        </Pressable>
-        <Pressable onPress={()=>navigation.navigate("completeSignUp")}>
+
+        <Pressable onPress={()=>navigation.navigate("login")}>
           <View  style={styles.button}>
             <View style={[styles.buttonChild, styles.buttonChildPosition]} />
-            <Text style={styles.done}>Next</Text>
+            <Text style={styles.done}>Done</Text>
           </View>
         </Pressable>
-        <Text style={styles.title1}>{`Create 
-  Account`}</Text>
+        <Text style={styles.title1}>{`Complete  SigingUp`}</Text>
         <View style={[styles.androidLarge1Inner, styles.formParentLayout]}>
           <View style={[styles.formParent, styles.formParentLayout]}>
             <View style={[styles.form1, styles.formSpaceBlock]}>
-              <TextInput placeholder="Email" style={styles.emailOrPhone}></TextInput>
+              <TextInput placeholder="Name" style={styles.emailOrPhone}></TextInput>
             </View>
             <View style={[styles.form1, styles.formSpaceBlock]}>
-              <TextInput placeholder="Password" style={[styles.password, styles.passwordTypo]}></TextInput>
-              <Image
-                style={[styles.eyeSlashIcon, styles.iconLayout1]}
-                // contentFit="cover"
-                source={require("../../assets/Signup/eyeslash.png")}
-              />
+              <TextInput placeholder="LastName" style={[styles.password, styles.passwordTypo]}></TextInput>
+
             </View>
-            <View style={[styles.form2, styles.formSpaceBlock]}>
-              <View style={styles.frameParent}>
-                <View style={styles.frameParent}>
-                  <View style={styles.flag}>
-                    <Image
-                      style={[styles.englandIcon, styles.iconLayout]}
-                    //   contentFit="cover"
-                      source={require("../../assets/Signup/england.png")}
-                    />
-                    <View style={[styles.overlay, styles.bar1Position]} />
-                  </View>
-                  <Image
-                    style={[styles.arrowDownIcon, styles.iconLayout1]}
-                    // contentFit="cover"
-                    source={require("../../assets/Signup/arrowdown.png")}
-                  />
-                </View>
-                <View style={styles.frameChild} />
-              </View>
-              <TextInput placeholder="Your number" keyboardType="numeric" style={[styles.yourNumber, styles.passwordTypo]}>
-                
-              </TextInput>
-            </View>
+
+
+          
           </View>
         </View>
       </View>
@@ -173,7 +144,8 @@ export const Signup = ({ navigation } : any) => {
         position: "absolute",
       },
       button: {
-        top: 634,
+        
+        top: 400,
         height: 61,
         width: 335,
         left: 20,
@@ -181,7 +153,7 @@ export const Signup = ({ navigation } : any) => {
         overflow: "hidden",
       },
       title1: {
-        top: 122,
+        top: 250,
         left: 30,
         fontSize: 50,
         letterSpacing: 0,
