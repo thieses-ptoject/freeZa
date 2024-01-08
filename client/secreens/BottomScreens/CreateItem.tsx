@@ -7,8 +7,8 @@ import { NavBar } from '../../componets/Home/NavBar';
 import { Color, FontFamily, FontSize, Border } from "../../GlobalStyles/GlobalStylesCreateItem";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { getCategory } from '../../react-query/createItem/createItem';
-import { storage } from '../../firebase';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+
+
 const camera = require('../../assets/CreateItem/camera.png')
 const arrow = require('../../assets/CreateItem/rightarrow.png')
 
@@ -30,29 +30,8 @@ const CreateItem: React.FC = ({navigation}:any) => {
   // if (isLoading) {return <text>Loading</text>; }
   // if (isError) {return <text>Error</text>};
  console.log(category, "=========================");
- const changeBgImage = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: number | undefined, imageUpload: File | undefined, setUploaded: React.Dispatch<React.SetStateAction<boolean>>): Promise<void> => {
-  e.preventDefault();
-  if (imageUpload) {
-      const imageRef = ref(storage, `img/${imageUpload.name}`);
-      await uploadBytes(imageRef, imageUpload);
+ 
 
-      const downloadurl = await getDownloadURL(imageRef);
-     
-  }
-  else {
-      console.error('No image selected for upload');
-  }
-};
- const filterData=()=>{
-  let data=[]
- data= category?.map((ele:Category)=>{ return {label:ele.name,value:ele.id}})
-return data 
- }
- if (isSuccess) {
-  
-   data = filterData()
-   console.log(data)
- }
   return (
     <KeyboardAwareScrollView>
 
