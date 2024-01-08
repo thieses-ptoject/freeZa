@@ -6,7 +6,9 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import { NavBar } from '../../componets/Home/NavBar';
 import { Color, FontFamily, FontSize, Border } from "../../GlobalStyles/GlobalStylesCreateItem";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { getCategory } from '../../React-query/createItem/createItem';
+import { getCategory } from '../../react-query/createItem/createItem';
+
+
 const camera = require('../../assets/CreateItem/camera.png')
 const arrow = require('../../assets/CreateItem/rightarrow.png')
 
@@ -16,7 +18,7 @@ let data = [
 ];
 
 
-const CreateItem: React.FC = () => {
+const CreateItem: React.FC = ({navigation}:any) => {
   const [text, onChangeText] = React.useState('');
   const [value, setValue] = useState('');
   const [image,setImage]=useState('')
@@ -28,16 +30,8 @@ const CreateItem: React.FC = () => {
   // if (isLoading) {return <text>Loading</text>; }
   // if (isError) {return <text>Error</text>};
  console.log(category, "=========================");
- const filterData=()=>{
-  let data=[]
- data= category?.map((ele:Category)=>{ return {label:ele.name,value:ele.id}})
-return data 
- }
- if (isSuccess) {
-  
-   data = filterData()
-   console.log(data)
- }
+ 
+
   return (
     <KeyboardAwareScrollView>
 
@@ -111,6 +105,7 @@ return data
               numberOfLines={4}
               multiline={true}
               textAlignVertical={"top"}
+              onChangeText={setDescription}
               placeholder='description' style={styles.description}>
             </TextInput>
           </View>
