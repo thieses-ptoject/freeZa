@@ -9,9 +9,12 @@ import CreateItem from './CreateItem';
 import Wishlist from './Wishlist';
 import Account from './Account';
 import { StyleSheet } from 'react-native';
+
 const Tab = createBottomTabNavigator();
 
 export const BottomScreenTab = () => {
+  console.log(process.env.EXPO_PUBLIC_apiKey);
+  
   return (
     <Tab.Navigator 
     screenOptions={({ route }) => ({
