@@ -1,20 +1,18 @@
 import React from "react";
 import { getUserData } from "../../React-query/user/profileUser";
+import Ionicons from "react-native-vector-icons/MaterialCommunityIcons";
 
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, ScrollView } from "react-native";
 import { Color, FontFamily, FontSize } from "../../GlobalStyles/UserProfil";
 import FormContainer from "../../componets/accountCom/FormContainer";
 
-const Account = () => {
-  // const [isLoading,setisLoading]=useState(true)
-  // const [isError,setisError]=useState(true)
-
+const Account = ({ navigation }: any) => {
   const { data, isLoading, isError } = getUserData();
 
   if (isLoading) {
     return (
       <View>
-        <Text>Error fetching user data</Text>
+        <Text>Loading</Text>
       </View>
     );
   }
@@ -24,70 +22,59 @@ const Account = () => {
     </View>;
   }
 
-  console.log(data);
-
   return (
-    <View style={[styles.profiles, styles.profilesLayout]}>
-      <View style={styles.novBar}>
-        <Image
-          style={styles.fill2Icon}
-          resizeMode="cover"
-          source={require("../../assets/account/Fill2.png")}
-        />
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <View style={[styles.profiles, styles.profilesLayout]}>
+        <View style={styles.novBar}>
+          <Ionicons name="account-edit-outline" size={30} color="#000" />
+        </View>
+
+        <View style={styles.container}>
+          <Image style={styles.imgProfil} source={{ uri: data?.image }} />
+          <Text style={styles.nameUser}>
+            {data?.firstName} {data?.lastName}
+          </Text>
+          <Text style={styles.emailUser}>{data?.email}</Text>
+
+          <View />
+          <Text style={[styles.donations, styles.freezaTypo]}>Donations</Text>
+          <Text style={[styles.freeza, styles.freezaTypo]}>Freeza</Text>
+          <Text style={styles.note}>Note</Text>
+          <Text style={[styles.text, styles.textLayout]}>{data?.rate}</Text>
+          <Text style={[styles.text1, styles.textLayout]}>
+            {data?.strawberries}
+          </Text>
+          <Text style={[styles.text2, styles.textLayout]}>
+            {data?.nbrOfDonation}
+          </Text>
+          <Image
+            style={styles.freezaIcon}
+            resizeMode="cover"
+            source={require("../../assets/account/freza.png")}
+          />
+          <Image
+            style={styles.starIcon}
+            resizeMode="cover"
+            source={require("../../assets/account/star.png")}
+          />
+        </View>
+        <FormContainer navigation={navigation} />
       </View>
-
-      <View style={styles.container}>
-        <Image
-          style={styles.imgProfil}
-          source={require("../../assets/account/userimg.png")}
-        />
-      </View>
-
-      <Text style={styles.nameUser}>first</Text>
-      <Text style={styles.emailUser}>hernandex.redial@gmail.ac.in</Text>
-
-      <View />
-      <Text style={[styles.donations, styles.freezaTypo]}>donations</Text>
-      <Text style={[styles.freeza, styles.freezaTypo]}>freeza</Text>
-      <Text style={styles.note}>note</Text>
-      <Text style={[styles.text, styles.textLayout]}>0</Text>
-      <Text style={[styles.text1, styles.textLayout]}>0</Text>
-      <Text style={[styles.text2, styles.textLayout]}>0</Text>
-      <Image
-        style={styles.freezaIcon}
-        resizeMode="cover"
-        source={require("../../assets/account/freza.png")}
-      />
-      <Image
-        style={[styles.starIcon, styles.textLayout]}
-        resizeMode="cover"
-        source={require("../../assets/account/star.png")}
-      />
-
-      <FormContainer />
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flexGrow: 3,
+    paddingBottom: 2,
+  },
+
   container: {
     flexDirection: "column",
     alignItems: "center",
   },
-  imgProfil: {
-    top: "-25%",
-    height: 130,
-    width: 130,
-    borderRadius: 100,
-    borderColor: "#FE002A",
-    marginTop: 100,
-  },
-  fill2Icon: {
-    left: "5%",
-    top: "17%",
-    // height: "30.89%",
-    // width: "2%",
-  },
+
 
   profilesLayout: {
     width: "100%",
@@ -109,18 +96,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 270,
   },
-  // fill1Icon: {
-  //   height: "66.67%",
-  //   width: "25.95%",
-  //   top: "16.67%",
-  //   right: "74.05%",
-  //   bottom: "16.67%",
-  //   maxWidth: "100%",
-  //   maxHeight: "100%",
-  //   left: "0%",
-  //   position: "absolute",
-  //   overflow: "hidden",
-  // },
+
   profile: {
     marginTop: -15,
     top: "50%",
@@ -134,16 +110,22 @@ const styles = StyleSheet.create({
   },
   novBar: {
     top: 10,
-    left: 25,
+    left: "85%",
     width: 101,
     height: 30,
     position: "absolute",
     overflow: "hidden",
   },
-
+  imgProfil: {
+    top: "-25%",
+    height: 130,
+    width: 130,
+    borderRadius: 100,
+    borderColor: "#FE002A",
+    marginTop: 100,
+  },
   nameUser: {
-    top: 180,
-    left: 190,
+    top: "80%",
     fontSize: 26,
     color: "#f8032c",
     textAlign: "center",
@@ -153,7 +135,6 @@ const styles = StyleSheet.create({
   },
   emailUser: {
     top: 210,
-    left: 123,
     fontSize: 13,
     color: "#545454",
     fontFamily: FontFamily.mulishBold,
@@ -212,9 +193,11 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   starIcon: {
-    top: "100%",
-    left: 222,
+    top: 257,
+    left: 220,
     width: 25,
+    height: 29,
+    position: "absolute",
   },
 
   freezaIcon: {

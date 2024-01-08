@@ -6,36 +6,38 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import { NavBar } from '../../componets/Home/NavBar';
 import { Color, FontFamily, FontSize, Border } from "../../GlobalStyles/GlobalStylesCreateItem";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { getCategory } from '../../react-query/createItem/createItem';
-
-
+import { getCategory } from '../../React-query/createItem/createItem';
 const camera = require('../../assets/CreateItem/camera.png')
 const arrow = require('../../assets/CreateItem/rightarrow.png')
 
-const data = [
+let data = [
   { label: 'Item 1', value: '1' },
-  { label: 'Item 2', value: '2' },
-  { label: 'Item 3', value: '3' },
-  { label: 'Item 4', value: '4' },
-  { label: 'Item 5', value: '5' },
-  { label: 'Item 6', value: '6' },
-  { label: 'Item 7', value: '7' },
-  { label: 'Item 8', value: '8' },
+
 ];
 
 
 const CreateItem: React.FC = () => {
   const [text, onChangeText] = React.useState('');
   const [value, setValue] = useState('');
+  const [image,setImage]=useState('')
+  const [description,setDescription]=useState('')
   const [isFocus, setIsFocus] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const { data:category, isLoading, isError } = getCategory ();
+  const { data:category, isLoading, isError, isSuccess } = getCategory ();
 
-  // if (isLoading) {return <h1>Loading</h1>; }
-  // if (isError) {return <h1>Error</h1>};
+  // if (isLoading) {return <text>Loading</text>; }
+  // if (isError) {return <text>Error</text>};
  console.log(category, "=========================");
- 
-
+ const filterData=()=>{
+  let data=[]
+ data= category?.map((ele:Category)=>{ return {label:ele.name,value:ele.id}})
+return data 
+ }
+ if (isSuccess) {
+  
+   data = filterData()
+   console.log(data)
+ }
   return (
     <KeyboardAwareScrollView>
 
@@ -51,7 +53,7 @@ const CreateItem: React.FC = () => {
             </View>
             <View style={{ flexDirection: "column" }}>
             <Pressable
-               onPress={() => setModalVisible(true)}>
+               onPress={() => setModalVisible(!modalVisible)}>
               <View style={styles.line} >
                 <Text style={styles.text}>Localisation</Text>
                 <Image
@@ -61,15 +63,7 @@ const CreateItem: React.FC = () => {
                 />
               </View>
               </Pressable>
-              {/* <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                  Alert.alert('Modal has been closed.');
-                  setModalVisible(!modalVisible);
-                  
-                }}> */}
+         
                   {modalVisible&&<TextInput
                     style={styles.input}
                     onChangeText={onChangeText}
@@ -77,7 +71,7 @@ const CreateItem: React.FC = () => {
                     placeholder="localisation"
 
                   />}
-                {/* </Modal> */}
+              
 
             </View>
 
@@ -132,7 +126,7 @@ const CreateItem: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    gap: 150
+    gap: 100
   },
   input: {
     height: 40,
@@ -199,12 +193,12 @@ const styles = StyleSheet.create({
   },
   description: {
     color: "grey",
-    fontSize: FontSize.size_13xl,
+    opacity:0.5,
+    fontSize: 20,
     textAlign: "left",
-    fontFamily: FontFamily.nunitoSans12ptSemiBold,
-    fontWeight: "600",
+    fontWeight: "300",
     backgroundColor: "#FFECF6",
-    textAlignVertical: 'top',
+    textAlignVertical: 'center',
     height: 80,
     paddingHorizontal: 20,
     borderRadius: 60

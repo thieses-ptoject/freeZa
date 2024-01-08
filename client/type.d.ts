@@ -14,3 +14,8 @@ interface User {
   address :      string,
   phone :        string
 }
+interface Category{
+    id:number,
+    name:string,
+    image:string
+  }

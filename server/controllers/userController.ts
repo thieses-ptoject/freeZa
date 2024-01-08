@@ -51,7 +51,7 @@ export const getUser = async (req: Request, res: Response) => {
         },
       });
       if (query) {
-        res.send(query);
+        res.send(query[0]);
       } else {
         res.status(404).send("User not found");
       }

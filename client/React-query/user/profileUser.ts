@@ -10,14 +10,8 @@ export const getUserData = () => {
   const query = useQuery<User[]>({
     queryKey: ["user"],
     queryFn: async () => {
-      try {
-        const response = await axios.get("http://localhost:3001/user/wided@gmail.com");
-        console.log(response.data);
-        return response.data;
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-        throw error;
-      }
+        const response = await axios.get("http://172.20.10.2:3001/user/wided@gmail.com");
+        return response.data; 
     },
   });
 
