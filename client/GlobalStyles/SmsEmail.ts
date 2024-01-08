@@ -9,6 +9,8 @@
     colorWhite: "#fff",
     colorGray: "#202020",
     colorBlack: "#000",
+    colorSms: "#e1f2d7",
+    colorEmail: "#FFEBEB"
   };
   /* border radiuses */
   export const Border = {

@@ -161,7 +161,6 @@ const styles = StyleSheet.create({
     color: "grey",
     fontSize: FontSize.size_13xl,
     textAlign: "left",
-    fontFamily: FontFamily.nunitoSans12ptSemiBold,
     fontWeight: "600",
     backgroundColor: "#FFECF6",
     textAlignVertical: 'top',

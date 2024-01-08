@@ -14,6 +14,7 @@
     colorGray_300: "rgba(0, 0, 0, 0)",
     colorDarkgray: "#adb3bc",
     colorLightgray: "rgba(204, 206, 211, 0.76)",
+    colorWhite: "#fff"
   };
   /* border radiuses */
   export const Border = {

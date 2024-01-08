@@ -4,6 +4,18 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Border, Color, FontSize } from "../../GlobalStyles/SmsEmail";
 
 const SmsEmail = ({navigation}:any) => {
+  const [smsChecked, setSmsChecked] = React.useState<boolean>(false);
+  const [emailChecked, setEmailChecked] = React.useState<boolean>(false);
+
+  const toggleSmsCheckbox = () => {
+    setSmsChecked((prev) => !prev);
+    setEmailChecked(false);
+  };
+
+  const toggleEmailCheckbox = () => {
+    setEmailChecked((prev) => !prev);
+    setSmsChecked(false);
+  };
   return (
     <View style={styles.passwordRecovery}>
       <Image
@@ -12,66 +24,78 @@ const SmsEmail = ({navigation}:any) => {
         source={require("../../assets/smsEmail/bubbles.png")}
       />
       <Text style={[styles.title, styles.titleFlexBox]}>Cancel</Text>
-      <View style={[styles.sms, styles.smsLayout]}>
-        <View style={[styles.rectangle, styles.rectanglePosition]} />
-        <Text style={[styles.title1, styles.titleClr]}>SMS</Text>
-        <Image
-          style={[styles.checkIcon, styles.checkIconLayout]}
-          contentFit="cover"
-          source={require("../../assets/smsEmail/check.png")}
-        />
-      </View>
-      <View style={[styles.email, styles.smsLayout]}>
-        <View style={[styles.rectangle1, styles.rectanglePosition]} />
-        <Text style={[styles.title2, styles.titleClr]}>Email</Text>
-        <Image
-          style={[styles.checkEmptyIcon, styles.checkIconLayout]}
-          contentFit="cover"
-          source={require("../../assets/smsEmail/check-empty.png")}
-        />
-      </View>
+
+      <Pressable onPress={toggleSmsCheckbox}>
+        <View style={[styles.sms, styles.smsLayout ]}>
+          <View style={styles.rectangle} />
+          <Text style={[styles.title1, styles.titleClr]}>SMS</Text>
+          {smsChecked && (
+            <Image
+              style={styles.checkIcon}
+              contentFit="cover"
+              source={require("../../assets/smsEmail/check.png")}
+            />
+          )}
+        </View>
+      </Pressable>
+
+      <Pressable onPress={toggleEmailCheckbox}>
+        <View style={[styles.email, styles.smsLayout]}>
+          <View style={styles.rectangle1} />
+          <Text style={[styles.title2, styles.titleClr]}>Email</Text>
+          {emailChecked && (
+            <Image
+              style={styles.checkEmptyIcon}
+              contentFit="cover"
+              source={require("../../assets/smsEmail/RedCheckbox.png")}
+            />
+          )}
+        </View>
+      </Pressable>
       <Text style={[styles.howYouWould, styles.titleClr]}>
-        How you would like to restore your password?
+        How would you like to restore your password?
       </Text>
+
       <Text style={[styles.title3, styles.titleTypo]}>Password Recovery</Text>
+
       <Image
         style={[styles.ellispseIcon, styles.checkIconLayout]}
         contentFit="cover"
         source={require("../../assets/smsEmail/ellispse.png")}
       />
+
       <Image
         style={[styles.imageIcon, styles.checkIconLayout]}
         contentFit="cover"
         source={require("../../assets/smsEmail/image.png")}
       />
-      <View style={styles.barsstatusBarlightStatusB}>
-        <Image
-          style={[styles.backgroundIcon, styles.buttonChildPosition]}
-          contentFit="cover"
-          source={require("../../assets/smsEmail/background.png")}
-        />
-        <View style={styles.barsTimeBlack}>
-          <Image
-            style={styles.backgroundIcon1}
-            contentFit="cover"
-            source={require("../../assets/smsEmail/background1.png")}
-          />
-          <Text style={styles.time}>9:41</Text>
-        </View>
-      </View>
-      <Pressable onPress={()=>navigation.navigate("passwordRecoveryCode")}>
-      <View style={[styles.button, styles.buttonPosition]}>
-        <View style={[styles.buttonChild, styles.buttonChildPosition]} />
-       
-          <Text style={[styles.next, styles.titleFlexBox]}>Next</Text>
 
-      </View>
+      <Pressable onPress={() => navigation.navigate("passwordRecoveryCode")}>
+        <View style={[styles.button, styles.buttonPosition]}>
+          <View style={[styles.buttonChild, styles.buttonChildPosition]} />
+          <Text style={[styles.next, styles.titleFlexBox]}>Next</Text>
+        </View>
       </Pressable>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  rectangle: {
+    backgroundColor: Color.colorSms,
+    marginRight: 10,
+    width: 300,
+    height: 50,
+    borderRadius: 50,
+  },
+  rectangle1: {
+    backgroundColor: Color.colorEmail, // Assuming you have a color defined for email
+    marginRight: 10,
+    width: 300,
+    height: 50,
+    borderRadius: 50,
+  },
+  
   buttonPosition: {
     left: 20,
     position: "absolute",
@@ -137,9 +161,6 @@ const styles = StyleSheet.create({
     fontWeight: "300",
     fontSize: FontSize.size_mini,
   },
-  rectangle: {
-    backgroundColor: "#e1f2d7",
-  },
   title1: {
     left: "42.21%",
     lineHeight: 19,
@@ -165,9 +186,7 @@ const styles = StyleSheet.create({
     left: 88,
     width: 199,
   },
-  rectangle1: {
-    backgroundColor: "#ffebeb",
-  },
+
   title2: {
     left: "40.4%",
     fontWeight: "500",

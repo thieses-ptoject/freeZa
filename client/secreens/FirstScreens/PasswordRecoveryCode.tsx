@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Image } from "expo-image";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { Color, } from "../../GlobalStyles/PasswordRecoveryCode";
 
 const PasswordRecoveryCode = ({navigation}: any) => {
@@ -13,25 +13,26 @@ const PasswordRecoveryCode = ({navigation}: any) => {
       />
       <Text style={[styles.title, styles.titleFlexBox]}>Cancel</Text>
       <View style={[styles.dots, styles.dotsLayout]}>
-        <Image
+        <TextInput
           style={[styles.ellispse01Icon, styles.bar1Position]}
-          contentFit="cover"
-          source={require("../../assets/passwordRecoveryCode/ellispse-01.png")}
+          secureTextEntry={true}
+          maxLength={1}
         />
-        <Image
+        <TextInput
           style={[styles.ellispse01Icon1, styles.ellispse01IconLayout]}
-          contentFit="cover"
-          source={require("../../assets/passwordRecoveryCode/ellispse-01.png")}
+          secureTextEntry={true}
+          maxLength={1}
         />
-        <Image
+        <TextInput
           style={[styles.ellispse01Icon2, styles.ellispse01IconLayout]}
-          contentFit="cover"
-          source={require("../../assets/passwordRecoveryCode/ellispse-01.png")}
+          secureTextEntry={true}
+        maxLength={1}
         />
-        <Image
+        <TextInput
           style={[styles.ellispse01Icon3, styles.buttonPosition]}
-          contentFit="cover"
-          source={require("../../assets/passwordRecoveryCode/ellispse-01.png")}
+          secureTextEntry={true}
+          maxLength={1}
+        
         />
       </View>
       <Text style={[styles.title1, styles.title1Clr]}>+98*******00</Text>
