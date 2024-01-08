@@ -16,3 +16,8 @@ export type posts= {
     postId:  number,
     likes: number
   }
+  export type category={
+    id:number,
+    name:string,
+    image:string
+  }
