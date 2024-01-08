@@ -1,10 +1,5 @@
 /* fonts */
-export const FontFamily = {
-    nunitoSans12ptSemiBold: "NunitoSans12pt-SemiBold",
-    poppinsMedium14: "Poppins-Medium",
-    ralewayBold: "Raleway-Bold",
-    nunitoSans12ptLight: "NunitoSans12pt-Light",
-  };
+
   /* font sizes */
   export const FontSize = {
     poppinsMedium14_size: 14,

@@ -2,19 +2,16 @@
 
   /* font sizes */
   export const FontSize = {
-    size_3xl: 22,
-    poppinsMedium14_size: 14,
+    size_mini: 15,
   };
   /* Colors */
   export const Color = {
-    backgroundGrey: "#f8f8f8",
-    colorWhitesmoke_100: "#f3f3f3",
-    grey20: "#d2d2d2",
-    colorBlack: "#000",
+    colorWhite: "#fff",
     colorGray: "#202020",
+    colorBlack: "#000",
   };
   /* border radiuses */
   export const Border = {
-    br_base: 16,
+    br_lg: 18,
   };
   

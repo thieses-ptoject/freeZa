@@ -1,6 +1,7 @@
 import * as React from "react";
 import { StyleSheet, View, Text, Image, Pressable } from "react-native";
-import { Color, FontFamily, FontSize, Border } from "../../GlobalStyles/Login"
+import { Color, FontSize, Border } from "../../GlobalStyles/Login"
+import { TextInput } from "react-native-gesture-handler";
 
 const Login = ({ navigation } : any) => {
   return (
@@ -23,7 +24,7 @@ const Login = ({ navigation } : any) => {
       <Text style={[styles.title2, styles.timeFlexBox]}>Cancel</Text>
    
       <View style={styles.form}>
-        <Text style={styles.emailOrPhone1}>Email</Text>
+        <TextInput placeholder="Email" style={styles.emailOrPhone1}></TextInput>
       </View>
       <Pressable onPress={()=>navigation.navigate('password')}>
         <View style={[styles.nextButton, styles.nextButtonPosition]}>
@@ -47,7 +48,6 @@ const styles = StyleSheet.create({
   },
   titleTypo: {
     color: Color.colorGray,
-    fontFamily: FontFamily.nunitoSans12ptLight,
     fontWeight: "300",
   },
   iconLayout1: {
@@ -117,7 +117,6 @@ const styles = StyleSheet.create({
     fontSize: 52,
     letterSpacing: -1,
     fontWeight: "700",
-    fontFamily: FontFamily.ralewayBold,
     color: "#78ca46",
     textAlign: "left",
     position: "absolute",
@@ -129,7 +128,6 @@ const styles = StyleSheet.create({
     lineHeight: 26,
     opacity: 0.9,
     color: Color.colorGray,
-    fontFamily: FontFamily.nunitoSans12ptLight,
     fontWeight: "300",
   },
   backgroundIcon: {
@@ -173,7 +171,6 @@ const styles = StyleSheet.create({
     marginTop: -7,
     left: "0%",
     fontWeight: "600",
-    fontFamily: FontFamily.nunitoSans12ptSemiBold,
     color: Color.colorBlack,
     height: 16,
     fontSize: FontSize.poppinsMedium14_size,
@@ -198,8 +195,7 @@ const styles = StyleSheet.create({
   emailOrPhone1: {
     lineHeight: 20,
     fontWeight: "500",
-    fontFamily: FontFamily.poppinsMedium14,
-    color: Color.grey20,
+    color: Color.colorBlack,
     fontSize: FontSize.poppinsMedium14_size,
     textAlign: "left",
     flex: 1,
@@ -227,7 +223,6 @@ const styles = StyleSheet.create({
     fontSize: FontSize.size_3xl,
     lineHeight: 31,
     color: Color.colorWhitesmoke_100,
-    fontFamily: FontFamily.nunitoSans12ptLight,
     fontWeight: "300",
     textAlign: "center",
     top: "50%",

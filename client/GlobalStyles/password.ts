@@ -1,10 +1,5 @@
 /* fonts */
-export const FontFamily = {
-    nunitoSans12ptRegular: "NunitoSans12pt-Regular",
-    nunitoSans12ptSemiBold: "NunitoSans12pt-SemiBold",
-    nunitoSans12ptLight: "NunitoSans12pt-Light",
-    ralewayBold: "Raleway-Bold",
-  };
+
   /* font sizes */
   export const FontSize = {
     size_3xl_5: 23,

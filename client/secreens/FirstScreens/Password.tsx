@@ -1,8 +1,21 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Image } from "react-native";
-import { Color, FontFamily, FontSize, Border } from "../../GlobalStyles/password";
+import { StyleSheet, View, Text, Image, Button, Alert } from "react-native";
+import { Color, FontSize, Border } from "../../GlobalStyles/password";
+import { TextInput } from "react-native-gesture-handler";
 
-const Password = () => {
+const Password = ({navigation}: any) => {
+  const [pin, setPin] = React.useState('');
+  const handlePinChange = (value:any) => {
+    // Allow only numeric input
+    const numericValue = value.replace(/[^0-9]/g, '');
+
+    // Limit the input to 8 characters
+    const truncatedValue = numericValue.substring(0, 8);
+
+    // Update the PIN state
+    setPin(truncatedValue);
+  };
+
   return (
     <View style={styles.wrongPassword}>
       <Image
@@ -10,233 +23,55 @@ const Password = () => {
         source={require("../../assets/password/bubbles.png")}
       />
       <View style={styles.dots}>
-        <Image
-          style={styles.ellispse01Icon}
-
-          source={require("../../assets/password/ellispse-01.png")}
-        />
-        <Image
-          style={styles.ellispse01Icon1}
-          source={require("../../assets/password/ellispse-01.png")}
-        />
-        <Image
-          style={styles.ellispse01Icon2}
-          source={require("../../assets/password/ellispse-01.png")}
-        />
-        <Image
-          style={styles.ellispse01Icon3}
-          source={require("../../assets/password/ellispse-01.png")}
-        />
-        <Image
-          style={styles.ellispse01Icon4}
-          source={require("../../assets/password/ellispse-01.png")}
-        />
-        <Image
-          style={styles.ellispse01Icon5}
-          source={require("../../assets/password/ellispse-01.png")}
-        />
-        <Image
-          style={styles.ellispse01Icon6}
-          source={require("../../assets/password/ellispse-01.png")}
-        />
-        <Image
-          style={styles.ellispse01Icon7}
-          source={require("../../assets/password/ellispse-01.png")}
-        />
+      <View style={styles.container}>
+      <TextInput
+        style={styles.input}
+        value={pin}
+        onChangeText={handlePinChange}
+        keyboardType="numeric"
+        maxLength={8}
+        secureTextEntry
+      />
+      <View style={styles.pinContainer}>
+        {Array.from({ length: 8 }).map((_, index) => (
+          <View
+            key={index}
+            style={[styles.pinDot, { backgroundColor: pin.length > index ? '#2ecc71' : '#ecf0f1' }]}
+          />
+        ))}
       </View>
-      <Text style={styles.title}>Forgot your password?</Text>
+    </View>
+      </View>
+      <Text onPress={()=>navigation.navigate("smsEmail")} style={styles.title}>Forgot your password?</Text>
       <Text style={styles.title1}>Hello, Romina!!</Text>
       <Text style={styles.title2}>Type your password</Text>
       <Image
         style={[styles.ellispseIcon, styles.iconLayout]}
         source={require("../../assets/password/ellispse.png")}
       />
-
-      <View
-        style={[styles.keyboardAlphabetic, styles.keyboardAlphabeticPosition]}
-      >
-        <View style={styles.background}>
-          <View
-            style={[styles.backgroundBackground, styles.backgroundPosition]}
-          />
-          <View style={styles.background1} />
-        </View>
-        <View style={styles.homeIndicator}>
-          <View style={styles.homeIndicator1} />
-        </View>
-        <View style={styles.keys}>
-          <Image
-            style={styles.dictationIcon}
-            source={require("../../assets/password/dictation.png")}
-          />
-          <Image
-            style={styles.emojiIcon}
-            source={require("../../assets/password/emoji.png")}
-          />
-          <View style={[styles.return, styles.viewPosition]}>
-            <View
-              style={[styles.backgroundBackground, styles.backgroundPosition]}
-            />
-            <View style={styles.rectangleShadowBox1} />
-            <View style={styles.linksTo} />
-            <Text style={[styles.label, styles.labelLayout]}>Go</Text>
-          </View>
-          <View style={[styles.space, styles.viewPosition]}>
-            <View style={[styles.spaceBackground, styles.backgroundPosition]} />
-            <View style={styles.rectangleShadowBox} />
-            <Text style={[styles.label1, styles.labelLayout]}>space</Text>
-          </View>
-          <View style={[styles.view, styles.viewPosition]}>
-            <View
-              style={[styles.backgroundBackground, styles.backgroundPosition]}
-            />
-            <View style={styles.rectangleShadowBox1} />
-            <Text style={[styles.label2, styles.labelLayout]}>123</Text>
-          </View>
-          <View style={[styles.delete, styles.shiftPosition]}>
-            <View style={styles.background}>
-              <View
-                style={[styles.backgroundBackground, styles.backgroundPosition]}
-              />
-              <View style={styles.rectangleShadowBox1} />
-              <Text style={[styles.label2, styles.labelLayout]}>{` `}</Text>
-            </View>
-            <Image
-              style={styles.deleteButtonIcon}
-    
-              source={require("../../assets/password/delete-button.png")}
-            />
-          </View>
-          <View style={[styles.shift, styles.shiftPosition]}>
-            <View style={styles.background}>
-              <View
-                style={[styles.backgroundBackground, styles.backgroundPosition]}
-              />
-              <View style={styles.rectangleShadowBox} />
-              <Text style={styles.symbol}>{` `}</Text>
-            </View>
-            <Image
-              style={[styles.shiftIcon, styles.timePosition]}
-    
-              source={require("../../assets/password/shift.png")}
-            />
-          </View>
-          <View style={[styles.m, styles.mLayout]}>
-            <View style={styles.rectangleShadowBox} />
-            <Text style={[styles.symbol1, styles.symbolTypo]}>M</Text>
-          </View>
-          <View style={[styles.n, styles.nPosition]}>
-            <View style={styles.rectangleShadowBox} />
-            <Text style={[styles.symbol2, styles.symbolTypo]}>N</Text>
-          </View>
-          <View style={[styles.b, styles.bPosition]}>
-            <View style={styles.rectangleShadowBox} />
-            <Text style={[styles.symbol2, styles.symbolTypo]}>B</Text>
-          </View>
-          <View style={[styles.v, styles.vPosition]}>
-            <View style={styles.rectangleShadowBox} />
-            <Text style={[styles.symbol2, styles.symbolTypo]}>V</Text>
-          </View>
-          <View style={[styles.c, styles.cPosition]}>
-            <View style={styles.rectangleShadowBox} />
-            <Text style={[styles.symbol2, styles.symbolTypo]}>C</Text>
-          </View>
-          <View style={[styles.x, styles.xPosition]}>
-            <View style={styles.rectangleShadowBox} />
-            <Text style={[styles.symbol6, styles.symbolTypo]}>X</Text>
-          </View>
-          <View style={[styles.z, styles.zPosition]}>
-            <View style={styles.rectangleShadowBox} />
-            <Text style={[styles.symbol6, styles.symbolTypo]}>Z</Text>
-          </View>
-          <View style={[styles.l, styles.lPosition]}>
-            <View style={styles.rectangleShadowBox} />
-            <Text style={[styles.symbol8, styles.symbolTypo]}>L</Text>
-          </View>
-          <View style={[styles.k, styles.lPosition]}>
-            <View style={styles.rectangleShadowBox} />
-            <Text style={[styles.symbol6, styles.symbolTypo]}>K</Text>
-          </View>
-          <View style={[styles.j, styles.lPosition]}>
-            <View style={styles.rectangleShadowBox} />
-            <Text style={[styles.symbol10, styles.symbolTypo]}>J</Text>
-          </View>
-          <View style={[styles.h, styles.lPosition]}>
-            <View style={styles.rectangleShadowBox} />
-            <Text style={[styles.symbol11, styles.symbolTypo]}>H</Text>
-          </View>
-          <View style={[styles.g, styles.lPosition]}>
-            <View style={styles.rectangleShadowBox} />
-            <Text style={[styles.symbol2, styles.symbolTypo]}>G</Text>
-          </View>
-          <View style={[styles.f, styles.lPosition]}>
-            <View style={styles.rectangleShadowBox} />
-            <Text style={[styles.symbol8, styles.symbolTypo]}>F</Text>
-          </View>
-          <View style={[styles.d, styles.lPosition]}>
-            <View style={styles.rectangleShadowBox} />
-            <Text style={[styles.symbol2, styles.symbolTypo]}>D</Text>
-          </View>
-          <View style={[styles.s, styles.lPosition]}>
-            <View style={styles.rectangleShadowBox} />
-            <Text style={[styles.symbol6, styles.symbolTypo]}>S</Text>
-          </View>
-          <View style={[styles.a, styles.lPosition]}>
-            <View style={styles.rectangleShadowBox} />
-            <Text style={[styles.symbol2, styles.symbolTypo]}>A</Text>
-          </View>
-          <View style={[styles.p, styles.mLayout]}>
-            <View style={styles.rectangleShadowBox} />
-            <Text style={[styles.symbol6, styles.symbolTypo]}>P</Text>
-          </View>
-          <View style={[styles.o, styles.mLayout]}>
-            <View style={styles.rectangleShadowBox} />
-            <Text style={[styles.symbol11, styles.symbolTypo]}>O</Text>
-          </View>
-          <View style={[styles.i, styles.mLayout]}>
-            <View style={styles.rectangleShadowBox} />
-            <Text style={[styles.symbol19, styles.symbolTypo]}>I</Text>
-          </View>
-          <View style={[styles.u, styles.mLayout]}>
-            <View style={styles.rectangleShadowBox} />
-            <Text style={[styles.symbol2, styles.symbolTypo]}>U</Text>
-          </View>
-          <View style={[styles.y, styles.mLayout]}>
-            <View style={styles.rectangleShadowBox} />
-            <Text style={[styles.symbol6, styles.symbolTypo]}>Y</Text>
-          </View>
-          <View style={[styles.t, styles.mLayout]}>
-            <View style={styles.rectangleShadowBox} />
-            <Text style={[styles.symbol6, styles.symbolTypo]}>T</Text>
-          </View>
-          <View style={[styles.r, styles.mLayout]}>
-            <View style={styles.rectangleShadowBox} />
-            <Text style={[styles.symbol2, styles.symbolTypo]}>R</Text>
-          </View>
-          <View style={[styles.e, styles.mLayout]}>
-            <View style={styles.rectangleShadowBox} />
-            <Text style={[styles.symbol6, styles.symbolTypo]}>E</Text>
-          </View>
-          <View style={[styles.w, styles.mLayout]}>
-            <View style={styles.rectangleShadowBox} />
-            <Text style={[styles.symbol25, styles.symbolTypo]}>W</Text>
-          </View>
-          <View style={[styles.q, styles.mLayout]}>
-            <View style={styles.rectangleShadowBox} />
-            <Text style={[styles.symbol11, styles.symbolTypo]}>Q</Text>
-          </View>
-        </View>
-      </View>
-      <View style={[styles.ellipse, styles.ellipsePosition]} />
-      <Image
-        style={[styles.ellipseIcon, styles.ellipsePosition]}
-        source={require("../../assets/password/ellipse.png")}
-      />
-    </View>
+  </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  input: {
+    height: 0, // Set height to 0 to hide the actual TextInput
+    width: 0, // Set width to 0 to hide the actual TextInput
+  },
+  pinContainer: {
+    flexDirection: 'row',
+    marginTop: 10,
+  },
+  pinDot: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    margin: 5,
+  },
   iconLayout: {
     maxHeight: "100%",
     maxWidth: "100%",
@@ -275,7 +110,6 @@ const styles = StyleSheet.create({
   },
   labelLayout: {
     height: 21,
-    fontFamily: FontFamily.nunitoSans12ptRegular,
     lineHeight: 21,
     fontSize: FontSize.size_base,
     left: "0%",
@@ -304,7 +138,6 @@ const styles = StyleSheet.create({
     fontSize: FontSize.size_3xl_5,
     marginTop: -15,
     letterSpacing: -1,
-    fontFamily: FontFamily.nunitoSans12ptRegular,
     top: "50%",
     color: Color.colorBlack,
     textAlign: "center",
@@ -424,7 +257,6 @@ const styles = StyleSheet.create({
     lineHeight: 26,
     textAlign: "center",
     color: Color.colorGray_200,
-    fontFamily: FontFamily.nunitoSans12ptLight,
     fontWeight: "300",
     position: "absolute",
   },
@@ -434,7 +266,6 @@ const styles = StyleSheet.create({
     fontSize: 28,
     lineHeight: 36,
     fontWeight: "700",
-    fontFamily: FontFamily.ralewayBold,
     letterSpacing: 0,
     textAlign: "center",
     color: Color.colorGray_200,
@@ -447,7 +278,6 @@ const styles = StyleSheet.create({
     lineHeight: 35,
     color: Color.colorBlack,
     textAlign: "center",
-    fontFamily: FontFamily.nunitoSans12ptLight,
     fontWeight: "300",
     position: "absolute",
   },
@@ -491,7 +321,6 @@ const styles = StyleSheet.create({
     marginTop: -7,
     fontSize: 14,
     fontWeight: "600",
-    fontFamily: FontFamily.nunitoSans12ptSemiBold,
     left: "0%",
     height: 16,
     color: Color.colorBlack,
@@ -636,7 +465,6 @@ const styles = StyleSheet.create({
     left: "49.33%",
     fontSize: FontSize.size_3xl,
     letterSpacing: -1,
-    fontFamily: FontFamily.nunitoSans12ptRegular,
     top: "50%",
     color: Color.colorBlack,
     textAlign: "center",
