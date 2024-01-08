@@ -60,6 +60,8 @@ export const getUser = async (req: Request, res: Response) => {
       console.log(error);
     }
   };
+
+
   export const addFreeza = async (req: Request, res: Response)=>{
     try{
       const query = await prisma.user.update({
