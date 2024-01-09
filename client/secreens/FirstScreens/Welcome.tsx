@@ -54,7 +54,7 @@ export const Welcome = ({ navigation } : any) => {
        <View style= {styles.nextPageContainer}>
         <Text style= {styles.textToNextPage} >I already have an account?</Text>
 
-        <Pressable onPress={()=>Alert.alert("hi")}>
+        <Pressable onPress={()=>navigation.navigate("login")}>
             <Image
             
                 style={styles.freeza}

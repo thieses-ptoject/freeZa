@@ -8,6 +8,7 @@ import Password from './Password';
 import SmsEmail from './SmsEmail';
 import PasswordRecoveryCode from './PasswordRecoveryCode';
 import NewPassword from './resetPassword';
+import { Home } from '../BottomScreens/Home';
 const Stack = createStackNavigator();
 export const StackScreens = () => {
   return (

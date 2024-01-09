@@ -1,102 +1,175 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Image, Button, Alert } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  Button,
+  Alert,
+  TouchableOpacity,
+  Pressable,
+} from "react-native";
 import { Color, FontSize, Border } from "../../GlobalStyles/password";
 import { TextInput } from "react-native-gesture-handler";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import app from "../../firebase";
+import { AuthContext } from "../../useContext/authContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+const Password = ({ navigation, route }: any) => {
+  const{auth, setAuth}=React.useContext(AuthContext)
 
-const Password = ({navigation}: any) => {
-  const [pin, setPin] = React.useState('');
-  const [isPasswordCorrect, setIsPasswordCorrect] = React.useState(true);
+  const [isPasswordCorrect, setIsPasswordCorrect] = React.useState(false);
+  const [password, setPassword] = React.useState("");
+  console.log(password);
+  const Fauth = getAuth(app);
+  const login = () => {
+    signInWithEmailAndPassword(Fauth, route.params.email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(user);
+        setAuth(true)
+        storeData();
 
-  const handlePinChange = (value: any) => {
-    // Allow only numeric input
-    const numericValue = value.replace(/[^0-9]/g, '');
-
-    // Limit the input to 8 characters
-    const truncatedValue = numericValue.substring(0, 8);
-
-    // Update the PIN state
-    setPin(truncatedValue);
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorMessage);
+      });
   };
-  const checkPassword = () => {
-    // Replace this condition with your actual password check logic
-    if (pin === 'your_actual_password') {
-      setIsPasswordCorrect(true);
-    } else {
-      setIsPasswordCorrect(false);
+  const storeData = async () => {
+    try {
+      await AsyncStorage.setItem("auth", "true");
+      const value = await AsyncStorage.getItem("auth");
+      console.log(value, "sqjkldj");
+    } catch (error) {
+      console.log(error);
     }
   };
-
-
   return (
     <View style={styles.wrongPassword}>
       <Image
         style={styles.bubblesIcon}
         source={require("../../assets/password/bubbles.png")}
       />
-         <View style={styles.wrongPassword}>
-      <Image
-        style={styles.bubblesIcon}
-        source={require("../../assets/password/bubbles.png")}
-      />
-      <View style={styles.dots}>
-        <TextInput
-        secureTextEntry={true}
-        maxLength={1}
-          style={styles.ellispse01Icon}
+      <View style={styles.wrongPassword}>
+        <Image
+          style={styles.bubblesIcon}
+          source={require("../../assets/password/bubbles.png")}
         />
-        <TextInput
-        secureTextEntry={true}
-        maxLength={1}
-          style={styles.ellispse01Icon1}
-        />
-        <TextInput
-        secureTextEntry={true}
-        maxLength={1}
-          style={styles.ellispse01Icon2}
-        />
-        <TextInput
-        secureTextEntry={true}
-        maxLength={1}
-          style={styles.ellispse01Icon3}
-        />
-        <TextInput
-        secureTextEntry={true}
-        maxLength={1}
-          style={styles.ellispse01Icon4}
-        />
-        <TextInput
-        secureTextEntry={true}
-        maxLength={1}
-          style={styles.ellispse01Icon5}
-        />
-        <TextInput
-        secureTextEntry={true}
-        maxLength={1}
-          style={styles.ellispse01Icon6}
-        />
-        <TextInput
-        secureTextEntry={true}
-        maxLength={1}
-          style={styles.ellispse01Icon7}
-        />
+        <View style={styles.dots}>
+          <TextInput
+            secureTextEntry={true}
+            maxLength={1}
+            style={styles.ellispse01Icon}
+            onChange={(e) => setPassword(e.nativeEvent.text)}
+          />
+          <TextInput
+            secureTextEntry={true}
+            maxLength={1}
+            style={styles.ellispse01Icon1}
+            onChange={(e) => setPassword(password + e.nativeEvent.text)}
+          />
+          <TextInput
+            secureTextEntry={true}
+            maxLength={1}
+            style={styles.ellispse01Icon2}
+            onChange={(e) => setPassword(password + e.nativeEvent.text)}
+          />
+          <TextInput
+            secureTextEntry={true}
+            maxLength={1}
+            style={styles.ellispse01Icon3}
+            onChange={(e) => setPassword(password + e.nativeEvent.text)}
+          />
+          <TextInput
+            secureTextEntry={true}
+            maxLength={1}
+            style={styles.ellispse01Icon4}
+            onChange={(e) => setPassword(password + e.nativeEvent.text)}
+          />
+          <TextInput
+            secureTextEntry={true}
+            maxLength={1}
+            style={styles.ellispse01Icon5}
+            onChange={(e) => setPassword(password + e.nativeEvent.text)}
+          />
+          <TextInput
+            secureTextEntry={true}
+            maxLength={1}
+            style={styles.ellispse01Icon6}
+            onChange={(e) => setPassword(password + e.nativeEvent.text)}
+          />
+          <TextInput
+            secureTextEntry={true}
+            maxLength={1}
+            style={styles.ellispse01Icon7}
+            onChange={(e) => setPassword(password + e.nativeEvent.text)}
+          />
+        </View>
       </View>
-      </View>
-      <View>
-        <View>
-    </View>
-      </View>
-      <Text onPress={()=>navigation.navigate("smsEmail")} style={styles.title}>Forgot your password?</Text>
+      <Pressable
+        onPress={() => {
+          console.log("hi");
+          login();
+          storeData();
+        }}
+      >
+        <View style={styles.button}>
+          <View style={[styles.buttonChild, styles.buttonChildPosition]} />
+          <Text style={styles.done}>Login</Text>
+        </View>
+      </Pressable>
+
+      <Text
+        onPress={() => navigation.navigate("smsEmail")}
+        style={styles.title}
+      >
+        Forgot your password?
+      </Text>
       <Text style={styles.title1}>Hello, Romina!!</Text>
       <Text style={styles.title2}>Type your password</Text>
       <Image
         style={[styles.ellispseIcon, styles.iconLayout]}
         source={require("../../assets/password/ellispse.png")}
       />
-  </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  done: {
+    marginTop: -13.5,
+    left: "42.39%",
+    fontSize: 22,
+    lineHeight: 31,
+    color: "#f3f3f3",
+    top: "50%",
+    textAlign: "center",
+    fontWeight: "300",
+    position: "absolute",
+  },
+  buttonChildPosition: {
+    bottom: 0,
+    right: 0,
+    left: 0,
+    top: 0,
+  },
+  button: {
+    top: -350,
+    height: 61,
+    width: 335,
+    left: 20,
+    position: "absolute",
+    overflow: "hidden",
+  },
+  buttonChild: {
+    borderRadius: 16,
+    backgroundColor: "#f20b32",
+    position: "absolute",
+  },
   ellispseIcon: {
     top: 149,
     right: 135,
@@ -104,16 +177,15 @@ const styles = StyleSheet.create({
     left: 135,
   },
   container: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    
+    flexDirection: "column",
+    alignItems: "center",
   },
   input: {
     height: 0, // Set height to 0 to hide the actual TextInput
     width: 0, // Set width to 0 to hide the actual TextInput
   },
   pinContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginTop: 10,
   },
   pinDot: {
@@ -246,9 +318,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#EC4E4E",
     borderRadius: 100,
     color: Color.colorWhite,
-    
-    
-    
   },
   ellispse01Icon1: {
     left: 29,
@@ -258,7 +327,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     backgroundColor: "#EC4E4E",
     borderRadius: 100,
-    color: Color.colorWhite
+    color: Color.colorWhite,
   },
   ellispse01Icon2: {
     left: 58,
@@ -268,7 +337,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     backgroundColor: "#EC4E4E",
     borderRadius: 100,
-    color: Color.colorWhite
+    color: Color.colorWhite,
   },
   ellispse01Icon3: {
     left: 87,
@@ -278,7 +347,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     backgroundColor: "#EC4E4E",
     borderRadius: 100,
-    color: Color.colorWhite
+    color: Color.colorWhite,
   },
   ellispse01Icon4: {
     left: 116,
@@ -288,7 +357,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     backgroundColor: "#EC4E4E",
     borderRadius: 100,
-    color: Color.colorWhite
+    color: Color.colorWhite,
   },
   ellispse01Icon5: {
     left: 145,
@@ -298,8 +367,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     backgroundColor: "#EC4E4E",
     borderRadius: 100,
-    color: Color.colorWhite
-    
+    color: Color.colorWhite,
   },
   ellispse01Icon6: {
     left: 174,
@@ -309,7 +377,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     backgroundColor: "#EC4E4E",
     borderRadius: 100,
-    color: Color.colorWhite
+    color: Color.colorWhite,
   },
   ellispse01Icon7: {
     left: 203,
@@ -319,7 +387,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     backgroundColor: "#EC4E4E",
     borderRadius: 100,
-    color: Color.colorWhite
+    color: Color.colorWhite,
   },
   dots: {
     top: 390,
@@ -329,7 +397,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   title: {
-    top: 445,
+    top: 550,
     left: 112,
     fontSize: 15,
     lineHeight: 26,

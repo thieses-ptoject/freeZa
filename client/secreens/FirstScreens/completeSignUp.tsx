@@ -30,7 +30,7 @@ export const CompleteSignUp = ({ route, navigation }: any) => {
     createUserWithEmailAndPassword(
       auth,
       route.params.email,
-      route.parmas.password
+      route.params.password
     )
       .then((userCredential) => {
         console.log(userCredential);

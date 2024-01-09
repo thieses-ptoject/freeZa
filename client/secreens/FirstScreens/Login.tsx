@@ -3,8 +3,12 @@ import { StyleSheet, View, Text, Image, Pressable } from "react-native";
 import { Color, FontSize, Border } from "../../GlobalStyles/Login"
 import { TextInput } from "react-native-gesture-handler";
 
+
 const Login = ({ navigation } : any) => {
-  return (
+
+  const [email, setEmail] = React.useState("")
+  console.log(email)
+  return ( 
     <View style={styles.login}>
       <Image
         style={styles.bubblesIcon}
@@ -24,9 +28,9 @@ const Login = ({ navigation } : any) => {
       <Text style={[styles.title2, styles.timeFlexBox]}>Cancel</Text>
    
       <View style={styles.form}>
-        <TextInput placeholder="Email" style={styles.emailOrPhone1}></TextInput>
+        <TextInput placeholder="Email"  onChange={e=>setEmail(e.nativeEvent.text)} style={styles.emailOrPhone1}></TextInput>
       </View>
-      <Pressable onPress={()=>navigation.navigate('password')}>
+      <Pressable onPress={()=>navigation.navigate('password',{email: email})}>
         <View style={[styles.nextButton, styles.nextButtonPosition]}>
           <View style={[styles.nextButtonChild, styles.backgroundIconPosition]} />
           <Text style={[styles.next, styles.timeFlexBox]}>Next</Text>
