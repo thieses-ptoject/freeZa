@@ -5,12 +5,12 @@ import {
   import star from "../../assets/star.png"
   import arrow from "../../assets/blogpage/vector.png"
   import addblog from "../../assets/blogpage/add.png"
+  import { useNavigation } from "@react-navigation/native";
   
   
   
-  
-  export const NavBlogPage = ({navigation}:any) => {
-   
+  export const NavBlogPage = () => {
+    const navigation=useNavigation()
     return (
       <SafeAreaView>
         <View  >
