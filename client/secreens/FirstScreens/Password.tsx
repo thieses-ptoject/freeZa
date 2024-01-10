@@ -15,6 +15,7 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import app from "../../firebase";
 import { AuthContext } from "../../useContext/authContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { TouchableWithoutFeedback, Keyboard } from 'react-native';
 const Password = ({ navigation, route }: any) => {
   const{auth, setAuth}=React.useContext(AuthContext)
   const [isPasswordCorrect, setIsPasswordCorrect] = React.useState(false);
@@ -64,6 +65,10 @@ const {phone, setPhone, image} = React.useContext(AuthContext);
   };
   return (
     <View style={styles.wrongPassword}>
+
+      <View style={{ alignItems: "center", marginLeft: 20}}>
+        
+  <TextInput keyboardType='numeric'/>
       <Image
         style={styles.bubblesIcon}
         source={require("../../assets/password/bubbles.png")}
@@ -91,48 +96,6 @@ const {phone, setPhone, image} = React.useContext(AuthContext);
           <Text style={styles.done}>Login</Text>
         </View>
       </Pressable>
-          {/* <TextInput
-            secureTextEntry={true}
-            maxLength={1}
-            style={styles.ellispse01Icon1}
-            onChange={(e) => setPassword(password + e.nativeEvent.text)}
-          />
-          <TextInput
-            secureTextEntry={true}
-            maxLength={1}
-            style={styles.ellispse01Icon2}
-            onChange={(e) => setPassword(password + e.nativeEvent.text)}
-          />
-          <TextInput
-            secureTextEntry={true}
-            maxLength={1}
-            style={styles.ellispse01Icon3}
-            onChange={(e) => setPassword(password + e.nativeEvent.text)}
-          />
-          <TextInput
-            secureTextEntry={true}
-            maxLength={1}
-            style={styles.ellispse01Icon4}
-            onChange={(e) => setPassword(password + e.nativeEvent.text)}
-          />
-          <TextInput
-            secureTextEntry={true}
-            maxLength={1}
-            style={styles.ellispse01Icon5}
-            onChange={(e) => setPassword(password + e.nativeEvent.text)}
-          />
-          <TextInput
-            secureTextEntry={true}
-            maxLength={1}
-            style={styles.ellispse01Icon6}
-            onChange={(e) => setPassword(password + e.nativeEvent.text)}
-          />
-          <TextInput
-            secureTextEntry={true}
-            maxLength={1}
-            style={styles.ellispse01Icon7}
-            onChange={(e) => setPassword(password + e.nativeEvent.text)}
-          /> */}
         </View>
       </View>
 
@@ -140,7 +103,7 @@ const {phone, setPhone, image} = React.useContext(AuthContext);
       <Text
         onPress={() => navigation.navigate("smsEmail")}
         style={styles.title}
-      >
+        >
         Forgot your password?
       </Text>
       <Text style={styles.title1}>Hello, {name}!!</Text>
@@ -148,7 +111,9 @@ const {phone, setPhone, image} = React.useContext(AuthContext);
       <Image
         style={[styles.ellispseIcon, styles.iconLayout]}
         source={{ uri: image }}
-      />
+        />
+        </View>
+
     </View>
   );
 };

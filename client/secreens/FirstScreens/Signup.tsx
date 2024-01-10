@@ -67,64 +67,84 @@ export const Signup = ({ navigation } : any) => {
   };
   
     return (
-        <View style={styles.androidLarge1}>
+ <View style={styles.container}>
+  <View style={styles.androidLarge1}>
 
-        <Text style={styles.title}>Cancel</Text>
-        <Pressable onPress={() => { pickImage() }}>
-            <Image
-              style={styles.uploadPhotoIcon}
-            //   contentFit="cover"
-              source={require("../../assets/Signup/upload-photo.png")}
-            />
-        </Pressable>
-        <Pressable onPress={()=>navigation.navigate("completeSignUp",{email: email, password: password, phone: phone})}>
-          <View  style={styles.button}>
-            <View style={[styles.buttonChild, styles.buttonChildPosition]} />
-            <Text style={styles.done}>Next</Text>
-          </View>
-        </Pressable>
-        <Text style={styles.title1}>{`Create 
-  Account`}</Text>
-        <View style={[styles.androidLarge1Inner, styles.formParentLayout]}>
-          <View style={[styles.formParent, styles.formParentLayout]}>
-            <View style={[styles.form1, styles.formSpaceBlock]}>
-              <TextInput placeholder="Email" onChange={(e)=>setEmail(e.nativeEvent.text)} style={styles.emailOrPhone}></TextInput>
-            </View>
-            <View style={[styles.form1, styles.formSpaceBlock]}>
-              <TextInput placeholder="Password"  secureTextEntry={view} onChange={(e)=>setPassword(e.nativeEvent.text)} style={[styles.password, styles.passwordTypo]}></TextInput>
-              <Pressable
-              onPress={()=>setView(!view)}>
-                <Image
-                  style={[styles.eyeSlashIcon, styles.iconLayout1]}
-                
-                  // contentFit="cover"
-                  source={require("../../assets/Signup/eyeslash.png")}
-                />
-              </Pressable>
-            </View>
-            <View style={[styles.form2, styles.formSpaceBlock]}>
-              <View style={styles.frameParent}>
-                <View style={styles.frameParent}>
-                  <View style={styles.flag}>
-                    <Image
-                      style={[styles.englandIcon, styles.iconLayout]}
-                    //   contentFit="cover"
-                      source={require("../../assets/Signup/england.png")}
-                    />
-                    <View style={[styles.overlay, styles.bar1Position]} />
-                  </View>
- 
-                </View>
-                <View style={styles.frameChild} />
-              </View>
-              <TextInput placeholder="Your number" onChange={(e)=>setPhone(e.nativeEvent.text)} keyboardType="numeric" style={[styles.yourNumber, styles.passwordTypo]}>
-                
-              </TextInput>
-            </View>
-          </View>
-        </View>
-      </View>
+    <Text style={styles.title}>Cancel</Text>
     
+    <Pressable onPress={() => { pickImage() }}>
+      <Image
+        style={styles.uploadPhotoIcon}
+        source={require("../../assets/Signup/upload-photo.png")}
+      />
+    </Pressable>
+    
+    <Pressable onPress={() => navigation.navigate("completeSignUp", { email: email, password: password, phone: phone })}>
+      <View style={styles.button}>
+        <View style={[styles.buttonChild, styles.buttonChildPosition]} />
+        <Text style={styles.done}>Next</Text>
+      </View>
+    </Pressable>
+    
+    <Text style={styles.title1}>
+      {`Create 
+      Account`}
+    </Text>
+    
+    <View style={[styles.androidLarge1Inner, styles.formParentLayout]}>
+      <View style={[styles.formParent, styles.formParentLayout]}>
+
+        <View style={[styles.form1, styles.formSpaceBlock]}>
+          <TextInput
+            placeholder="Email"
+            onChange={(e) => setEmail(e.nativeEvent.text)}
+            style={styles.emailOrPhone}
+          />
+        </View>
+
+        <View style={[styles.form1, styles.formSpaceBlock]}>
+          <TextInput
+            placeholder="Password"
+            secureTextEntry={view}
+            onChange={(e) => setPassword(e.nativeEvent.text)}
+            style={[styles.password, styles.passwordTypo]}
+          />
+          <Pressable onPress={() => setView(!view)}>
+            <Image
+              style={[styles.eyeSlashIcon, styles.iconLayout1]}
+              source={require("../../assets/Signup/eyeslash.png")}
+            />
+          </Pressable>
+        </View>
+
+        <View style={[styles.form2, styles.formSpaceBlock]}>
+          <View style={styles.frameParent}>
+            <View style={styles.frameParent}>
+              <View style={styles.flag}>
+                <Image
+                  style={[styles.englandIcon, styles.iconLayout]}
+                  source={require("../../assets/Signup/england.png")}
+                />
+                <View style={[styles.overlay, styles.bar1Position]} />
+              </View>
+            </View>
+            <View style={styles.frameChild} />
+          </View>
+
+          <TextInput
+            placeholder="Your number"
+            onChange={(e) => setPhone(e.nativeEvent.text)}
+            keyboardType="numeric"
+            style={[styles.yourNumber, styles.passwordTypo]}
+          />
+        </View>
+
+      </View>
+    </View>
+
+  </View>
+</View>
+
     );
   };
 
@@ -132,6 +152,11 @@ export const Signup = ({ navigation } : any) => {
 
 
   const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
     barLayout: {
         height: 5,
         width: 134,
@@ -399,5 +424,6 @@ export const Signup = ({ navigation } : any) => {
         width: "100%",
         flex: 1,
       },
+      
   });
   
