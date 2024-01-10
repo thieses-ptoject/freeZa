@@ -20,6 +20,7 @@ import { AuthContext } from "../../useContext/authContext";
 export const CompleteSignUp = ({ route, navigation }: any) => {
   const {name, setName} = useContext(AuthContext);
   const {LastName, setLastName} = useContext(AuthContext)
+  const {image, setImage} = useContext(AuthContext)
   
   console.log(
     route.params.email,
@@ -47,7 +48,7 @@ export const CompleteSignUp = ({ route, navigation }: any) => {
         firstName: name,
         lastName: LastName,
         address: "tunisia",
-        image: "https://static.vecteezy.com/system/resources/previews/020/765/399/non_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg"
+        image: image
       });
   
       console.log(response,'ggggggggggggggg');
@@ -59,9 +60,7 @@ export const CompleteSignUp = ({ route, navigation }: any) => {
   return (
     <View style={styles.androidLarge1}>
       <GreenRed />
-      <View style={[styles.bar, styles.barLayout]}>
-        <View style={[styles.bar1, styles.bar1Position]} />
-      </View>
+
       <Text style={styles.title}>Cancel</Text>
 
       <Pressable
