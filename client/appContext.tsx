@@ -63,6 +63,7 @@ export default function App({navigation}: any) {
                 options={{ headerShown: false }}
                 component={Test}
               />
+               {/* <Stack.Screen name="blog" options={{ headerShown: true , header:()=><NavBlogPage navigation={navigation}/> , headerStyle:{width:'100%'} }} component={BlogPage} /> */}
               {/* <Stack.Screen name="MySavedSearch" options={{headerShown: true}} component={MySavedSearch }/>
           <Stack.Screen name="GeeversIfllow" options={{headerShown: true}} component={GeeversIfllow}/>
           <Stack.Screen name="TermAndConditions" options={{headerShown: true}} component={TermAndConditions}/>
