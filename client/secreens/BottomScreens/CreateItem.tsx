@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, SafeAreaView, Image, TextInput, ScrollView, Mod
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { NavBar } from '../../componets/Home/NavBar';
-import { Color, FontFamily, FontSize, Border } from "../../GlobalStyles/GlobalStylesCreateItem";
+import { Color, Border } from "../../GlobalStyles/GlobalStylesCreateItem";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { addItem, getCategory, getType } from '../../react-query/createItem/createItem';
 import * as firebase from '../../firebase';

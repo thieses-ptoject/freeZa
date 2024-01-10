@@ -1,10 +1,5 @@
 /* fonts */
-export const FontFamily = {
-    nunitoSans12ptRegular: "NunitoSans12pt-Regular",
-    nunitoSans12ptSemiBold: "NunitoSans12pt-SemiBold",
-    nunitoSans12ptLight: "NunitoSans12pt-Light",
-    ralewayBold: "Raleway-Bold",
-  };
+
   /* font sizes */
   export const FontSize = {
     size_3xl_5: 23,
@@ -19,6 +14,7 @@ export const FontFamily = {
     colorGray_300: "rgba(0, 0, 0, 0)",
     colorDarkgray: "#adb3bc",
     colorLightgray: "rgba(204, 206, 211, 0.76)",
+    colorWhite: "#fff"
   };
   /* border radiuses */
   export const Border = {
