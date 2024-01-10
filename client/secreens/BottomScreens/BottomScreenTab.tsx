@@ -12,7 +12,7 @@ import { StyleSheet } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
-export const BottomScreenTab = () => {
+export const BottomScreenTab = ({navigation}:any) => {
   console.log(process.env.EXPO_PUBLIC_apiKey);
   
   return (
@@ -50,9 +50,11 @@ export const BottomScreenTab = () => {
         tabBarStyle: { backgroundColor: '#FFECF6'},
       })}
      >
-        <Tab.Screen name ="Home" options={{headerShown:false}} component={Home}/>
+        <Tab.Screen name ="Home" options={{ headerShown: true , header:()=><NavBar navigation={navigation}/> , headerStyle:{width:'100%',height:5}  }} component={Home}/>
         <Tab.Screen name="Chat"  options={{headerShown:false}} component={Chat}/>
-        <Tab.Screen name="CreateItem"  options={{headerShown:false}} component={CreateItem}/>
+        <Tab.Screen name="CreateItem" 
+        options={{ headerShown: true , header:()=><NavBar navigation={navigation}/> , headerStyle:{width:'100%'} }}
+         component={CreateItem}/>
         <Tab.Screen name="Wishlist"  options={{headerShown:false}} component={Wishlist}/>
         <Tab.Screen name="Account"  options={{headerShown:false}} component={Account}/> 
         
