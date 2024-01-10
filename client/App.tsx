@@ -11,25 +11,17 @@ import App from "./appContext";
 
 const queryClient = new QueryClient();
 import { AuthContext, AuthProvider } from "./useContext/authContext";
+import { ContextPost, ProviderPost } from "./useContext/createBlog";
 const Stack = createStackNavigator();
 export default function Context() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
+        <ProviderPost>
         <App />
+        </ProviderPost>
       </AuthProvider>
     </QueryClientProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#fff",
-  },
-  up: {
-    width: 311.014,
-    height: 367.298,
-    transform: [{ rotate: "0deg" }],
-    flexShrink: 0,
-  },
-});
