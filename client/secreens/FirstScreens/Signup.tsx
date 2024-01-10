@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, Image, Button, Pressable, Alert } from "react-native";
 // import { Image } from "expo-image";
 import { Color, FontSize } from "../../GlobalStyles/Singup";
 import { TextInput } from "react-native-gesture-handler";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthContext } from "../../useContext/authContext";
+
 
 export const Signup = ({ navigation } : any) => {
+  const {email, setEmail} = React.useContext(AuthContext)
+  const [password, setPassword] = useState("")
+  const {phone, setPhone} = React.useContext(AuthContext)
+  
     return (
         <View style={styles.androidLarge1}>
         <View style={[styles.bar, styles.barLayout]}>
@@ -18,7 +25,7 @@ export const Signup = ({ navigation } : any) => {
               source={require("../../assets/Signup/upload-photo.png")}
             />
         </Pressable>
-        <Pressable onPress={()=>navigation.navigate("completeSignUp")}>
+        <Pressable onPress={()=>navigation.navigate("completeSignUp",{email: email, password: password, phone: phone})}>
           <View  style={styles.button}>
             <View style={[styles.buttonChild, styles.buttonChildPosition]} />
             <Text style={styles.done}>Next</Text>
@@ -29,10 +36,10 @@ export const Signup = ({ navigation } : any) => {
         <View style={[styles.androidLarge1Inner, styles.formParentLayout]}>
           <View style={[styles.formParent, styles.formParentLayout]}>
             <View style={[styles.form1, styles.formSpaceBlock]}>
-              <TextInput placeholder="Email" style={styles.emailOrPhone}></TextInput>
+              <TextInput placeholder="Email" onChange={(e)=>setEmail(e.nativeEvent.text)} style={styles.emailOrPhone}></TextInput>
             </View>
             <View style={[styles.form1, styles.formSpaceBlock]}>
-              <TextInput placeholder="Password" style={[styles.password, styles.passwordTypo]}></TextInput>
+              <TextInput placeholder="Password" onChange={(e)=>setPassword(e.nativeEvent.text)} style={[styles.password, styles.passwordTypo]}></TextInput>
               <Image
                 style={[styles.eyeSlashIcon, styles.iconLayout1]}
                 // contentFit="cover"
@@ -58,7 +65,7 @@ export const Signup = ({ navigation } : any) => {
                 </View>
                 <View style={styles.frameChild} />
               </View>
-              <TextInput placeholder="Your number" keyboardType="numeric" style={[styles.yourNumber, styles.passwordTypo]}>
+              <TextInput placeholder="Your number" onChange={(e)=>setPhone(e.nativeEvent.text)} keyboardType="numeric" style={[styles.yourNumber, styles.passwordTypo]}>
                 
               </TextInput>
             </View>
