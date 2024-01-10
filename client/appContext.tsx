@@ -12,6 +12,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavBlogPage } from './componets/blogPage/navBlogPage';
 import BlogPage from './secreens/BottomScreens/BlogPage';
 
+
 const queryClient = new QueryClient();
 import { AuthContext, AuthProvider } from "./useContext/authContext";
 const Stack = createStackNavigator();
