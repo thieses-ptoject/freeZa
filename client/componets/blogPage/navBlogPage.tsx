@@ -1,10 +1,10 @@
 import {
     View,Text,StatusBar,StyleSheet,Image,SafeAreaView,
     Pressable} from "react-native";
-  import straw from "../../assets/freeza.png";
-  import star from "../../assets/star.png"
-  import arrow from "../../assets/blogpage/vector.png"
-  import addblog from "../../assets/blogpage/add.png"
+  // import straw from "../../assets/freeza.png";
+  // import star from "../../assets/star.png"
+  // import arrow from "../../assets/blogpage/vector.png"
+  // import addblog from "../../assets/blogpage/add.png"
   
   
   

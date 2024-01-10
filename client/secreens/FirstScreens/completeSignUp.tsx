@@ -59,9 +59,7 @@ export const CompleteSignUp = ({ route, navigation }: any) => {
   return (
     <View style={styles.androidLarge1}>
       <GreenRed />
-      <View style={[styles.bar, styles.barLayout]}>
-        <View style={[styles.bar1, styles.bar1Position]} />
-      </View>
+
       <Text style={styles.title}>Cancel</Text>
 
       <Pressable

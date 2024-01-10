@@ -11,12 +11,19 @@ export const Signup = ({ navigation } : any) => {
   const {email, setEmail} = React.useContext(AuthContext)
   const [password, setPassword] = useState("")
   const {phone, setPhone} = React.useContext(AuthContext)
+  const [view, setView] = useState(true)
+  
+  function viewpassword(){
+    if(view){
+      return "password"
+    }else{
+      return "text"
+    }
+  }
   
     return (
         <View style={styles.androidLarge1}>
-        <View style={[styles.bar, styles.barLayout]}>
-          <View style={[styles.bar1, styles.bar1Position]} />
-        </View>
+
         <Text style={styles.title}>Cancel</Text>
         <Pressable onPress={()=>Alert.alert("hi")}>
             <Image
@@ -39,12 +46,16 @@ export const Signup = ({ navigation } : any) => {
               <TextInput placeholder="Email" onChange={(e)=>setEmail(e.nativeEvent.text)} style={styles.emailOrPhone}></TextInput>
             </View>
             <View style={[styles.form1, styles.formSpaceBlock]}>
-              <TextInput placeholder="Password" onChange={(e)=>setPassword(e.nativeEvent.text)} style={[styles.password, styles.passwordTypo]}></TextInput>
-              <Image
-                style={[styles.eyeSlashIcon, styles.iconLayout1]}
-                // contentFit="cover"
-                source={require("../../assets/Signup/eyeslash.png")}
-              />
+              <TextInput placeholder="Password"  secureTextEntry={view} onChange={(e)=>setPassword(e.nativeEvent.text)} style={[styles.password, styles.passwordTypo]}></TextInput>
+              <Pressable
+              onPress={()=>setView(!view)}>
+                <Image
+                  style={[styles.eyeSlashIcon, styles.iconLayout1]}
+                
+                  // contentFit="cover"
+                  source={require("../../assets/Signup/eyeslash.png")}
+                />
+              </Pressable>
             </View>
             <View style={[styles.form2, styles.formSpaceBlock]}>
               <View style={styles.frameParent}>
@@ -57,11 +68,7 @@ export const Signup = ({ navigation } : any) => {
                     />
                     <View style={[styles.overlay, styles.bar1Position]} />
                   </View>
-                  <Image
-                    style={[styles.arrowDownIcon, styles.iconLayout1]}
-                    // contentFit="cover"
-                    source={require("../../assets/Signup/arrowdown.png")}
-                  />
+ 
                 </View>
                 <View style={styles.frameChild} />
               </View>
