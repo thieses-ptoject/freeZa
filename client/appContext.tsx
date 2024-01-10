@@ -50,7 +50,7 @@ export default function App({navigation}: any) {
    };  
   return (
     <NavigationContainer>
-          {(auth )? (
+          {(true)? (
             <Stack.Navigator>
               <Stack.Screen
                 name="tabs"
@@ -62,7 +62,7 @@ export default function App({navigation}: any) {
                 options={{ headerShown: false }}
                 component={Test}
               />
-              <Stack.Screen name="blog" options={{ headerShown: true , header:()=><NavBlogPage navigation={navigation}/> , headerStyle:{width:'100%'} }} component={BlogPage} />
+              <Stack.Screen name="blog" options={{ headerShown: true , header:()=><NavBlogPage/> , headerStyle:{width:'100%'} }} component={BlogPage} />
               {/* <Stack.Screen name="MySavedSearch" options={{headerShown: false}} component={MySavedSearch }/> */}
             </Stack.Navigator>
           ) : (
