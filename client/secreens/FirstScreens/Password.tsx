@@ -22,7 +22,7 @@ const Password = ({ navigation, route }: any) => {
 const {email, setEmail} = React.useContext(AuthContext);
 const {name, setName} = React.useContext(AuthContext);
 const {LastName, setLastName} = React.useContext(AuthContext);
-const {phone, setPhone} = React.useContext(AuthContext);
+const {phone, setPhone, image} = React.useContext(AuthContext);
 
   console.log(name)
   const Fauth = getAuth(app);
@@ -51,7 +51,8 @@ const {phone, setPhone} = React.useContext(AuthContext);
         name,
         LastName,
         phone,
-        id
+        id,
+        image,
       }
       const jsonUser = JSON.stringify(user)
       await AsyncStorage.setItem("user", jsonUser);
@@ -146,7 +147,7 @@ const {phone, setPhone} = React.useContext(AuthContext);
       <Text style={styles.title2}>Type your password</Text>
       <Image
         style={[styles.ellispseIcon, styles.iconLayout]}
-        source={require("../../assets/password/ellispse.png")}
+        source={{ uri: image }}
       />
     </View>
   );

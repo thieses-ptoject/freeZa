@@ -8,6 +8,7 @@ export const AuthProvider = ({ children }: any) => {
     const [email, setEmail] = useState("")
     const [name, setName] = useState("");
     const [LastName, setLastName] = useState("");
+    const [image, setImage] = useState("")
     
   const value = {
     auth,
@@ -19,7 +20,9 @@ export const AuthProvider = ({ children }: any) => {
     name,
     setName,
     LastName,
-    setLastName
+    setLastName,
+    image,
+    setImage
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

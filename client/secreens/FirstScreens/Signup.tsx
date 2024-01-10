@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { View, Text, StyleSheet, Image, Button, Pressable, Alert } from "react-native";
 // import { Image } from "expo-image";
 import { Color, FontSize } from "../../GlobalStyles/Singup";
 import { TextInput } from "react-native-gesture-handler";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from "../../useContext/authContext";
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import * as ImagePicker from 'expo-image-picker';
+import { storage } from '../../firebase';
 
 
 export const Signup = ({ navigation } : any) => {
@@ -12,6 +15,7 @@ export const Signup = ({ navigation } : any) => {
   const [password, setPassword] = useState("")
   const {phone, setPhone} = React.useContext(AuthContext)
   const [view, setView] = useState(true)
+ const {image, setImage} = useContext(AuthContext)
   
   function viewpassword(){
     if(view){
@@ -20,12 +24,53 @@ export const Signup = ({ navigation } : any) => {
       return "text"
     }
   }
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+
+      quality: 1,
+    });
+
+    if (result && 'uri' in result) {
+      // Check if 'uri' property exists on the result object
+      uploadImage(result.uri as string, 'image').then(() => {
+        Alert.alert('imagesaved')
+      }).catch((error) => { console.error('Firebase Storage Error:', error.code, error.message); Alert.alert("error") })
+    } else {
+
+      console.error("URI not found in image picker result");
+    }
+  };
+
+
+  const uploadImage = async (uri: any, imageName: string) => {
+    try {
+      const response = await fetch(uri);
+      const blob = await response.blob();
+      imageName = `image_${Date.now()}.jpg`;
+
+
+      const imageRef = ref(storage, `images/${imageName}`);
+
+
+      await uploadBytes(imageRef, blob);
+
+
+      const downloadURL = await getDownloadURL(imageRef);
+      console.log('Image uploaded successfully. Download URL:', downloadURL);
+      setImage(downloadURL);
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      throw error;
+    }
+
+  };
   
     return (
         <View style={styles.androidLarge1}>
 
         <Text style={styles.title}>Cancel</Text>
-        <Pressable onPress={()=>Alert.alert("hi")}>
+        <Pressable onPress={() => { pickImage() }}>
             <Image
               style={styles.uploadPhotoIcon}
             //   contentFit="cover"

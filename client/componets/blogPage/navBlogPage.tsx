@@ -5,15 +5,15 @@ import {
   // import star from "../../assets/star.png"
   // import arrow from "../../assets/blogpage/vector.png"
   // import addblog from "../../assets/blogpage/add.png"
+  import { useNavigation } from "@react-navigation/native";
   
   
   
-  
-  export const NavBlogPage = ({navigation}:any) => {
-   
+  export const NavBlogPage = () => {
+    const navigation=useNavigation()
     return (
       <SafeAreaView>
-        <View  >
+        {/* <View  >
           <StatusBar backgroundColor="#ffff" />
           <View style={styles.rectangle}>
             <Pressable onPress={()=>navigation.navigate('Home')}>
@@ -26,7 +26,7 @@ import {
             </View> 
             <Image source={addblog} style={{ width: 30,height: 30,marginEnd:5}} />
           </View>
-        </View>
+        </View> */}
       </SafeAreaView>
     );
   }; 

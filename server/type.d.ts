@@ -21,3 +21,4 @@ export type posts= {
     name:string,
     image:string
   }
+  
