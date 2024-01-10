@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image, Button, Pressable, Alert } from "react-n
 import Svg, { Defs, Path, Pattern } from "react-native-svg";
 import DropShadow from "react-native-drop-shadow";
 import { Shadow } from "react-native-shadow-2";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const Welcome = ({ navigation } : any) => {
   return (
@@ -54,7 +55,9 @@ export const Welcome = ({ navigation } : any) => {
        <View style= {styles.nextPageContainer}>
         <Text style= {styles.textToNextPage} >I already have an account?</Text>
 
-        <Pressable onPress={()=>navigation.navigate("login")}>
+        <Pressable onPress={()=>{
+          AsyncStorage.clear()
+          navigation.navigate("login")}}>
             <Image
             
                 style={styles.freeza}

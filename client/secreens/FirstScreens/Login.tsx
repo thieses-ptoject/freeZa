@@ -2,11 +2,12 @@ import * as React from "react";
 import { StyleSheet, View, Text, Image, Pressable } from "react-native";
 import { Color, FontSize, Border } from "../../GlobalStyles/Login"
 import { TextInput } from "react-native-gesture-handler";
+import { AuthContext } from "../../useContext/authContext";
 
 
 const Login = ({ navigation } : any) => {
 
-  const [email, setEmail] = React.useState("")
+  const {email, setEmail} = React.useContext(AuthContext)
   console.log(email)
   return ( 
     <View style={styles.login}>
@@ -103,13 +104,13 @@ const styles = StyleSheet.create({
     fontSize: 19,
     lineHeight: 35,
     textAlign: "left",
-    top: "50%",
+    top: 410,
     position: "absolute",
   },
   heartIcon1: {
     height: "1.89%",
     width: "4.25%",
-    top: "63.12%",
+    top: 520,
     right: "38.63%",
     bottom: "35%",
     left: "57.12%",

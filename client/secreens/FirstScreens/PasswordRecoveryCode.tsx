@@ -2,8 +2,23 @@ import * as React from "react";
 import { Image } from "expo-image";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { Color, } from "../../GlobalStyles/PasswordRecoveryCode";
+import { AuthContext } from "../../useContext/authContext";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import app from "../../firebase";
 
 const PasswordRecoveryCode = ({navigation}: any) => {
+  const {email, setEmail} = React.useContext(AuthContext)
+
+  const handlePasswordReset = async () => {
+    try {
+      const auth = getAuth(app);
+      await sendPasswordResetEmail(auth, email);
+      console.log("Password reset email sent successfully");
+    } catch (error) {
+      console.error("Error sending password reset email:", error);
+    }
+  };
+
   return (
     <View style={styles.passwordRecoveryCode}>
       <Image

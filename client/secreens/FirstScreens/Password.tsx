@@ -20,6 +20,12 @@ const Password = ({ navigation, route }: any) => {
 
   const [isPasswordCorrect, setIsPasswordCorrect] = React.useState(false);
   const [password, setPassword] = React.useState("");
+const {email, setEmail} = React.useContext(AuthContext);
+const {firstName, setfirstName} = React.useContext(AuthContext);
+const {LastName, setLastName} = React.useContext(AuthContext);
+const {phone, setPhone} = React.useContext(AuthContext);
+
+
   console.log(password);
   const Fauth = getAuth(app);
   const login = () => {
@@ -28,10 +34,11 @@ const Password = ({ navigation, route }: any) => {
         // Signed in
         const user = userCredential.user;
         console.log(user);
+        storeData(user.uid);
         setAuth(true)
-        storeData();
 
         // ...
+        AsyncStorage.setItem("auth", "true");
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -39,11 +46,19 @@ const Password = ({ navigation, route }: any) => {
         console.log(errorMessage);
       });
   };
-  const storeData = async () => {
+  const storeData = async (id: string) => {
     try {
-      await AsyncStorage.setItem("auth", "true");
-      const value = await AsyncStorage.getItem("auth");
-      console.log(value, "sqjkldj");
+      const user = {
+        email,
+        firstName,
+        LastName,
+        phone,
+        id
+      }
+      const jsonUser = JSON.stringify(user)
+      await AsyncStorage.setItem("user", jsonUser);
+      const value = await AsyncStorage.getItem("user");
+      console.log(value, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
     } catch (error) {
       console.log(error);
     }
@@ -62,11 +77,11 @@ const Password = ({ navigation, route }: any) => {
         <View style={styles.dots}>
           <TextInput
             secureTextEntry={true}
-            maxLength={1}
+            maxLength={32}
             style={styles.ellispse01Icon}
             onChange={(e) => setPassword(e.nativeEvent.text)}
-          />
-          <TextInput
+            />
+          {/* <TextInput
             secureTextEntry={true}
             maxLength={1}
             style={styles.ellispse01Icon1}
@@ -107,14 +122,13 @@ const Password = ({ navigation, route }: any) => {
             maxLength={1}
             style={styles.ellispse01Icon7}
             onChange={(e) => setPassword(password + e.nativeEvent.text)}
-          />
+          /> */}
         </View>
       </View>
       <Pressable
         onPress={() => {
           console.log("hi");
           login();
-          storeData();
         }}
       >
         <View style={styles.button}>
@@ -310,7 +324,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   ellispse01Icon: {
-    width: 17,
+    width: 230,
     left: 0,
     top: 0,
     height: 17,

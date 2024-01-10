@@ -4,20 +4,14 @@ import { View, Text, StyleSheet, Image, Button, Pressable, Alert } from "react-n
 import { Color, FontSize } from "../../GlobalStyles/Singup";
 import { TextInput } from "react-native-gesture-handler";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthContext } from "../../useContext/authContext";
+
 
 export const Signup = ({ navigation } : any) => {
-  const [email, setEmail] = useState("")
+  const {email, setEmail} = React.useContext(AuthContext)
   const [password, setPassword] = useState("")
-  const [phone, setPhone] = useState("")
-  const storeData = async (value: any) => {
-    try {
-      await AsyncStorage.setItem('@storage_Key', value)
-    } catch (error) {
-      console.log(error)
-    }
-   }
-   console.log(AsyncStorage.getItem("auth"))
-
+  const {phone, setPhone} = React.useContext(AuthContext)
+  
     return (
         <View style={styles.androidLarge1}>
         <View style={[styles.bar, styles.barLayout]}>

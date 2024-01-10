@@ -2,10 +2,18 @@ import * as React from "react";
 import { Image } from "expo-image";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Border, Color, FontSize } from "../../GlobalStyles/SmsEmail";
+import { AuthContext } from "../../useContext/authContext";
+import app from "../../firebase";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 
 const SmsEmail = ({navigation}:any) => {
   const [smsChecked, setSmsChecked] = React.useState<boolean>(false);
   const [emailChecked, setEmailChecked] = React.useState<boolean>(false);
+  const {email, setEmail} = React.useContext(AuthContext)
+  const {phone, setPhone} = React.useContext(AuthContext)
+  console.log(phone, email)
+  console.log(phone, "qskdlm")
+  console.log(email)
 
   const toggleSmsCheckbox = () => {
     setSmsChecked((prev) => !prev);
@@ -16,6 +24,16 @@ const SmsEmail = ({navigation}:any) => {
     setEmailChecked((prev) => !prev);
     setSmsChecked(false);
   };
+  const handlePasswordReset = async () => {
+      try {
+      const auth = getAuth(app);
+      await sendPasswordResetEmail(auth, email);
+      console.log("Password reset email sent successfully");
+    } catch (error) {
+      console.error("Error sending password reset email:", error);
+    }
+  };
+
   return (
     <View style={styles.passwordRecovery}>
       <Image
@@ -70,7 +88,10 @@ const SmsEmail = ({navigation}:any) => {
         source={require("../../assets/smsEmail/image.png")}
       />
 
-      <Pressable onPress={() => navigation.navigate("passwordRecoveryCode")}>
+      <Pressable onPress={() =>{
+        handlePasswordReset() 
+        navigation.navigate("passwordRecoveryCode")
+        }}>
         <View style={[styles.button, styles.buttonPosition]}>
           <View style={[styles.buttonChild, styles.buttonChildPosition]} />
           <Text style={[styles.next, styles.titleFlexBox]}>Next</Text>

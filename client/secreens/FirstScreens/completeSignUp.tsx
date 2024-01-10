@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   View,
   Text,
@@ -14,10 +14,13 @@ import { TextInput } from "react-native-gesture-handler";
 import GreenRed from "../../componets/LoginComponents/greenRed";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import app from "../../firebase";
+import axios from "axios";
+import { AuthContext } from "../../useContext/authContext";
 
 export const CompleteSignUp = ({ route, navigation }: any) => {
-  const [name, setName] = useState("");
-  const [LastName, setLastName] = useState("");
+  const {name, setName} = useContext(AuthContext);
+  const {LastName, setLastName} = useContext(AuthContext)
+  
   console.log(
     route.params.email,
     route.params.password,
@@ -26,19 +29,33 @@ export const CompleteSignUp = ({ route, navigation }: any) => {
     LastName
   );
   const handleSignUp = async () => {
-    const auth = getAuth(app);
-    createUserWithEmailAndPassword(
-      auth,
-      route.params.email,
-      route.params.password
-    )
-      .then((userCredential) => {
-        console.log(userCredential);
-      })
-      .catch((err) => {
-        console.log(err);
+    try {
+      const auth = getAuth(app);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        route.params.email,
+        route.params.password
+      );
+  
+      console.log(userCredential);
+  
+      const response = await axios.post("http://172.29.0.33:3001/user/addUser", {
+        id: userCredential.user.uid,
+        email: route.params.email,
+        password: route.params.password,
+        phone: route.params.phone,
+        firstName: name,
+        lastName: LastName,
+        address: "tunisia",
+        image: "https://static.vecteezy.com/system/resources/previews/020/765/399/non_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg"
       });
+  
+      console.log(response,'ggggggggggggggg');
+    } catch (err) {
+      console.error(err);
+    }
   };
+  
   return (
     <View style={styles.androidLarge1}>
       <GreenRed />
