@@ -16,6 +16,7 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import app from "../../firebase";
 import axios from "axios";
 import { AuthContext } from "../../useContext/authContext";
+import config from "../../config.json"
 
 export const CompleteSignUp = ({ route, navigation }: any) => {
   const {name, setName} = useContext(AuthContext);
@@ -40,7 +41,7 @@ export const CompleteSignUp = ({ route, navigation }: any) => {
   
       console.log(userCredential);
   
-      const response = await axios.post("http://172.29.0.33:3001/user/addUser", {
+      const response = await axios.post(`http://${config.ip}/user/addUser`, {
         id: userCredential.user.uid,
         email: route.params.email,
         password: route.params.password,
