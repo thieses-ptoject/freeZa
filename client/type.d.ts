@@ -19,3 +19,10 @@ interface Category{
     name:string,
     image:string
   }
+
+interface GiversFollowed{
+  id:string,
+  followed: object
+  followerId: string
+  followedId: string
+}

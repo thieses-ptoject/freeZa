@@ -6,7 +6,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import { NavBar } from '../../componets/Home/NavBar';
 import { Color, FontFamily, FontSize, Border } from "../../GlobalStyles/GlobalStylesCreateItem";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { getCategory } from '../../react-query/createItem/createItem';
+import { getCategory } from '../../React-query/createItem/createItem';
 
 
 const camera = require('../../assets/CreateItem/camera.png')

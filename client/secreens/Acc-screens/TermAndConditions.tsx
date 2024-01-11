@@ -1,12 +1,13 @@
+
 import * as React from "react";
 import { Text,View,StyleSheet,Pressable} from "react-native";
 
 
-export const MySavedSearch = ({ navigation }: any) => {
+export const TermAndConditions= ({ navigation }: any) => {
   return (
    
     <View style={styles.container} >
-        <Text onPress={() => navigation.navigate("Wishlist")}> My Saved Search </Text>
+        <Text onPress={() => navigation.navigate("Wishlist")}> Term And Conditions</Text>
         </View>
       
   );

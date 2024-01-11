@@ -1,47 +1,26 @@
 
-import { StyleSheet, Text, View } from 'react-native';
-import { Svg, Path } from 'react-native-svg';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { BottomScreenTab } from './secreens/BottomScreens/BottomScreenTab';
-import { Test } from './componets/Test';
-import {MySavedSearch} from "./secreens/Acc-screens/MySavedSearch"
-import { useState } from 'react';
-import { StackScreens } from './secreens/FirstScreens/StackScreens';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+import { StyleSheet, Text, View } from "react-native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { BottomScreenTab } from "./secreens/BottomScreens/BottomScreenTab";
+import { Test } from "./componets/Test";
+import { StackScreens } from "./secreens/FirstScreens/StackScreens";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import App from "./appContext";
+
 const queryClient = new QueryClient();
-
-
+import { AuthContext, AuthProvider } from "./useContext/authContext";
+import { ContextPost, ProviderPost } from "./useContext/createBlog";
 const Stack = createStackNavigator();
-export default function App() {
-  const [auth, setAuth] = useState(true)
+export default function Context() {
   return (
-
-    <NavigationContainer>
-      <QueryClientProvider client={queryClient}>
-
-
-        {auth ? <Stack.Navigator >
-          <Stack.Screen name="tabs" options={{ headerShown: false }} component={BottomScreenTab} />
-          <Stack.Screen name="test" options={{ headerShown: false }} component={Test} />
-          {/* <Stack.Screen name="MySavedSearch" options={{headerShown: false}} component={MySavedSearch }/> */}
-        </Stack.Navigator> : <StackScreens />}
-      </QueryClientProvider>
-    </NavigationContainer>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <ProviderPost>
+        <App />
+        </ProviderPost>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-
-    backgroundColor: '#fff',
-
-
-  },
-  up: {
-    width: 311.014,
-    height: 367.298,
-    transform: [{ rotate: '0deg' }],
-    flexShrink: 0,
-  }
-});
