@@ -84,12 +84,12 @@ const BlogPage = () => {
       />
       </View>
          </View>}
+         <View style={{justifyContent:'space-between',alignContent:'center'}}>
         { posts.map((post:any)=>{return(
-        <View>
+        <View >
           <OneBlog post={post}/>
-         
-         </View>)})}
-         <CommentLike/>
+          </View>)})}
+          </View> 
       </SafeAreaView>}
     </ScrollView>
   )
