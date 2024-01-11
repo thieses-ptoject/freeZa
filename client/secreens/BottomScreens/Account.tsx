@@ -1,33 +1,52 @@
 import React from "react";
 import { getUserData } from "../../React-query/user/profileUser";
 import Ionicons from "react-native-vector-icons/MaterialCommunityIcons";
-
-import { View, Text, Image, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  ScrollView,
+  Pressable,
+  ActivityIndicator,
+} from "react-native";
 import { Color, FontFamily, FontSize } from "../../GlobalStyles/UserProfil";
 import FormContainer from "../../componets/accountCom/FormContainer";
+
 
 const Account = ({ navigation }: any) => {
   // const { data, isLoading, isError } = getUserData();
 
-  // if (isLoading) {
-  //   return (
-  //     <View>
-  //       <Text>Loading</Text>
-  //     </View>
-  //   );
-  // }
-  // if (isError) {
-  //   <View>
-  //     <Text>Error fetching user data</Text>
-  //   </View>;
-  // }
+  if (isLoading) {
+    return (
+      <View>
+        <ActivityIndicator size="large" color="#000" />
+      </View>
+    );
+  }
+  if (isError) {
+    <View>
+      <Text>Error fetching user data</Text>
+    </View>;
+  }
+
+
+
 
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={[styles.profiles, styles.profilesLayout]}>
-        <View style={styles.novBar}>
-          <Ionicons name="account-edit-outline" size={30} color="#000" />
-        </View>
+        
+        <Pressable
+          onPress={() => {
+            console.log("Pressed Ionicons");
+            navigation.navigate("EditProfil");
+          }}
+        >
+          <View style={styles.novBar} >
+            <Ionicons name="account-edit-outline" size={25} color="#000"  />
+          </View>
+        </Pressable>
 
         <View style={styles.container}>
           {/* <Image style={styles.imgProfil} source={require("../../assets/freeza.png")} /> */}
@@ -76,24 +95,23 @@ const styles = StyleSheet.create({
     flexGrow: 3,
     paddingBottom: 2,
   },
-
   container: {
     flexDirection: "column",
     alignItems: "center",
   },
-
-
   profilesLayout: {
     width: "100%",
-    backgroundColor: Color.colorWhite,
+    backgroundColor: "#FFF9FC",
   },
   freezaTypo: {
     height: 18,
     width: 89,
     color: Color.colorLimegreen,
     fontSize: FontSize.size_base,
-    top: 100,
-    fontFamily: FontFamily.mulishBold,
+
+    top: 307,
+    // fontFamily: FontFamily.mulishBold,
+
     fontWeight: "700",
     textAlign: "left",
     position: "absolute",
@@ -103,24 +121,21 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 80,
   },
-
   profile: {
     marginTop: -15,
     left: "27.62%",
     fontSize: 15,
-    color: "#202244",
+    color: "#FFF9FC",
     textAlign: "left",
     fontFamily: FontFamily.jostSemiBold,
     fontWeight: "600",
-    position: "absolute",
+    // position: "absolute",
   },
   novBar: {
     top: 10,
     left: "85%",
     width: 101,
     height: 30,
-    position: "absolute",
-    overflow: "hidden",
   },
   imgProfil: {
     top: "-25%",
@@ -143,7 +158,7 @@ const styles = StyleSheet.create({
     top: 50,
     fontSize: 13,
     color: "#545454",
-    fontFamily: FontFamily.mulishBold,
+    // fontFamily: FontFamily.mulishBold,
     fontWeight: "700",
     textAlign: "center",
     position: "absolute",
@@ -160,8 +175,10 @@ const styles = StyleSheet.create({
     height: 50,
     color: Color.colorLimegreen,
     fontSize: FontSize.size_base,
-    top: 100,
-    fontFamily: FontFamily.mulishBold,
+
+    top: 307,
+    // fontFamily: FontFamily.mulishBold,
+
     fontWeight: "700",
     textAlign: "left",
     position: "absolute",
@@ -172,7 +189,7 @@ const styles = StyleSheet.create({
     fontSize: FontSize.size_6xl,
     height: 37,
     color: Color.colorLimegreen,
-    fontFamily: FontFamily.mulishBold,
+    // fontFamily: FontFamily.mulishBold,
     fontWeight: "700",
     textAlign: "left",
     // top: 310,
@@ -184,7 +201,7 @@ const styles = StyleSheet.create({
     fontSize: FontSize.size_6xl,
     height: 37,
     color: Color.colorLimegreen,
-    fontFamily: FontFamily.mulishBold,
+    // fontFamily: FontFamily.mulishBold,
     fontWeight: "700",
     textAlign: "left",
   },
@@ -194,7 +211,7 @@ const styles = StyleSheet.create({
     fontSize: FontSize.size_6xl,
     height: 37,
     color: Color.colorLimegreen,
-    fontFamily: FontFamily.mulishBold,
+    // fontFamily: FontFamily.mulishBold,
     fontWeight: "700",
     textAlign: "left",
   },

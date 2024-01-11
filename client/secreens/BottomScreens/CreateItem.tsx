@@ -13,14 +13,13 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import { filterConfig } from 'react-native-gesture-handler/lib/typescript/handlers/gestureHandlerCommon';
+
 const camera = require('../../assets/CreateItem/camera.png')
 const arrow = require('../../assets/CreateItem/rightarrow.png')
 let data = [
   { label: 'Item 1', value: '1' },
 
 ]
-
-
 const CreateItem: React.FC = ({ navigation }: any) => {
   const [text, onChangeText] = React.useState('');
   const [changeName, onChangeName] = React.useState('');

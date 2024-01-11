@@ -1,6 +1,6 @@
 /* fonts */
 export const FontFamily = {
-    mulishBold: "Mulish-Bold",
+    mulishBold: "Mulish",
     jostSemiBold: "Jost-SemiBold",
     openSansRegular: "OpenSans-Regular",
   };
@@ -12,7 +12,7 @@ export const FontFamily = {
     size_xs: 12,
   };
   /* Colors */
-  export const Color = {
+  export const Color = { 
     colorWhite: "#fff",
     colorLimegreen: "#5ad50f",
     colorBlack: "#000",
