@@ -6,7 +6,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import { NavBar } from '../../componets/Home/NavBar';
 import { Color, Border } from "../../GlobalStyles/GlobalStylesCreateItem";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { addItem, getCategory, getType } from '../../../client/react-query/createItem/createItem';
+import { addItem, getCategory, getType } from '../../../client/React-query/createItem/createItem';
 import * as firebase from '../../firebase';
 import { storage } from '../../firebase';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
