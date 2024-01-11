@@ -6,7 +6,7 @@ import { AuthContext } from "../../useContext/authContext";
 
 
 const Login = ({ navigation } : any) => {
-
+  const {firstName, setfirstName} = React.useContext(AuthContext);
   const {email, setEmail} = React.useContext(AuthContext)
   console.log(email)
   return ( 
@@ -15,9 +15,7 @@ const Login = ({ navigation } : any) => {
         style={styles.bubblesIcon}
         source={require("../../assets/login/bubbles.png")}
       />
-      <View style={[styles.bar1, styles.barLayout]}>
-        <View style={[styles.bar2, styles.bar2Position]} />
-      </View>
+
       <Text style={[styles.title, styles.titleTypo]}>
         Good to see you back!
       </Text>
@@ -108,7 +106,6 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   heartIcon1: {
-    height: "1.89%",
     width: "4.25%",
     top: 520,
     right: "38.63%",

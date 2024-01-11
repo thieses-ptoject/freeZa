@@ -15,18 +15,17 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import app from "../../firebase";
 import { AuthContext } from "../../useContext/authContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { TouchableWithoutFeedback, Keyboard } from 'react-native';
 const Password = ({ navigation, route }: any) => {
   const{auth, setAuth}=React.useContext(AuthContext)
-
   const [isPasswordCorrect, setIsPasswordCorrect] = React.useState(false);
   const [password, setPassword] = React.useState("");
 const {email, setEmail} = React.useContext(AuthContext);
-const {firstName, setfirstName} = React.useContext(AuthContext);
+const {name, setName} = React.useContext(AuthContext);
 const {LastName, setLastName} = React.useContext(AuthContext);
-const {phone, setPhone} = React.useContext(AuthContext);
+const {phone, setPhone, image} = React.useContext(AuthContext);
 
-
-  console.log(password);
+  console.log(name)
   const Fauth = getAuth(app);
   const login = () => {
     signInWithEmailAndPassword(Fauth, route.params.email, password)
@@ -50,10 +49,11 @@ const {phone, setPhone} = React.useContext(AuthContext);
     try {
       const user = {
         email,
-        firstName,
+        name,
         LastName,
         phone,
-        id
+        id,
+        image,
       }
       const jsonUser = JSON.stringify(user)
       await AsyncStorage.setItem("user", jsonUser);
@@ -65,6 +65,10 @@ const {phone, setPhone} = React.useContext(AuthContext);
   };
   return (
     <View style={styles.wrongPassword}>
+
+      <View style={{ alignItems: "center", marginLeft: 20}}>
+        
+  <TextInput keyboardType='numeric'/>
       <Image
         style={styles.bubblesIcon}
         source={require("../../assets/password/bubbles.png")}
@@ -81,51 +85,7 @@ const {phone, setPhone} = React.useContext(AuthContext);
             style={styles.ellispse01Icon}
             onChange={(e) => setPassword(e.nativeEvent.text)}
             />
-          {/* <TextInput
-            secureTextEntry={true}
-            maxLength={1}
-            style={styles.ellispse01Icon1}
-            onChange={(e) => setPassword(password + e.nativeEvent.text)}
-          />
-          <TextInput
-            secureTextEntry={true}
-            maxLength={1}
-            style={styles.ellispse01Icon2}
-            onChange={(e) => setPassword(password + e.nativeEvent.text)}
-          />
-          <TextInput
-            secureTextEntry={true}
-            maxLength={1}
-            style={styles.ellispse01Icon3}
-            onChange={(e) => setPassword(password + e.nativeEvent.text)}
-          />
-          <TextInput
-            secureTextEntry={true}
-            maxLength={1}
-            style={styles.ellispse01Icon4}
-            onChange={(e) => setPassword(password + e.nativeEvent.text)}
-          />
-          <TextInput
-            secureTextEntry={true}
-            maxLength={1}
-            style={styles.ellispse01Icon5}
-            onChange={(e) => setPassword(password + e.nativeEvent.text)}
-          />
-          <TextInput
-            secureTextEntry={true}
-            maxLength={1}
-            style={styles.ellispse01Icon6}
-            onChange={(e) => setPassword(password + e.nativeEvent.text)}
-          />
-          <TextInput
-            secureTextEntry={true}
-            maxLength={1}
-            style={styles.ellispse01Icon7}
-            onChange={(e) => setPassword(password + e.nativeEvent.text)}
-          /> */}
-        </View>
-      </View>
-      <Pressable
+                  <Pressable
         onPress={() => {
           console.log("hi");
           login();
@@ -136,19 +96,24 @@ const {phone, setPhone} = React.useContext(AuthContext);
           <Text style={styles.done}>Login</Text>
         </View>
       </Pressable>
+        </View>
+      </View>
+
 
       <Text
         onPress={() => navigation.navigate("smsEmail")}
         style={styles.title}
-      >
+        >
         Forgot your password?
       </Text>
-      <Text style={styles.title1}>Hello, Romina!!</Text>
+      <Text style={styles.title1}>Hello, {name}!!</Text>
       <Text style={styles.title2}>Type your password</Text>
       <Image
         style={[styles.ellispseIcon, styles.iconLayout]}
-        source={require("../../assets/password/ellispse.png")}
-      />
+        source={{ uri: image }}
+        />
+        </View>
+
     </View>
   );
 };
@@ -172,12 +137,13 @@ const styles = StyleSheet.create({
     top: 0,
   },
   button: {
-    top: -350,
-    height: 61,
+    
     width: 335,
-    left: 20,
-    position: "absolute",
-    overflow: "hidden",
+    position: "relative",
+    marginTop: 60,
+    height: 61,
+
+    
   },
   buttonChild: {
     borderRadius: 16,
@@ -409,6 +375,7 @@ const styles = StyleSheet.create({
     width: 220,
     height: 17,
     position: "absolute",
+   alignItems: "center"
   },
   title: {
     top: 550,
@@ -479,3 +446,7 @@ const styles = StyleSheet.create({
 });
 
 export default Password;
+function useContext(AuthContext: React.Context<any>): { name: any; setName: any; } {
+  throw new Error("Function not implemented.");
+}
+

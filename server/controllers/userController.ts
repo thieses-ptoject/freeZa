@@ -24,6 +24,7 @@ interface User {
 export const addUser = async(req: Request, res: Response)=>{
     try{
       const {id,firstName,lastName,email, image, address,phone} : User  = req.body
+      console.log(req.body)
       const query = await prisma.user.create({
       data:{ 
         id:id,
