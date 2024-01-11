@@ -188,8 +188,9 @@ const styles = StyleSheet.create({
   ellispseIcon: {
     top: 149,
     right: 135,
-    bottom: 558,
+ 
     left: 135,
+
   },
   container: {
     flexDirection: "column",
@@ -210,10 +211,8 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   iconLayout: {
-    maxHeight: "100%",
-    maxWidth: "100%",
+
     position: "absolute",
-    overflow: "hidden",
     borderRadius: 100,
   },
   keyboardAlphabeticPosition: {
@@ -443,7 +442,6 @@ const styles = StyleSheet.create({
     color: Color.colorBlack,
     textAlign: "center",
     fontWeight: "300",
-    position: "absolute",
   },
 
   keys: {
