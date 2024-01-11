@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
   passwordTypo: {
     lineHeight: 20,
     fontSize: FontSize.poppinsMedium14_size,
-    color: Color.grey20,
+    color: Color.colorBlack,
     fontWeight: "500",
     textAlign: "left",
   },
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
   emailOrPhone: {
     fontSize: 14,
     lineHeight: 18,
-    color: Color.grey20,
+    color: Color.colorBlack,
     fontWeight: "500",
     textAlign: "left",
     flex: 1,
