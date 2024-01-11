@@ -4,8 +4,14 @@ const prisma = new PrismaClient();
 
 
 export const GetAllcategories = async(req:Request,res:Response): Promise<void>=>{
+    console.log('test');
+    
     try {
-        const Categories = await prisma.category.findMany()
+        const Categories = await prisma.category.findMany({
+            include: {
+               Types:true,
+              },
+        })
         res.status(200).send(Categories)
         
     } catch (error) {

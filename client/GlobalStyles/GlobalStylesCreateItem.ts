@@ -1,10 +1,5 @@
 /* fonts */
-export const FontFamily = {
-  h1: "Inter-Bold",
-  nunitoSans12ptSemiBold: "NunitoSans12pt-SemiBold",
-  ralewayBold: "Raleway-Bold",
-  openSansRegular: "OpenSans-Regular",
-};
+
 /* font sizes */
 export const FontSize = {
   h1_size: 18,

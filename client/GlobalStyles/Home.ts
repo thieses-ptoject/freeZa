@@ -1,9 +1,5 @@
 /* fonts */
-export const FontFamily = {
-  h5Bold10: "Inter-Bold",
-  ralewayBold: "Raleway-Bold",
-  p110: "Inter-Regular",
-};
+
 /* font sizes */
 export const FontSize = {
   h5Bold10_size: 10,

@@ -3,8 +3,25 @@ import { View, Text, StyleSheet, Image, Button, Pressable, Alert } from "react-n
 import Svg, { Defs, Path, Pattern } from "react-native-svg";
 import DropShadow from "react-native-drop-shadow";
 import { Shadow } from "react-native-shadow-2";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const Welcome = ({ navigation } : any) => {
+  
+  const getUserData = async () => {
+    try {
+      const savedData = await AsyncStorage.getItem('user');
+      console.log("hsqdjqkhhhhhhhhhhhhhhhhhhhhhhh",savedData)
+      if (savedData !== null) {
+        const parsedData = JSON.parse(savedData);
+        console.log('User data retrieved successfully:', parsedData);
+        return parsedData;
+      } else {
+        console.log('No user data found');
+      }
+    } catch (error) {
+      console.error('Error retrieving user data:', error);
+    }
+   };  
   return (
     <View>
       <Svg
@@ -54,7 +71,10 @@ export const Welcome = ({ navigation } : any) => {
        <View style= {styles.nextPageContainer}>
         <Text style= {styles.textToNextPage} >I already have an account?</Text>
 
-        <Pressable onPress={()=>Alert.alert("hi")}>
+        <Pressable onPress={()=>{
+
+          getUserData()
+          navigation.navigate("login")}}>
             <Image
             
                 style={styles.freeza}

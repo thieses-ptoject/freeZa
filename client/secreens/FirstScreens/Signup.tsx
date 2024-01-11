@@ -1,71 +1,150 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { View, Text, StyleSheet, Image, Button, Pressable, Alert } from "react-native";
 // import { Image } from "expo-image";
 import { Color, FontSize } from "../../GlobalStyles/Singup";
 import { TextInput } from "react-native-gesture-handler";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthContext } from "../../useContext/authContext";
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import * as ImagePicker from 'expo-image-picker';
+import { storage } from '../../firebase';
+
 
 export const Signup = ({ navigation } : any) => {
+  const {email, setEmail} = React.useContext(AuthContext)
+  const [password, setPassword] = useState("")
+  const {phone, setPhone} = React.useContext(AuthContext)
+  const [view, setView] = useState(true)
+ const {image, setImage} = useContext(AuthContext)
+  
+  function viewpassword(){
+    if(view){
+      return "password"
+    }else{
+      return "text"
+    }
+  }
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+
+      quality: 1,
+    });
+
+    if (result && 'uri' in result) {
+      // Check if 'uri' property exists on the result object
+      uploadImage(result.uri as string, 'image').then(() => {
+        Alert.alert('imagesaved')
+      }).catch((error) => { console.error('Firebase Storage Error:', error.code, error.message); Alert.alert("error") })
+    } else {
+
+      console.error("URI not found in image picker result");
+    }
+  };
+
+
+  const uploadImage = async (uri: any, imageName: string) => {
+    try {
+      const response = await fetch(uri);
+      const blob = await response.blob();
+      imageName = `image_${Date.now()}.jpg`;
+
+
+      const imageRef = ref(storage, `images/${imageName}`);
+
+
+      await uploadBytes(imageRef, blob);
+
+
+      const downloadURL = await getDownloadURL(imageRef);
+      console.log('Image uploaded successfully. Download URL:', downloadURL);
+      setImage(downloadURL);
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      throw error;
+    }
+
+  };
+  
     return (
-        <View style={styles.androidLarge1}>
-        <View style={[styles.bar, styles.barLayout]}>
-          <View style={[styles.bar1, styles.bar1Position]} />
-        </View>
-        <Text style={styles.title}>Cancel</Text>
-        <Pressable onPress={()=>Alert.alert("hi")}>
-            <Image
-              style={styles.uploadPhotoIcon}
-            //   contentFit="cover"
-              source={require("../../assets/Signup/upload-photo.png")}
-            />
-        </Pressable>
-        <Pressable onPress={()=>navigation.navigate("completeSignUp")}>
-          <View  style={styles.button}>
-            <View style={[styles.buttonChild, styles.buttonChildPosition]} />
-            <Text style={styles.done}>Next</Text>
-          </View>
-        </Pressable>
-        <Text style={styles.title1}>{`Create 
-  Account`}</Text>
-        <View style={[styles.androidLarge1Inner, styles.formParentLayout]}>
-          <View style={[styles.formParent, styles.formParentLayout]}>
-            <View style={[styles.form1, styles.formSpaceBlock]}>
-              <TextInput placeholder="Email" style={styles.emailOrPhone}></TextInput>
-            </View>
-            <View style={[styles.form1, styles.formSpaceBlock]}>
-              <TextInput placeholder="Password" style={[styles.password, styles.passwordTypo]}></TextInput>
-              <Image
-                style={[styles.eyeSlashIcon, styles.iconLayout1]}
-                // contentFit="cover"
-                source={require("../../assets/Signup/eyeslash.png")}
-              />
-            </View>
-            <View style={[styles.form2, styles.formSpaceBlock]}>
-              <View style={styles.frameParent}>
-                <View style={styles.frameParent}>
-                  <View style={styles.flag}>
-                    <Image
-                      style={[styles.englandIcon, styles.iconLayout]}
-                    //   contentFit="cover"
-                      source={require("../../assets/Signup/england.png")}
-                    />
-                    <View style={[styles.overlay, styles.bar1Position]} />
-                  </View>
-                  <Image
-                    style={[styles.arrowDownIcon, styles.iconLayout1]}
-                    // contentFit="cover"
-                    source={require("../../assets/Signup/arrowdown.png")}
-                  />
-                </View>
-                <View style={styles.frameChild} />
-              </View>
-              <TextInput placeholder="Your number" keyboardType="numeric" style={[styles.yourNumber, styles.passwordTypo]}>
-                
-              </TextInput>
-            </View>
-          </View>
-        </View>
-      </View>
+ <View style={styles.container}>
+  <View style={styles.androidLarge1}>
+
+    <Text style={styles.title}>Cancel</Text>
     
+    <Pressable onPress={() => { pickImage() }}>
+      <Image
+        style={styles.uploadPhotoIcon}
+        source={require("../../assets/Signup/upload-photo.png")}
+      />
+    </Pressable>
+    
+    <Pressable onPress={() => navigation.navigate("completeSignUp", { email: email, password: password, phone: phone })}>
+      <View style={styles.button}>
+        <View style={[styles.buttonChild, styles.buttonChildPosition]} />
+        <Text style={styles.done}>Next</Text>
+      </View>
+    </Pressable>
+    
+    <Text style={styles.title1}>
+      {`Create 
+      Account`}
+    </Text>
+    
+    <View style={[styles.androidLarge1Inner, styles.formParentLayout]}>
+      <View style={[styles.formParent, styles.formParentLayout]}>
+
+        <View style={[styles.form1, styles.formSpaceBlock]}>
+          <TextInput
+            placeholder="Email"
+            onChange={(e) => setEmail(e.nativeEvent.text)}
+            style={styles.emailOrPhone}
+          />
+        </View>
+
+        <View style={[styles.form1, styles.formSpaceBlock]}>
+          <TextInput
+            placeholder="Password"
+            secureTextEntry={view}
+            onChange={(e) => setPassword(e.nativeEvent.text)}
+            style={[styles.password, styles.passwordTypo]}
+          />
+          <Pressable onPress={() => setView(!view)}>
+            <Image
+              style={[styles.eyeSlashIcon, styles.iconLayout1]}
+              source={require("../../assets/Signup/eyeslash.png")}
+            />
+          </Pressable>
+        </View>
+
+        <View style={[styles.form2, styles.formSpaceBlock]}>
+          <View style={styles.frameParent}>
+            <View style={styles.frameParent}>
+              <View style={styles.flag}>
+                <Image
+                  style={[styles.englandIcon, styles.iconLayout]}
+                  source={require("../../assets/Signup/england.png")}
+                />
+                <View style={[styles.overlay, styles.bar1Position]} />
+              </View>
+            </View>
+            <View style={styles.frameChild} />
+          </View>
+
+          <TextInput
+            placeholder="Your number"
+            onChange={(e) => setPhone(e.nativeEvent.text)}
+            keyboardType="numeric"
+            style={[styles.yourNumber, styles.passwordTypo]}
+          />
+        </View>
+
+      </View>
+    </View>
+
+  </View>
+</View>
+
     );
   };
 
@@ -73,6 +152,11 @@ export const Signup = ({ navigation } : any) => {
 
 
   const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
     barLayout: {
         height: 5,
         width: 134,
@@ -340,5 +424,6 @@ export const Signup = ({ navigation } : any) => {
         width: "100%",
         flex: 1,
       },
+      
   });
   

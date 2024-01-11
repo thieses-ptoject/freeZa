@@ -24,6 +24,7 @@ interface User {
 export const addUser = async(req: Request, res: Response)=>{
     try{
       const {id,firstName,lastName,email, image, address,phone} : User  = req.body
+      console.log(req.body)
       const query = await prisma.user.create({
       data:{ 
         id:id,
@@ -60,7 +61,24 @@ export const getUser = async (req: Request, res: Response) => {
       console.log(error);
     }
   };
-
+  export const getUserId = async (req: Request, res: Response) => {
+    try {
+      const id = req.params.id;
+      const query = await prisma.user.findMany({
+        where: {
+          id: id,
+        },
+      });
+      if (query) {
+        res.send(query[0]);
+      } else {
+        res.status(404).send("User not found");
+      }
+    } catch (error) {
+      res.status(500).send(error);
+      console.log(error);
+    }
+  };
 
   export const addFreeza = async (req: Request, res: Response)=>{
     try{

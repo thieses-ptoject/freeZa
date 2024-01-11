@@ -18,11 +18,19 @@ interface Category{
     id:number,
     name:string,
     image:string
+    Types:type[]
   }
+
 
 interface GiversFollowed{
   id:string,
   followed: object
   followerId: string
   followedId: string
+}
+
+interface type{
+  id:number
+  type:string
+  categoryId:string
 }
