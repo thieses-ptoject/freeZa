@@ -25,7 +25,8 @@ try {
               strawberries:strawberries,
               ownerId:ownerId,
               typeId:typeId,
-              exclusive: exclusive 
+              exclusive: exclusive === "true"? true: false, 
+              
           }
     }) 
     res.status(200).send(NewItem)

@@ -1,20 +1,20 @@
 import {
-  View,Text,StatusBar,StyleSheet,Image,SafeAreaView} from "react-native";
+  View,Text,StatusBar,StyleSheet,Image,SafeAreaView,
+  Pressable} from "react-native";
 import straw from "../../assets/freeza.png";
 import star from "../../assets/star.png"
 import bell from "../../assets/bell.png"
 import strawberry from "../../assets/strawberry.png"
 import search from "../../assets/search.png"
 
-import Svg, { Ellipse } from 'react-native-svg';
-import {Color, FontFamily, FontSize, Border}from '../../GlobalStyles/Home'
-import { useNavigation } from "@react-navigation/native";
 
-export const NavBar = () => {
-  const navigate=useNavigation();
+
+
+export const NavBar = ({navigation}:any) => {
+ 
   return (
     <SafeAreaView>
-      <View>
+      <View  >
         <StatusBar backgroundColor="#ffff" />
         <View style={styles.rectangle}>
           <View style={{flexDirection:"row-reverse" ,alignItems:"center"}}>
@@ -24,7 +24,9 @@ export const NavBar = () => {
             </View> 
           </View> 
           <View style={{ flexDirection: "row" , gap:25}}>
-            <Image source={star} style={styles.star}/>
+            <Pressable onPress={()=>navigation.navigate("blog")}>
+            <Image source={star} style={styles.star} />
+            </Pressable>
             <Image source={strawberry} style={styles.strawberry}/>
             <View style={styles.badgeContainerStraw}>
       <Text style={styles.badgeTextStraw}>0</Text>

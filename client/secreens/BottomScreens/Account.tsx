@@ -15,7 +15,7 @@ import FormContainer from "../../componets/accountCom/FormContainer";
 
 
 const Account = ({ navigation }: any) => {
-  const { data, isLoading, isError } = getUserData();
+  // const { data, isLoading, isError } = getUserData();
 
   if (isLoading) {
     return (
@@ -48,22 +48,26 @@ const Account = ({ navigation }: any) => {
         </Pressable>
 
         <View style={styles.container}>
-          <Image style={styles.imgProfil} source={{ uri: data?.image }} />
+          {/* <Image style={styles.imgProfil} source={require("../../assets/freeza.png")} /> */}
           <Text style={styles.nameUser}>
-            {data?.firstName} {data?.lastName}
+            {/* {data?.firstName} {data?.lastName} */}
+            {/* wided fathallah */}
           </Text>
-          <Text style={styles.emailUser}>{data?.email}</Text>
+          <Text style={styles.emailUser}>wided@gmail.com</Text>
 
           <View />
-          <Text style={[styles.donations, styles.freezaTypo]}>Donations</Text>
-          <Text style={[styles.freeza, styles.freezaTypo]}>Freeza</Text>
-          <Text style={styles.note}>Note</Text>
-          <Text style={[styles.text, styles.textLayout]}>{data?.rate}</Text>
+            <Text style={[styles.donations, styles.freezaTypo]}>Donations</Text>
+            <Text style={[styles.freeza, styles.freezaTypo]}>Freeza</Text>
+            <Text style={styles.note}>Note</Text>
+          
+          <Text style={[styles.text, styles.textLayout]}>0</Text>
           <Text style={[styles.text1, styles.textLayout]}>
-            {data?.strawberries}
+            {/* {data?.strawberries} */}
+            0
           </Text>
           <Text style={[styles.text2, styles.textLayout]}>
-            {data?.nbrOfDonation}
+            {/* {data?.nbrOfDonation} */}
+            0
           </Text>
           <Image
             style={styles.freezaIcon}
@@ -83,6 +87,9 @@ const Account = ({ navigation }: any) => {
 };
 
 const styles = StyleSheet.create({
+  // containerText:{
+    
+  // },
   scrollContainer: {
     flexGrow: 3,
     paddingBottom: 2,
@@ -109,11 +116,10 @@ const styles = StyleSheet.create({
   textLayout: {
     height: 27,
     position: "absolute",
-    top: 270,
+    top: 80,
   },
   profile: {
     marginTop: -15,
-    top: "50%",
     left: "27.62%",
     fontSize: 15,
     color: "#FFF9FC",
@@ -146,7 +152,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   emailUser: {
-    top: 210,
+    top: 50,
     fontSize: 13,
     color: "#545454",
     // fontFamily: FontFamily.mulishBold,
@@ -181,7 +187,7 @@ const styles = StyleSheet.create({
     // fontFamily: FontFamily.mulishBold,
     fontWeight: "700",
     textAlign: "left",
-    top: 310,
+    // top: 310,
   },
   text1: {
     top: 310,
@@ -205,7 +211,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   starIcon: {
-    top: 257,
+    top: 70,
     left: 220,
     width: 25,
     height: 29,
@@ -213,7 +219,7 @@ const styles = StyleSheet.create({
   },
 
   freezaIcon: {
-    top: 257,
+    top: 70,
     left: 310,
     width: 45,
     height: 29,
