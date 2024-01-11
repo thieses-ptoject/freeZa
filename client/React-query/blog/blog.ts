@@ -15,3 +15,18 @@ export const  getPosts=() => {
       });
       return query;
     };
+    export const  getUser=(id:string) => {
+        const query = useQuery({
+          queryKey: ["user",id],
+          queryFn: async () => {
+            const result = await axios.get(
+              `http://${config.ip}:3001/user/getuser/${id}`
+            );
+            return result.data;
+          },
+        });
+        return query;
+      };
+       
+
+    
