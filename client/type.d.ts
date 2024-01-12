@@ -34,3 +34,14 @@ interface type{
   type:string
   categoryId:string
 }
+interface Products {
+  id : string,
+  firstName : string,
+  lastName : string,
+  email: string,
+  password: string,
+  phone: string,
+  image: string,
+  address : string
+
+}

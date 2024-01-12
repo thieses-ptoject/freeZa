@@ -28,13 +28,11 @@ import { AuthContext, AuthProvider } from "./useContext/authContext";
 const Stack = createStackNavigator();
 export default function App({navigation}: any) {
   const{auth, setAuth}=useContext(AuthContext)
-
   const [storage, setStorage] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       const storage = await AsyncStorage.getAllKeys() ;
       console.log(storage, "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
-
     };
     fetchData();
     const userData =  getUserData();
@@ -44,17 +42,10 @@ export default function App({navigation}: any) {
   const getUserData = async () => {
     try {
       const savedData = await AsyncStorage.getItem('user');
-
-   
-      if (savedData !== null) {
-        const parsedData = JSON.parse(savedData);
-        console.log('User data retrieved successfully:', parsedData);
-        return parsedData
       
       if (savedData) {
         setStorage(true
           )
-
       } else {
         console.log('No user data found');
       }
@@ -66,7 +57,7 @@ export default function App({navigation}: any) {
     <NavigationContainer>
 
 
-          {(auth && storage === true)? (
+          {( true)? (
 
             <Stack.Navigator>
               <Stack.Screen

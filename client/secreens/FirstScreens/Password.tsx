@@ -15,7 +15,6 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import app from "../../firebase";
 import { AuthContext } from "../../useContext/authContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { TouchableWithoutFeedback, Keyboard } from 'react-native';
 const Password = ({ navigation, route }: any) => {
   const{auth, setAuth}=React.useContext(AuthContext)
   const [isPasswordCorrect, setIsPasswordCorrect] = React.useState(false);
@@ -65,10 +64,6 @@ const {phone, setPhone, image} = React.useContext(AuthContext);
   };
   return (
     <View style={styles.wrongPassword}>
-
-      <View style={{ alignItems: "center", marginLeft: 20}}>
-        
-  <TextInput keyboardType='numeric'/>
       <Image
         style={styles.bubblesIcon}
         source={require("../../assets/password/bubbles.png")}
@@ -96,6 +91,48 @@ const {phone, setPhone, image} = React.useContext(AuthContext);
           <Text style={styles.done}>Login</Text>
         </View>
       </Pressable>
+          {/* <TextInput
+            secureTextEntry={true}
+            maxLength={1}
+            style={styles.ellispse01Icon1}
+            onChange={(e) => setPassword(password + e.nativeEvent.text)}
+          />
+          <TextInput
+            secureTextEntry={true}
+            maxLength={1}
+            style={styles.ellispse01Icon2}
+            onChange={(e) => setPassword(password + e.nativeEvent.text)}
+          />
+          <TextInput
+            secureTextEntry={true}
+            maxLength={1}
+            style={styles.ellispse01Icon3}
+            onChange={(e) => setPassword(password + e.nativeEvent.text)}
+          />
+          <TextInput
+            secureTextEntry={true}
+            maxLength={1}
+            style={styles.ellispse01Icon4}
+            onChange={(e) => setPassword(password + e.nativeEvent.text)}
+          />
+          <TextInput
+            secureTextEntry={true}
+            maxLength={1}
+            style={styles.ellispse01Icon5}
+            onChange={(e) => setPassword(password + e.nativeEvent.text)}
+          />
+          <TextInput
+            secureTextEntry={true}
+            maxLength={1}
+            style={styles.ellispse01Icon6}
+            onChange={(e) => setPassword(password + e.nativeEvent.text)}
+          />
+          <TextInput
+            secureTextEntry={true}
+            maxLength={1}
+            style={styles.ellispse01Icon7}
+            onChange={(e) => setPassword(password + e.nativeEvent.text)}
+          /> */}
         </View>
       </View>
 
@@ -103,7 +140,7 @@ const {phone, setPhone, image} = React.useContext(AuthContext);
       <Text
         onPress={() => navigation.navigate("smsEmail")}
         style={styles.title}
-        >
+      >
         Forgot your password?
       </Text>
       <Text style={styles.title1}>Hello, {name}!!</Text>
@@ -111,9 +148,7 @@ const {phone, setPhone, image} = React.useContext(AuthContext);
       <Image
         style={[styles.ellispseIcon, styles.iconLayout]}
         source={{ uri: image }}
-        />
-        </View>
-
+      />
     </View>
   );
 };
@@ -153,8 +188,9 @@ const styles = StyleSheet.create({
   ellispseIcon: {
     top: 149,
     right: 135,
-    bottom: 558,
+ 
     left: 135,
+
   },
   container: {
     flexDirection: "column",
@@ -175,10 +211,9 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   iconLayout: {
-    maxHeight: "100%",
-    maxWidth: "100%",
+
     position: "absolute",
-    overflow: "hidden",
+    borderRadius: 100,
   },
   keyboardAlphabeticPosition: {
     width: 375,
@@ -293,7 +328,8 @@ const styles = StyleSheet.create({
     width: 230,
     left: 0,
     top: 0,
-    height: 17,
+    textAlign: "center",
+    height: 30,
     position: "absolute",
     backgroundColor: "#EC4E4E",
     borderRadius: 100,
@@ -406,7 +442,6 @@ const styles = StyleSheet.create({
     color: Color.colorBlack,
     textAlign: "center",
     fontWeight: "300",
-    position: "absolute",
   },
 
   keys: {
@@ -446,7 +481,5 @@ const styles = StyleSheet.create({
 });
 
 export default Password;
-function useContext(AuthContext: React.Context<any>): { name: any; setName: any; } {
-  throw new Error("Function not implemented.");
-}
+
 

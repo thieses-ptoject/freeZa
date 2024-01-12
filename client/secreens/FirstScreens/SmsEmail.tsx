@@ -107,14 +107,13 @@ const styles = StyleSheet.create({
     marginRight: 10,
     width: 300,
     height: 50,
-    borderRadius: 50,
+  
   },
   rectangle1: {
     backgroundColor: Color.colorEmail, // Assuming you have a color defined for email
     marginRight: 10,
     width: 300,
     height: 50,
-    borderRadius: 50,
   },
   
   buttonPosition: {

@@ -16,14 +16,7 @@ export const Signup = ({ navigation } : any) => {
   const {phone, setPhone} = React.useContext(AuthContext)
   const [view, setView] = useState(true)
  const {image, setImage} = useContext(AuthContext)
-  
-  function viewpassword(){
-    if(view){
-      return "password"
-    }else{
-      return "text"
-    }
-  }
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
@@ -67,6 +60,7 @@ export const Signup = ({ navigation } : any) => {
   };
   
     return (
+      
  <View style={styles.container}>
   <View style={styles.androidLarge1}>
 
@@ -168,8 +162,11 @@ export const Signup = ({ navigation } : any) => {
       },
       buttonChildPosition: {
         bottom: 0,
-        right: 0,
         left: 0,
+        right: 0,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        textAlign: 'center',
         top: 0,
       },
       formParentLayout: {
@@ -190,7 +187,7 @@ export const Signup = ({ navigation } : any) => {
       passwordTypo: {
         lineHeight: 20,
         fontSize: FontSize.poppinsMedium14_size,
-        color: Color.grey20,
+        color: Color.colorBlack,
         fontWeight: "500",
         textAlign: "left",
       },
@@ -218,8 +215,11 @@ export const Signup = ({ navigation } : any) => {
         position: "absolute",
       },
       bar: {
-        top: 798,
-        left: 121,
+      margin: "auto",
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
       },
       title: {
         top: 719,
@@ -247,7 +247,7 @@ export const Signup = ({ navigation } : any) => {
       },
       done: {
         marginTop: -13.5,
-        left: "42.39%",
+        
         fontSize: 22,
         lineHeight: 31,
         color: "#f3f3f3",
@@ -255,14 +255,18 @@ export const Signup = ({ navigation } : any) => {
         textAlign: "center",
         fontWeight: "300",
         position: "absolute",
+        margin: "auto",
+        right: 0,
+        left: 0,
       },
       button: {
         top: 634,
         height: 61,
         width: 335,
-        left: 20,
+        
         position: "absolute",
         overflow: "hidden",
+        left: 20,
       },
       title1: {
         top: 122,
@@ -278,7 +282,7 @@ export const Signup = ({ navigation } : any) => {
       emailOrPhone: {
         fontSize: 14,
         lineHeight: 18,
-        color: Color.grey20,
+        color: Color.colorBlack,
         fontWeight: "500",
         textAlign: "left",
         flex: 1,

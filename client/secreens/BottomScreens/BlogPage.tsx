@@ -6,7 +6,7 @@ import { storage } from '../../firebase';
 import OneBlog from '../../componets/blogPage/oneBlog';
 import CommentLike from '../../componets/blogPage/CommentLike';
 import { ContextPost } from '../../useContext/createBlog';
-import { getPosts } from '../../react-query/blog/blog';
+import { getPosts } from '../../React-query/blog/blog';
 
 const BlogPage = () => {
   const [addPosts, setAddPosts] = useState('')

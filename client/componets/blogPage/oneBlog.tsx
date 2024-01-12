@@ -2,7 +2,7 @@ import React from 'react'
 import {  Text,Image, StyleSheet, View } from 'react-native'
 
 import CommentLike from './CommentLike'
-import { getUser } from '../../react-query/blog/blog'
+import { getUser } from '../../React-query/blog/blog'
 import { Color } from '../../GlobalStyles/GlobalStylesCreateItem'
 
 const OneBlog = ({post}:any) => { 
