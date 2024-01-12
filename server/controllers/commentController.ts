@@ -39,11 +39,12 @@ export const getallcommentOfonePost = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { postId } = req.body;
-
+    const { postId } = req.params;
+    console.log(postId, "post id");
+    
     const getComments = await prisma.comments.findMany({
       where: {
-        postId: postId,
+        postId: +postId,
       },
       include: {
         user: true,
