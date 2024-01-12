@@ -51,7 +51,7 @@ export default function App({navigation}: any) {
    };  
   return (
     <NavigationContainer>
-          {(auth && storage === true)? (
+          {(true)? (
             <Stack.Navigator>
               <Stack.Screen
                 name="tabs"
@@ -63,7 +63,7 @@ export default function App({navigation}: any) {
                 options={{ headerShown: false }}
                 component={Test}
               />
-               {/* <Stack.Screen name="blog" options={{ headerShown: true , header:()=><NavBlogPage navigation={navigation}/> , headerStyle:{width:'100%'} }} component={BlogPage} /> */}
+          
               {/* <Stack.Screen name="MySavedSearch" options={{headerShown: true}} component={MySavedSearch }/>
           <Stack.Screen name="GeeversIfllow" options={{headerShown: true}} component={GeeversIfllow}/>
           <Stack.Screen name="TermAndConditions" options={{headerShown: true}} component={TermAndConditions}/>
@@ -71,7 +71,7 @@ export default function App({navigation}: any) {
           <Stack.Screen name="InviteFreind" options={{headerShown: true}} component={InviteFreind}/>
           <Stack.Screen name="EditProfil" options={{headerShown: true}} component={EditProfil}/>
           <Stack.Screen name="OtheruserProfile" options={{headerShown: true}} component={OtheruserProfile}/> */}
-              {/* <Stack.Screen name="blog" options={{ headerShown: true , header:()=><NavBlogPage navigation={navigation}/> , headerStyle:{width:'100%'} }} component={BlogPage} /> */}
+              <Stack.Screen name="blog" options={{ headerShown: true , header:()=><NavBlogPage/> , headerStyle:{width:'100%'} }} component={BlogPage} />
               {/* <Stack.Screen name="MySavedSearch" options={{headerShown: false}} component={MySavedSearch }/> */}
             </Stack.Navigator>
           ) : (
