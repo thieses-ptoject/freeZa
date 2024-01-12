@@ -21,4 +21,10 @@ export type posts= {
     name:string,
     image:string
   }
-  
+
+  export type GiversFollowed ={
+    id  :number    ,
+    followerId: string,
+    followedId: string
+  }
+

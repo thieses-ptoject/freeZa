@@ -20,8 +20,28 @@ interface Category{
     image:string
     Types:type[]
   }
+
+
+interface GiversFollowed{
+  id:string,
+  followed: object
+  followerId: string
+  followedId: string
+}
+
 interface type{
   id:number
   type:string
   categoryId:string
+}
+interface Products {
+  id : string,
+  firstName : string,
+  lastName : string,
+  email: string,
+  password: string,
+  phone: string,
+  image: string,
+  address : string
+
 }

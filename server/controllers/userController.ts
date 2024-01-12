@@ -106,9 +106,9 @@ export const getUser = async (req: Request, res: Response) => {
         data :{
          firstName: req.body.firstName,
          lastName: req.body.lastName,
+         image:req.body.image,
          address: req.body.address,
          phone: req.body.phone,
-         email: req.body.email
 
         }
       
@@ -120,6 +120,8 @@ export const getUser = async (req: Request, res: Response) => {
       res.send(error)
     }
   }
+
+
   export const deleteUser = async (req: Request, res: Response)=>{
     try{
       const id = req.params.id

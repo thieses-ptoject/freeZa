@@ -1,12 +1,26 @@
 import * as React from "react";
-import { Text, StyleSheet, Image, View, Pressable } from "react-native";
+import { Text, StyleSheet, Image, View, Pressable,Share } from "react-native";
 import { Color, FontFamily, FontSize } from "../../GlobalStyles/UserProfil";
 import Ionicons from "react-native-vector-icons/MaterialCommunityIcons";
+// import * as Sharing from 'expo-sharing';
+import { log } from "console";
 
 const FormContainer = ({ navigation }: any) => {
+
+  
+const shareText = async (text:string) => {
+  try {
+      await Share.share({
+          message: text
+      });
+  } catch (error) {
+      console.error('Error sharing:', error);
+  }
+};
+
   return (
     <View style={styles.details}>
-      <Pressable onPress={() => navigation.navigate("Wishlist")}>
+      <Pressable >
         <View style={[styles.view, styles.viewLayout1]}>
         <View style={[styles.icon, styles.iconLayout]}>
             <Ionicons name="heart-outline" size={22} color="#FC5A8D" />
@@ -39,7 +53,7 @@ const FormContainer = ({ navigation }: any) => {
         </View>
       </Pressable>
 
-      <Pressable onPress={() => navigation.navigate("Wishlist")}>
+      <Pressable onPress={() => navigation.navigate("GeeversIfllow")}>
         <View style={[styles.view2, styles.viewLayout1]}>
           <View style={[styles.icon, styles.iconLayout]}>
             <Ionicons name="account-heart-outline" size={25} color="#FC5A8D" />
@@ -56,7 +70,7 @@ const FormContainer = ({ navigation }: any) => {
         </View>
       </Pressable>
 
-      <Pressable onPress={() => navigation.navigate("Wishlist")}>
+      <Pressable onPress={() => navigation.navigate("TermAndConditions")}>
         <View style={[styles.view3, styles.viewLayout1]}>
           <View style={[styles.icon, styles.iconLayout]}>
             <Ionicons name="shield-key-outline" size={20} color="#FC5A8D" />
@@ -72,7 +86,7 @@ const FormContainer = ({ navigation }: any) => {
         </View>
       </Pressable>
 
-      <Pressable onPress={() => navigation.navigate("Wishlist")}>
+      <Pressable onPress={() => navigation.navigate("HelpCenter")}>
         <View style={[styles.view4, styles.viewLayout1]}>
         <View style={[styles.icon, styles.iconLayout]}>
             <Ionicons name="help-circle-outline" size={22} color="#FC5A8D" />
@@ -88,7 +102,10 @@ const FormContainer = ({ navigation }: any) => {
         </View>
       </Pressable>
 
-      <Pressable onPress={() => navigation.navigate("Wishlist")}>
+      <Pressable   onPress={()=>{
+        console.log('hello');
+        shareText('hello')
+        }}>
         <View style={[styles.view5, styles.viewLayout1]}>
         <View style={[styles.icon, styles.iconLayout]}>
             <Ionicons name="account-multiple-plus-outline" size={22} color="#FC5A8D" />
@@ -135,7 +152,7 @@ const styles = StyleSheet.create({
   notificationsTypo: {
     textAlign: "left",
     color: Color.colorHotpink_200,
-    fontFamily: FontFamily.mulishBold,
+    // fontFamily: FontFamily.mulishBold,
     fontWeight: "700",
     fontSize: FontSize.size_mini,
     top: "50%",
@@ -156,7 +173,7 @@ const styles = StyleSheet.create({
     left: "10.3%",
     textAlign: "left",
     color: Color.colorHotpink_200,
-    fontFamily: FontFamily.mulishBold,
+    // fontFamily: FontFamily.mulishBold,
     fontWeight: "700",
     fontSize: FontSize.size_mini,
     top: "50%",
