@@ -12,7 +12,7 @@ export const addNewPost = async(req:Request,res:Response): Promise<void>=>{
     try {
         const { image , body } : posts = req.body;
         const { userId } = req.params
-
+     
         const newPost = await prisma.posts.create({
           data: {
             image: image,

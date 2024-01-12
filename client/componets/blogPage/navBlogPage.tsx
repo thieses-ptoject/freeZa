@@ -78,9 +78,9 @@ const styles = StyleSheet.create({
       height: 12,
     },
 
-    shadowOpacity: 0.58,
+    shadowOpacity: 0.1,
     shadowRadius: 16.0,
-    elevation: 24,
+    elevation: 10,
   },
   imageInCircle: {
     width: "80%",
