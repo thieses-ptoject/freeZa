@@ -34,6 +34,9 @@ export const ProductList = () => {
       </View>
     );
   }
+    function displayFreeza(){
+
+    }
 
   return (
     <View style={styles.bigContainer}>
@@ -51,6 +54,14 @@ export const ProductList = () => {
 
             <View style={styles.textContainer}>
               <Text style={styles.text}>{product.name}</Text>
+            </View>
+            <View>
+              <View>
+                
+              </View>
+              <View>
+                <Text>{product.location}</Text>
+              </View>
             </View>
           </View>
         ))}
