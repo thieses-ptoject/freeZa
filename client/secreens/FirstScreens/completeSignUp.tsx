@@ -17,6 +17,8 @@ import app from "../../firebase";
 import axios from "axios";
 import { AuthContext } from "../../useContext/authContext";
 import config from "../../config.json"
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
 
 export const CompleteSignUp = ({ route, navigation }: any) => {
   const {name, setName} = useContext(AuthContext);
@@ -41,7 +43,7 @@ export const CompleteSignUp = ({ route, navigation }: any) => {
   
       console.log(userCredential);
   
-      const response = await axios.post(`http://${config.ip}/user/addUser`, {
+      const response = await axios.post(`http://${config.ip}:3001/user/addUser`, {
         id: userCredential.user.uid,
         email: route.params.email,
         password: route.params.password,
@@ -59,10 +61,14 @@ export const CompleteSignUp = ({ route, navigation }: any) => {
   };
   
   return (
+    
+<KeyboardAwareScrollView>
     <View style={styles.androidLarge1}>
       <GreenRed />
 
-      <Text style={styles.title}>Cancel</Text>
+      <Pressable onPress={()=>navigation.navigate("welcome")}>
+        <Text style={styles.title}>Cancel</Text>
+      </Pressable>
 
       <Pressable
         onPress={() => {
@@ -95,6 +101,7 @@ export const CompleteSignUp = ({ route, navigation }: any) => {
         </View>
       </View>
     </View>
+    </KeyboardAwareScrollView>
   );
 };
 

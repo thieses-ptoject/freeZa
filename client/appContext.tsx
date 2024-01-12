@@ -31,7 +31,7 @@ export default function App({navigation}: any) {
   const [storage, setStorage] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
-      const storage = await AsyncStorage.getAllKeys() ;
+      const storage = await AsyncStorage.getItem("user") ;
       console.log(storage, "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
     };
     fetchData();
@@ -44,8 +44,7 @@ export default function App({navigation}: any) {
       const savedData = await AsyncStorage.getItem('user');
       
       if (savedData) {
-        setStorage(true
-          )
+        setStorage(true )
       } else {
         console.log('No user data found');
       }
@@ -57,7 +56,7 @@ export default function App({navigation}: any) {
     <NavigationContainer>
 
 
-          {( true)? (
+          {(auth && storage)? (
 
             <Stack.Navigator>
               <Stack.Screen

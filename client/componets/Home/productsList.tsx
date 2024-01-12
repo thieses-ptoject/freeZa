@@ -34,9 +34,18 @@ export const ProductList = () => {
       </View>
     );
   }
-    function displayFreeza(){
-
+  function displayFreeza(straws: number) {
+    for (let i = 0; i < straws; i++) {
+      return (
+        <View>
+          <Image
+            style={styles.strawberry}
+            source={require("../../assets/strawberry.png")}
+          />
+        </View>
+      );
     }
+  }
 
   return (
     <View style={styles.bigContainer}>
@@ -55,12 +64,12 @@ export const ProductList = () => {
             <View style={styles.textContainer}>
               <Text style={styles.text}>{product.name}</Text>
             </View>
-            <View>
-              <View>
-                
+            <View style={styles.strawTextContainer}>
+              <View style={styles.strawberryContainer}>
+                {displayFreeza(product.strawberries)}
               </View>
-              <View>
-                <Text>{product.location}</Text>
+              <View style={styles.locationContainer}>
+                <Text style={styles.location}>{product.location}</Text>
               </View>
             </View>
           </View>
@@ -71,6 +80,19 @@ export const ProductList = () => {
 };
 
 const styles = StyleSheet.create({
+  locationContainer: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+  },
+  strawberryContainer: {},
+  location: {},
+  strawberry: {
+    height: 30,
+    width: 30,
+  },
+  strawTextContainer: {
+    flexDirection: "row",
+  },
   textContainer: {
     alignItems: "center",
   },
@@ -80,9 +102,6 @@ const styles = StyleSheet.create({
     marginTop: "7%",
   },
   productContainer: {
-    
-   
-    
     borderRadius: 20,
   },
   imageContainer: {
