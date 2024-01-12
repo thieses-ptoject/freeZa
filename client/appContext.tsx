@@ -56,7 +56,7 @@ export default function App({navigation}: any) {
     <NavigationContainer>
 
 
-          {(auth && storage)? (
+          {(auth || storage)? (
 
             <Stack.Navigator>
               <Stack.Screen

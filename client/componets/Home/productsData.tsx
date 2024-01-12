@@ -4,7 +4,7 @@ import { AuthContext } from "../../useContext/authContext";
 import { ProductList } from "./productsList";
 
 export const Products = ({ navigation }: any) => {
-  const { products, isLoading, isError } = useContext(AuthContext);
+  const { isLoading, isError } = useContext(AuthContext);
   if (isLoading) {
     return (
       <View>

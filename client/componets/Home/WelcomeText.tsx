@@ -21,7 +21,8 @@ const styles = StyleSheet.create({
         // alignSelf:'center',
         fontWeight: "700",
          top:25,
-         height: 20
+         height: 20,
+         fontSize: 16,
         
         
       }
