@@ -7,11 +7,13 @@ import { Color } from '../../GlobalStyles/GlobalStylesCreateItem'
 import moment from 'moment'
 
 const OneBlog = ({post}:any) => { 
-  console.log(post.userId)
+ 
   const { data: user, isLoading, isError, isSuccess } = getUser(post.userId);
 
   if(isSuccess) console.log('fffffffff',user.image)
-  
+  if(isLoading){
+    return <View><Text>Loading ...</Text></View>
+  }
   return (
    <View style={[styles.card,{height:post.image?300:100}]} >
 
@@ -43,7 +45,8 @@ const OneBlog = ({post}:any) => {
     
   </View>
   
-  <CommentLike idPost={post.id}/>
+  <CommentLike idPost={post.id} iduser={user.id}/>
+
    </View>
   )
 }

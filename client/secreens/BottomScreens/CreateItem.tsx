@@ -13,6 +13,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import { filterConfig } from 'react-native-gesture-handler/lib/typescript/handlers/gestureHandlerCommon';
+import { getUserData } from '../../localStorage/getuser';
 
 const camera = require('../../assets/CreateItem/camera.png')
 const arrow = require('../../assets/CreateItem/rightarrow.png')
@@ -34,6 +35,8 @@ const CreateItem: React.FC = ({ navigation }: any) => {
   const [typeValue, setTypeValue] = useState<number>();
   const [type, setType] = useState([])
   const [exclusive, setExclusive] = useState('')
+  const [userConnected, setUserConncted] = useState<string>('')
+console.log(userConnected, '==============================================')
   const [data1, setData1] = useState([
     { label: 'Item 1', value: 1 },
 
@@ -52,16 +55,20 @@ const CreateItem: React.FC = ({ navigation }: any) => {
   const [nbrOfStraw, setNbrOfStraw] = useState<number>()
   const { data: category, isLoading, isError, isSuccess } = getCategory();
   const additem = addItem()
-  console.log(category)
+
   useEffect(() => {
-    (async () => {
-      if (Platform.OS !== 'web') {
-        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (status !== 'granted') {
-          Alert.alert('Sorry, we need camera roll permissions to make this work!');
-        }
-      }
-    })();
+    getUserData().then((result: any)=> {
+      setUserConncted(result.id)
+      
+    })
+  //   (async () => {
+  //     if (Platform.OS !== 'web') {
+  //       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+  //       if (status !== 'granted') {
+  //         Alert.alert('Sorry, we need camera roll permissions to make this work!');
+  //       }
+  //     }
+  //   })();
   }, []);
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -363,8 +370,8 @@ const CreateItem: React.FC = ({ navigation }: any) => {
                 strawberries: nbrOfStraw,
                 exclusive
               }
-              additem.mutate({ obj })
-
+              additem.mutate({userid:userConnected, obj })
+             
             }}
 
               style={styles.buttonContainer}>

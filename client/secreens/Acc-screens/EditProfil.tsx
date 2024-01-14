@@ -52,7 +52,7 @@ export const EditProfil = ({ navigation }: any) => {
       allowsEditing: true,
       quality: 1,
     });
-    console.log(result.assets[0].uri);
+    // console.log(result.assets[0].uri);
 
     if (result && result.assets[0].uri) {
       uploadImage(result.assets[0].uri, "image")

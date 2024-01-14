@@ -32,7 +32,7 @@ export default function App({navigation}: any) {
   useEffect(() => {
     const fetchData = async () => {
       const storage = await AsyncStorage.getAllKeys() ;
-      console.log(storage, "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
+      // console.log(storage, "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
     };
     fetchData();
     const userData =  getUserData();
@@ -57,7 +57,7 @@ export default function App({navigation}: any) {
     <NavigationContainer>
 
 
-          {( true)? (
+          {(auth || storage)? (
 
             <Stack.Navigator>
               <Stack.Screen
