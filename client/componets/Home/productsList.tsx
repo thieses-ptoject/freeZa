@@ -17,7 +17,7 @@ interface AuthContextType {
 }
 export const ProductList = () => {
   const { products, isLoading, isError } = useContext(AuthContext);
-  console.log(products[0].image, "--------------------");
+  // console.log(products[0].image, "--------------------");
 
   if (isLoading) {
     return (
@@ -26,7 +26,7 @@ export const ProductList = () => {
       </View>
     );
   }
-  console.log(products);
+  // console.log(products);
   if (isError) {
     return (
       <View>

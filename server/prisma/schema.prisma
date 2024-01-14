@@ -32,6 +32,8 @@ model User {
   Posts          Posts[]
   Rated          Rate[]           @relation("rated")
   Rater          Rate[]           @relation("rater")
+  sender          Messages[]   @relation("sender")
+  Recievermessage       Messages[]   @relation("reciversmessage")
 }
 
 model Item {
@@ -142,4 +144,12 @@ model Appointments {
   Item      Item    @relation(fields: [ItemId], references: [id], onDelete: Cascade)
   giver     User    @relation("giver", fields: [giverId], references: [id], onDelete: Cascade)
   reciver   User    @relation("reciver", fields: [reciverId], references: [id], onDelete: Cascade)
+}
+model Messages {
+   id        Int     @id @default(autoincrement())
+   message String
+   sender     User    @relation("sender", fields: [senderId], references: [id], onDelete: Cascade)
+   recivermessage   User     @relation("reciversmessage", fields: [recieverId], references: [id], onDelete: Cascade)
+   senderId  String
+   recieverId  String
 }
