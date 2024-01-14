@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -7,11 +7,11 @@ import {
   Button,
   Pressable,
   Alert,
-  Dimensions
+  Dimensions,
 } from "react-native";
 import { AuthContext } from "../../useContext/authContext";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { black } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
+import { useDeviceOrientation } from "@react-native-community/hooks";
 
 interface AuthContextType {
   products: Products[];
@@ -19,9 +19,10 @@ interface AuthContextType {
   isError: boolean;
 }
 export const ProductList = () => {
-  const { products, isLoading, isError } = useContext(AuthContext);
-  const [orientation, setOrientation] = useState('');
-
+  const { products, isLoading, isError, filteredProducts } = useContext(AuthContext);
+  const [islandscape, setLandscape] = useState(false)
+  const landscape = useDeviceOrientation(landscape)
+console.log(landscape)
   if (isLoading) {
     return (
       <View>
@@ -29,7 +30,6 @@ export const ProductList = () => {
       </View>
     );
   }
-  console.log(products);
   if (isError) {
     return (
       <View>
@@ -55,9 +55,9 @@ export const ProductList = () => {
     <KeyboardAwareScrollView>
       <View style={styles.bigContainer}>
         <View style={styles.container}>
-          {products.map((product: any) => (
-            <View key={product.id} style={styles.productContainer}>
-              <View style={styles.imageContainer}>
+          {filteredProducts?.map((product: any) => (
+             <View key={product.id} style={[styles.productContainer, { width: landscape === "landscape" ? "32.39%" : "48.5%"}]}>
+              <View style={[styles.imageContainer,{marginLeft: landscape === "landscape"? "12%": "0%"}]}>
                 <Image
                   style={styles.image}
                   source={{
@@ -66,7 +66,7 @@ export const ProductList = () => {
                 />
               </View>
 
-              <View style={{alignItems: "center"}}>
+              <View style={{ alignItems: "center" }}>
                 <View style={styles.textContainer}>
                   <Text style={styles.text}>{product.name}</Text>
                 </View>
@@ -88,23 +88,22 @@ export const ProductList = () => {
 };
 
 const styles = StyleSheet.create({
-  strawberryFunction:{
-    flexDirection: "column"
+  strawberryFunction: {
+    flexDirection: "column",
   },
   locationContainer: {
     flexDirection: "row",
     width: 70,
-    marginRight: 5
+    marginRight: 5,
   },
   strawberryContainer: {
     width: "65%",
-    flexDirection: "row"
+    flexDirection: "row",
   },
   location: {
     color: "#78CA46",
     marginTop: 5,
     flexDirection: "row",
-    
   },
   strawberry: {
     height: 30,
@@ -114,7 +113,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "#FFDAE9",
     borderRadius: 50,
-    width : "95%"
+    width: "95%",
   },
   textContainer: {
     alignItems: "center",
@@ -129,7 +128,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 20,
     height: 270,
-    width: "48.5%",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -141,6 +139,8 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: 200,
     height: 200,
+    marginLeft: "auto",
+    marginRight: "auto"
   },
   image: {
     height: 200,
