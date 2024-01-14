@@ -152,4 +152,5 @@ model Messages {
    recivermessage   User     @relation("reciversmessage", fields: [recieverId], references: [id], onDelete: Cascade)
    senderId  String
    recieverId  String
+   createdAt   DateTime @default(now())
 }
