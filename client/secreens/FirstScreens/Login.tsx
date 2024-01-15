@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Image, Pressable } from "react-native";
 import { Color, FontSize, Border } from "../../GlobalStyles/Login"
 import { TextInput } from "react-native-gesture-handler";
 import { AuthContext } from "../../useContext/authContext";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 
 const Login = ({ navigation } : any) => {
@@ -10,6 +11,7 @@ const Login = ({ navigation } : any) => {
   const {email, setEmail} = React.useContext(AuthContext)
   console.log(email)
   return ( 
+    <KeyboardAwareScrollView>
     <View style={styles.login}>
       <Image
         style={styles.bubblesIcon}
@@ -24,7 +26,10 @@ const Login = ({ navigation } : any) => {
         source={require("../../assets/login/heart.png")}
       />
       <Text style={styles.title1}>Login</Text>
+      <Pressable onPress={()=>navigation.navigate("welcome")}>
+        
       <Text style={[styles.title2, styles.timeFlexBox]}>Cancel</Text>
+      </Pressable>
    
       <View style={styles.form}>
         <TextInput placeholder="Email"  onChange={e=>setEmail(e.nativeEvent.text)} style={styles.emailOrPhone1}></TextInput>
@@ -36,6 +41,7 @@ const Login = ({ navigation } : any) => {
         </View>
       </Pressable>
     </View>
+    </KeyboardAwareScrollView>
   );
 };
 

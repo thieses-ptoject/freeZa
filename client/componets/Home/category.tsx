@@ -1,35 +1,57 @@
-import { SafeAreaView, StyleSheet, View, Image, Text, Platform } from "react-native"
+import { useContext } from "react";
+import { SafeAreaView, StyleSheet, View, Image, Text, Platform, Pressable } from "react-native";
+import { AuthContext } from "../../useContext/authContext";
+import { filterProducts } from "../../React-query/homeProducts/products";
 
-export const Categories=({ navigation } : any)=>{
-    return(
-        <View style={styles.container}>
-            <View style={styles.Details}>
-                <Text style={styles.Text}>Furniture </Text>
-            <View style={styles.circle} >
-              <Image source={require('../../assets/furniture.png')} style={styles.imageInCircle}/>
-            </View>
-            </View>
-            <View style={styles.Details}>
-                <Text style={styles.Text}>Gadgets</Text>
-            <View style={styles.circle} >
-              <Image source={require("../../assets/gadgets.png")} style={styles.imageInCircle}/>
-            </View>
-            </View>
-            <View style={styles.Details}>
-                <Text style={styles.Text}>Presents</Text>
-            <View style={styles.circle} >
-              <Image source={require( "../../assets/presents.png")} style={styles.imageInCircle}/>
-            </View>
-            </View>
-            <View style={styles.Details}>
-                <Text style={styles.Text}>Others</Text>
-            <View style={styles.circle} >
-              <Image source={require("../../assets/other.png")} style={styles.imageInCircle}/>
-            </View>
-            </View>
-            </View>
-    )
-}
+export const Categories = ({ navigation }: any) => {
+  const { products, setFilteredProducts } = useContext(AuthContext);
+
+  const filterByCategory = (categoryId: number) => {
+    // Filter products based on the selected category
+    const filteredProducts = products.filter((product: any) => {
+      return product.typeId === categoryId;
+    });
+
+    // Update the state with the filtered products
+    setFilteredProducts(filteredProducts);
+  };
+  return (
+    <View style={styles.container}>
+      <View style={styles.Details}>
+        <Text style={styles.Text}>Furniture</Text>
+        <Pressable onPress={() => filterByCategory(1)}>
+          <View style={styles.circle}>
+            <Image source={require('../../assets/furniture.png')} style={styles.imageInCircle} />
+          </View>
+        </Pressable>
+      </View>
+      <View style={styles.Details}>
+        <Text style={styles.Text}>Gadgets</Text>
+        <Pressable onPress={() => filterByCategory(2)}>
+          <View style={styles.circle}>
+            <Image source={require("../../assets/gadgets.png")} style={styles.imageInCircle} />
+          </View>
+        </Pressable>
+      </View>
+      <View style={styles.Details}>
+        <Text style={styles.Text}>Presents</Text>
+        <Pressable onPress={() => filterByCategory(3)}>
+          <View style={styles.circle}>
+            <Image source={require("../../assets/presents.png")} style={styles.imageInCircle} />
+          </View>
+        </Pressable>
+      </View>
+      <View style={styles.Details}>
+        <Text style={styles.Text}>Others</Text>
+        <Pressable onPress={() => setFilteredProducts(products)}>
+          <View style={styles.circle}>
+            <Image source={require("../../assets/other.png")} style={styles.imageInCircle} />
+          </View>
+        </Pressable>
+      </View>
+    </View>
+  );
+};
 const styles= StyleSheet.create({
 container: {
     flexDirection:'row',

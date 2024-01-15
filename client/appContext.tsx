@@ -28,8 +28,8 @@ export default function App({navigation}: any) {
   const [storage, setStorage] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
-      const storage = await AsyncStorage.getAllKeys() ;
-      // console.log(storage, "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
+      const storage = await AsyncStorage.getItem("user") ;
+      console.log(storage, "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
     };
     fetchData();
     const userData =  getUserData();
@@ -41,8 +41,7 @@ export default function App({navigation}: any) {
       const savedData = await AsyncStorage.getItem('user');
       
       if (savedData) {
-        setStorage(true
-          )
+        setStorage(true )
       } else {
         console.log('No user data found');
       }
@@ -95,7 +94,3 @@ const styles = StyleSheet.create({
     flexShrink: 0,
   },
 });
-
-
-
-

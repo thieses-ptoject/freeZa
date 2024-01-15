@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { View, Text, StyleSheet, Image, Button, Pressable, Alert } from "react-native";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 // import { Image } from "expo-image";
 import { Color, FontSize } from "../../GlobalStyles/Singup";
 import { TextInput } from "react-native-gesture-handler";
@@ -61,12 +62,16 @@ export const Signup = ({ navigation } : any) => {
   
     return (
       
+  <KeyboardAwareScrollView>
  <View style={styles.container}>
   <View style={styles.androidLarge1}>
+  <Pressable onPress={()=>navigation.navigate("welcome")}>
 
     <Text style={styles.title}>Cancel</Text>
+  </Pressable>
+  
     
-    <Pressable onPress={() => { pickImage() }}>
+    <Pressable style={{zIndex: 0.5, }} onPress={() => { pickImage() }}>
       <Image
         style={styles.uploadPhotoIcon}
         source={require("../../assets/Signup/upload-photo.png")}
@@ -138,6 +143,7 @@ export const Signup = ({ navigation } : any) => {
 
   </View>
 </View>
+  </KeyboardAwareScrollView>
 
     );
   };
