@@ -47,7 +47,7 @@ const CommentLike = ({ idPost, iduser }: any) => {
       </View>
     </View>
     <Modal
-
+      style={{ width: '100%', height: '60%', position: 'absolute', bottom: 0 }}
       animationType="slide"
       transparent={true}
       visible={modalVisible}
@@ -77,7 +77,7 @@ const CommentLike = ({ idPost, iduser }: any) => {
     </Modal>
 
     <Modal
-      style={{ width: 100, height: 100 }}
+      
       animationType="slide"
       transparent={true}
       visible={modalVisibleComment}
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     flex: 1,
     // justifyContent: 'center',
     // alignItems: 'center',
-    marginTop: 22,
+    width: '100%', height: '60%', position: 'absolute', bottom: 0
   },
   image: {
     height: 30,

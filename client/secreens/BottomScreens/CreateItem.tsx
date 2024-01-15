@@ -370,7 +370,9 @@ console.log(userConnected, '==============================================')
                 strawberries: nbrOfStraw,
                 exclusive
               }
-              additem.mutate({userid:userConnected, obj })
+              additem.mutate({userid:userConnected, obj });
+              navigation.navigate('Home')
+
              
             }}
 

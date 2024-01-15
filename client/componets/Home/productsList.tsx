@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -7,18 +7,21 @@ import {
   Button,
   Pressable,
   Alert,
+  Dimensions,
 } from "react-native";
 import { AuthContext } from "../../useContext/authContext";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useDeviceOrientation } from "@react-native-community/hooks";
+import { ItemsDetails } from "../../secreens/OtherUserScreens/ItemsDetails";
 
 interface AuthContextType {
   products: Products[];
   isLoading: boolean;
   isError: boolean;
 }
-export const ProductList = () => {
-  const { products, isLoading, isError } = useContext(AuthContext);
-  // console.log(products[0].image, "--------------------");
-
+export const ProductList = ({navigation}:any) => {
+  const { products, isLoading, isError, filteredProducts } = useContext(AuthContext);
+  const landscape = useDeviceOrientation(landscape)
   if (isLoading) {
     return (
       <View>
@@ -26,7 +29,6 @@ export const ProductList = () => {
       </View>
     );
   }
-  // console.log(products);
   if (isError) {
     return (
       <View>
@@ -34,63 +36,132 @@ export const ProductList = () => {
       </View>
     );
   }
-
+  function displayFreeza(straws: number) {
+    const strawberryArray = [];
+    for (let i = 0; i < straws; i++) {
+      strawberryArray.push(
+        <View style={styles.strawberryFunction} key={i}>
+          <Image
+            style={styles.strawberry}
+            source={require("../../assets/strawberry.png")}
+          />
+        </View>
+      );
+    }
+    return strawberryArray;
+  }
   return (
-    <View style={styles.bigContainer}>
-      <View style={styles.container}>
-        {products.map((product: any) => (
-          <View key={product.id} style={styles.productContainer}>
-            <View style={styles.imageContainer}>
-              <Image
-                style={styles.image}
-                source={{
-                  uri: "https://firebasestorage.googleapis.com/v0/b/freeza2-88e58.appspot.com/o/images%2Fimage_1704823144084.jpg?alt=media&token=efc68977-1c6e-458b-8bbd-4f879d4af7d2",
-                }}
-              />
-            </View>
+    <KeyboardAwareScrollView>
+      <View style={styles.bigContainer}>
+        <View style={styles.container}>
+          {filteredProducts?.map((product: any) => (
+             <View key={product.id} style={[styles.productContainer, { width: landscape === "landscape" ? "32.39%" : "48.5%"}]}>
+              <View style={[styles.imageContainer,{marginLeft: landscape === "landscape"? "12%": "0%"}]}>
+                <Pressable onPress={()=>navigation.navigate("ItemsDetails", {
+                    product
+                  })}>
+                  <Image
+                    style={styles.image}
+                    source={{
+                      uri: product.image[0],
+                    }}
+                  />
+                </Pressable>
+              </View>
 
-            <View style={styles.textContainer}>
-              <Text style={styles.text}>{product.name}</Text>
+              <View style={{ alignItems: "center" }}>
+                <View style={styles.textContainer}>
+                  <Pressable  >
+                  <Text style={styles.text}>{product.name}</Text>
+                  </Pressable>
+                </View>
+                <View style={styles.strawTextContainer}>
+                  <View style={styles.strawberryContainer}>
+                    {displayFreeza(product.strawberries)}
+                  </View>
+                  <View style={styles.locationContainer}>
+                    <Text style={styles.location}>{product.location}</Text>
+                  </View>
+                </View>
+              </View>
             </View>
-          </View>
-        ))}
+          ))}
+        </View>
       </View>
-    </View>
+    </KeyboardAwareScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  strawberryFunction: {
+    flexDirection: "column",
+  },
+  locationContainer: {
+    flexDirection: "row",
+    width: 70,
+    marginRight: 5,
+  },
+  strawberryContainer: {
+    width: "65%",
+    flexDirection: "row",
+  },
+  location: {
+    color: "#78CA46",
+    marginTop: 5,
+    flexDirection: "row",
+  },
+  strawberry: {
+    height: 30,
+    width: 20,
+  },
+  strawTextContainer: {
+    flexDirection: "row",
+    backgroundColor: "#FFDAE9",
+    borderRadius: 50,
+    width: "95%",
+  },
   textContainer: {
     alignItems: "center",
   },
   bigContainer: {
     marginLeft: 4,
     marginRight: 3,
-    marginTop: "7%",
+    marginTop: "9%",
   },
+
   productContainer: {
-    
-   
-    
+    backgroundColor: "#fff",
     borderRadius: 20,
+    height: 270,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
   imageContainer: {
     width: 200,
     height: 200,
+    marginLeft: "auto",
+    marginRight: "auto"
   },
   image: {
-    width: 190,
     height: 200,
     borderRadius: 20,
+    width: 187,
   },
   container: {
     flexDirection: "row",
-    width: "100%",
+    gap: 10,
+    flexWrap: "wrap",
   },
   text: {
     color: "black",
-    position: "relative",
     fontWeight: "bold",
     fontSize: 18,
+    textAlign: "center",
+    paddingBottom: 5,
   },
 });

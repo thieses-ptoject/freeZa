@@ -97,7 +97,7 @@ export const OtheruserProfile = ({ navigation, route }: any) => {
           >
            <TouchableOpacity onPress={() => navigation.navigate("ItemsDetails", {itemData: item})}>
             <Image
-              // key={index}
+ key={index}
               source={{uri: item.image[0] }}
               style={{ width: "100%", height: "100%", borderRadius: 12 }}
             />
