@@ -17,11 +17,13 @@ import { StackScreens } from "./secreens/FirstScreens/StackScreens";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavBlogPage } from './componets/blogPage/navBlogPage';
-import BlogPage from './secreens/BottomScreens/BlogPage';
+import BlogPage from './secreens/BottomScreens/BlogPage'; 
+import { NavDetails } from "./componets/ProductDetails/Navdetails";
 
 
 const queryClient = new QueryClient();
 import { AuthContext, AuthProvider } from "./useContext/authContext";
+import { ProductDetails } from "./componets/ProductDetails/ProductDetails";
 const Stack = createStackNavigator();
 export default function App({navigation}: any) {
   const{auth, setAuth}=useContext(AuthContext)
@@ -31,9 +33,12 @@ export default function App({navigation}: any) {
       const storage = await AsyncStorage.getItem("user") ;
       console.log(storage, "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
     };
-    fetchData();
-    const userData =  getUserData();
-    console.log('User data:', userData);
+    (async ()=>{
+
+      await fetchData();
+      const userData = await getUserData();
+      console.log('User data:',  userData);
+    })()
   }, [auth]);
 
   const getUserData = async () => {
@@ -73,6 +78,8 @@ export default function App({navigation}: any) {
           <Stack.Screen name="HelpCenter" options={{headerShown: true}} component={HelpCenter}/>
           <Stack.Screen name="InviteFreind" options={{headerShown: true}} component={InviteFreind}/>
           <Stack.Screen name="EditProfil" options={{headerShown: true}} component={EditProfil}/>
+          {/* <Stack.Screen name="productDetails"   options={{headerShown: true,header:()=><NavDetails/>}} component={ProductDetails}/> */}
+
           <Stack.Screen name="OtheruserProfile" options={{headerShown: true}} component={OtheruserProfile}/>
           <Stack.Screen name="ItemsDetails" options={{headerShown: true}} component={ItemsDetails}/>
           </Stack.Navigator>
