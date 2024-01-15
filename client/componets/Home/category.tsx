@@ -1,11 +1,15 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { SafeAreaView, StyleSheet, View, Image, Text, Platform, Pressable } from "react-native";
 import { AuthContext } from "../../useContext/authContext";
 import { filterProducts } from "../../React-query/homeProducts/products";
+import { Types } from "./types";
+import { TypesData } from "./data";
 
 export const Categories = ({ navigation }: any) => {
   const { products, setFilteredProducts } = useContext(AuthContext);
-
+  const [FurnitureType , setFurnitureType] = useState(false)
+  const [types , setTypes] = useState(TypesData)
+console.log(types)
   const filterByCategory = (categoryId: number) => {
     // Filter products based on the selected category
     const filteredProducts = products.filter((product: any) => {
@@ -16,39 +20,45 @@ export const Categories = ({ navigation }: any) => {
     setFilteredProducts(filteredProducts);
   };
   return (
-    <View style={styles.container}>
-      <View style={styles.Details}>
-        <Text style={styles.Text}>Furniture</Text>
-        <Pressable onPress={() => filterByCategory(1)}>
-          <View style={styles.circle}>
-            <Image source={require('../../assets/furniture.png')} style={styles.imageInCircle} />
-          </View>
-        </Pressable>
+    <View>
+      <View style={styles.container}>
+        <View style={styles.Details}>
+          <Text style={styles.Text}>Furniture</Text>
+          {/* onPress={() => filterByCategory(1) */}
+          <Pressable  onPress={()=>setFurnitureType(!FurnitureType)} >
+            <View style={styles.circle}>
+              <Image source={require('../../assets/furniture.png')} style={styles.imageInCircle} />
+            </View>
+          </Pressable>
+        </View>
+        <View style={styles.Details}>
+          <Text style={styles.Text}>Gadgets</Text>
+          <Pressable onPress={() => filterByCategory(2)}>
+            <View style={styles.circle}>
+              <Image source={require("../../assets/gadgets.png")} style={styles.imageInCircle} />
+            </View>
+          </Pressable>
+        </View>
+        <View style={styles.Details}>
+          <Text style={styles.Text}>Presents</Text>
+          <Pressable onPress={() => filterByCategory(3)}>
+            <View style={styles.circle}>
+              <Image source={require("../../assets/presents.png")} style={styles.imageInCircle} />
+            </View>
+          </Pressable>
+        </View>
+        <View style={styles.Details}>
+          <Text style={styles.Text}>Others</Text>
+          <Pressable onPress={() => setFilteredProducts(products)}>
+            <View style={styles.circle}>
+              <Image source={require("../../assets/other.png")} style={styles.imageInCircle} />
+            </View>
+          </Pressable>
+        </View>
       </View>
-      <View style={styles.Details}>
-        <Text style={styles.Text}>Gadgets</Text>
-        <Pressable onPress={() => filterByCategory(2)}>
-          <View style={styles.circle}>
-            <Image source={require("../../assets/gadgets.png")} style={styles.imageInCircle} />
-          </View>
-        </Pressable>
-      </View>
-      <View style={styles.Details}>
-        <Text style={styles.Text}>Presents</Text>
-        <Pressable onPress={() => filterByCategory(3)}>
-          <View style={styles.circle}>
-            <Image source={require("../../assets/presents.png")} style={styles.imageInCircle} />
-          </View>
-        </Pressable>
-      </View>
-      <View style={styles.Details}>
-        <Text style={styles.Text}>Others</Text>
-        <Pressable onPress={() => setFilteredProducts(products)}>
-          <View style={styles.circle}>
-            <Image source={require("../../assets/other.png")} style={styles.imageInCircle} />
-          </View>
-        </Pressable>
-      </View>
+        {
+          FurnitureType && <Types data = {TypesData}/>
+        }
     </View>
   );
 };
