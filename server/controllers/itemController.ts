@@ -178,6 +178,7 @@ const strawberries = parseInt(req.params.strawberries)
     } 
     export const GetItemsByCategory = async (req: Request, res: Response): Promise<void> => {
       const categoryId = parseInt(req.params.categoryId);
+      console.log(categoryId)
   
       try {
           const category = await prisma.category.findUnique({

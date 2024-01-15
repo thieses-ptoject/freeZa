@@ -24,11 +24,12 @@ const MAX_HEIGHT = 350;
 
 
 
+
 export const ItemsDetails = ({ navigation, route }: any) => {
 
 
-  const { itemData } = route.params;
-  console.log(itemData);
+  const { product } = route.params;
+  console.log(product);
   const navTitleView: RefObject<any> = useRef(null);
   return (
     <View style={styles.container}>
@@ -89,7 +90,7 @@ export const ItemsDetails = ({ navigation, route }: any) => {
             <View>
             
             <View style={{ flexDirection: "row"  }}>
-            <Text style={styles.sectionContent}>{"\u2022"}{itemData.name}{"\n"}{"\n"}</Text>
+            <Text style={styles.sectionContent}>{"\u2022"}{product?.name}{"\n"}{"\n"}</Text>
               <Image
             style={styles.freezaIcon}
             resizeMode="cover"
@@ -98,35 +99,31 @@ export const ItemsDetails = ({ navigation, route }: any) => {
             </View>
             </View>
           
-          <Text style={styles.sectionContent}>Description:  {itemData.description}</Text>
+          <Text style={styles.sectionContent}>Description:  {product?.description}</Text>
         </View>
-
-
-
-
         <View style={styles.section}>
           <View style={styles.categories}>
           
-                  <View style={styles.categoryContainer} key={itemData.id}>
+                  <View style={styles.categoryContainer} key={product?.id}>
                     <FontAwesome name="tag" size={16} color="#fff" />
-                    <Text style={styles.category}>{itemData.state}</Text>
+                    <Text style={styles.category}>{product?.state}</Text>
                   </View>
 
-                  <View style={styles.categoryContainer} key={itemData.id}>
+                  <View style={styles.categoryContainer} key={product?.id}>
                     <FontAwesome name="tag" size={16} color="#fff" />
-                    <Text style={styles.category}>{itemData.type}</Text>
+                    <Text style={styles.category}>{product?.type}</Text>
                   </View>
                
           </View>
         </View>
 
         <View style={[styles.section, { height: 250 }]}>
-  <MapView
+        <MapView
     provider={PROVIDER_GOOGLE}
     style={{ flex: 1 }}
     region={{
-      latitude: itemData.location.latitude,
-      longitude: itemData.location.longitude,
+      latitude: product.location.latitude || 0,
+      longitude: product.location.longitude || 0,
       latitudeDelta: 0.00864195044303443,
       longitudeDelta: 0.000142817690068,
     }}

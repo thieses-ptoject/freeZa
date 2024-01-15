@@ -15,16 +15,17 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import app from "../../firebase";
 import { AuthContext } from "../../useContext/authContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 const Password = ({ navigation, route }: any) => {
-  const{auth, setAuth}=React.useContext(AuthContext)
+  const { auth, setAuth } = React.useContext(AuthContext);
   const [isPasswordCorrect, setIsPasswordCorrect] = React.useState(false);
   const [password, setPassword] = React.useState("");
-const {email, setEmail} = React.useContext(AuthContext);
-const {name, setName} = React.useContext(AuthContext);
-const {LastName, setLastName} = React.useContext(AuthContext);
-const {phone, setPhone, image} = React.useContext(AuthContext);
+  const { email, setEmail } = React.useContext(AuthContext);
+  const { name, setName } = React.useContext(AuthContext);
+  const { LastName, setLastName } = React.useContext(AuthContext);
+  const { phone, setPhone, image } = React.useContext(AuthContext);
 
-  console.log(name)
+  console.log(name);
   const Fauth = getAuth(app);
   const login = () => {
     signInWithEmailAndPassword(Fauth, route.params.email, password)
@@ -33,7 +34,7 @@ const {phone, setPhone, image} = React.useContext(AuthContext);
         const user = userCredential.user;
         console.log(user);
         storeData(user.uid);
-        setAuth(true)
+        setAuth(true);
 
         // ...
         AsyncStorage.setItem("auth", "true");
@@ -53,114 +54,78 @@ const {phone, setPhone, image} = React.useContext(AuthContext);
         phone,
         id,
         image,
-      }
-      const jsonUser = JSON.stringify(user)
+      };
+      const jsonUser = JSON.stringify(user);
       await AsyncStorage.setItem("user", jsonUser);
       const value = await AsyncStorage.getItem("user");
-      console.log(value, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+      console.log(
+        value,
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      );
     } catch (error) {
       console.log(error);
     }
   };
   return (
-    <View style={styles.wrongPassword}>
-      <Image
-        style={styles.bubblesIcon}
-        source={require("../../assets/password/bubbles.png")}
-      />
+    <KeyboardAwareScrollView>
       <View style={styles.wrongPassword}>
         <Image
           style={styles.bubblesIcon}
           source={require("../../assets/password/bubbles.png")}
         />
-        <View style={styles.dots}>
-          <TextInput
-            secureTextEntry={true}
-            maxLength={32}
-            style={styles.ellispse01Icon}
-            onChange={(e) => setPassword(e.nativeEvent.text)}
+        <View style={styles.wrongPassword}>
+          <Image
+            style={styles.bubblesIcon}
+            source={require("../../assets/password/bubbles.png")}
+          />
+          <View style={styles.dots}>
+            <TextInput
+              secureTextEntry={true}
+              maxLength={32}
+              style={styles.ellispse01Icon}
+              onChange={(e) => setPassword(e.nativeEvent.text)}
             />
-                  <Pressable
-        onPress={() => {
-          console.log("hi");
-          login();
-        }}
-      >
-        <View style={styles.button}>
-          <View style={[styles.buttonChild, styles.buttonChildPosition]} />
-          <Text style={styles.done}>Login</Text>
+            <View style={styles.button}>
+                <View
+                  style={[styles.buttonChild, styles.buttonChildPosition]}
+                />
+              <Pressable
+                onPress={() => {
+                  console.log("hi");
+                  login();
+                }}
+              >
+                <Text style={styles.done}>Login</Text>
+              </Pressable>
+            </View>
+          </View>
         </View>
-      </Pressable>
-          {/* <TextInput
-            secureTextEntry={true}
-            maxLength={1}
-            style={styles.ellispse01Icon1}
-            onChange={(e) => setPassword(password + e.nativeEvent.text)}
-          />
-          <TextInput
-            secureTextEntry={true}
-            maxLength={1}
-            style={styles.ellispse01Icon2}
-            onChange={(e) => setPassword(password + e.nativeEvent.text)}
-          />
-          <TextInput
-            secureTextEntry={true}
-            maxLength={1}
-            style={styles.ellispse01Icon3}
-            onChange={(e) => setPassword(password + e.nativeEvent.text)}
-          />
-          <TextInput
-            secureTextEntry={true}
-            maxLength={1}
-            style={styles.ellispse01Icon4}
-            onChange={(e) => setPassword(password + e.nativeEvent.text)}
-          />
-          <TextInput
-            secureTextEntry={true}
-            maxLength={1}
-            style={styles.ellispse01Icon5}
-            onChange={(e) => setPassword(password + e.nativeEvent.text)}
-          />
-          <TextInput
-            secureTextEntry={true}
-            maxLength={1}
-            style={styles.ellispse01Icon6}
-            onChange={(e) => setPassword(password + e.nativeEvent.text)}
-          />
-          <TextInput
-            secureTextEntry={true}
-            maxLength={1}
-            style={styles.ellispse01Icon7}
-            onChange={(e) => setPassword(password + e.nativeEvent.text)}
-          /> */}
-        </View>
+
+        <Text
+          onPress={() => navigation.navigate("smsEmail")}
+          style={styles.title}
+        >
+          Forgot your password?
+        </Text>
+        <Text style={styles.title1}>Hello, {name}!!</Text>
+        <Text style={styles.title2}>Type your password</Text>
+        <Image
+          style={[styles.ellispseIcon, styles.iconLayout]}
+          source={{ uri: image }}
+        />
       </View>
-
-
-      <Text
-        onPress={() => navigation.navigate("smsEmail")}
-        style={styles.title}
-      >
-        Forgot your password?
-      </Text>
-      <Text style={styles.title1}>Hello, {name}!!</Text>
-      <Text style={styles.title2}>Type your password</Text>
-      <Image
-        style={[styles.ellispseIcon, styles.iconLayout]}
-        source={{ uri: image }}
-      />
-    </View>
+    </KeyboardAwareScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   done: {
-    marginTop: -13.5,
+                    
     left: "42.39%",
     fontSize: 22,
     lineHeight: 31,
     color: "#f3f3f3",
-    top: "50%",
+    top: 10,
     textAlign: "center",
     fontWeight: "300",
     position: "absolute",
@@ -172,13 +137,10 @@ const styles = StyleSheet.create({
     top: 0,
   },
   button: {
-    
     width: 335,
     position: "relative",
     marginTop: 60,
     height: 61,
-
-    
   },
   buttonChild: {
     borderRadius: 16,
@@ -188,9 +150,8 @@ const styles = StyleSheet.create({
   ellispseIcon: {
     top: 149,
     right: 135,
- 
-    left: 135,
 
+    left: 135,
   },
   container: {
     flexDirection: "column",
@@ -211,7 +172,6 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   iconLayout: {
-
     position: "absolute",
     borderRadius: 100,
   },
@@ -411,7 +371,7 @@ const styles = StyleSheet.create({
     width: 220,
     height: 17,
     position: "absolute",
-   alignItems: "center"
+    alignItems: "center",
   },
   title: {
     top: 550,
@@ -481,5 +441,3 @@ const styles = StyleSheet.create({
 });
 
 export default Password;
-
-
