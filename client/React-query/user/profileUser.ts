@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Mutation } from "react-query";
 
-
+import config from "../../config.json"
 
 
 
@@ -10,7 +10,7 @@ export const getUserData = () => {
   const query = useQuery<User[]>({
     queryKey: ["user"],
     queryFn: async () => {
-        const response = await axios.get("http://172.29.0.78:3001/user/wided@gmail.com");
+        const response = await axios.get(`http://${config.ip}:3001/user/wided@gmail.com`);
         return response.data; 
     },
   });
@@ -28,7 +28,7 @@ export const updateprofile = () => {
       address: string;
       phone: number;
     })  => {
-      const res: any = await axios.put("http://172.29.0.78:3001/user/updateUser/wided@gmail.com", object)
+      const res: any = await axios.put(`http://${config.ip}:3001/user/updateUser/wided@gmail.com`, object)
     },
     onError: (error) => {
       console.log(error);

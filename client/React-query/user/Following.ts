@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Mutation } from "react-query";
 
-
+import config from "../../config.json"
 
 
 
@@ -11,7 +11,7 @@ export const GiversIFollowed = (id:string) => {
   const query = useQuery<GiversFollowed[]>({
     queryKey: ["GiversFollowed", id],
     queryFn: async () => {
-      const response = await axios.get(`http://172.29.0.78:3001/followers/follower/${id}`);
+      const response = await axios.get(`http://${config.ip}:3001/followers/follower/${id}`);
       return response.data; 
     },
   });
@@ -25,7 +25,7 @@ export const DeleteFollower = () => {
     mutationKey: ["GiversFollowed"],
     mutationFn: async (input: string) => {
       const res: any = await axios.delete(
-        `http://172.29.0.78:3001/followers/del/${input}`  
+        `http://${config.ip}:3001/followers/del/${input}`  
       )
     },
     onError: (error) => {

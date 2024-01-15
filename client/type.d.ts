@@ -32,3 +32,26 @@ interface type{
   type:string
   categoryId:string
 }
+
+interface Item{
+  id : string
+  name : string
+  description : string
+  image : string
+  strawberries : number
+  type : string
+  location :  string
+  state :string
+  exclusive :boolean
+  ownerId :string
+  typeId  : number
+
+}
+
+
+interface Posts {
+  id : number,
+  image: String
+  body : String
+  userId: String
+}

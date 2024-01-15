@@ -50,21 +50,18 @@ export const EditProfil = ({ navigation }: any) => {
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
+
       quality: 1,
     });
-    console.log(result.assets[0].uri);
 
-    if (result && result.assets[0].uri) {
-      uploadImage(result.assets[0].uri, "image")
-        .then(() => {
-          Alert.alert("Image saved");
-        })
-        .catch((error) => {
-          console.error("Firebase Storage Error:", error.code, error.message);
-          Alert.alert("Error uploading image");
-        });
+    if (result && 'uri' in result) {
+     
+      uploadImage(result.uri as string, 'image').then(() => {
+        Alert.alert('imagesaved')
+      }).catch((error) => { console.error('Firebase Storage Error:', error.code, error.message); Alert.alert("error") })
     } else {
-      console.log("URI not found in image picker result");
+
+      console.error("URI not found in image picker result");
     }
   };
 
@@ -230,7 +227,9 @@ export const EditProfil = ({ navigation }: any) => {
                   image,
                   address,
                   phone,
+
                 });
+                navigation.navigate('Account', { refresh: true });
               }}
             >
               Save Change
@@ -307,7 +306,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   iconStyle: {
-    color: "#ADF481",
+    color: "#9AC281",
     marginBottom: "1%",
     top: "0.1%",
     marginRight: 10,
