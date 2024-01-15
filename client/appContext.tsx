@@ -29,7 +29,7 @@ export default function App({navigation}: any) {
   useEffect(() => {
     const fetchData = async () => {
       const storage = await AsyncStorage.getAllKeys() ;
-      console.log(storage, "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
+      // console.log(storage, "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
     };
     fetchData();
     const userData =  getUserData();

@@ -1,34 +1,30 @@
-import { SafeAreaView, StyleSheet, View, Image, Text } from "react-native"
-import furniture from '../../assets/furniture.png'
-import gadgets from "../../assets/gadgets.png"
-import presents from"../../assets/presents.png"
-import other from "../../assets/other.png"
+import { SafeAreaView, StyleSheet, View, Image, Text, Platform } from "react-native"
 
-export const Categories=({ navigation })=>{
+export const Categories=({ navigation } : any)=>{
     return(
         <View style={styles.container}>
             <View style={styles.Details}>
                 <Text style={styles.Text}>Furniture </Text>
             <View style={styles.circle} >
-              <Image source={furniture} style={styles.imageInCircle}/>
+              <Image source={require('../../assets/furniture.png')} style={styles.imageInCircle}/>
             </View>
             </View>
             <View style={styles.Details}>
                 <Text style={styles.Text}>Gadgets</Text>
             <View style={styles.circle} >
-              <Image source={gadgets} style={styles.imageInCircle}/>
+              <Image source={require("../../assets/gadgets.png")} style={styles.imageInCircle}/>
             </View>
             </View>
             <View style={styles.Details}>
                 <Text style={styles.Text}>Presents</Text>
             <View style={styles.circle} >
-              <Image source={presents} style={styles.imageInCircle}/>
+              <Image source={require( "../../assets/presents.png")} style={styles.imageInCircle}/>
             </View>
             </View>
             <View style={styles.Details}>
                 <Text style={styles.Text}>Others</Text>
             <View style={styles.circle} >
-              <Image source={other} style={styles.imageInCircle}/>
+              <Image source={require("../../assets/other.png")} style={styles.imageInCircle}/>
             </View>
             </View>
             </View>
@@ -56,7 +52,14 @@ container: {
       width: 0,
       height: 12,
     },
-    shadowOpacity: 0.58,
+    ...Platform.select({
+      ios:{
+        shadowOpacity: 0.1
+      },
+      android: {
+        shadowOpacity: 0.2
+      }
+    }),
     shadowRadius: 16.0,
     elevation: 24,
   },

@@ -43,16 +43,18 @@ const prisma = new PrismaClient();
 // get all likes of one Post 
 
 export const getPostLikes= async (req:Request,res:Response)=>{
-    const {postId} :like =req.body
+    const {postId} =req.params
+    const  {id}=req.params
     try {
         const postlikes  = await prisma.like.findMany({
-            where: { postId: postId },
+            where: { postId: +postId },
             include:{
                 user : true
             }
           });
+          const arr1=postlikes.filter((ele )=>{return ele.user.id===id})
           const arr= postlikes.map((ele)=> { return {firstName:ele.user.firstName,lastName: ele.user.lastName, image: ele.user.image }})
-       res.status(200).send(arr)
+       res.status(200).send({all:arr,like:arr1.length===1})
     }
   catch(err){
      res.status(500).send(err)

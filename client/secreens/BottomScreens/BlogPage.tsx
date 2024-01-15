@@ -1,20 +1,31 @@
-import React, { useContext, useState } from 'react'
-import { View, Text, StyleSheet, Pressable, SafeAreaView,Image,ScrollView, TextInput, Alert } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
+import { View, Text, StyleSheet, Pressable, SafeAreaView,Image,ScrollView, TextInput, Alert, ImageBackground } from 'react-native'
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import * as ImagePicker from 'expo-image-picker';
 import { storage } from '../../firebase';
 import OneBlog from '../../componets/blogPage/oneBlog';
 import CommentLike from '../../componets/blogPage/CommentLike';
 import { ContextPost } from '../../useContext/createBlog';
-import { getPosts } from '../../React-query/blog/blog';
+
+import { addPost, getPosts } from '../../React-query/blog/blog';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import { getUserData } from '../../localStorage/getuser';
 
 const BlogPage = () => {
   const [addPosts, setAddPosts] = useState('')
   const [image, setImage] = useState<null | string>(null);
   const { addpost, setAddPost } = useContext(ContextPost)
-  const { data: posts, isLoading, isError, isSuccess } = getPosts();
-  console.log(posts,'posts')
-  
+  const [userConnected, setUserConncted] = useState('')
+  const { data: posts, isLoading, isError, isSuccess,refetch } = getPosts();
+console.log(userConnected)
+  const addposts=addPost()
+  useEffect(() => {
+    getUserData().then((result: any) => {
+      setUserConncted(result.id)
+
+    })
+  }, []);
+  console.log(addPosts,'ggggggggggg')
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
@@ -32,7 +43,7 @@ const BlogPage = () => {
       console.error("URI not found in image picker result");
     }
   };
-
+  
 
   const uploadImage = async (uri: any, imageName: string) => {
     try {
@@ -58,11 +69,17 @@ const BlogPage = () => {
   };
   return (
     <ScrollView>
+
       {
       isSuccess && <SafeAreaView>
         <View style={styles.allCategory}>
+          <View style={styles.botton}>
           <Text style={styles.testAll}>All</Text>
+          </View>
+          <View style={styles.botton2}>
           <Text style={styles.testAll}>Most Commented</Text>
+          </View>
+          
           </View>
           {addpost&&<View style={styles.description} >
          <TextInput
@@ -72,25 +89,32 @@ const BlogPage = () => {
           onChangeText={setAddPosts}
           placeholder='add post' >
          </TextInput>
-         <View style={{flexDirection:'row',alignSelf:'flex-end'}}>
+         <View style={{flexDirection:'row-reverse'}}>
+          <Pressable      
+          onPress={
+          async()=>{try{ addposts.mutate({image:image,body:addPosts,id:userConnected });
+          setAddPost(false)
+           refetch() }
+        catch(err){console.log(err)}}}>
+         <AntDesign name={'caretright'} size={40} color={'red'} />
+         </Pressable>
          <Pressable onPress={() => {pickImage() }}>
             
                   <Image style={styles.rectangle}
         source={require('../../assets/blogpage/image.png')}
       />
           </Pressable>
-          <Image style={styles.rectangle}
-        source={require('../../assets/blogpage/Polygon.png')}
-      />
-      </View>
+        
+          </View>
          </View>}
-         <View style={{justifyContent:'space-between',alignContent:'center'}}>
+         <View style={{alignContent:'center',gap:30}}>
         { posts.map((post:any)=>{return(
         <View >
           <OneBlog post={post}/>
           </View>)})}
           </View> 
       </SafeAreaView>}
+     
     </ScrollView>
   )
 }
@@ -103,7 +127,25 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontWeight: '400',
     lineHeight: 18,
-    color: '#FC5A8D'
+    color: 'red',
+    alignSelf:'center',
+    marginTop:'auto'
+  },
+  botton:{
+    width:'10%',
+    height:25,
+    backgroundColor:'#D3EBC5',
+    marginLeft:3,
+    borderRadius:10,
+   
+  }
+  , botton2:{
+    width:'45%',
+    height:25,
+    backgroundColor:'#D3EBC5',
+    marginLeft:3,
+    borderRadius:10,
+   
   },
   allCategory: {
     justifyContent: 'space-between',
@@ -114,27 +156,31 @@ const styles = StyleSheet.create({
   },
   description: {
     color: "grey",
-    opacity: 0.5,
+    opacity: 0.7,
     fontSize: 20,
-    textAlign: "left",
     fontWeight: "300",
-    backgroundColor: "#FBD0E6",
-    textAlignVertical: 'center',
-    height: 80,
+    backgroundColor: "#D3EBC5",
+    height: 150,
+    width:'90%',
     paddingHorizontal: 20,
     borderRadius: 10,
-    borderBlockColor:'black',
-    borderWidth:2,
+    marginLeft:'auto',
+    marginRight:'auto'
+    
     
 
   
   
   },
   rectangle:{
-
+ alignSelf:'flex-end',
  width:40,
  height:40,
  
-  }
+  },
+   image: {
+    flex: 1,
+    justifyContent: 'center',
+  },
 
 })

@@ -10,16 +10,9 @@ export const addNewComment = async (
   res: Response
 ): Promise<void> => {
   try {
-     const {userId,body}=req.params
-      const { postId}  = req.body;
-      const getComments = await prisma.comments.findMany({
-        where :{
-            postId:postId
-        },
-        include:{
-          user:true
-        }
-      });
+     const {userId}=req.params
+      const { postId,body}  = req.body;
+    
       const newComments = await prisma.comments.create({
         data : {
           body,
@@ -27,6 +20,7 @@ export const addNewComment = async (
           postId:+postId,
         }
       });
+     
       res.status(201).json(newComments);
     }   catch (error) {
     console.log(error)
@@ -39,11 +33,12 @@ export const getallcommentOfonePost = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { postId } = req.body;
-
+    const { postId } = req.params;
+    console.log(postId, "post id");
+    
     const getComments = await prisma.comments.findMany({
       where: {
-        postId: postId,
+        postId: +postId,
       },
       include: {
         user: true,
@@ -53,10 +48,12 @@ export const getallcommentOfonePost = async (
     const filtred = getComments.map((ele) => {
       return {
         body: ele.body,
+        idcomment:ele.id,
         createdAt: ele.createdAt,
         firstName: ele.user.firstName,
         lastName: ele.user.lastName,
         image: ele.user.image,
+        id:ele.user.id
       };
     });
     res.status(201).json(filtred);
@@ -95,13 +92,14 @@ export const deleteoneComment = async (
   res: Response
 ): Promise<void> => {
     try {
-      const { userId } = req.params
-      const { commentId, postId } = req.body
-      const deletecomment = await prisma.comments.delete({
+      const { userId ,id} = req.params
+    
+      const deletecomment = await prisma.comments.deleteMany({
         where: {
-          id: +commentId,
-          postId,
-          userId
+          
+          userId,
+          id:+id
+          
         },
       });
       res.status(200).json(deletecomment );
