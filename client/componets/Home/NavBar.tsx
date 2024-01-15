@@ -28,7 +28,10 @@ import { AuthContext } from "../../useContext/authContext";
 
     // Filter products based on the search query
     const newFilteredProducts = products.filter((product: any) => {
-      return product.name.toLowerCase().includes(searchQuery.toLowerCase());
+      return (
+        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.location.toLowerCase().includes(searchQuery.toLowerCase())
+      );
     });
 
     // Update the state with the new filtered products
@@ -38,6 +41,7 @@ import { AuthContext } from "../../useContext/authContext";
     setSearchQuery('');
     setIsSearchVisible(false);
   };
+
   useEffect(() => {
     // Set filteredProducts to all products when the component mounts
     setFilteredProducts(products);

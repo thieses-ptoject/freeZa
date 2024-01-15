@@ -20,9 +20,7 @@ interface AuthContextType {
 }
 export const ProductList = () => {
   const { products, isLoading, isError, filteredProducts } = useContext(AuthContext);
-  const [islandscape, setLandscape] = useState(false)
   const landscape = useDeviceOrientation(landscape)
-console.log(landscape)
   if (isLoading) {
     return (
       <View>
