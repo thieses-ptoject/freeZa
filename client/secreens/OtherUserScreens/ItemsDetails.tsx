@@ -40,7 +40,7 @@ export const ItemsDetails = ({ navigation, route }: any) => {
   overlayColor="rgba(0, 0, 0, 0.6)"
   renderHeader={() => (
     <View>
-    <Image source={{uri: product.image[0]}} style={styles.image} />
+    <Image source={{uri: itemData.image[0]}} style={styles.image} />
     </View>
   )}
 //   renderFixedForeground={() => (
@@ -101,10 +101,6 @@ export const ItemsDetails = ({ navigation, route }: any) => {
           
           <Text style={styles.sectionContent}>Description:  {product?.description}</Text>
         </View>
-
-
-
-
         <View style={styles.section}>
           <View style={styles.categories}>
           
@@ -134,8 +130,8 @@ export const ItemsDetails = ({ navigation, route }: any) => {
   >
     <Marker
       coordinate={{
-        latitude: product.location?.latitude || 0,
-        longitude: product.location?.longitude || 0,
+        latitude: itemData.location?.latitude || 0,
+        longitude: itemData.location?.longitude || 0,
       }}
       image={require("client/assets/freeza.png")}
     />
