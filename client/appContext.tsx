@@ -83,7 +83,7 @@ export default function App({navigation}: any) {
           <Stack.Screen name="HelpCenter" options={{headerShown: true}} component={HelpCenter}/>
           <Stack.Screen name="InviteFreind" options={{headerShown: true}} component={InviteFreind}/>
           <Stack.Screen name="EditProfil" options={{headerShown: true}} component={EditProfil}/>
-          <Stack.Screen name="productDetails"   options={{headerShown: true,header:()=><NavDetails/>}} component={ProductDetails}/>
+          {/* <Stack.Screen name="productDetails"   options={{headerShown: true,header:()=><NavDetails/>}} component={ProductDetails}/> */}
 
           <Stack.Screen name="OtheruserProfile" options={{headerShown: true}} component={OtheruserProfile}/>
 
