@@ -6,7 +6,7 @@ const expoPublicIp = process.env.Expo_PUBLIC_ip;
 
 export const  getCategory=() => {
   
-  console.log(config.ip,"5555env");
+  
     const query = useQuery({
       queryKey: ["AllCategory"],
       queryFn: async () => {
@@ -33,8 +33,9 @@ export const  getCategory=() => {
   export const addItem = () => {
     const query = useMutation({
       mutationKey: ["addItem"],
-      mutationFn: async (object: {  obj:object }) =>{
-        await axios.post(`http://${config.ip}:3001/item/add/1`, 
+      mutationFn: async (object: {  userid:string,obj:object }) =>{
+        console.log(object.userid,'ffffffffffffffffff')
+        await axios.post(`http://${config.ip}:3001/item/add/${object.userid}`, 
            object.obj,
         )
         console.log('fffffffffffffffffff')
