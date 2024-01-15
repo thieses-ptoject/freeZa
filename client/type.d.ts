@@ -32,16 +32,19 @@ interface GiversFollowed{
 interface type{
   id:number
   type:string
-  categoryId:string
+  categoryId:number
 }
 interface Products {
-  id : string,
-  firstName : string,
-  lastName : string,
-  email: string,
-  password: string,
-  phone: string,
-  image: string,
-  address : string
-
+  id : number,
+  name: string,
+  description : string,
+  image: string[],
+  strawberries: number,
+  type: string,
+  location: string,
+  state : string,
+  exclusive: boolean,
+  createdAt: Date,
+  ownerId: string,
+  typeId: number,
 }

@@ -19,24 +19,29 @@ import { StackScreens } from "./secreens/FirstScreens/StackScreens";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavBlogPage } from './componets/blogPage/navBlogPage';
-import BlogPage from './secreens/BottomScreens/BlogPage';
+import BlogPage from './secreens/BottomScreens/BlogPage'; 
+import { NavDetails } from "./componets/ProductDetails/Navdetails";
 
 
 
 const queryClient = new QueryClient();
 import { AuthContext, AuthProvider } from "./useContext/authContext";
+import { ProductDetails } from "./componets/ProductDetails/ProductDetails";
 const Stack = createStackNavigator();
 export default function App({navigation}: any) {
   const{auth, setAuth}=useContext(AuthContext)
   const [storage, setStorage] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
-      const storage = await AsyncStorage.getAllKeys() ;
+      const storage = await AsyncStorage.getAllKeys();
       console.log(storage, "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
     };
-    fetchData();
-    const userData =  getUserData();
-    console.log('User data:', userData);
+    (async ()=>{
+
+      await fetchData();
+      const userData = await getUserData();
+      console.log('User data:',  userData);
+    })()
   }, [auth]);
 
   const getUserData = async () => {
@@ -44,8 +49,8 @@ export default function App({navigation}: any) {
       const savedData = await AsyncStorage.getItem('user');
       
       if (savedData) {
-        setStorage(true
-          )
+        setStorage(true)
+        return savedData
       } else {
         console.log('No user data found');
       }
@@ -57,7 +62,7 @@ export default function App({navigation}: any) {
     <NavigationContainer>
 
 
-          {( true)? (
+          {( auth || storage)? (
 
             <Stack.Navigator>
               <Stack.Screen
@@ -78,6 +83,7 @@ export default function App({navigation}: any) {
           <Stack.Screen name="HelpCenter" options={{headerShown: true}} component={HelpCenter}/>
           <Stack.Screen name="InviteFreind" options={{headerShown: true}} component={InviteFreind}/>
           <Stack.Screen name="EditProfil" options={{headerShown: true}} component={EditProfil}/>
+          <Stack.Screen name="productDetails"   options={{headerShown: true,header:()=><NavDetails/>}} component={ProductDetails}/>
 
           <Stack.Screen name="OtheruserProfile" options={{headerShown: true}} component={OtheruserProfile}/>
 

@@ -9,15 +9,17 @@ import {
   Alert,
 } from "react-native";
 import { AuthContext } from "../../useContext/authContext";
+import { useNavigation } from "@react-navigation/native";
 
 interface AuthContextType {
   products: Products[];
   isLoading: boolean;
   isError: boolean;
 }
-export const ProductList = () => {
-  const { products, isLoading, isError } = useContext(AuthContext);
-  console.log(products[0].image, "--------------------");
+export const ProductList = ({navigation}:any) => {
+  // const navigation=useNavigation()
+  const {auth, products, isError, isLoading} = useContext(AuthContext);
+  console.log(products, "=====================");
 
   if (isLoading) {
     return (
@@ -26,7 +28,7 @@ export const ProductList = () => {
       </View>
     );
   }
-  console.log(products);
+  // console.log(products);
   if (isError) {
     return (
       <View>
@@ -38,7 +40,7 @@ export const ProductList = () => {
   return (
     <View style={styles.bigContainer}>
       <View style={styles.container}>
-        {products.map((product: any) => (
+         {products?.map((product: any) => (
           <View key={product.id} style={styles.productContainer}>
             <View style={styles.imageContainer}>
               <Image
@@ -50,10 +52,12 @@ export const ProductList = () => {
             </View>
 
             <View style={styles.textContainer}>
+             
               <Text style={styles.text}>{product.name}</Text>
+              
             </View>
           </View>
-        ))}
+        ))} 
       </View>
     </View>
   );

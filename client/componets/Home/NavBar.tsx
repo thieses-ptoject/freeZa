@@ -1,11 +1,7 @@
 import {
   View,Text,StatusBar,StyleSheet,Image,SafeAreaView,
   Pressable} from "react-native";
-import straw from "../../assets/freeza.png";
-import star from "../../assets/star.png"
-import bell from "../../assets/bell.png"
-import strawberry from "../../assets/strawberry.png"
-import search from "../../assets/search.png"
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 
 
@@ -20,22 +16,22 @@ export const NavBar = ({navigation}:any) => {
           <View style={{flexDirection:"row-reverse" ,alignItems:"center"}}>
             <Text style={styles.Freeza}>FreeZa</Text>
             <View style={styles.circle}>
-              <Image source={straw} style={styles.imageInCircle} />
+              <Image source={require('../../assets/freeza.png')} style={styles.imageInCircle} />
             </View> 
           </View> 
           <View style={{ flexDirection: "row" , gap:25}}>
             <Pressable onPress={()=>navigation.navigate("blog")}>
-            <Image source={star} style={styles.star} />
+            <MaterialIcons name="post-add" size={30} color="#FF0000" />
             </Pressable>
-            <Image source={strawberry} style={styles.strawberry}/>
+            <Image source={require("../../assets/strawberry.png")} style={styles.strawberry}/>
             <View style={styles.badgeContainerStraw}>
       <Text style={styles.badgeTextStraw}>0</Text>
            </View>
-            <Image source={bell} style={styles.notification}/>
+            <Image source={require("../../assets/bell.png")} style={styles.notification}/>
             <View style={styles.badgeContainer}>
       <Text style={styles.badgeText}>0</Text>
             </View>
-            <Image source={search} style={styles.search}/>
+            <Image source={require("../../assets/search.png")} style={styles.search}/>
           </View>
         </View>
       </View>
@@ -101,9 +97,9 @@ const styles = StyleSheet.create({
   }, 
   star :{
   width: 21,
-  height: 20,
+  height: 25,
   alignSelf:'center',
-  // top:20
+  top:7
 },
 strawberry :{
   width: 21,

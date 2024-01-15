@@ -11,6 +11,8 @@ export const AuthProvider = ({ children }: any) => {
     const { data: products, isLoading, isError } = getProducts();
 
     const [image, setImage] = useState("")
+    console.log(products, "products");
+    
     
   const value = {
     auth,

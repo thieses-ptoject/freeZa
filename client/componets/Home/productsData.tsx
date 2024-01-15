@@ -20,7 +20,7 @@ export const Products = ({ navigation }: any) => {
 
   return (
     <View>
-      <ProductList />
+      <ProductList navigation={navigation} />
     </View>
   );
 };
