@@ -12,12 +12,26 @@ export const Chat = () => {
     })
   }, []);
 
-  const { data: alldisc, isLoading: messageloading, isError: messageerror, isSuccess: messagecomment, refetch } = getMessages(userConnected);
-  return (
-    <View>
+  const { data: alldisc, isLoading: messageloading, isError: messageerror, isSuccess, refetch } = getMessages(userConnected);
+  console.log(alldisc,'disc',userConnected)
+  if(messageloading){ return <View><Text>Loading</Text></View>}
+ 
+  else return (
+    <View style={{gap:5}}>
       <View style={styles.titlecontainer}>
         <Text style={styles.title}>Direct Messages</Text>
+        
         </View>
+        { isSuccess &&<View>
+        {alldisc.map((ele:any)=>{
+          return(
+          <View style={styles.view1} >
+
+          </View>)
+
+
+        })}
+        </View>}
     </View>
   )
 }
@@ -25,16 +39,16 @@ export default Chat
 
 const styles = StyleSheet .create({
   title:{
-    color:'red',
+    color:'#FC5A8D',
     fontSize:25,
     alignSelf:'flex-start',
     marginLeft:19,
     marginTop:10,
     marginBottom:10,
-    fontFamily:'Poppins'
+   
   },
   titlecontainer:{
-    backgroundColor:'silver', 
+    backgroundColor:'#ECECEC', 
   marginTop:40,
   marginLeft:5,
   alignContent:'center',
@@ -42,6 +56,19 @@ const styles = StyleSheet .create({
   width:'60%',
  borderRadius:30
   
-  }
+  },
+  view1: {
+    flexDirection: "row",
+    padding: 10,
+    top: "5%",
+    marginLeft: "3%",
+    marginRight: "3%",
+    marginBottom: "2%",
+    backgroundColor: "#FFECF6",
+    borderRadius: 1000,
+    borderColor: "#fff",
+    borderWidth: 2,
+  },
+
 
 })

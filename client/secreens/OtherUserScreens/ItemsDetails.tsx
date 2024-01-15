@@ -28,8 +28,8 @@ const MAX_HEIGHT = 350;
 export const ItemsDetails = ({ navigation, route }: any) => {
 
 
-  const { product } = route.params;
-  console.log(product);
+  const { itemData } = route.params;
+  console.log(itemData);
   const navTitleView: RefObject<any> = useRef(null);
   return (
     <View style={styles.container}>
@@ -90,7 +90,7 @@ export const ItemsDetails = ({ navigation, route }: any) => {
             <View>
             
             <View style={{ flexDirection: "row"  }}>
-            <Text style={styles.sectionContent}>{"\u2022"}{product?.name}{"\n"}{"\n"}</Text>
+            <Text style={styles.sectionContent}>{"\u2022"}{itemData?.name}{"\n"}{"\n"}</Text>
               <Image
             style={styles.freezaIcon}
             resizeMode="cover"
@@ -99,19 +99,19 @@ export const ItemsDetails = ({ navigation, route }: any) => {
             </View>
             </View>
           
-          <Text style={styles.sectionContent}>Description:  {product?.description}</Text>
+          <Text style={styles.sectionContent}>Description:  {itemData?.description}</Text>
         </View>
         <View style={styles.section}>
           <View style={styles.categories}>
           
-                  <View style={styles.categoryContainer} key={product?.id}>
+                  <View style={styles.categoryContainer} key={itemData?.id}>
                     <FontAwesome name="tag" size={16} color="#fff" />
-                    <Text style={styles.category}>{product?.state}</Text>
+                    <Text style={styles.category}>{itemData?.state}</Text>
                   </View>
 
-                  <View style={styles.categoryContainer} key={product?.id}>
+                  <View style={styles.categoryContainer} key={itemData?.id}>
                     <FontAwesome name="tag" size={16} color="#fff" />
-                    <Text style={styles.category}>{product?.type}</Text>
+                    <Text style={styles.category}>{itemData?.type}</Text>
                   </View>
                
           </View>
@@ -122,8 +122,8 @@ export const ItemsDetails = ({ navigation, route }: any) => {
     provider={PROVIDER_GOOGLE}
     style={{ flex: 1 }}
     region={{
-      latitude: product.location.latitude || 0,
-      longitude: product.location.longitude || 0,
+      latitude: itemData.location.latitude || 0,
+      longitude: itemData.location.longitude || 0,
       latitudeDelta: 0.00864195044303443,
       longitudeDelta: 0.000142817690068,
     }}
