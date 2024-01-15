@@ -13,6 +13,7 @@ import rateRouter from "./routes/rateRoute"
 import statisticsRouter from "./routes/statisticsRoute"
 import typeRouter from "./routes/typeRoute"
 import userRouter from "./routes/userRoute"
+import messageRouter from "./routes/messageRoute"
 
 const app: Application = express();
 app.use(express.json());
@@ -43,7 +44,8 @@ app.use("/statistics", statisticsRouter)
 app.use("/type", typeRouter)
 //user
 app.use("/user", userRouter)
-
+//messege
+app.use('/message',messageRouter)
 
 app.listen(3001, () => {
     console.log("listening on http://localhost:3001");
