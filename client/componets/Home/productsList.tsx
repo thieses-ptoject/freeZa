@@ -12,13 +12,14 @@ import {
 import { AuthContext } from "../../useContext/authContext";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useDeviceOrientation } from "@react-native-community/hooks";
+import { ItemsDetails } from "../../secreens/OtherUserScreens/ItemsDetails";
 
 interface AuthContextType {
   products: Products[];
   isLoading: boolean;
   isError: boolean;
 }
-export const ProductList = () => {
+export const ProductList = ({navigation}:any) => {
   const { products, isLoading, isError, filteredProducts } = useContext(AuthContext);
   const landscape = useDeviceOrientation(landscape)
   if (isLoading) {
@@ -56,17 +57,23 @@ export const ProductList = () => {
           {filteredProducts?.map((product: any) => (
              <View key={product.id} style={[styles.productContainer, { width: landscape === "landscape" ? "32.39%" : "48.5%"}]}>
               <View style={[styles.imageContainer,{marginLeft: landscape === "landscape"? "12%": "0%"}]}>
-                <Image
-                  style={styles.image}
-                  source={{
-                    uri: product.image[0],
-                  }}
-                />
+                <Pressable onPress={()=>navigation.navigate("ItemsDetails", {
+                    product
+                  })}>
+                  <Image
+                    style={styles.image}
+                    source={{
+                      uri: product.image[0],
+                    }}
+                  />
+                </Pressable>
               </View>
 
               <View style={{ alignItems: "center" }}>
                 <View style={styles.textContainer}>
+                  <Pressable  >
                   <Text style={styles.text}>{product.name}</Text>
+                  </Pressable>
                 </View>
                 <View style={styles.strawTextContainer}>
                   <View style={styles.strawberryContainer}>

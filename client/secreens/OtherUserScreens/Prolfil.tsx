@@ -1,76 +1,292 @@
 import * as React from "react";
-import { View,StyleSheet, Button, Alert, SafeAreaView} from "react-native";
- import {
-  Avatar,
-  Title,
-  Caption,
-  Text,
-  TouchableRipple
- } from "react-native-paper"
+import { useState } from "react";
+import {
+  View,
+  StyleSheet,
+  Button,
+  Image,
+  Alert,
+  SafeAreaView,
+  StatusBar,
+  TouchableOpacity,
+  useWindowDimensions,
+  ActivityIndicator,
+  FlatList,
+} from "react-native";
+import { Text} from "react-native-paper";
+
+import { MaterialIcons } from "@expo/vector-icons";
+import {
+  SceneMap,
+  TabBar,
+  TabView,
+} from "react-native-tab-view";
+import { UserItems, UserPosts } from "../../React-query/user/otherUserProfil";
+import Backgroundprofile from "../../componets/accountCom/Otheruser"
 
 
-export const OtheruserProfile = ({ navigation }: any) => {
+
+
+
+export const OtheruserProfile = ({ navigation, route }: any) => {
+  const { id } = route.params;
+  // console.log(item);
+
+ 
+
+
+  const layout = useWindowDimensions();
+  const [index, setIndex] = useState(0);
+  const [routes] = useState([
+    { key: "first", title: "Donations" },
+    { key: "second", title: "Requests" },
+  ]);
+
+  const renderTabBar = (props: any) => (
+    <TabBar
+      {...props}
+      indicatorStyle={{
+        backgroundColor: "#FC5A8D",
+      }}
+      style={{
+        backgroundColor: "#fff",
+        height: 44,
+      }}
+      renderLabel={({ focused, route }) => (
+        <Text style={[{ color: focused ? "#000" : "#000", fontWeight:"bold" }]}>
+          {route.title}
+        </Text>
+      )}
+    />
+  );
+
+  const { data : userData, isLoading: userDataLoading, isError : userDataError, refetch, isSuccess } = UserItems("1");
+  const { data : userPostsData, isLoading: userPostsLoading, isError : userPostsError} = UserPosts("1");
+
+
+  if (userDataLoading || userPostsLoading ) {
+    return (
+      <View>
+        <ActivityIndicator size="large" color="#000" />
+      </View>
+    );
+  }
+  if (userDataError || userPostsError) {
+    return (
+      <View>
+        <Text>Error fetching user data</Text>
+      </View>
+    );
+  }
+
+
+  const PhotosRoutes = ({ navigation, route }: any) => (
+   
+    <View style={{ flex: 1 }}>
+      <FlatList
+        data={userData}
+        keyExtractor={(ele) => ele.id}
+        numColumns={3}
+        renderItem={({ item, index }) => (
+          <View
+            style={{
+              flex: 1,
+              aspectRatio: 1,
+              margin: 3,
+            }}
+          >
+           <TouchableOpacity onPress={() => navigation.navigate("ItemsDetails", {itemData: item})}>
+            <Image
+              key={index}
+              source={{uri: item.image[0] }}
+              style={{ width: "100%", height: "100%", borderRadius: 12 }}
+            />
+             </TouchableOpacity>
+          </View>
+        )}
+      />
+    </View>
+  );
+ 
+  const LikesRoutes = () => (
+    <View style={{ flex: 1, backgroundColor: "#DCD6D9" }}>
+       <FlatList
+        data={userPostsData}
+        numColumns={3}
+        renderItem={({ item, index }) => (
+          <View
+            style={{
+              flex: 1,
+              aspectRatio: 1,
+              margin: 3,
+            }}
+          >
+            <Image
+              key={index}
+              source={{uri: item.image }}
+              style={{ width: "100%", height: "100%", borderRadius: 12 }}
+            />
+          </View>
+        )}
+      />
+    </View>
+  );
+  
+  const renderScene = ({ route }: any) => {
+    switch (route.key) {
+      case 'first':
+        return <PhotosRoutes navigation={navigation} route={route} />;
+      case 'second':
+        return <LikesRoutes navigation={navigation} route={route} />;
+      default:
+        return null;
+    }
+  };
+
+
+
   return (
+    <SafeAreaView style={styles.safearea}>
+      <StatusBar backgroundColor="#FC5A8D" />
 
-    <View style={styles.container} >
-        <Text onPress={() => navigation.navigate("Wishlist")}> follower </Text>
-        <Button
-        title="click here"
-        onPress={()=>alert("button clicked")}
-        ></Button>
+      <Backgroundprofile />
+
+      <View style={{ flex: 1, alignItems: "center" }}>
+        <Image
+          source={{ uri: id.image }}
+          resizeMode="contain"
+          style={{
+            height: 155,
+            width: 155,
+            borderRadius: 999,
+            borderColor: "#FC5A8D",
+            borderWidth: 2,
+            marginTop: -90,
+          }}
+        />
+        <Text style={{ color: "#000", marginVertical: 8 ,fontSize: 20, fontWeight:"bold"}}>
+          {" "}
+          {id.firstName} {id.lastName}{" "}
+        </Text>
+
+        <View
+          style={{
+            flexDirection: "row",
+            marginVertical: 6,
+            alignItems: "center",
+          }}
+        >
+          <MaterialIcons name="location-on" size={24} color="black" />
+
+          <Text style={{ color: "#000", marginLeft: 4 }}> {id.address} </Text>
         </View>
-      
+        <View style={{ paddingVertical: 8, flexDirection: "row" }}>
+          <View
+            style={{
+              flexDirection: "column",
+              alignItems: "center",
+              marginHorizontal: 5,
+            }}
+          >
+            <Text style={{ color: "#000" }}> {id.nbrOfDonation} </Text>
+            <Text style={{ color: "#000" }}> Donation</Text>
+          </View>
+          <View
+            style={{
+              flexDirection: "column",
+              alignItems: "center",
+              marginHorizontal: 20,
+            }}
+          >
+            <Text style={{ color: "#000" }}> {id.nbrOfDonation}</Text>
+            <Text style={{ color: "#000" }}> Takes</Text>
+          </View>
+          <View
+            style={{
+              flexDirection: "column",
+              alignItems: "center",
+              marginHorizontal: 20,
+            }}
+          >
+            <Text style={{ color: "#000" }}> {id.nbrOfDonation}/5 </Text>
+            <Text style={{ color: "#000" }}> Rate</Text>
+          </View>
+        </View>
+
+        <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity
+            style={{
+              width: 124,
+              height: 36,
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "#FC5A8D",
+              borderRadius: 10,
+              marginHorizontal: 30,
+            }}
+          >
+            <Text style={{ color: "#fff" }}> Follow </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              width: 124,
+              height: 36,
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "#8FD166",
+              borderRadius: 10,
+              marginHorizontal: 30,
+            }}
+          >
+            <Text style={{ color: "#fff" }}> Send Massege </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      <View style={{ flex: 1, marginHorizontal: 22, marginTop:"-15%" }}>
+        <TabView
+          navigationState={{ index, routes }}
+          renderScene={renderScene}
+          onIndexChange={setIndex}
+          initialLayout={{ width: layout.width }}
+          renderTabBar={renderTabBar}
+        />
+      </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-
-  container: {
+  safearea: {
+    flex: 1,
+    backgroundColor: "#FFF8FB",
+  },
+  StatusBarStyle: {
     flex: 1,
   },
-  userInfoSection: {
-    paddingHorizontal: 30,
-    marginBottom: 25,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  caption: {
-    fontSize: 14,
-    lineHeight: 14,
-    fontWeight: '500',
-  },
-  row: {
-    flexDirection: 'row',
-    marginBottom: 10,
-  },
-  infoBoxWrapper: {
-    borderBottomColor: '#dddddd',
-    borderBottomWidth: 1,
-    borderTopColor: '#dddddd',
-    borderTopWidth: 1,
-    flexDirection: 'row',
-    height: 100,
-  },
-  infoBox: {
-    width: '50%',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  menuWrapper: {
+
+
+  sliderContainer: {
+    height: 200,
+    width: '90%',
     marginTop: 10,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    borderRadius: 8,
   },
-  menuItem: {
-    flexDirection: 'row',
-    paddingVertical: 15,
-    paddingHorizontal: 30,
+
+  wrapper: {},
+
+  slide: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+    borderRadius: 8,
   },
-  menuItemText: {
-    color: '#777777',
-    marginLeft: 20,
-    fontWeight: '600',
-    fontSize: 16,
-    lineHeight: 26,
+  sliderImage: {
+    height: '100%',
+    width: '100%',
+    alignSelf: 'center',
+    borderRadius: 8,
   },
-})
+});

@@ -14,7 +14,7 @@ export const Home = ({ navigation } : any) => {
       <View style={{columnGap:10}}>
       <Categories /> 
       <WelcomeText/>
-      <Products/>
+      <Products navigation = {navigation}/>
       </View>
     </View>
     </KeyboardAwareScrollView>

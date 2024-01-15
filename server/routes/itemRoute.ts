@@ -2,6 +2,7 @@ import * as itemRouter from "../controllers/itemController"
 
 const route = require("express").Router();
 route.get("/",itemRouter.GetAllItems)
+route.get("/getitem/:ownerId",itemRouter.GetAllItemsOfOneUser)
 route.post("/add/:ownerId",itemRouter.AddItem)
 route.get("/type/:typeId",itemRouter.getItemByTypes)
 route.get("/state/:state",itemRouter.GetItembyState)

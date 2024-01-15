@@ -4,23 +4,20 @@ import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { BottomScreenTab } from "./secreens/BottomScreens/BottomScreenTab";
 import { Test } from "./componets/Test";
-
 import {GeeversIfllow} from "./secreens/Acc-screens/GeeversIfllow"
 import {TermAndConditions} from "./secreens/Acc-screens/TermAndConditions"
 import {HelpCenter} from "./secreens/Acc-screens/HelpCenter"
 import {InviteFreind} from "./secreens/Acc-screens/InviteFreind"
 import {EditProfil} from "./secreens/Acc-screens/EditProfil"
 import {OtheruserProfile} from "./secreens/OtherUserScreens/Prolfil"
+import {ItemsDetails} from "./secreens/OtherUserScreens/ItemsDetails"
 import { MySavedSearch } from "./secreens/Acc-screens/MySavedSearch";
-
-
 import { useContext, useEffect, useState } from "react";
 import { StackScreens } from "./secreens/FirstScreens/StackScreens";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavBlogPage } from './componets/blogPage/navBlogPage';
 import BlogPage from './secreens/BottomScreens/BlogPage';
-
 
 
 const queryClient = new QueryClient();
@@ -56,7 +53,7 @@ export default function App({navigation}: any) {
     <NavigationContainer>
 
 
-          {(auth || storage)? (
+          {(true)? (
 
             <Stack.Navigator>
               <Stack.Screen
@@ -69,20 +66,16 @@ export default function App({navigation}: any) {
                 options={{ headerShown: false }}
                 component={Test}
               />
-              <Stack.Screen name="blog" options={{ headerShown: true , header:()=><NavBlogPage/> , headerStyle:{width:'100%'} }} component={BlogPage} />
-              <Stack.Screen name="MySavedSearch" options={{headerShown: true}} component={MySavedSearch }/>
-
+          <Stack.Screen name="blog" options={{ headerShown: true , header:()=><NavBlogPage/> , headerStyle:{width:'100%'} }} component={BlogPage} />
+          <Stack.Screen name="MySavedSearch" options={{headerShown: true}} component={MySavedSearch }/>
           <Stack.Screen name="GeeversIfllow" options={{headerShown: true}} component={GeeversIfllow}/>
           <Stack.Screen name="TermAndConditions" options={{headerShown: true}} component={TermAndConditions}/>
           <Stack.Screen name="HelpCenter" options={{headerShown: true}} component={HelpCenter}/>
           <Stack.Screen name="InviteFreind" options={{headerShown: true}} component={InviteFreind}/>
           <Stack.Screen name="EditProfil" options={{headerShown: true}} component={EditProfil}/>
-
           <Stack.Screen name="OtheruserProfile" options={{headerShown: true}} component={OtheruserProfile}/>
-
-          
-
-            </Stack.Navigator>
+          <Stack.Screen name="ItemsDetails" options={{headerShown: true}} component={ItemsDetails}/>
+          </Stack.Navigator>
           ) : (
             <StackScreens />
           )}
