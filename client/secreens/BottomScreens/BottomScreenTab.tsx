@@ -55,7 +55,8 @@ export const BottomScreenTab = ({navigation}:any) => {
         <Tab.Screen name="CreateItem" 
         options={{ headerShown: true , header:()=><NavBar navigation={navigation}/> , headerStyle:{width:'100%'} }}
          component={CreateItem}/>
-        <Tab.Screen name="Wishlist"  options={{headerShown:false}} component={Wishlist}/>
+        <Tab.Screen name="Wishlist" 
+         options={{headerShown:true ,header:()=><NavBar navigation={navigation}/>, headerStyle:{width:'100%'}}} component={Wishlist}/>
         <Tab.Screen name="Account"  options={{headerShown:true}} component={Account}/> 
         
     </Tab.Navigator>
