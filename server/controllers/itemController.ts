@@ -93,6 +93,28 @@ export const GetAllItems = async (
   }
 };
 
+
+export const GetAllItemsOfOneUser = async(req:Request,res:Response): Promise<void>=>{
+  const {ownerId} = req.params
+  try {
+      const All = await prisma.item.findMany(
+        {
+          where: {
+            ownerId:ownerId
+          }
+        }
+      );
+      if (All.length > 0) {
+        res.status(200).json(All);
+      } else {
+        res.status(200).json([]);
+      }
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  };
+
+
 export const getItemByTypes = async (
   req: Request,
   res: Response
@@ -352,4 +374,5 @@ try {
   res.status(500).json(error);
 }
 };
+
 

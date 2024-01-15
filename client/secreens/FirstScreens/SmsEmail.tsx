@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Image } from "expo-image";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
 import { Border, Color, FontSize } from "../../GlobalStyles/SmsEmail";
 import { AuthContext } from "../../useContext/authContext";
 import app from "../../firebase";
@@ -41,7 +41,9 @@ const SmsEmail = ({navigation}:any) => {
         contentFit="cover"
         source={require("../../assets/smsEmail/bubbles.png")}
       />
-      <Text style={[styles.title, styles.titleFlexBox]}>Cancel</Text>
+      <Pressable onPress={()=>navigation.navigate("welcome")}>
+        <Text style={[styles.title, styles.titleFlexBox]}>Cancel</Text>
+      </Pressable>
 
       <Pressable onPress={toggleSmsCheckbox}>
         <View style={[styles.sms, styles.smsLayout ]}>
@@ -90,11 +92,14 @@ const SmsEmail = ({navigation}:any) => {
 
       <Pressable onPress={() =>{
         handlePasswordReset() 
-        navigation.navigate("passwordRecoveryCode")
+        Alert.alert("Check Your Email Please")
+        navigation.navigate("login")
         }}>
         <View style={[styles.button, styles.buttonPosition]}>
           <View style={[styles.buttonChild, styles.buttonChildPosition]} />
-          <Text style={[styles.next, styles.titleFlexBox]}>Next</Text>
+          <Pressable onPress={()=>navigation.navigate("login")}>
+            <Text style={[styles.next, styles.titleFlexBox]}>Next</Text>
+          </Pressable>
         </View>
       </Pressable>
     </View>
@@ -333,7 +338,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f20b32",
   },
   next: {
-    marginTop: -14.5,
+    marginTop: 13,
     left: "42.99%",
     fontSize: 22,
     lineHeight: 31,

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { View, Text, StyleSheet, Pressable, SafeAreaView,Image,ScrollView, TextInput, Alert, ImageBackground } from 'react-native'
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import * as ImagePicker from 'expo-image-picker';
@@ -9,14 +9,22 @@ import { ContextPost } from '../../useContext/createBlog';
 
 import { addPost, getPosts } from '../../React-query/blog/blog';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { getUserData } from '../../localStorage/getuser';
 
 const BlogPage = () => {
   const [addPosts, setAddPosts] = useState('')
   const [image, setImage] = useState<null | string>(null);
   const { addpost, setAddPost } = useContext(ContextPost)
+  const [userConnected, setUserConncted] = useState('')
   const { data: posts, isLoading, isError, isSuccess,refetch } = getPosts();
-
+console.log(userConnected)
   const addposts=addPost()
+  useEffect(() => {
+    getUserData().then((result: any) => {
+      setUserConncted(result.id)
+
+    })
+  }, []);
   console.log(addPosts,'ggggggggggg')
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -84,7 +92,7 @@ const BlogPage = () => {
          <View style={{flexDirection:'row-reverse'}}>
           <Pressable      
           onPress={
-          async()=>{try{ addposts.mutate({image:image,body:addPosts,id:'1'});
+          async()=>{try{ addposts.mutate({image:image,body:addPosts,id:userConnected });
           setAddPost(false)
            refetch() }
         catch(err){console.log(err)}}}>

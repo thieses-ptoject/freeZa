@@ -16,7 +16,7 @@ export const follow = async(req:Request,res:Response)=>{
             const unfollow =await prisma.giversFollowed.deleteMany({
                 where: { followerId  },
               });
-              res.status(200).send(unfollow)
+              res.status(200).send(false)
           }
 
           else{
@@ -25,13 +25,14 @@ export const follow = async(req:Request,res:Response)=>{
             followedId:followedId
 
         }})
-    res.status(200).send(following)}}
+    res.status(200).send(true)}}
     }catch(err){
         res.status(500).send(err)
     }
 
     
 }
+
 export const getUserFollow= async (req:Request,res:Response)=>{
     const {followerId}=req.params
     try {
