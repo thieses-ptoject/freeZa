@@ -12,6 +12,7 @@
       var { data: products, isLoading, isError } = getProducts();
       const [image, setImage] = useState("")
       const [filteredProducts, setFilteredProducts] = useState(products);
+      const [id,setId]=useState('')
       const {data:categories , isLoading: categoriesLoading, isError: categoryError} = getCategories()
 
       
