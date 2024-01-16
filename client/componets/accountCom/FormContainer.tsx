@@ -4,10 +4,23 @@ import { Color, FontFamily, FontSize } from "../../GlobalStyles/UserProfil";
 import Ionicons from "react-native-vector-icons/MaterialCommunityIcons";
 // import * as Sharing from 'expo-sharing';
 import { log } from "console";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AuthContext } from "../../useContext/authContext";
 
 const FormContainer = ({ navigation }: any) => {
-
+  const{auth, setAuth}=React.useContext(AuthContext)
+  const clearAsyncStorage = async () => {
+    try {
+      await AsyncStorage.clear();
+      // navigation.navigate('Welcome')
+      console.log("AsyncStorage cleared successfully!");
+    } catch (error) {
+      console.error("Error clearing AsyncStorage: ", error);
+    }
+  };
   
+  // Call the function wherever you need to clear AsyncStorage
+  clearAsyncStorage();
 const shareText = async (text:string) => {
   try {
       await Share.share({
@@ -126,7 +139,7 @@ const shareText = async (text:string) => {
         <View style={[styles.icon, styles.iconLayout]}>
             <Ionicons name="account-arrow-left-outline" size={22} color="#FC5A8D" />
           </View>
-          <Text style={[styles.notifications, styles.notificationsTypo]}>
+          <Text style={[styles.notifications, styles.notificationsTypo]} onPress={clearAsyncStorage}>
             Logout
           </Text>
           <Image

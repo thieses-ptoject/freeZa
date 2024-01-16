@@ -2,36 +2,50 @@ import React, { useEffect, useState } from 'react'
 import { View,Text, StyleSheet } from 'react-native'
 import { getUserData } from '../../localStorage/getuser'
 import { getMessages } from '../../React-query/message/message'
+import OneUser from '../../componets/message/OneUser'
+import axios from 'axios'
+import config from "../../config.json"
+import {auth} from '../../firebase'
+// import { auth } from 'firebase/auth'
 export const Chat = () => {
   const [userConnected, setUserConncted] = useState<string>('')
-  console.log(userConnected, 'aaaaa')
-  useEffect(() => {
+  const [otherUser,setOtherUser]=useState({})
+  const [data,setData]=useState([])
+  
+
     getUserData().then((result: any) => {
-      setUserConncted(result.id)
+      setUserConncted(result.id)})
+      .catch((err)=>console.log(err.message,'gggg'))
+    
+     useEffect(()=>{
+      axios.get(`http://${config.ip}:3001/message/${userConnected}`).then((result)=>{
+        setData(result.data)
+      })
+     },[userConnected])
+    
+   
 
-    })
-  }, []);
-
-  const { data: alldisc, isLoading: messageloading, isError: messageerror, isSuccess, refetch } = getMessages(userConnected);
-  console.log(alldisc,'disc',userConnected)
-  if(messageloading){ return <View><Text>Loading</Text></View>}
- 
-  else return (
+  // const { data: message, isLoading, isError, isSuccess,error } = getMessages(userConnected);
+  // console.log(message)  
+  // if(isLoading) {return <View><Text>loading</Text></View>}
+   return (
     <View style={{gap:5}}>
       <View style={styles.titlecontainer}>
         <Text style={styles.title}>Direct Messages</Text>
         
         </View>
-        { isSuccess &&<View>
-        {alldisc.map((ele:any)=>{
+        <View>
+        {data.length>0 && data.map((ele:any,i:any)=>{
+      
           return(
-          <View style={styles.view1} >
-
-          </View>)
+            
+        
+            <OneUser id={ele.id} currentUser={userConnected} message={ele}/>
+         )
 
 
         })}
-        </View>}
+        </View>
     </View>
   )
 }

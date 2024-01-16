@@ -53,14 +53,16 @@ export const getDiscutions =async (req:Request,res:Response)=>{
             recieverId:userId
         },   
         include:{
-                recivermessage:true,
+               
                  sender:true,
                     }
                 
        }) 
+       
     const   findchatsend=await prisma.messages.findMany({
         where:{
             senderId:userId
+            
         },   
         include:{
                 recivermessage:true,
