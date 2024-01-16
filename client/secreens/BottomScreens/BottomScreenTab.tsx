@@ -51,11 +51,12 @@ export const BottomScreenTab = ({navigation}:any) => {
       })}
      >
         <Tab.Screen name ="Home" options={{ headerShown: true , header:()=><NavBar navigation={navigation}/> , headerStyle:{width:'100%',height:5}  }} component={Home}/>
-        <Tab.Screen name="Chat"  options={{headerShown:false}} component={Chat}/>
+        <Tab.Screen name="Chat"  options={{headerShown:true,headerStyle:{alignContent:'center',}}} component={Chat}/>
         <Tab.Screen name="CreateItem" 
         options={{ headerShown: true , header:()=><NavBar navigation={navigation}/> , headerStyle:{width:'100%'} }}
          component={CreateItem}/>
-        <Tab.Screen name="Wishlist"  options={{headerShown:false}} component={Wishlist}/>
+        <Tab.Screen name="Wishlist" 
+         options={{headerShown:true ,header:()=><NavBar navigation={navigation}/>, headerStyle:{width:'100%'}}} component={Wishlist}/>
         <Tab.Screen name="Account"  options={{headerShown:true}} component={Account}/> 
         
     </Tab.Navigator>

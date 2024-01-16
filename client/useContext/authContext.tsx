@@ -1,6 +1,6 @@
   import { createContext, useContext, useState } from "react";
-  import {getProducts} from  "../React-query/homeProducts/products"
-  import { filterProducts } from "../React-query/homeProducts/products"
+  import {getProducts, getCategories, filterProducts, getTypes} from  "../React-query/homeProducts/products"
+
   export const AuthContext = createContext<any>(null);
 
   export const AuthProvider = ({ children }: any) => {
@@ -12,10 +12,16 @@
       var { data: products, isLoading, isError } = getProducts();
       const [image, setImage] = useState("")
       const [filteredProducts, setFilteredProducts] = useState(products);
-
+      const {data:categories , isLoading: categoriesLoading, isError: categoryError} = getCategories()
 
       
+
+    
+      
     const value = {
+      categories,
+      categoriesLoading,
+      categoryError,
       auth,
       setAuth,
       phone,
@@ -33,7 +39,7 @@
       isError,
       filteredProducts,
       setFilteredProducts,
-
+      
     };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

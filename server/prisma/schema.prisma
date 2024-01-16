@@ -8,32 +8,32 @@ datasource db {
 }
 
 model User {
-  id             String           @id
-  firstName      String
-  lastName       String
-  email          String           @unique
-  image          String
-  strawberries   Int              @default(5)
-  rate           Int              @default(0)
-  level          String           @default("BabyGiver")
-  accountType    Boolean          @default(false)
-  nbrOfDonation  Int              @default(0)
-  nbrOfTakes     Int              @default(0)
-  address        String
-  phone          String
-  Giver          Appointments[]   @relation("giver")
-  Reciver        Appointments[]   @relation("reciver")
-  Comments       Comments[]
-  Favourite      Favourite[]
-  GiversFollowed GiversFollowed[] @relation("followed")
-  GiversFollower GiversFollowed[] @relation("follower")
-  Items          Item[]
-  Like           Like[]
-  Posts          Posts[]
-  Rated          Rate[]           @relation("rated")
-  Rater          Rate[]           @relation("rater")
-  sender          Messages[]   @relation("sender")
-  Recievermessage       Messages[]   @relation("reciversmessage")
+  id              String           @id
+  firstName       String
+  lastName        String
+  email           String           @unique
+  image           String
+  strawberries    Int              @default(5)
+  rate            Int              @default(0)
+  level           String           @default("BabyGiver")
+  accountType     Boolean          @default(false)
+  nbrOfDonation   Int              @default(0)
+  nbrOfTakes      Int              @default(0)
+  address         String
+  phone           String
+  Giver           Appointments[]   @relation("giver")
+  Reciver         Appointments[]   @relation("reciver")
+  Comments        Comments[]
+  Favourite       Favourite[]
+  GiversFollowed  GiversFollowed[] @relation("followed")
+  GiversFollower  GiversFollowed[] @relation("follower")
+  Items           Item[]
+  Like            Like[]
+  Recievermessage Messages[]       @relation("reciversmessage")
+  sender          Messages[]       @relation("sender")
+  Posts           Posts[]
+  Rated           Rate[]           @relation("rated")
+  Rater           Rate[]           @relation("rater")
 }
 
 model Item {
@@ -145,12 +145,13 @@ model Appointments {
   giver     User    @relation("giver", fields: [giverId], references: [id], onDelete: Cascade)
   reciver   User    @relation("reciver", fields: [reciverId], references: [id], onDelete: Cascade)
 }
+
 model Messages {
-   id        Int     @id @default(autoincrement())
-   message String
-   sender     User    @relation("sender", fields: [senderId], references: [id], onDelete: Cascade)
-   recivermessage   User     @relation("reciversmessage", fields: [recieverId], references: [id], onDelete: Cascade)
-   senderId  String
-   recieverId  String
-   createdAt   DateTime @default(now())
+  id             Int      @id @default(autoincrement())
+  message        String
+  senderId       String
+  recieverId     String
+  createdAt      DateTime @default(now())
+  recivermessage User     @relation("reciversmessage", fields: [recieverId], references: [id], onDelete: Cascade)
+  sender         User     @relation("sender", fields: [senderId], references: [id], onDelete: Cascade)
 }

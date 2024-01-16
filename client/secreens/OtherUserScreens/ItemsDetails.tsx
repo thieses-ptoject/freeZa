@@ -14,7 +14,7 @@ import  {
   TriggeringView,
 } from "react-native-image-header-scroll-view";
 import HeaderImageScrollView from 'react-native-image-header-scroll-view';
-import * as Animatable from "react-native-animatable";
+//import * as Animatable from "react-native-animatable";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { Item } from "react-native-paper/lib/typescript/components/Drawer/Drawer";
@@ -101,10 +101,6 @@ export const ItemsDetails = ({ navigation, route }: any) => {
           
           <Text style={styles.sectionContent}>Description:  {itemData?.description}</Text>
         </View>
-
-
-
-
         <View style={styles.section}>
           <View style={styles.categories}>
           
