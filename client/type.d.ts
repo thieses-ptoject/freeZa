@@ -69,3 +69,8 @@ interface Products {
   ownerId: string,
   typeId: number,
 }
+interface WishList {
+  id: number,
+  userId: string,
+  itemId: number
+}

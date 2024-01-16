@@ -71,33 +71,33 @@ export const DeleteFavorite = async(req:Request,res:Response): Promise<void>=>{
 
 
     try {
-        const user = await prisma.user.findUnique({
-            where:{id:userId},
-        });
+    //     const user = await prisma.user.findUnique({
+    //         where:{id:userId},
+    //     });
 
-        if (!user) {
-            res.status(404).json({ success: false, message: 'User not found' });
-            return;
-        }
+    //     if (!user) {
+    //         res.status(404).json({ success: false, message: 'User not found' });
+    //         return;
+    //     }
 
-        const itemToDelete = await prisma.favourite.findUnique({
-            where:{id:itemId},
-        });
+    //     const itemToDelete = await prisma.favourite.findUnique({
+    //         where:{id:itemId},
+    //     });
 
-        if (!itemToDelete) {
-            res.status(404).json({ success: false, message: 'Itemg not found' });
-            return;
-        }
+    //     if (!itemToDelete) {
+    //         res.status(404).json({ success: false, message: 'Itemg not found' });
+    //         return;
+    //     }
 
         await prisma.favourite.deleteMany({
             where: {
                 userId: userId,
-                itemId: itemId,
+                itemId: itemId, 
             },
         });
-
-        res.status(200).json({ success: true, message: 'Product removed from favorites successfully', item: itemToDelete });
-    } catch (error) {
+        res.status(200).json({ success: true, message: 'Product removed from favorites successfully' });
+     } 
+     catch (error) {
         console.error('Error deleting product from favorites:', error);
         res.status(500).json({ success: false, message: 'Internal server error' });
     }
