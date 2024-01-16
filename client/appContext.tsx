@@ -28,28 +28,17 @@ import Chatscreen from "./componets/message/Chatscreen";
 import { NavBar } from "./componets/Home/NavBar";
 const Stack = createStackNavigator();
 export default function App({navigation}: any) {
-  const{auth, setAuth}=useContext(AuthContext)
+  const{isAuthenticated, setIsAuthenticated}=useContext(AuthContext)
   const [storage, setStorage] = useState(false);
   console.log(storage, "ssssssssssssssss")
-  useEffect(() => {
-    const fetchData = async () => {
-      const storage = await AsyncStorage.getItem("user") ;
-      console.log(storage, "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
-    };
-    (async ()=>{
 
-      await fetchData();
-      const userData = await getUserData();
-      console.log('User data:',  userData);
-    })()
-  }, [auth]);
 
   const getUserData = async () => {
     try {
       const savedData = await AsyncStorage.getItem('user');
       
       if (savedData) {
-        setStorage(true )
+        setIsAuthenticated(true)
       } else {
         console.log('No user data found');
       }
@@ -57,11 +46,19 @@ export default function App({navigation}: any) {
       console.error('Error retrieving user data:', error);
     }
    };  
+
+   useEffect(() => {
+    (async ()=>{
+
+      const userData = await getUserData();
+      console.log('User data:',  userData);
+    })()
+  }, []);
   return (
     <NavigationContainer>
 
 
-          {(storage)? (
+          {(isAuthenticated)? (
 
             <Stack.Navigator>
               <Stack.Screen

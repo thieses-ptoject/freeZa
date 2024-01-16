@@ -8,6 +8,7 @@ export const OthersType = ({ onClose, setView }: any) => {
     const [selectedItem, setSelectedItem] = useState<number | null>(null);
     const [categoryStates, setCategoryStates] = useState<{ [key: number]: boolean }>({});
     const translateY = useRef(new Animated.Value(Dimensions.get('window').height)).current;
+    const {products ,  setFilteredProducts} = useContext(AuthContext)
 
     const slideUp = () => {
         Animated.timing(translateY, {
@@ -41,6 +42,15 @@ export const OthersType = ({ onClose, setView }: any) => {
         setSelectedItem(selectedItem === index ? null : index);
         setCategoryStates({ ...categoryStates, [index]: !categoryStates[index] });
     };
+    const handleTypePress = (index: number) => {
+        const filtered = products.filter((element : any)=>{
+            return element.typeId === index
+        })
+        console.log(products , "products jsqdjklsqd")
+        console.log(filtered, "rrrrrrrrrrrrrrrrr")
+    return setFilteredProducts(filtered)
+    };
+
 
     return (
         <Animated.View style={{ ...styles.bigContainer, transform: [{ translateY }] }}>
@@ -57,7 +67,9 @@ export const OthersType = ({ onClose, setView }: any) => {
                     <View key={index}>
                         <TouchableOpacity
                             style={styles.categoryContainer}
-                            onPress={() => handleCategoryPress(index)}
+                            onPress={() =>{ 
+          
+                                handleCategoryPress(index)}}
                             >
                         <View style ={styles.iconContainer}>
                             <Image
@@ -68,18 +80,24 @@ export const OthersType = ({ onClose, setView }: any) => {
                             <Text style={styles.text}>
                                 {category.name}
                             </Text>
-                            <View style={styles.iconContainer}>
-                                <Ionicons name="chevron-down-outline" size={24} color="green" />
+                            <View style={styles.arrowContainer}>
+                                <Ionicons style ={styles.arrowIcon} name="chevron-down-outline" size={24} color="green" />
                             </View>
                         </TouchableOpacity>
                         {categoryStates[index] &&
                             <View style = {styles.bigTypeContainer}>
                                 {category.Types.map((type: any, typeIndex: number) => (
-                                    <View key={typeIndex} style={styles.typeContainer}>
-                                        <TextInput style={styles.typeText}>
-                                            {type.type}
-                                        </TextInput>
-                                    </View>
+                                    <Pressable onPress={()=>{
+                                        console.log(setView)
+                                        setView(false)
+                                        handleTypePress(type.id)
+                                    }}>
+                                        <View key={typeIndex} style={styles.typeContainer}>
+                                            <Text style={styles.typeText}>
+                                                {type.type}
+                                            </Text>
+                                        </View>
+                                    </Pressable>
                                 ))}
                             </View>
                         }
@@ -92,7 +110,13 @@ export const OthersType = ({ onClose, setView }: any) => {
 
 
 const styles = StyleSheet.create({
-
+    arrowIcon:{
+        alignSelf:"flex-end",
+        justifyContent: "flex-end"
+    },
+    typeText:{
+            
+    },
     categoryIcon :{
         height: 30,
         width: 30,
@@ -115,8 +139,10 @@ const styles = StyleSheet.create({
         fontSize: 18,
         padding: 8,
         color: "green",
+        marginRight: "55%",
     },
     categoryContainer: {
+        width: "90%",
         paddingVertical: 10,
         flexDirection: 'row',
         alignItems: 'center',
@@ -124,9 +150,17 @@ const styles = StyleSheet.create({
         borderBottomColor: '#ddd',
         marginLeft: "1%",
         marginRight: "2.5%",
+        justifyContent: "space-between"
     },
     iconContainer: {
         marginLeft: 10,
+        justifyContent: "flex-end",
+    },
+    arrowContainer:{
+        alignItems: "center",
+        justifyContent: "center",
+        
+        
     },
     bigContainer: {
         backgroundColor: "#fff",

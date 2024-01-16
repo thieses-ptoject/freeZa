@@ -54,7 +54,7 @@ console.log(item)
      
       <FlatList
         inverted
-        data={allMessages?.reverse()}
+        data={allMessages}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderMessage}
         contentContainerStyle={styles.messageList}
@@ -147,7 +147,7 @@ const styles= StyleSheet.create({
     borderRadius: 30,
     margin: 6,
     backgroundColor:'#F4F8F2',
-    color:'#F3F4F3',
+    color:"black",
     paddingHorizontal:15
 
     
