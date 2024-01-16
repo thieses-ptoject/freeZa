@@ -10,8 +10,7 @@ export const Types = ({ data, onClose, setView, categoryId }: any) => {
     const translateY = useRef(new Animated.Value(Dimensions.get('window').height)).current;
     const [view,setVieww] = useState(false)
     const {types} =useContext(AuthContext)
-    const [selectedType, setSelectedType] = useState<number | null>(null);
-    const {setFilteredProducts}  = useContext(AuthContext)
+    const {products ,  setFilteredProducts} = useContext(AuthContext)
 
     console.log(types);
     const slideUp = () => {
@@ -27,14 +26,14 @@ export const Types = ({ data, onClose, setView, categoryId }: any) => {
         
       },[]);
     const handleItemPress = (index: number) => {
-        setSelectedItem(selectedItem === index ? null : index);
+        const filtered = products.filter((element : any)=>{
+            return element.typeId === index
+        })
+        console.log(products , "products jsqdjklsqd")
+        console.log(filtered, "rrrrrrrrrrrrrrrrr")
+    return setFilteredProducts(filtered)
     };
-    const filteredData = selectedType
-    ? data.filter((item: any) => item.typeId === selectedType)
-    : data;
 
-
-        console.log(filteredData, "llllllllllllll")
     return (
         <Animated.View style={{ ...styles.bigContainer, transform: [{ translateY }] }}>
             <View style={styles.bigContainer}>
@@ -46,18 +45,16 @@ export const Types = ({ data, onClose, setView, categoryId }: any) => {
                         </Pressable>
                     </TouchableOpacity>
                 </View>
-                {filteredData?.map((ele: any, index: number) => {
+                {data?.map((ele: any, index: number) => {
                     return (
                         <TouchableOpacity
                             key={index}
                             style={styles.typeContainer}
-                            onPress={() =>{ 
+                            onPress={() => {
                                 setView(false)
-                                handleItemPress(ele.typeId)
-                                
-                            }
-                                
-                            }
+                                handleItemPress(ele.id) 
+                                console.log(ele.id, "ksqldjkkkkkkkkkkkkkkkkkkkkkkkk")
+                            }}
                         >
                             <Text style={styles.text}>
                                 {ele.type}
