@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Text,
   View,
@@ -14,11 +14,17 @@ import {
 import {
   GiversIFollowed,
   DeleteFollower,
+  GiversFollowedMe,
 } from "../../React-query/user/Following";
 import { SceneMap, TabBar, TabView } from "react-native-tab-view";
 ;
 
-export const GeeversIfllow = ({ navigation }: any) => {
+export const GeeversIfllow = ({ navigation,route }: any) => {
+
+ useEffect(() => {
+    console.log('ggg');
+  }, [route.params?.refresh]);
+
 
 
   const layout = useWindowDimensions();
@@ -49,18 +55,21 @@ export const GeeversIfllow = ({ navigation }: any) => {
 
 
 
+  const { data : FllowMedata, isLoading: FllowMeLoding, isError: FllowMeError, refetch: FllowMeRefetch, isSuccess : FllowMeIsSuccess} = GiversFollowedMe("1");
+  const { data : Ifllowdata, isLoading: IfollowLoding, isError: IfollowError, refetch: IfollowRefetch, isSuccess : IfollowIsSuccess} = GiversIFollowed("1");
+ 
 
-  const { data, isLoading, isError, refetch, isSuccess } = GiversIFollowed("3");
+
   const delfollower = DeleteFollower();
 
-  if (isLoading) {
+  if (IfollowLoding || FllowMeLoding ) {
     return (
       <View>
         <ActivityIndicator size="large" color="#000" />
       </View>
     );
   }
-  if (isError) {
+  if (IfollowError || FllowMeError) {
     return (
       <View>
         <Text>Error fetching user data</Text>
@@ -74,26 +83,26 @@ export const GeeversIfllow = ({ navigation }: any) => {
   const PhotosRoutes = () => (
    
     <View style={{ flex: 1, backgroundColor: "#FFF9FC" }}>
-       {isSuccess && (
+       {FllowMeIsSuccess && (
         <FlatList
-          data={data}
+          data={FllowMedata}
           keyExtractor={(ele) => ele.id}
           renderItem={({ item, index }) => {
             return (
               <View style={styles.view1}>
-                <TouchableOpacity onPress={() => navigation.navigate("OtheruserProfile", {id: item.followed})}>
+                <TouchableOpacity onPress={() => navigation.navigate("OtheruserProfile", {id: item.follower})}>
                   <Image
-                    source={{ uri: item.followed.image }}
+                    source={{ uri: item.follower.image }}
                     style={styles.image}
                   />
                 </TouchableOpacity>
                 <View>
                   <Text style={styles.text1}>
-                    {item.followed.firstName} {item.followed.lastName}
+                    {item.follower.firstName} {item.follower.lastName}
                   </Text>
-                  <Text style={styles.text2}>{item.followed.email}</Text>
+                  <Text style={styles.text2}>{item.follower.email}</Text>
                   <Text style={styles.text2}></Text>
-                  <Text style={styles.text3}>{item.followed.level}</Text>
+                  <Text style={styles.text3}>{item.follower.level}</Text>
                 </View>
                 <View style={styles.button}>
                   <TouchableOpacity>
@@ -103,7 +112,7 @@ export const GeeversIfllow = ({ navigation }: any) => {
                         hundeldeletePress(item.id);
                       }}
                     >
-                      Unfollow
+                      Delete
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -113,49 +122,55 @@ export const GeeversIfllow = ({ navigation }: any) => {
         />
        )}
     </View>
+  
   );
  
   const LikesRoutes = () => (
+
     <View style={{ flex: 1, backgroundColor: "#FFF9FC" }}>
-       {isSuccess && (
-        <FlatList
-          data={data}
-          keyExtractor={(ele) => ele.id}
-          renderItem={({ item, index }) => {
-            return (
-              <View style={styles.view1}>
-                <TouchableOpacity onPress={() => navigation.navigate("OtheruserProfile", {id: item.followed})}>
-                  <Image
-                    source={{ uri: item.followed.image }}
-                    style={styles.image}
-                  />
-                </TouchableOpacity>
-                <View>
-                  <Text style={styles.text1}>
-                    {item.followed.firstName} {item.followed.lastName}
-                  </Text>
-                  <Text style={styles.text2}>{item.followed.email}</Text>
-                  <Text style={styles.text2}></Text>
-                  <Text style={styles.text3}>{item.followed.level}</Text>
-                </View>
-                <View style={styles.button}>
-                  <TouchableOpacity>
-                    <Text
-                      style={styles.unfollowviwe}
-                      onPress={() => {
-                        hundeldeletePress(item.id);
-                      }}
-                    >
-                      Unfollow
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            );
-          }}
-        />
-       )}
-    </View>
+    {IfollowIsSuccess && (
+     <FlatList
+       data={Ifllowdata}
+       keyExtractor={(ele) => ele.id}
+       renderItem={({ item, index }) => {
+         
+         return (
+           <View style={styles.view1}>
+             <TouchableOpacity onPress={() => navigation.navigate("OtheruserProfile", {id: item.followed})}>
+               <Image
+                 source={{ uri: item.followed.image }}
+                 style={styles.image}
+               />
+             </TouchableOpacity>
+             <View>
+               <Text style={styles.text1}>
+                 {item.followed.firstName} {item.followed.lastName}
+               </Text>
+               <Text style={styles.text2}>{item.followed.email}</Text>
+               <Text style={styles.text2}></Text>
+               <Text style={styles.text3}>{item.followed.level}</Text>
+             </View>
+             <View style={styles.button}>
+               <TouchableOpacity>
+                 <Text
+                   style={styles.unfollowviwe}
+                   onPress={() => {
+                     hundeldeletePress(item.id);
+                   }}
+                 >
+                   Unfollow
+                 </Text>
+               </TouchableOpacity>
+             </View>
+           </View>
+         );
+       }}
+     />
+    )}
+ </View>
+
+
+
   );
   
   const renderScene = SceneMap({
@@ -175,7 +190,8 @@ export const GeeversIfllow = ({ navigation }: any) => {
   const hundeldeletePress = async (Id: any) => {
     try {
       await delfollower.mutateAsync(Id);
-      refetch();
+      IfollowRefetch();
+      FllowMeRefetch()
     } catch (errors) {
       console.log(errors);
     }
@@ -266,47 +282,3 @@ const styles = StyleSheet.create({
 
 
 
-
-
-
-
-
-// <View style={styles.container}>
-//      {isSuccess && (
-//         <FlatList
-//           data={data}
-//           keyExtractor={(ele) => ele.id}
-//           renderItem={({ item, index }) => {
-//             return (
-//               <View style={styles.view1}>
-//                 <TouchableOpacity onPress={() => navigation.navigate("OtheruserProfile", {id: item.followed})}>
-//                   <Image
-//                     source={{ uri: item.followed.image }}
-//                     style={styles.image}
-//                   />
-//                 </TouchableOpacity>
-//                 <View>
-//                   <Text style={styles.text1}>
-//                     {item.followed.firstName} {item.followed.lastName}
-//                   </Text>
-//                   <Text style={styles.text2}>{item.followed.email}</Text>
-//                   <Text style={styles.text2}></Text>
-//                   <Text style={styles.text3}>{item.followed.level}</Text>
-//                 </View>
-//                 <View style={styles.button}>
-//                   <TouchableOpacity>
-//                     <Text
-//                       style={styles.unfollowviwe}
-//                       onPress={() => {
-//                         hundeldeletePress(item.id);
-//                       }}
-//                     >
-//                       Unfollow
-//                     </Text>
-//                   </TouchableOpacity>
-//                 </View>
-//               </View>
-//             );
-//           }}
-//         />
-//      </View> 
