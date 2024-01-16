@@ -47,7 +47,7 @@ const CommentLike = ({ idPost, iduser }: any) => {
       </View>
     </View>
     <Modal
-      style={{ width: '100%', height: '60%', position: 'absolute', bottom: 0 }}
+     
       animationType="slide"
       transparent={true}
       visible={modalVisible}
@@ -89,6 +89,7 @@ const CommentLike = ({ idPost, iduser }: any) => {
       <ScrollView style={styles.centeredView}>
 
         <View style={styles.modalViewComment}>
+          
           < View style={{ alignSelf: 'flex-end' }}>
             <Pressable
 
@@ -128,7 +129,7 @@ const CommentLike = ({ idPost, iduser }: any) => {
               multiline
 
             />
-            <Pressable onPress={() => { addComments.mutate({ postId: idPost, body: text, userId: userConnected }), refetch() }}>
+            <Pressable onPress={() => { addComments.mutate({ postId: idPost, body: text, userId: userConnected }), refetchcom() }}>
               <MaterialCommunityIcons name={'send-outline'} size={30} color={'red'} />
             </Pressable>
           </View>
@@ -146,7 +147,7 @@ const styles = StyleSheet.create({
     flex: 1,
     // justifyContent: 'center',
     // alignItems: 'center',
-    width: '100%', height: '60%', position: 'absolute', bottom: 0
+  
   },
   image: {
     height: 30,
@@ -156,9 +157,9 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    width: '70%',
+  
     gap: 8,
-
+    height:'100%',
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
@@ -194,7 +195,7 @@ const styles = StyleSheet.create({
     margin: 20,
     width: '90%',
     gap: 8,
-
+     
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,

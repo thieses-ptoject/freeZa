@@ -15,7 +15,7 @@ const OneBlog = ({post}:any) => {
     return <View><Text>Loading ...</Text></View>
   }
   return (
-   <View style={[styles.card,{height:post.image?300:100}]} >
+   <View style={[styles.card,{height:post.image?'auto':100}]} >
 
  <View >
   {isSuccess&&
@@ -29,7 +29,9 @@ const OneBlog = ({post}:any) => {
      
      </View>
   </View>}
-  <View  style={{height: 50,
+  <View style={{gap:5}}>
+  <View  style={{
+    
     width: '100%',
     backgroundColor:'#FCEFF6',
     opacity:10,
@@ -41,10 +43,11 @@ const OneBlog = ({post}:any) => {
  { <Image 
         source={{uri:post.image}}
         style={styles.image1}
-      />}
+      />
+     }
     
+    </View>
   </View>
-  
   <CommentLike idPost={post.id} iduser={user.id}/>
 
    </View>
@@ -69,7 +72,7 @@ const styles = StyleSheet.create({
     
   },
   image1: {
-    height: 168,
+    height:168,
     width: '100%',
   //  marginLeft:10,
     //  borderBottomRightRadius:10,
