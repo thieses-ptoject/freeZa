@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { getUserData } from "../../React-query/user/profileUser";
 import Ionicons from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -13,9 +13,11 @@ import {
 } from "react-native";
 import { Color, FontFamily, FontSize } from "../../GlobalStyles/UserProfil";
 import FormContainer from "../../componets/accountCom/FormContainer";
-
+import { getUserData } from './../../localStorage/getuser';
 
 const Account = ({ navigation,route }: any) => {
+  const [userConnected, setUserConncted] = useState<string>('')
+
 
    useEffect(() => {
      console.log('ggg');

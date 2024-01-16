@@ -21,6 +21,8 @@ import { SceneMap, TabBar, TabView } from "react-native-tab-view";
 
 export const GeeversIfllow = ({ navigation,route }: any) => {
 
+const [userConnected, setUserConncted] = useState<string>('')
+
  useEffect(() => {
     console.log('ggg');
   }, [route.params?.refresh]);

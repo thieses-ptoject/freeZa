@@ -20,11 +20,12 @@ import { SceneMap, TabBar, TabView } from "react-native-tab-view";
 import { UserItems, UserPosts } from "../../React-query/user/otherUserProfil";
 import { followUnfollower, getFollows } from "../../React-query/user/Following";
 import Backgroundprofile from "../../componets/accountCom/Otheruser";
+import { getUserData } from '../../localStorage/getuser';
 
 export const OtheruserProfile = ({ navigation ,route}: any) => {
   const { id} = route.params;
 
-
+  const [userConnected, setUserConncted] = useState<string>('')
   const layout = useWindowDimensions();
   const [index, setIndex] = useState(0);
   const [routes] = useState([
