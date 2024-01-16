@@ -22,7 +22,7 @@ const Account = ({ navigation,route }: any) => {
    }, [route.params?.refresh]);
   
 
-  const { data, isLoading, isError } = getUserData();
+  const { data, isLoading, isError } = getUserData("azizabenhalima@yahoofr");
 
   if (isLoading) {
     return (
@@ -108,7 +108,6 @@ const styles = StyleSheet.create({
     color: Color.colorLimegreen,
     fontSize: FontSize.size_base,
     top: 307,
-    // fontFamily: FontFamily.mulishBold,
     fontWeight: "700",
     textAlign: "left",
     position: "absolute",
@@ -127,7 +126,6 @@ const styles = StyleSheet.create({
     textAlign: "left",
     fontFamily: FontFamily.jostSemiBold,
     fontWeight: "600",
-    // position: "absolute",
   },
   novBar: {
     top: 10,
@@ -156,7 +154,6 @@ const styles = StyleSheet.create({
     top: 210,
     fontSize: 13,
     color: "#545454",
-    // fontFamily: FontFamily.mulishBold,
     fontWeight: "700",
     textAlign: "center",
     position: "absolute",
@@ -174,7 +171,6 @@ const styles = StyleSheet.create({
     color: Color.colorLimegreen,
     fontSize: FontSize.size_base,
     top: 307,
-    // fontFamily: FontFamily.mulishBold,
     fontWeight: "700",
     textAlign: "left",
     position: "absolute",
@@ -185,7 +181,6 @@ const styles = StyleSheet.create({
     fontSize: FontSize.size_6xl,
     height: 37,
     color: Color.colorLimegreen,
-    // fontFamily: FontFamily.mulishBold,
     fontWeight: "700",
     textAlign: "left",
     top: 310,
@@ -197,7 +192,6 @@ const styles = StyleSheet.create({
     fontSize: FontSize.size_6xl,
     height: 37,
     color: Color.colorLimegreen,
-    // fontFamily: FontFamily.mulishBold,
     fontWeight: "700",
     textAlign: "left",
   },
@@ -207,7 +201,6 @@ const styles = StyleSheet.create({
     fontSize: FontSize.size_6xl,
     height: 37,
     color: Color.colorLimegreen,
-    // fontFamily: FontFamily.mulishBold,
     fontWeight: "700",
     textAlign: "left",
   },

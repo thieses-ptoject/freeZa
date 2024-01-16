@@ -13,26 +13,16 @@ import {
   ActivityIndicator,
   FlatList,
 } from "react-native";
-import { Text} from "react-native-paper";
+import { Text } from "react-native-paper";
 
 import { MaterialIcons } from "@expo/vector-icons";
-import {
-  SceneMap,
-  TabBar,
-  TabView,
-} from "react-native-tab-view";
+import { SceneMap, TabBar, TabView } from "react-native-tab-view";
 import { UserItems, UserPosts } from "../../React-query/user/otherUserProfil";
-import Backgroundprofile from "../../componets/accountCom/Otheruser"
+import { followUnfollower, getFollows } from "../../React-query/user/Following";
+import Backgroundprofile from "../../componets/accountCom/Otheruser";
 
-
-
-
-
-export const OtheruserProfile = ({ navigation, route }: any) => {
-  const { id } = route.params;
-  // console.log(item);
-
- 
+export const OtheruserProfile = ({ navigation ,route}: any) => {
+  const { id} = route.params;
 
 
   const layout = useWindowDimensions();
@@ -41,6 +31,8 @@ export const OtheruserProfile = ({ navigation, route }: any) => {
     { key: "first", title: "Donations" },
     { key: "second", title: "Requests" },
   ]);
+
+  const FollowUnfollower = followUnfollower();
 
   const renderTabBar = (props: any) => (
     <TabBar
@@ -53,25 +45,44 @@ export const OtheruserProfile = ({ navigation, route }: any) => {
         height: 44,
       }}
       renderLabel={({ focused, route }) => (
-        <Text style={[{ color: focused ? "#000" : "#000", fontWeight:"bold" }]}>
+        <Text
+          style={[{ color: focused ? "#000" : "#000", fontWeight: "bold" }]}
+        >
           {route.title}
         </Text>
       )}
     />
   );
 
-  const { data : userData, isLoading: userDataLoading, isError : userDataError, refetch, isSuccess } = UserItems("1");
-  const { data : userPostsData, isLoading: userPostsLoading, isError : userPostsError} = UserPosts("1");
+  const {
+    data: userData,
+    isLoading: userDataLoading,
+    isError: userDataError,
+    refetch,
+    isSuccess,
+  } = UserItems("1");
+  const {
+    data: userPostsData,
+    isLoading: userPostsLoading,
+    isError: userPostsError,
+  } = UserPosts("1");
+
+  const {
+    data: FollowsData,
+    isLoading: FollowsLoading,
+    isError: FollowsError,
+    refetch:  FollowsDataRefetch
+  } = getFollows("1",id.id);
 
 
-  if (userDataLoading || userPostsLoading ) {
+  if (userDataLoading || userPostsLoading || FollowsLoading  ) {
     return (
       <View>
         <ActivityIndicator size="large" color="#000" />
       </View>
     );
   }
-  if (userDataError || userPostsError) {
+  if (userDataError || userPostsError || FollowsError ) {
     return (
       <View>
         <Text>Error fetching user data</Text>
@@ -80,8 +91,19 @@ export const OtheruserProfile = ({ navigation, route }: any) => {
   }
 
 
+  const hundeldeletePress = async () => {
+    try {
+      await FollowUnfollower.mutateAsync({
+        followerId: "1",
+        followedId: id.id,
+      });
+      FollowsDataRefetch();
+    } catch (errors) {
+      console.log(errors);
+    }
+  };
+
   const PhotosRoutes = ({ navigation, route }: any) => (
-   
     <View style={{ flex: 1 }}>
       <FlatList
         data={userData}
@@ -95,22 +117,26 @@ export const OtheruserProfile = ({ navigation, route }: any) => {
               margin: 3,
             }}
           >
-           <TouchableOpacity onPress={() => navigation.navigate("ItemsDetails", {itemData: item})}>
-            <Image
- key={index}
-              source={{uri: item.image[0] }}
-              style={{ width: "100%", height: "100%", borderRadius: 12 }}
-            />
-             </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("ItemsDetails", { itemData: item })
+              }
+            >
+              <Image
+                key={index}
+                source={{ uri: item.image[0] }}
+                style={{ width: "100%", height: "100%", borderRadius: 12 }}
+              />
+            </TouchableOpacity>
           </View>
         )}
       />
     </View>
   );
- 
+
   const LikesRoutes = () => (
     <View style={{ flex: 1, backgroundColor: "#DCD6D9" }}>
-       <FlatList
+      <FlatList
         data={userPostsData}
         numColumns={3}
         renderItem={({ item, index }) => (
@@ -123,27 +149,28 @@ export const OtheruserProfile = ({ navigation, route }: any) => {
           >
             <Image
               key={index}
-              source={{uri: item.image }}
+              source={{ uri: item?.image }}
               style={{ width: "100%", height: "100%", borderRadius: 12 }}
             />
           </View>
         )}
       />
     </View>
+
+    
   );
-  
+
   const renderScene = ({ route }: any) => {
+
     switch (route.key) {
-      case 'first':
+      case "first":
         return <PhotosRoutes navigation={navigation} route={route} />;
-      case 'second':
+      case "second":
         return <LikesRoutes navigation={navigation} route={route} />;
       default:
         return null;
     }
   };
-
-
 
   return (
     <SafeAreaView style={styles.safearea}>
@@ -164,7 +191,14 @@ export const OtheruserProfile = ({ navigation, route }: any) => {
             marginTop: -90,
           }}
         />
-        <Text style={{ color: "#000", marginVertical: 8 ,fontSize: 20, fontWeight:"bold"}}>
+        <Text
+          style={{
+            color: "#000",
+            marginVertical: 8,
+            fontSize: 20,
+            fontWeight: "bold",
+          }}
+        >
           {" "}
           {id.firstName} {id.lastName}{" "}
         </Text>
@@ -225,7 +259,15 @@ export const OtheruserProfile = ({ navigation, route }: any) => {
               marginHorizontal: 30,
             }}
           >
-            <Text style={{ color: "#fff" }}> Follow </Text>
+            <Text
+              style={{ color: "#fff" }}
+              onPress={() => {
+                hundeldeletePress()
+              }}
+            >
+              {" "}
+              {FollowsData?.length ===1 ? "Unfollow" : "Follow"}{" "}
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{
@@ -243,7 +285,7 @@ export const OtheruserProfile = ({ navigation, route }: any) => {
         </View>
       </View>
 
-      <View style={{ flex: 1, marginHorizontal: 22, marginTop:"-15%" }}>
+      <View style={{ flex: 1, marginHorizontal: 22, marginTop: "-1%" }}>
         <TabView
           navigationState={{ index, routes }}
           renderScene={renderScene}
@@ -265,13 +307,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-
   sliderContainer: {
     height: 200,
-    width: '90%',
+    width: "90%",
     marginTop: 10,
-    justifyContent: 'center',
-    alignSelf: 'center',
+    justifyContent: "center",
+    alignSelf: "center",
     borderRadius: 8,
   },
 
@@ -279,14 +320,14 @@ const styles = StyleSheet.create({
 
   slide: {
     flex: 1,
-    justifyContent: 'center',
-    backgroundColor: 'transparent',
+    justifyContent: "center",
+    backgroundColor: "transparent",
     borderRadius: 8,
   },
   sliderImage: {
-    height: '100%',
-    width: '100%',
-    alignSelf: 'center',
+    height: "100%",
+    width: "100%",
+    alignSelf: "center",
     borderRadius: 8,
   },
 });
