@@ -1,54 +1,95 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SafeAreaView, StyleSheet, View, Image, Text, Platform, Pressable } from "react-native";
 import { AuthContext } from "../../useContext/authContext";
 import { filterProducts } from "../../React-query/homeProducts/products";
+import { Types } from "./types";
+import { TypesData } from "./data";
+import { OthersType } from "./othersType";
+import { getTypes } from "../../React-query/homeProducts/products";
+import { getCategories } from "../../React-query/homeProducts/products";
 
 export const Categories = ({ navigation }: any) => {
   const { products, setFilteredProducts } = useContext(AuthContext);
-
+  const [view , setView] = useState(false)
+  const [types , setTypes] = useState(TypesData.furnitureTypes)
+  const [otherView, setOtherView] = useState(false)
+  const [categoryId, setCategoryId] = useState(1)
+  const {data: dataOfType}= getTypes(categoryId)
+  
+  
+    console.log(dataOfType,"fffffffffffffff")
+console.log(TypesData.furnitureTypes)
   const filterByCategory = (categoryId: number) => {
     // Filter products based on the selected category
     const filteredProducts = products.filter((product: any) => {
       return product.typeId === categoryId;
     });
-
+ console.log(categoryId)
     // Update the state with the filtered products
     setFilteredProducts(filteredProducts);
   };
+    useEffect(() => {
+    // Fetch data when categoryId changes
+   console.log(categoryId)
+
+  }, [categoryId])
   return (
-    <View style={styles.container}>
-      <View style={styles.Details}>
-        <Text style={styles.Text}>Furniture</Text>
-        <Pressable onPress={() => filterByCategory(1)}>
-          <View style={styles.circle}>
-            <Image source={require('../../assets/furniture.png')} style={styles.imageInCircle} />
-          </View>
-        </Pressable>
-      </View>
-      <View style={styles.Details}>
-        <Text style={styles.Text}>Gadgets</Text>
-        <Pressable onPress={() => filterByCategory(2)}>
-          <View style={styles.circle}>
-            <Image source={require("../../assets/gadgets.png")} style={styles.imageInCircle} />
-          </View>
-        </Pressable>
-      </View>
-      <View style={styles.Details}>
-        <Text style={styles.Text}>Presents</Text>
-        <Pressable onPress={() => filterByCategory(3)}>
-          <View style={styles.circle}>
-            <Image source={require("../../assets/presents.png")} style={styles.imageInCircle} />
-          </View>
-        </Pressable>
-      </View>
-      <View style={styles.Details}>
-        <Text style={styles.Text}>Others</Text>
-        <Pressable onPress={() => setFilteredProducts(products)}>
-          <View style={styles.circle}>
-            <Image source={require("../../assets/other.png")} style={styles.imageInCircle} />
-          </View>
-        </Pressable>
-      </View>
+    <View>
+{  (!view || otherView)  &&    <View style={styles.container}>
+        <View style={styles.Details}>
+          <Text style={styles.Text}>Furniture</Text>
+          {/* onPress={() => filterByCategory(1) */}
+          <Pressable  onPress={()=>{
+            setCategoryId(1)
+            setView(!view)
+            setTypes(TypesData.furnitureTypes)
+            }} >
+            <View style={styles.circle}>
+              <Image source={require('../../assets/furniture.png')} style={styles.imageInCircle} />
+            </View>
+          </Pressable>
+        </View>
+        <View style={styles.Details}>
+          <Text style={styles.Text}>Gadgets</Text>
+          <Pressable onPress={()=>{
+            setCategoryId(2)
+           setView(!view)
+           setTypes(TypesData.gadgetTypes)
+          }}>
+            <View style={styles.circle}>
+              <Image source={require("../../assets/gadgets.png")} style={styles.imageInCircle} />
+            </View>
+          </Pressable>
+        </View>
+        <View style={styles.Details}>
+          <Text style={styles.Text}>Presents</Text>
+          <Pressable onPress={ () => {
+            setCategoryId(3)
+            setView(!view)
+            setTypes(TypesData.presentTypes)
+          }}>
+            <View style={styles.circle}>
+              <Image source={require("../../assets/presents.png")} style={styles.imageInCircle} />
+            </View>
+          </Pressable>
+        </View>
+        <View style={styles.Details}>
+          <Text style={styles.Text}>Others</Text>
+          <Pressable onPress={() => {
+            setOtherView(!otherView)
+            }}>
+            <View style={styles.circle}>
+              <Image source={require("../../assets/other.png")} style={styles.imageInCircle} />
+            </View>
+          </Pressable>
+        </View>
+      </View>}
+        {
+          view && <Types data = {dataOfType}  setView ={setView} categoryId={categoryId}/>
+        }
+       {
+          otherView && <OthersType  setView={setOtherView}/>
+        }
     </View>
   );
 };
