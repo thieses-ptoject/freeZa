@@ -24,6 +24,8 @@ import { NavDetails } from "./componets/ProductDetails/Navdetails";
 const queryClient = new QueryClient();
 import { AuthContext, AuthProvider } from "./useContext/authContext";
 import { ProductDetails } from "./componets/ProductDetails/ProductDetails";
+import Chatscreen from "./componets/message/Chatscreen";
+import { NavBar } from "./componets/Home/NavBar";
 const Stack = createStackNavigator();
 export default function App({navigation}: any) {
   const{auth, setAuth}=useContext(AuthContext)
@@ -58,7 +60,7 @@ export default function App({navigation}: any) {
     <NavigationContainer>
 
 
-          {(true)? (
+          {(storage)? (
 
             <Stack.Navigator>
               <Stack.Screen
@@ -78,7 +80,7 @@ export default function App({navigation}: any) {
           <Stack.Screen name="HelpCenter" options={{headerShown: true}} component={HelpCenter}/>
           <Stack.Screen name="InviteFreind" options={{headerShown: true}} component={InviteFreind}/>
           <Stack.Screen name="EditProfil" options={{headerShown: true}} component={EditProfil}/>
-          {/* <Stack.Screen name="productDetails"   options={{headerShown: true,header:()=><NavDetails/>}} component={ProductDetails}/> */}
+          <Stack.Screen name="Chatscreen"   options={{headerShown: false}} component={Chatscreen}/>
 
           <Stack.Screen name="OtheruserProfile" options={{headerShown: true}} component={OtheruserProfile}/>
           <Stack.Screen name="ItemsDetails" options={{headerShown: true}} component={ItemsDetails}/>
