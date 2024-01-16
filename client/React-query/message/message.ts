@@ -6,11 +6,14 @@ export const  getMessages=(userId:string) => {
     const query = useQuery({
       queryKey: ["messages"],
       queryFn: async () => {
+        console.log(userId,"tettttttttttttttttt")
         const result = await axios.get(
           `http://${config.ip}:3001/message/${userId}`
         );
         return result.data;
+
       },
+      
     });
     return query;
   };
@@ -33,7 +36,7 @@ export const  getMessages=(userId:string) => {
       mutationKey: ["addMessage"],
       mutationFn: async (object: {senderId:string,recieverId:string,message:string }) =>{
         await axios.post(`http://${config.ip}:3001/message/add`, 
-          {senderId:object.senderId,recieverId:object.recieverId}
+          {senderId:object.senderId,recieverId:object.recieverId,message:object.message}
         )
        
       },
