@@ -40,7 +40,7 @@ console.log(TypesData.furnitureTypes)
           <Text style={styles.Text}>Furniture</Text>
           {/* onPress={() => filterByCategory(1) */}
           <Pressable  onPress={()=>{
-            setCategoryId(1)
+            setCategoryId(3)
             setView(!view)
             setTypes(TypesData.furnitureTypes)
             }} >
@@ -50,9 +50,9 @@ console.log(TypesData.furnitureTypes)
           </Pressable>
         </View>
         <View style={styles.Details}>
-          <Text style={styles.Text}>Gadgets</Text>
+          <Text style={styles.Text}>Electronics</Text>
           <Pressable onPress={()=>{
-            setCategoryId(2)
+            setCategoryId(6)
            setView(!view)
            setTypes(TypesData.gadgetTypes)
           }}>
@@ -62,14 +62,14 @@ console.log(TypesData.furnitureTypes)
           </Pressable>
         </View>
         <View style={styles.Details}>
-          <Text style={styles.Text}>Presents</Text>
+          <Text style={styles.Text}>House</Text>
           <Pressable onPress={ () => {
-            setCategoryId(3)
+            setCategoryId(4)
             setView(!view)
             setTypes(TypesData.presentTypes)
           }}>
             <View style={styles.circle}>
-              <Image source={require("../../assets/presents.png")} style={styles.imageInCircle} />
+              <Image source={require("../../assets/house.png")} style={styles.imageInCircle} />
             </View>
           </Pressable>
         </View>

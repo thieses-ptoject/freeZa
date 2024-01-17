@@ -6,9 +6,10 @@ import Ionicons from "react-native-vector-icons/MaterialCommunityIcons";
 import { log } from "console";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../../useContext/authContext";
+import { useNavigation } from "@react-navigation/native";
 
 const FormContainer = ({ navigation }: any) => {
-  const{auth, setAuth}=React.useContext(AuthContext)
+  const{ setIsAuthenticated}=React.useContext(AuthContext)
   const clearAsyncStorage = async () => {
     try {
       await AsyncStorage.clear();
@@ -18,8 +19,6 @@ const FormContainer = ({ navigation }: any) => {
       console.error("Error clearing AsyncStorage: ", error);
     }
   };
-  
-
 const shareText = async (text:string) => {
   try {
       await Share.share({
@@ -29,6 +28,11 @@ const shareText = async (text:string) => {
       console.error('Error sharing:', error);
   }
 };
+
+const handleLogout = () => {
+  setIsAuthenticated(false);
+  clearAsyncStorage();
+}
 
   return (
     <View style={styles.details}>
@@ -133,12 +137,12 @@ const shareText = async (text:string) => {
         </View>
       </Pressable>
 
-      <Pressable onPress={() => navigation.navigate("Wishlist")}>
+      <Pressable onPress={handleLogout}>
         <View style={[styles.view6, styles.viewLayout1]}>
         <View style={[styles.icon, styles.iconLayout]}>
             <Ionicons name="account-arrow-left-outline" size={22} color="#FC5A8D" />
           </View>
-          <Text style={[styles.notifications, styles.notificationsTypo]} onPress={clearAsyncStorage}>
+          <Text style={[styles.notifications, styles.notificationsTypo]}>
             Logout
           </Text>
           <Image

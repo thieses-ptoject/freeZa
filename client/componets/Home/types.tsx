@@ -41,7 +41,7 @@ export const Types = ({ data, onClose, setView, categoryId }: any) => {
                     <Text style={styles.headerText}>Types: </Text>
                     <TouchableOpacity onPress={onClose}>
                         <Pressable onPress={()=>setView(false)}>
-                            <Ionicons style={{marginLeft: "1.5%",marginRight: "1.5%"}} name="ios-close" size={24} color="green" />
+                            <Ionicons style={{marginLeft: "1.5%",marginRight: "1.5%"}} name="ios-close" size={24} color="#000" />
                         </Pressable>
                     </TouchableOpacity>
                 </View>
@@ -60,7 +60,7 @@ export const Types = ({ data, onClose, setView, categoryId }: any) => {
                                 {ele.type}
                             </Text>
                             <View style={styles.iconContainer}>
-                                <Ionicons name="chevron-forward-outline" size={24} color="green" />
+                                <Ionicons name="chevron-forward-outline" size={24} color="#000" />
                             </View>
                         </TouchableOpacity>
                     );
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 18,
         padding: 8,
-        color: "green",
+        color: "red",
     },
     typeContainer: {
         flexDirection: 'row',
