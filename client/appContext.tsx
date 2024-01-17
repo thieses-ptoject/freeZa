@@ -31,6 +31,7 @@ const Stack = createStackNavigator();
 export default function App({navigation}: any) {
   const{auth, setAuth}=useContext(AuthContext)
   const [storage, setStorage] = useState(false);
+  console.log(storage, "ssssssssssssssss")
   useEffect(() => {
     const fetchData = async () => {
       const storage = await AsyncStorage.getItem("user") ;

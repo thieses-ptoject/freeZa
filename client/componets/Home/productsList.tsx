@@ -57,8 +57,8 @@ export const ProductList = ({navigation}:any) => {
           {filteredProducts?.map((product: any) => (
              <View key={product.id} style={[styles.productContainer, { width: landscape === "landscape" ? "32.39%" : "48.5%"}]}>
               <View style={[styles.imageContainer,{marginLeft: landscape === "landscape"? "12%": "0%"}]}>
-                <Pressable onPress={()=>navigation.navigate("ItemsDetails", {
-                    itemData: product
+                <Pressable onPress={()=>navigation.navigate("ItemsDetails", { 
+                    itemData :  product
                   })}>
                   <Image
                     style={styles.image}
