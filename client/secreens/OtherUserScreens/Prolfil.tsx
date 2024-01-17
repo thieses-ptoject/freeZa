@@ -141,7 +141,7 @@ const [userConnected, setUserConncted]=useState("")
     </View>
   );
 
-  const LikesRoutes = () => (
+  const LikesRoutes = ({ navigation, route }: any) => (
     <View style={{ flex: 1, backgroundColor: "#DCD6D9" }}>
       <FlatList
         data={userPostsData}
@@ -154,11 +154,17 @@ const [userConnected, setUserConncted]=useState("")
               margin: 3,
             }}
           >
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("OnePost", { itemData: item })
+              }
+              >
             <Image
               key={index}
               source={{ uri: item?.image }}
               style={{ width: "100%", height: "100%", borderRadius: 12 }}
             />
+            </TouchableOpacity>
           </View>
         )}
       />
