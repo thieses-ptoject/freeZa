@@ -19,6 +19,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavBlogPage } from './componets/blogPage/navBlogPage';
 import BlogPage from './secreens/BottomScreens/BlogPage'; 
 import { NavDetails } from "./componets/ProductDetails/Navdetails";
+import { OnePost } from "./secreens/OtherUserScreens/OnePost";
 
 
 const queryClient = new QueryClient();
@@ -84,6 +85,7 @@ export default function App({navigation}: any) {
 
           <Stack.Screen name="OtheruserProfile" options={{headerShown: true}} component={OtheruserProfile}/>
           <Stack.Screen name="ItemsDetails" options={{headerShown: true}} component={ItemsDetails}/>
+          <Stack.Screen name="OnePost" options={{ headerShown: true , header:()=><NavBar/> , headerStyle:{width:'100%'} }} component={OnePost} />
           </Stack.Navigator>
           ) : (
             <StackScreens />
