@@ -45,7 +45,8 @@ app.use("/type", typeRouter)
 //user
 app.use("/user", userRouter)
 //messege
-app.use('/message',messageRouter)
+app.use('/message',messageRouter) 
+app.use('/claims',)
 
 app.listen(3001, () => {
     console.log("listening on http://localhost:3001");
