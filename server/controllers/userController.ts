@@ -137,4 +137,18 @@ export const getUser = async (req: Request, res: Response) => {
       console.log(error)
     }
   }
+   export const GetAllUsers = async (re:Request,res:Response)=>{
+   try {
+    const All= await prisma.user.findMany()
+    if(All){
+      res.status(200).send(All)
+    } else {
+      res.status(200).json([])
+    }
+    
+   } catch (error) {
+    res.status(500).json(error)
+    
+   } 
+  }
   
