@@ -53,7 +53,6 @@ const Password = ({ navigation, route }: any) => {
         return "Invalid email. User not found.";
       case "auth/wrong-password":
         return "Invalid password. Please try again.";
-      // Add more cases as needed for other error codes
       case "auth/invalid-email":
         return "Invalid email. Please enter a valid email address.";
       default:

@@ -21,7 +21,7 @@ export const NavBar = ({ navigation }: any) => {
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const { products, setFilteredProducts } = useContext(AuthContext);
-  const [userData , setUserData] = useState({})
+  const [userData , setUserData] = useState({}) 
   
   const fetchUserData  = async ()=>{
     try
@@ -29,7 +29,7 @@ export const NavBar = ({ navigation }: any) => {
      const savedData = await AsyncStorage.getItem('user');
      if (savedData) {
       const userData = JSON.parse(savedData);
-      console.log(userData.id); // Now you can access the 'id' property
+      console.log(userData.id); 
       const response = await axios.get(`http://${config.ip}:3001/user/getUser/${userData.id}`)
       setUserData(response.data)
       console.log(response.data, "mmmmmmmmmmmmmmmmmmmmmmmm")

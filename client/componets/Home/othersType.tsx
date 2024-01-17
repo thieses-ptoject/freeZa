@@ -59,7 +59,7 @@ export const OthersType = ({ onClose, setView }: any) => {
                     <Text style={styles.headerText}>Categories: </Text>
                     <TouchableOpacity onPress={onClose}>
                         <Pressable onPress={() => setView(false)}>
-                            <Ionicons style={{ marginLeft: "1.5%", marginRight: "1.5%" }} name="ios-close" size={24} color="green" />
+                            <Ionicons style={{ marginLeft: "1.5%", marginRight: "1.5%" }} name="ios-close" size={24} color="#000" />
                         </Pressable>
                     </TouchableOpacity>
                 </View>
@@ -81,7 +81,7 @@ export const OthersType = ({ onClose, setView }: any) => {
                                 {category.name}
                             </Text>
                             <View style={styles.arrowContainer}>
-                                <Ionicons style ={styles.arrowIcon} name="chevron-down-outline" size={24} color="green" />
+                                <Ionicons style ={styles.arrowIcon} name="chevron-down-outline" size={24} color="#000" />
                             </View>
                         </TouchableOpacity>
                         {categoryStates[index] &&
@@ -110,9 +110,23 @@ export const OthersType = ({ onClose, setView }: any) => {
 
 
 const styles = StyleSheet.create({
+    categoryContainer: {
+        
+        width: "100%",
+        paddingVertical: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderBottomWidth: 1,
+        borderBottomColor: '#ddd',
+        marginLeft: "1%",
+       
+    },
     arrowIcon:{
-        alignSelf:"flex-end",
-        justifyContent: "flex-end"
+        
+    },
+    arrowContainer:{
+        alignItems: "flex-end",
+        justifyContent: "flex-end",
     },
     typeText:{
             
@@ -120,6 +134,9 @@ const styles = StyleSheet.create({
     categoryIcon :{
         height: 30,
         width: 30,
+        justifyContent: "center",
+        alignSelf: "center",
+        marginBottom: "20%"
         },  
     typeContainer: {
         padding: 5,
@@ -138,29 +155,17 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         fontSize: 18,
         padding: 8,
-        color: "green",
-        marginRight: "55%",
-    },
-    categoryContainer: {
-        width: "90%",
-        paddingVertical: 10,
-        flexDirection: 'row',
-        alignItems: 'center',
-        borderBottomWidth: 1,
-        borderBottomColor: '#ddd',
-        marginLeft: "1%",
-        marginRight: "2.5%",
-        justifyContent: "space-between"
+        color: "red",
+        width: "74%"
     },
     iconContainer: {
         marginLeft: 10,
         justifyContent: "flex-end",
-    },
-    arrowContainer:{
-        alignItems: "center",
-        justifyContent: "center",
+        borderWidth: 1,
+        borderRadius: 30,
+        height: 50,
         
-        
+        width: 50,
     },
     bigContainer: {
         backgroundColor: "#fff",

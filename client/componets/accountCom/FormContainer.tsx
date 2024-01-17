@@ -10,7 +10,6 @@ import { useNavigation } from "@react-navigation/native";
 
 const FormContainer = ({ navigation }: any) => {
   const{ setIsAuthenticated}=React.useContext(AuthContext)
-  const navigationn = useNavigation();
   const clearAsyncStorage = async () => {
     try {
       await AsyncStorage.clear();
