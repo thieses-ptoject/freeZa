@@ -19,6 +19,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavBlogPage } from './componets/blogPage/navBlogPage';
 import BlogPage from './secreens/BottomScreens/BlogPage'; 
 import { NavDetails } from "./componets/ProductDetails/Navdetails";
+import {RatingUser} from "./secreens/OtherUserScreens/Rating"
 
 
 const queryClient = new QueryClient();
@@ -82,9 +83,9 @@ export default function App({navigation}: any) {
           <Stack.Screen name="InviteFreind" options={{headerShown: true}} component={InviteFreind}/>
           <Stack.Screen name="EditProfil" options={{headerShown: true}} component={EditProfil}/>
           <Stack.Screen name="Chatscreen"   options={{headerShown: false}} component={Chatscreen}/>
-
           <Stack.Screen name="OtheruserProfile" options={{headerShown: true}} component={OtheruserProfile}/>
           <Stack.Screen name="ItemsDetails" options={{headerShown: true}} component={ItemsDetails}/>
+          <Stack.Screen name="RatingUser" options={{headerShown: true}} component={RatingUser} />
           </Stack.Navigator>
           ) : (
             <StackScreens />

@@ -17,16 +17,10 @@ import {
   GiversFollowedMe,
 } from "../../React-query/user/Following";
 import { SceneMap, TabBar, TabView } from "react-native-tab-view";
-;
-
-export const GeeversIfllow = ({ navigation,route }: any) => {
-
-const [userConnected, setUserConncted] = useState<string>('')
-
- useEffect(() => {
-    console.log('ggg');
-  }, [route.params?.refresh]);
-
+import { useIsFocused } from "@react-navigation/native";
+export const GeeversIfllow = ({ navigation, route }: any) => {
+  const { userid } = route.params;
+  const focused = useIsFocused()
 
 
   const layout = useWindowDimensions();
@@ -47,30 +41,49 @@ const [userConnected, setUserConncted] = useState<string>('')
         height: 44,
       }}
       renderLabel={({ focused, route }) => (
-        <Text style={[{ color: focused ? "#000" : "#000", fontWeight:"bold" }]}>
+        <Text
+          style={[{ color: focused ? "#000" : "#000", fontWeight: "bold" }]}
+        >
           {route.title}
         </Text>
       )}
     />
   );
 
+  const {
+    data: FllowMedata,
+    isLoading: FllowMeLoding,
+    isError: FllowMeError,
+    refetch: FllowMeRefetch,
+    isSuccess: FllowMeIsSuccess,
+    refetch: refetchFollower
+  } = GiversFollowedMe(userid);
+  const {
+    data: Ifllowdata,
+    isLoading: IfollowLoding,
+    isError: IfollowError,
+    refetch: IfollowRefetch,
+    isSuccess: IfollowIsSuccess,
+    refetch: refetchFollowed
 
+  } = GiversIFollowed(userid);
 
-
-  const { data : FllowMedata, isLoading: FllowMeLoding, isError: FllowMeError, refetch: FllowMeRefetch, isSuccess : FllowMeIsSuccess} = GiversFollowedMe("1");
-  const { data : Ifllowdata, isLoading: IfollowLoding, isError: IfollowError, refetch: IfollowRefetch, isSuccess : IfollowIsSuccess} = GiversIFollowed("1");
- 
+  useEffect(() => {
+    refetchFollowed()
+    refetchFollower()
+  }, [focused]);
 
 
   const delfollower = DeleteFollower();
 
-  if (IfollowLoding || FllowMeLoding ) {
+  if (IfollowLoding || FllowMeLoding) {
     return (
       <View>
         <ActivityIndicator size="large" color="#000" />
       </View>
     );
   }
+
   if (IfollowError || FllowMeError) {
     return (
       <View>
@@ -79,20 +92,23 @@ const [userConnected, setUserConncted] = useState<string>('')
     );
   }
 
-
-
-
   const PhotosRoutes = () => (
-   
     <View style={{ flex: 1, backgroundColor: "#FFF9FC" }}>
-       {FllowMeIsSuccess && (
+      {FllowMeIsSuccess && (
         <FlatList
           data={FllowMedata}
           keyExtractor={(ele) => ele.id}
           renderItem={({ item, index }) => {
             return (
               <View style={styles.view1}>
-                <TouchableOpacity onPress={() => navigation.navigate("OtheruserProfile", {id: item.follower})}>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("OtheruserProfile", {
+                      id: item.follower,
+                      userid: userid,
+                    })
+                  }
+                >
                   <Image
                     source={{ uri: item.follower.image }}
                     style={styles.image}
@@ -122,87 +138,80 @@ const [userConnected, setUserConncted] = useState<string>('')
             );
           }}
         />
-       )}
+      )}
     </View>
-  
   );
- 
-  const LikesRoutes = () => (
 
-    <View style={{ flex: 1, backgroundColor: "#FFF9FC" }}>
-    {IfollowIsSuccess && (
-     <FlatList
-       data={Ifllowdata}
-       keyExtractor={(ele) => ele.id}
-       renderItem={({ item, index }) => {
-         
-         return (
-           <View style={styles.view1}>
-             <TouchableOpacity onPress={() => navigation.navigate("OtheruserProfile", {id: item.followed})}>
-               <Image
-                 source={{ uri: item.followed.image }}
-                 style={styles.image}
-               />
-             </TouchableOpacity>
-             <View>
-               <Text style={styles.text1}>
-                 {item.followed.firstName} {item.followed.lastName}
-               </Text>
-               <Text style={styles.text2}>{item.followed.email}</Text>
-               <Text style={styles.text2}></Text>
-               <Text style={styles.text3}>{item.followed.level}</Text>
-             </View>
-             <View style={styles.button}>
-               <TouchableOpacity>
-                 <Text
-                   style={styles.unfollowviwe}
-                   onPress={() => {
-                     hundeldeletePress(item.id);
-                   }}
-                 >
-                   Unfollow
-                 </Text>
-               </TouchableOpacity>
-             </View>
-           </View>
-         );
-       }}
-     />
-    )}
- </View>
+  const LikesRoutes = () => {
+    return (
+      <View style={{ flex: 1, backgroundColor: "#FFF9FC" }}>
+        {IfollowIsSuccess && (
+          <FlatList
+            data={Ifllowdata}
+            keyExtractor={(ele) => ele.id}
+            renderItem={({ item, index }) => {
+              return (
+                <View style={styles.view1}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate("OtheruserProfile", {
+                        id: item.followed,
+                        userid: userid,
+                      })
+                    }
+                  >
+                    <Image
+                      source={{ uri: item.followed.image }}
+                      style={styles.image}
+                    />
+                  </TouchableOpacity>
+                  <View>
+                    <Text style={styles.text1}>
+                      {item.followed.firstName} {item.followed.lastName}
+                    </Text>
+                    <Text style={styles.text2}>{item.followed.email}</Text>
+                    <Text style={styles.text2}></Text>
+                    <Text style={styles.text3}>{item.followed.level}</Text>
+                  </View>
+                  <View style={styles.button}>
+                    <TouchableOpacity>
+                      <Text
+                        style={styles.unfollowviwe}
+                        onPress={() => {
+                          hundeldeletePress(item.id);
+                        }}
+                      >
+                        Unfollow
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              );
+            }}
+          />
+        )}
+      </View>
+    );
+  };
 
-
-
-  );
-  
   const renderScene = SceneMap({
     first: PhotosRoutes,
     second: LikesRoutes,
   });
 
-
-
-
-
-
-
-
-
-
   const hundeldeletePress = async (Id: any) => {
     try {
       await delfollower.mutateAsync(Id);
       IfollowRefetch();
-      FllowMeRefetch()
+      FllowMeRefetch();
     } catch (errors) {
       console.log(errors);
     }
   };
 
-
   return (
-      <SafeAreaView style={styles.safearea}>
-         <View style={{ flex: 1, marginHorizontal: 2, marginTop:"0%" }}>
+    <SafeAreaView style={styles.safearea}>
+      <View style={{ flex: 1, marginHorizontal: 2, marginTop: "0%" }}>
         <TabView
           navigationState={{ index, routes }}
           renderScene={renderScene}
@@ -211,13 +220,11 @@ const [userConnected, setUserConncted] = useState<string>('')
           renderTabBar={renderTabBar}
         />
       </View>
-      </SafeAreaView>
-    
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-
   safearea: {
     flex: 1,
     backgroundColor: "#FFF8FB",
@@ -280,7 +287,3 @@ const styles = StyleSheet.create({
     marginBottom: "4%",
   },
 });
-
-
-
-

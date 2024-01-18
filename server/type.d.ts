@@ -26,3 +26,10 @@ export type posts= {
     followerId: string,
     followedId: string
   }
+
+  export type Favourite = {
+    id  :  number 
+    userId: string
+    itemId: number
+    
+  }

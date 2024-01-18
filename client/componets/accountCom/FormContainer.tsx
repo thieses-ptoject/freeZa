@@ -7,7 +7,12 @@ import { log } from "console";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../../useContext/authContext";
 
-const FormContainer = ({ navigation }: any) => {
+const FormContainer = ({ navigation , userData }: any) => {
+
+
+  const{ setIsAuthenticated}=React.useContext(AuthContext)
+console.log(userData,':userDat')
+
   const{auth, setAuth}=React.useContext(AuthContext)
   const clearAsyncStorage = async () => {
     try {
@@ -20,7 +25,7 @@ const FormContainer = ({ navigation }: any) => {
   };
   
   // Call the function wherever you need to clear AsyncStorage
-  clearAsyncStorage();
+  // clearAsyncStorage();
 const shareText = async (text:string) => {
   try {
       await Share.share({
@@ -31,9 +36,15 @@ const shareText = async (text:string) => {
   }
 };
 
+
+const handleLogout = () => {
+  setIsAuthenticated(false);
+  clearAsyncStorage();
+}
+
   return (
     <View style={styles.details}>
-      <Pressable >
+      <Pressable onPress={() => navigation.navigate("Wishlist")} >
         <View style={[styles.view, styles.viewLayout1]}>
         <View style={[styles.icon, styles.iconLayout]}>
             <Ionicons name="heart-outline" size={22} color="#FC5A8D" />
@@ -49,7 +60,7 @@ const shareText = async (text:string) => {
           />
         </View>
       </Pressable>
-
+      
       <Pressable onPress={() => navigation.navigate("MySavedSearch")}>
         <View style={[styles.view1, styles.viewLayout1]}>
           <View style={[styles.icon, styles.iconLayout]}>
@@ -66,7 +77,7 @@ const shareText = async (text:string) => {
         </View>
       </Pressable>
 
-      <Pressable onPress={() => navigation.navigate("GeeversIfllow")}>
+      <Pressable onPress={() => navigation.navigate("GeeversIfllow" ,{userid:userData})}>
         <View style={[styles.view2, styles.viewLayout1]}>
           <View style={[styles.icon, styles.iconLayout]}>
             <Ionicons name="account-heart-outline" size={25} color="#FC5A8D" />
@@ -134,12 +145,12 @@ const shareText = async (text:string) => {
         </View>
       </Pressable>
 
-      <Pressable onPress={() => navigation.navigate("Wishlist")}>
+      <Pressable onPress={handleLogout}>
         <View style={[styles.view6, styles.viewLayout1]}>
         <View style={[styles.icon, styles.iconLayout]}>
             <Ionicons name="account-arrow-left-outline" size={22} color="#FC5A8D" />
           </View>
-          <Text style={[styles.notifications, styles.notificationsTypo]} onPress={clearAsyncStorage}>
+          <Text style={[styles.notifications, styles.notificationsTypo]}>
             Logout
           </Text>
           <Image

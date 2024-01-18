@@ -6,9 +6,9 @@ import { GetUser } from '../../React-query/ProductDetails/Details'
 import moment from 'moment'
 import straw from "../../assets/strawberry.png"
 // import { GetUser } from '../../React-query/ProductDetails/Details'
-export const ProductDetails = ({route}) => {
+export const ProductDetails = ({route}:any) => {
   const { product } = route.params;
-  console.log(product,'ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg');
+  
   //fet request get onwner by Id 
   // ownerId (image : name  : stars ) 
 // const {data:userData, isError,isLoading}=GetUser(product.ownerId)
@@ -24,7 +24,7 @@ export const ProductDetails = ({route}) => {
   return strawArray
 }
 let data=Straw(product.strawberries)
-console.log(data,'===============================================*******');
+
 
     return (
       <View style={styles.container}>
