@@ -20,30 +20,44 @@ const Password = ({ navigation, route }: any) => {
   const { auth, setAuth } = React.useContext(AuthContext);
   const [isPasswordCorrect, setIsPasswordCorrect] = React.useState(false);
   const [password, setPassword] = React.useState("");
+  const [errorMessage, setErrorMessage] = React.useState(""); // New state for error message
   const { email, setEmail } = React.useContext(AuthContext);
   const { name, setName } = React.useContext(AuthContext);
   const { LastName, setLastName } = React.useContext(AuthContext);
   const { phone, setPhone, image } = React.useContext(AuthContext);
+  const {setIsAuthenticated} = React.useContext(AuthContext)
 
   console.log(name);
   const Fauth = getAuth(app);
+
   const login = () => {
     signInWithEmailAndPassword(Fauth, route.params.email, password)
       .then((userCredential) => {
-        // Signed in
         const user = userCredential.user;
         console.log(user);
         storeData(user.uid);
         setAuth(true);
-
-        // ...
+        setIsAuthenticated(true)
         AsyncStorage.setItem("auth", "true");
       })
       .catch((error) => {
         const errorCode = error.code;
-        const errorMessage = error.message;
+        const errorMessage = getFirebaseErrorMessage(errorCode);
         console.log(errorMessage);
+        setErrorMessage(errorMessage);
       });
+  };
+  const getFirebaseErrorMessage = (errorCode: string) => {
+    switch (errorCode) {
+      case "auth/user-not-found":
+        return "Invalid email. User not found.";
+      case "auth/wrong-password":
+        return "Invalid password. Please try again.";
+      case "auth/invalid-email":
+        return "Invalid email. Please enter a valid email address.";
+      default:
+        return "An error occurred. Please try again.";
+    }
   };
   const storeData = async (id: string) => {
     try {
@@ -85,6 +99,7 @@ const Password = ({ navigation, route }: any) => {
               style={styles.ellispse01Icon}
               onChange={(e) => setPassword(e.nativeEvent.text)}
             />
+             {errorMessage !== "" && <Text style={styles.errorMessage}>{errorMessage} </Text>}
             <View style={styles.button}>
                 <View
                   style={[styles.buttonChild, styles.buttonChildPosition]}
@@ -119,6 +134,15 @@ const Password = ({ navigation, route }: any) => {
 };
 
 const styles = StyleSheet.create({
+  errorMessage: {
+    width: 500,
+    color: "red",
+    fontSize: 16,
+    textAlign: "center",
+    marginTop: 10,
+    position: "absolute",
+    top: "700%"
+  },
   done: {
                     
     left: "42.39%",

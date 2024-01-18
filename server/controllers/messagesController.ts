@@ -20,7 +20,7 @@ export const getONeDisc = async(req:Request,res:Response)=>{
        }) 
        const allchat=findManychatS.concat(findManychat)
   const allchat1=allchat.sort((a,b)=>a.createdAt.getTime()-b.createdAt.getTime())
-   res.status(200).send(allchat1)
+   res.status(200).send(allchat1.reverse())
 
 
     }

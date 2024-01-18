@@ -79,7 +79,7 @@ const Reserve=(state:string)=>{
      <View style={{flexDirection:'column',gap:10}}> 
      <Text style={styles.Wish}>Wish List</Text>
      {favorite?.map((product: any) => ( 
-      <View key={product.id} style= {styles.container}>
+      <View key={product.item.id} style= {styles.container}>
      <View style={[styles.imageContainer]}>
                   <Image
                     style={styles.image}

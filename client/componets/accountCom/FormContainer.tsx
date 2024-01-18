@@ -6,6 +6,7 @@ import Ionicons from "react-native-vector-icons/MaterialCommunityIcons";
 import { log } from "console";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../../useContext/authContext";
+import { useNavigation } from "@react-navigation/native";
 
 const FormContainer = ({ navigation , userData }: any) => {
 
@@ -23,9 +24,6 @@ console.log(userData,':userDat')
       console.error("Error clearing AsyncStorage: ", error);
     }
   };
-  
-  // Call the function wherever you need to clear AsyncStorage
-  // clearAsyncStorage();
 const shareText = async (text:string) => {
   try {
       await Share.share({
@@ -35,7 +33,6 @@ const shareText = async (text:string) => {
       console.error('Error sharing:', error);
   }
 };
-
 
 const handleLogout = () => {
   setIsAuthenticated(false);

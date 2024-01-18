@@ -12,6 +12,7 @@ import {
   useWindowDimensions,
   ActivityIndicator,
   FlatList,
+  Pressable,
 } from "react-native";
 import { Text } from "react-native-paper";
 
@@ -143,7 +144,7 @@ export const OtheruserProfile = ({ navigation ,route}: any) => {
     </View>
   );
 
-  const LikesRoutes = () => (
+  const LikesRoutes = ({ navigation, route }: any) => (
     <View style={{ flex: 1, backgroundColor: "#DCD6D9" }}>
       <FlatList
         data={userPostsData}
@@ -156,11 +157,17 @@ export const OtheruserProfile = ({ navigation ,route}: any) => {
               margin: 3,
             }}
           >
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("OnePost", { itemData: item })
+              }
+              >
             <Image
               key={index}
               source={{ uri: item?.image }}
               style={{ width: "100%", height: "100%", borderRadius: 12 }}
             />
+            </TouchableOpacity>
           </View>
         )}
       />
@@ -285,6 +292,7 @@ export const OtheruserProfile = ({ navigation ,route}: any) => {
               {FollowsData?.length ===1 ? "Unfollow" : "Follow"}{" "}
             </Text>
           </TouchableOpacity>
+          <Pressable >
           <TouchableOpacity
             style={{
               width: 124,
@@ -294,10 +302,13 @@ export const OtheruserProfile = ({ navigation ,route}: any) => {
               backgroundColor: "#8FD166",
               borderRadius: 10,
               marginHorizontal: 30,
+
             }}
+             
           >
-            <Text style={{ color: "#fff" }}> Send Massege </Text>
+            <Text style={{ color: "#fff" }}  > Send Massege </Text>
           </TouchableOpacity>
+          </Pressable>
         </View>
       </View>
 
