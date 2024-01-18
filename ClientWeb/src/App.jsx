@@ -6,34 +6,23 @@ import {
   Route,
   Link,
 } from "react-router-dom";
-import Admin from './components/Admin';
-import { Layout } from './components/shared/layout';
-import { Users } from './components/users';
+import Admin from './components/admin/Admin';
+// import SignIn from './components/admin/loginAdmin/SignIn';
 
-const App = () => {
+function App() {
+  
   const router = createBrowserRouter([
     {
-      path: '/',
-      element: <Layout />,
-      children: [
-        {
-          index: true,
-          element: (
-            <div>
-              <h1>Hello World</h1>
-            </div>
-          ),
-        },
-        {
-          path: 'admin',
-          element: <Admin />,
-        }, 
-        {
-          path:'users',
-          element:<Users />
-
-        }
-      ],
+      path: "/",
+      element: (
+        <div>
+          <h1 className='text-red-600'>Hello World</h1>
+        </div>
+      ),
+    },
+    {
+      path: "admin",
+      element: <Admin/>,
     },
     // {
     //   path: "adminLogin",
@@ -41,7 +30,14 @@ const App = () => {
     // },
   ]);
 
-  return <RouterProvider router={router} />;
-};
+  return (
+    <>
+    
+      <RouterProvider router={router} />
 
-export default App;
+      
+    </>
+  )
+}
+
+export default App
