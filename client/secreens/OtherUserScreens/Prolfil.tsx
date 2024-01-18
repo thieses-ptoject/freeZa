@@ -12,6 +12,7 @@ import {
   useWindowDimensions,
   ActivityIndicator,
   FlatList,
+  Pressable,
 } from "react-native";
 import { Text } from "react-native-paper";
 
@@ -20,9 +21,15 @@ import { SceneMap, TabBar, TabView } from "react-native-tab-view";
 import { UserItems, UserPosts } from "../../React-query/user/otherUserProfil";
 import { followUnfollower, getFollows } from "../../React-query/user/Following";
 import Backgroundprofile from "../../componets/accountCom/Otheruser";
+import { getUserData } from "../../localStorage/getuser";
 
 export const OtheruserProfile = ({ navigation ,route}: any) => {
   const { id} = route.params;
+const [userConnected, setUserConncted]=useState("")
+
+  getUserData().then((result: any) => {
+    setUserConncted(result.id)})
+    .catch((err)=>console.log(err.message,'gggg'))
 
 
   const layout = useWindowDimensions();
@@ -275,6 +282,7 @@ export const OtheruserProfile = ({ navigation ,route}: any) => {
               {FollowsData?.length ===1 ? "Unfollow" : "Follow"}{" "}
             </Text>
           </TouchableOpacity>
+          <Pressable >
           <TouchableOpacity
             style={{
               width: 124,
@@ -284,10 +292,13 @@ export const OtheruserProfile = ({ navigation ,route}: any) => {
               backgroundColor: "#8FD166",
               borderRadius: 10,
               marginHorizontal: 30,
+
             }}
+             
           >
-            <Text style={{ color: "#fff" }}> Send Massege </Text>
+            <Text style={{ color: "#fff" }}  > Send Massege </Text>
           </TouchableOpacity>
+          </Pressable>
         </View>
       </View>
 

@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   location: {
-    color: "#78CA46",
+    color: "green",
     marginTop: 5,
     flexDirection: "row",
   },

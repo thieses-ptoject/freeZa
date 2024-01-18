@@ -21,28 +21,22 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 
 export const CompleteSignUp = ({ route, navigation }: any) => {
-  const {name, setName} = useContext(AuthContext);
-  const {LastName, setLastName} = useContext(AuthContext)
-  const {image, setImage} = useContext(AuthContext)
-  
-  console.log(
-    route.params.email,
-    route.params.password,
-    route.params.phone,
-    name,
-    LastName
-  );
+  const { name, setName } = useContext(AuthContext);
+  const { LastName, setLastName } = useContext(AuthContext);
+  const { image, setImage } = useContext(AuthContext);
+  const [errorMessage, setErrorMessage] = useState(""); // New state for error message
+
   const handleSignUp = async () => {
     try {
-      const auth = getAuth(app);
+      const auth = getAuth();
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         route.params.email,
         route.params.password
       );
-  
+
       console.log(userCredential);
-  
+
       const response = await axios.post(`http://${config.ip}:3001/user/addUser`, {
         id: userCredential.user.uid,
         email: route.params.email,
@@ -51,61 +45,91 @@ export const CompleteSignUp = ({ route, navigation }: any) => {
         firstName: name,
         lastName: LastName,
         address: "tunisia",
-        image: image
+        image: image,
       });
-  
-      console.log(response,'ggggggggggggggg');
-    } catch (err) {
-      console.error(err);
+
+      console.log(response, 'ggggggggggggggg');
+    } catch (error: any) {
+      const errorCode = error.code;
+      const errorMessage = getFirebaseErrorMessage(errorCode);
+      console.error(errorMessage);
+      setErrorMessage(errorMessage);
     }
   };
-  
+
+  const getFirebaseErrorMessage = (errorCode: string) => {
+    switch (errorCode) {
+      case "auth/invalid-email":
+        return "Invalid email. Please enter a valid email address.";
+      case "auth/email-already-in-use":
+        return "Email is already in use. Please use a different email.";
+      case "auth/weak-password":
+        return "Weak password. Please use a stronger password.";
+      // Add more cases as needed for other error codes
+      default:
+        return "An error occurred. Please try again.";
+    }
+  };
+
   return (
-    
-<KeyboardAwareScrollView>
-    <View style={styles.androidLarge1}>
-      <GreenRed />
+    <KeyboardAwareScrollView>
+      <View style={styles.androidLarge1}>
+        <GreenRed />
 
-      <Pressable onPress={()=>navigation.navigate("welcome")}>
-        <Text style={styles.title}>Cancel</Text>
-      </Pressable>
+        <Pressable onPress={() => navigation.navigate("welcome")}>
+          <Text style={styles.title}>Cancel</Text>
+        </Pressable>
 
-      <Pressable
-        onPress={() => {
-          handleSignUp();
-          navigation.navigate("login");
-        }}
-      >
-        <View style={styles.button}>
-          <View style={[styles.buttonChild, styles.buttonChildPosition]} />
-          <Text style={styles.done}>Done</Text>
-        </View>
-      </Pressable>
-      <Text style={styles.title1}>{`Complete  SigingUp`}</Text>
-      <View style={[styles.androidLarge1Inner, styles.formParentLayout]}>
-        <View style={[styles.formParent, styles.formParentLayout]}>
-          <View style={[styles.form1, styles.formSpaceBlock]}>
-            <TextInput
-              onChange={(e) => setName(e.nativeEvent.text)}
-              placeholder="Name"
-              style={styles.emailOrPhone}
-            ></TextInput>
+        <Pressable
+          onPress={() => {
+            handleSignUp();
+            // navigation.navigate("login");
+          }}
+        >
+          <View style={styles.button}>
+            <View style={[styles.buttonChild, styles.buttonChildPosition]} />
+            <Text style={styles.done}>Done</Text>
           </View>
-          <View style={[styles.form1, styles.formSpaceBlock]}>
-            <TextInput
-              onChange={(e) => setLastName(e.nativeEvent.text)}
-              placeholder="LastName"
-              style={[styles.password, styles.passwordTypo]}
-            ></TextInput>
+        </Pressable>
+        <Text style={styles.title1}>{`Complete  Signing Up`}</Text>
+        <View style={[styles.androidLarge1Inner, styles.formParentLayout]}>
+          <View style={[styles.formParent, styles.formParentLayout]}>
+            <View style={[styles.form1, styles.formSpaceBlock]}>
+              <TextInput
+                onChange={(e) => setName(e.nativeEvent.text)}
+                placeholder="Name"
+                style={styles.emailOrPhone}
+              ></TextInput>
+            </View>
+            <View style={[styles.form1, styles.formSpaceBlock]}>
+              <TextInput
+                onChange={(e) => setLastName(e.nativeEvent.text)}
+                placeholder="LastName"
+                style={[styles.password, styles.passwordTypo]}
+              ></TextInput>
+            </View>
+            {errorMessage !== "" && (
+              <Text style={styles.errorMessage}>{errorMessage} </Text>
+            )}
           </View>
         </View>
       </View>
-    </View>
     </KeyboardAwareScrollView>
   );
 };
 
+
 const styles = StyleSheet.create({
+  errorMessage: {
+    width: 400,
+    color: "red",
+    fontSize: 14,
+    textAlign: "center",
+    marginTop: 10,
+    position: "absolute",
+    top: "70%", // Adjust the position based on your layout
+    left :"-5%"
+  },
   barLayout: {
     height: 5,
     width: 134,
