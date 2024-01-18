@@ -7,7 +7,8 @@ import Feather from 'react-native-vector-icons/Feather';
 import { addComment, addLike, deletecomment, getcomment, getlike } from '../../React-query/blog/blog';
 import { getUserData } from '../../localStorage/getuser';
 import { ScrollView } from 'react-native-gesture-handler';
-const CommentLike = ({ idPost, iduser }: any) => {
+const CommentLike = ({ idPost, iduser ,usercon}: any) => {
+
   const [color, setColor] = useState(true)
   const [commented, setCommented] = useState(true)
   const [modalVisible, setModalVisible] = useState(false);
@@ -23,7 +24,7 @@ const CommentLike = ({ idPost, iduser }: any) => {
   }, []);
 
   const { data: comments, isLoading: commentloading, isError: commenterror, isSuccess: issuccescomment, refetch: refetchcom } = getcomment(idPost);
-  const { data: like, isLoading, isError, isSuccess, refetch } = getlike(idPost, userConnected);
+  const { data: like, isLoading, isError, isSuccess, refetch } = getlike(idPost, usercon);
   const addlikes = addLike()
   const addComments = addComment()
   const deleteComment=deletecomment()
@@ -46,16 +47,15 @@ const CommentLike = ({ idPost, iduser }: any) => {
 
       </View>
     </View>
+   
     <Modal
      
       animationType="slide"
       transparent={true}
       visible={modalVisible}
-      onRequestClose={() => {
-        Alert.alert('Modal has been closed.');
-        setModalVisible(!modalVisible);
-      }}>
-      <View style={styles.centeredView}>
+      >
+        
+      <View style={[styles.centeredView]}>
         <View style={styles.modalView}>
           {isSuccess && like.all.map((ele: any) => {
             return (
@@ -75,7 +75,6 @@ const CommentLike = ({ idPost, iduser }: any) => {
         </View>
       </View>
     </Modal>
-
     <Modal
       
       animationType="slide"
@@ -86,9 +85,9 @@ const CommentLike = ({ idPost, iduser }: any) => {
         setModalVisibleComment(!modalVisibleComment);
       }}>
 
-      <ScrollView style={styles.centeredView}>
+      <View style={styles.centeredView}>
 
-        <View style={styles.modalViewComment}>
+        <View style={styles.modalView}>
           
           < View style={{ alignSelf: 'flex-end' }}>
             <Pressable
@@ -129,13 +128,13 @@ const CommentLike = ({ idPost, iduser }: any) => {
               multiline
 
             />
-            <Pressable onPress={() => { addComments.mutate({ postId: idPost, body: text, userId: userConnected }), refetchcom() }}>
+            <Pressable onPress={() => { addComments.mutate({ postId: idPost, body: text, userId: userConnected }), setModalVisibleComment(false) }}>
               <MaterialCommunityIcons name={'send-outline'} size={30} color={'red'} />
             </Pressable>
           </View>
 
         </View>
-      </ScrollView>
+      </View>
     </Modal>
   </View>
   )
@@ -153,11 +152,11 @@ const styles = StyleSheet.create({
     height: 30,
     width: 30,
     borderRadius: 70,
-    marginRight: 10,
+    margin:9
   },
   modalView: {
-    margin: 20,
   
+  width:'100%',
     gap: 8,
     height:'100%',
     backgroundColor: 'white',
@@ -193,7 +192,7 @@ const styles = StyleSheet.create({
   },
   modalViewComment: {
     margin: 20,
-    width: '90%',
+    width: '100%',
     gap: 8,
      
     backgroundColor: 'white',

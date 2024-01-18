@@ -293,9 +293,7 @@ const styles = StyleSheet.create({
     height: 20,
   },
   view6: {
-    top: 330,
-    width: 300,
-    left: 17,
+    top: 330,     left: 17,
     height: 20,
   },
 });

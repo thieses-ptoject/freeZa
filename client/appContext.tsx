@@ -83,6 +83,7 @@ export default function App({navigation}: any) {
           <Stack.Screen name="Chatscreen"   options={{headerShown: false}} component={Chatscreen}/>
           <Stack.Screen name="OtheruserProfile" options={{headerShown: true}} component={OtheruserProfile}/>
           <Stack.Screen name="ItemsDetails" options={{headerShown: true}} component={ItemsDetails}/>
+          <Stack.Screen name="RatingUser" options={{headerShown: true}} component={RatingUser}/>
           </Stack.Navigator>
           ) : (
             <StackScreens />
