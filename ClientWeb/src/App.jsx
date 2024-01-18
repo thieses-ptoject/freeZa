@@ -6,7 +6,8 @@ import {
   Route,
   Link,
 } from "react-router-dom";
-import Admin from './components/Admin';
+import Admin from './components/admin/Admin';
+// import SignIn from './components/admin/loginAdmin/SignIn';
 
 function App() {
   
@@ -15,7 +16,7 @@ function App() {
       path: "/",
       element: (
         <div>
-          <h1>Hello World</h1>
+          <h1 className='text-red-600'>Hello World</h1>
         </div>
       ),
     },
@@ -23,6 +24,10 @@ function App() {
       path: "admin",
       element: <Admin/>,
     },
+    // {
+    //   path: "adminLogin",
+    //   element: <SignIn/>,
+    // },
   ]);
 
   return (
