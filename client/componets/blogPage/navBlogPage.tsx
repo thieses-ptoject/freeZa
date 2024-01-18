@@ -21,7 +21,7 @@ export const NavBlogPage = () => {
         <StatusBar backgroundColor="#ffff" />
         <View style={styles.rectangle}>
           <Pressable onPress={() => navigation.navigate('Home')}>
-            <Image source={arrow} style={{ width: 30, height: 30, marginStart: 5 }} />
+            <Image source={arrow} style={{ width: 25, height: 25, marginStart: 5 }} />
           </Pressable>
           <View style={{ flexDirection: "row-reverse", alignItems: "center" }}>
             <View style={styles.circle}>

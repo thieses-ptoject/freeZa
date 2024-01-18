@@ -1,21 +1,43 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Image, Text, View } from 'react-native-animatable'
 import { addmessage, getonediscution } from '../../React-query/message/message'
-import { GiftedChat } from 'react-native-gifted-chat'
+import { GiftedChat, Message } from 'react-native-gifted-chat'
 import { FlatList, Pressable, ScrollView, StyleSheet, TextInput } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import moment from 'moment'
 import { useNavigation } from '@react-navigation/native'
+import { Badge } from 'react-native-elements'
+import { ChatContext } from '../../useContext/chatContext'
+import config from "../../config.json"
+import axios from 'axios'
 const Chatscreen = ({route}:any) => {
+  const{onlineUsers,setRecipient,setnewMessage,refetchM,setRefetchM}=useContext(ChatContext)
    const {user,currentUser}=route.params
    const [onChangeMessage,setonChangeMessage]=useState('')
+   const [data,setData]=useState([])
   const navigation=useNavigation()
-   const { data: allMessages, isLoading, isError, isSuccess,refetch,error } = getonediscution(currentUser,user.id);
-console.log(onChangeMessage)
+  const verfycon=(userId:string)=>{
+ 
+    for(let i=0;i<onlineUsers.length;i++){
+  if(onlineUsers[i].userId===userId){
+    console.log(onlineUsers[i].userId,userId,'true','0000000000')
+    return true
+  }
+  }
+  return false 
+  }
+  //  const { data: allMessages, isLoading, isError, isSuccess,refetch,error } = getonediscution(currentUser,user.id);
+
+useEffect(()=>{
+ axios.get(`http://${config.ip}:3001/message/${currentUser}/${user.id}`)
+ .then((res)=>{setData(res.data)}).catch((err)=>console.log(err))
+},[refetchM])
+
 const addMessage=addmessage()
 const renderMessage = ({ item }: { item: any }) => {
   const isCurrentUser = item.senderId === currentUser;
-console.log(item)
+  
+
   return (
     <View style={[styles.messageContainer, { alignSelf: isCurrentUser ? 'flex-end' : 'flex-start' }]}>
     
@@ -25,7 +47,9 @@ console.log(item)
   
                     source={{ uri: user.image}}
                     style={styles.image1}
-         />}
+         />
+         }
+         
       <Text  style={[styles.messageText,{color: isCurrentUser ? 'black' : 'black' }]}>{item.message}</Text>
       </View>
        <Text style={[styles.messageDate,{alignSelf:'flex-end'}]}>{moment(item.createdAt, "YYYYMMDD").fromNow()}</Text>
@@ -42,10 +66,17 @@ console.log(item)
       <Pressable onPress={()=>navigation.navigate('Chat')}>
       <Ionicons name={ 'arrow-undo'} size={35} color={'white'} style={{marginTop:13,marginLeft:5}}/>
       </Pressable>
+      <View>
       <Image
                     source={{ uri: user.image}}
                     style={styles.image}
          />
+        { verfycon(user.id) &&<Badge
+              status="success"
+              containerStyle={{ position: 'absolute', top:11, right:6, }}
+
+            />}
+            </View>
          <Text style={styles.text1}>{user.firstName} {user.lastName}</Text>
          <Pressable onPress={()=>navigation.navigate('OtheruserProfile' ,{id:user})} style={{marginTop:'4%',marginLeft:'25%'}}>
          <Ionicons name={ 'information-circle'} size={35} color={'white'} />
@@ -54,7 +85,7 @@ console.log(item)
      
       <FlatList
         inverted
-        data={allMessages}
+        data={data}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderMessage}
         contentContainerStyle={styles.messageList}
@@ -63,13 +94,21 @@ console.log(item)
 
      <View style={[styles.inputContainer]}>
      <TextInput
+               value={onChangeMessage}
                 style={styles.input}
                 onChangeText={setonChangeMessage}
-               multiline
+                multiline
                 placeholder="write here ...."
+                
 
               />
-              <Pressable onPress={()=>{addMessage.mutate({senderId:currentUser,recieverId:user.id,message:onChangeMessage});refetch()}}>
+              <Pressable onPress={()=>{
+                addMessage.mutate({senderId:currentUser,recieverId:user.id,message:onChangeMessage});
+                setRefetchM(!refetchM)
+                setRecipient(user.id);
+                setnewMessage(onChangeMessage)
+                setonChangeMessage('')}}>
+
          <Ionicons name={ 'send'} size={35} color={'pink'} />
          </Pressable>
       
@@ -85,6 +124,7 @@ const styles= StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
+    backgroundColor:'#FBF9F9',
 
   },
   messageContainer: {
@@ -147,7 +187,7 @@ const styles= StyleSheet.create({
     borderRadius: 30,
     margin: 6,
     backgroundColor:'#F4F8F2',
-    color:"black",
+    color:'black',
     paddingHorizontal:15
 
     

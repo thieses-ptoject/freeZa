@@ -1,31 +1,45 @@
 import { useNavigation } from '@react-navigation/native'
 import moment from 'moment'
 import { prependOnceListener } from 'process'
-import React from 'react'
+import React, { useContext } from 'react'
 import { Pressable, StyleSheet } from 'react-native'
 import { View, Text, Image } from 'react-native-animatable'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import { Avatar, Badge, Icon, withBadge } from 'react-native-elements'
+import { ChatContext } from '../../useContext/chatContext'
 const OneUser = ({ currentUser, message }: any) => {
   const navigation = useNavigation()
+const{onlineUsers,notifications}=useContext(ChatContext)
+const verfycon=(userId:string)=>{
+ 
+  for(let i=0;i<onlineUsers.length;i++){
+if(onlineUsers[i].userId===userId){
+
+  return true
+}
+}
+return false 
+}
+
 
   return (
-    <View>
+    <View >
       {currentUser === message.recieverId &&
         <Pressable onPress={() => { navigation.navigate("Chatscreen", { user: message.sender, currentUser: currentUser }) }}>
           <View style={styles.view1} >
-
+          <View>
             <Avatar
               rounded
               source={{ uri: message.sender.image }}
               size="medium"
             />
-            <Badge
+          {verfycon(message.sender.id) &&
+          <Badge
               status="success"
-              containerStyle={{ position: 'absolute', top: 0, right: 5, width: 10 }}
+              containerStyle={{ position: 'absolute',top:3, right:1,}}
 
-            />
-            <View>
+            />}</View>
+            <View style={{ gap: 1, marginLeft: 8 }}>
             
                 <Text style={[styles.text1, { flexDirection: 'column' }]}>
                   {message.sender.firstName} {message.sender.lastName}
@@ -47,12 +61,13 @@ const OneUser = ({ currentUser, message }: any) => {
                 source={{ uri: message.recivermessage.image }}
                 size="medium"
               />
-              <Badge
-                status="success"
-                containerStyle={{ position: 'absolute', top: 0, right: 5,  }}
-              />
+             { verfycon(message.recivermessage.id)&&<Badge
+              status="success"
+              containerStyle={{ position: 'absolute', top:3, right:1, }}
+
+            />}
             </View>
-            <View style={{ gap: 1, marginLeft: 5 }}>
+            <View style={{ gap: 1, marginLeft: 8 }}>
 
               <Text style={[styles.text1, { flexDirection: 'column', }]}>
                 {message.recivermessage.firstName} {message.recivermessage.lastName}
