@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { RefObject, createRef } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
@@ -20,36 +20,70 @@ import HeaderImageScrollView from "react-native-image-header-scroll-view";
 //import * as Animatable from "react-native-animatable";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { Item } from "react-native-paper/lib/typescript/components/Drawer/Drawer";
 import moment from "moment";
+import { addfavDeletFav, GetFav } from "../../React-query/ProductDetails/Details";
+import { getUserData } from "./../../localStorage/getuser";
+import axios from "axios";
+import config from "../../config.json"
+
 
 const MIN_HEIGHT = Platform.OS === "ios" ? 90 : 55;
 const MAX_HEIGHT = 350;
 
 export const ItemsDetails = ({ navigation, route }: any) => {
 
-  
+
+
+  const { itemData } = route.params;
+  console.log(itemData);
+  const [userConnected, setUserConncted] = useState<string>("");
+  const [desplay, setDesplay] = useState(false);
+  const [data,setData]=useState()
+
+
+  getUserData().then((result: any) => {
+    setUserConncted(result.id);
+  });
+
+
+
+
+  const addRemovFav = addfavDeletFav();
+  const hundeldeletePress = async () => {
+    try {
+      const fav = await addRemovFav.mutateAsync({
+        itemId: itemData.id,
+        userId: userConnected
+      });
+      console.log(fav, 'fav -----------------------*********************--------------------------');
+      setData(fav)
+    } catch (errors) {
+      console.log(errors);
+    }
+  };  
+
 
   const RenderItem = () => {
     const strawberryImages = [];
-
     for (let i = 0; i < itemData?.strawberries; i++) {
       strawberryImages.push(
         <Image
-          key={i}  
+          key={i}
           style={styles.freezaIcon}
           resizeMode="cover"
           source={require("../../assets/account/freza.png")}
         />
       );
     }
-  
     return strawberryImages;
   };
-
-  const { itemData } = route.params;
-  console.log(itemData);
   const navTitleView: RefObject<any> = useRef(null);
+ 
+ 
+ 
+ 
+ 
+ 
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -84,40 +118,47 @@ export const ItemsDetails = ({ navigation, route }: any) => {
             <Text style={styles.title}>Overview</Text>
             <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
               <View style={{ flexDirection: "row" }}>
-                <Pressable  >
-                 
-                    {/* <Ionicons name={"heart"} size={30} color={"red"} /> */}
-                 
+                <Pressable
+                  onPress={() => {
+                    hundeldeletePress();
+                  }}
+                >
+                  {data? (
+                    <Ionicons name={"heart"} size={30} color={"red"} />
+                  ) : (
                     <Ionicons name={"heart-outline"} size={30} color={"red"} />
-             
+                  )}
                 </Pressable>
-                
               </View>
             </View>
           </View>
         </TriggeringView>
 
         <View style={[styles.section, styles.sectionLarge]}>
-        
-            <View style={{ flexDirection: "row"  }}>
-            <Ionicons name={"star-sharp"} size={15} style={{ flexDirection: "row",  top: "15%" , color:"#2C5712" }} />
-              <Text style={styles.sectionContent1}>
-                
-                {itemData?.name}
-                {"\n"}
-                {"\n"}
-              </Text>
-              <View style={{ flexDirection: "row", marginLeft: "auto", top: "13%"  }}>
+          <View style={{ flexDirection: "row" }}>
+            <Ionicons
+              name={"star-sharp"}
+              size={15}
+              style={{ flexDirection: "row", top: "15%", color: "#2C5712" }}
+            />
+            <Text style={styles.sectionContent1}>
+              {itemData?.name}
+              {"\n"}
+              {"\n"}
+            </Text>
+            <View
+              style={{ flexDirection: "row", marginLeft: "auto", top: "13%" }}
+            >
               <RenderItem />
-              </View>
+            </View>
           </View>
 
           <Text style={styles.sectionContent}>
             Description: {itemData?.description}
           </Text>
           <Text style={styles.sectionContent2}>
-          {moment(itemData?.createdAt).format("MMM Do YY")}</Text>
-         
+            {moment(itemData?.createdAt).format("MMM Do YY")}
+          </Text>
         </View>
         <View style={styles.section}>
           <View style={styles.categories}>
@@ -130,11 +171,12 @@ export const ItemsDetails = ({ navigation, route }: any) => {
               <FontAwesome name="tag" size={16} color="#fff" />
               <Text style={styles.category}>{itemData?.type}</Text>
             </View>
-            {itemData?.exclusive === true && (<View style={styles.categoryContainer} key={itemData?.id}>
-              <FontAwesome name="tag" size={16} color="#fff" />
-              <Text style={styles.category}>Exclusive</Text>
-            </View>
-        )}
+            {itemData?.exclusive === true && (
+              <View style={styles.categoryContainer} key={itemData?.id}>
+                <FontAwesome name="tag" size={16} color="#fff" />
+                <Text style={styles.category}>Exclusive</Text>
+              </View>
+            )}
           </View>
         </View>
 
@@ -175,7 +217,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    color:"#2C5712"
+    color: "#2C5712",
   },
   name: {
     fontWeight: "bold",
@@ -193,7 +235,6 @@ const styles = StyleSheet.create({
   sectionContent: {
     fontSize: 16,
     textAlign: "justify",
-  
   },
   sectionContent1: {
     fontSize: 20,
@@ -201,9 +242,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#FC5A8D",
     marginVertical: 10,
-    textTransform: 'capitalize',
-    marginLeft: 10
-
+    textTransform: "capitalize",
+    marginLeft: 10,
   },
   sectionContent2: {
     top: "20%",
@@ -211,9 +251,8 @@ const styles = StyleSheet.create({
     textAlign: "left",
     color: "#000",
     marginVertical: 10,
-    textTransform: 'capitalize',
+    textTransform: "capitalize",
     marginLeft: "auto",
-
   },
   categories: {
     flexDirection: "row",

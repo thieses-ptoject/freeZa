@@ -106,3 +106,50 @@ export const DeleteFavorite = async(req:Request,res:Response): Promise<void>=>{
 
 
 
+
+
+
+export const addRemoveFav = async(req:Request,res:Response)=>{
+    const {itemId }=req.body
+    const {userId }=req.body
+    
+    try{
+    if(typeof itemId==='number' && typeof userId==='number'){res.status(500).send('give a valid ')}
+    else{
+        const existingfCount = await prisma.favourite.count({
+            where: { itemId,
+                userId  },
+          });
+          if(existingfCount>0){
+            const RemovFav =await prisma.favourite.deleteMany({
+                where: { itemId, userId  },
+              });
+              res.status(200).send(false)
+          }
+
+          else{
+        const following= await prisma.favourite.create({data:{ itemId, userId  }})
+    res.status(200).send(true)}}
+    }catch(err){
+        res.status(500).send(err)
+    }  
+}
+
+
+export const checkFav= async (req:Request,res:Response)=>{
+    const {itemId, userId}=req.params
+    let id=+itemId
+    try {
+        const favv  = await prisma.favourite.findMany({
+            where: { itemId:id, userId },
+            include: {
+                user:true,
+            
+              },
+          });
+       res.status(200).send(favv)
+    }
+  catch(err){
+     res.status(500).send(err)
+  }
+}

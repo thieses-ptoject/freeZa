@@ -46,3 +46,21 @@ export const rateUser = async(req:Request,res:Response)=>{
     catch(err){res.status(500).send(err)}
 
 }
+
+
+export const getRaters= async (req:Request,res:Response)=>{
+  const {ratedId}=req.params
+  try {
+      const ratining  = await prisma.rate.findMany({
+          where: { ratedId  },
+          include: {
+              rater:true,
+          
+            },
+        });
+     res.status(200).send(ratining)
+  }
+catch(err){
+   res.status(500).send(err)
+}
+}

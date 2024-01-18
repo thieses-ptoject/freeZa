@@ -5,6 +5,8 @@ const prisma = new PrismaClient();
 
 export const follow = async(req:Request,res:Response)=>{
     const {followerId, followedId }=req.body
+    console.log(req.body);
+    
     try{
     if(typeof followerId==='number' && typeof followedId==='number'){res.status(500).send('give a valid ')}
     else{
