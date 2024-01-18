@@ -1,19 +1,28 @@
-import React from 'react'
-import {  Text,Image, StyleSheet, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import {  Text,Image, StyleSheet, View, ActivityIndicator } from 'react-native'
 
 import CommentLike from './CommentLike'
 import { getUser } from '../../React-query/blog/blog'
 import { Color } from '../../GlobalStyles/GlobalStylesCreateItem'
 import moment from 'moment'
+import { getUserData } from '../../localStorage/getuser'
 
 const OneBlog = ({post}:any) => { 
+  const [userConnected, setUserConncted] = useState<string>('')
+  
+ 
+  useEffect(() => {
+    getUserData().then((result: any) => {
+      setUserConncted(result.id)
+
+    })
+  }, []);
  
   const { data: user, isLoading, isError, isSuccess } = getUser(post.userId);
 
+
   if(isSuccess) console.log('fffffffff',user.image)
-  if(isLoading){
-    return <View><Text>Loading ...</Text></View>
-  }
+
   return (
    <View style={[styles.card,{height:post.image?'auto':100}]} >
 
@@ -48,7 +57,7 @@ const OneBlog = ({post}:any) => {
     
     </View>
   </View>
-  <CommentLike idPost={post.id} iduser={user.id}/>
+{ isSuccess && <CommentLike idPost={post.id} iduser={user.id} usercon={userConnected}/>}
 
    </View>
   )
@@ -56,12 +65,12 @@ const OneBlog = ({post}:any) => {
 const styles = StyleSheet.create({
   card:{
     opacity: 0.9,
-    width:'90%',
+    width:'95%',
     backgroundColor:'#F0D3E2',
     alignSelf:'center',
-    marginTop:'10%',
+    marginTop:'5%',
     flexDirection:'column',
-    borderRadius: 20,
+    borderRadius: 5,
   },
   image: {
     height: 30,
@@ -72,7 +81,7 @@ const styles = StyleSheet.create({
     
   },
   image1: {
-    height:168,
+    height:250,
     width: '100%',
   //  marginLeft:10,
     //  borderBottomRightRadius:10,

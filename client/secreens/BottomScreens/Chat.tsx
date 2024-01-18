@@ -6,6 +6,7 @@ import OneUser from '../../componets/message/OneUser'
 import axios from 'axios'
 import config from "../../config.json"
 import {auth} from '../../firebase'
+import { ScrollView } from 'react-native-gesture-handler'
 // import { auth } from 'firebase/auth'
 export const Chat = () => {
   const [userConnected, setUserConncted] = useState<string>('')
@@ -29,12 +30,12 @@ export const Chat = () => {
   // console.log(message)  
   // if(isLoading) {return <View><Text>loading</Text></View>}
    return (
-    <View style={{gap:5}}>
+    < ScrollView style={{flex:1,gap:5,backgroundColor:'white'}}>
+    <View style={{paddingBottom:10}}>
       <View style={styles.titlecontainer}>
         <Text style={styles.title}>Direct Messages</Text>
-        
         </View>
-        <View>
+       
         {data.length>0 && data.map((ele:any,i:any)=>{
       
           return(
@@ -43,10 +44,11 @@ export const Chat = () => {
             <OneUser id={ele.id} currentUser={userConnected} message={ele}/>
          )
 
-
+        
         })}
-        </View>
+         
     </View>
+    </ScrollView>
   )
 }
 export default Chat
@@ -62,13 +64,13 @@ const styles = StyleSheet .create({
    
   },
   titlecontainer:{
-    backgroundColor:'#ECECEC', 
+    backgroundColor:'#EAF9E0', 
   marginTop:40,
   marginLeft:5,
   alignContent:'center',
   heigth:60,
   width:'60%',
- borderRadius:30
+  borderRadius:30
   
   },
   view1: {

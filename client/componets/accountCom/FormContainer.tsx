@@ -19,8 +19,7 @@ const FormContainer = ({ navigation }: any) => {
     }
   };
   
-  // Call the function wherever you need to clear AsyncStorage
-  clearAsyncStorage();
+ 
 const shareText = async (text:string) => {
   try {
       await Share.share({

@@ -6,7 +6,9 @@ import { useContext, useEffect, useState } from "react";
 import { TextInput } from "react-native-gesture-handler";
 import { AuthContext } from "../../useContext/authContext";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-
+import { getUserData } from "../../localStorage/getuser";
+import axios from "axios";
+import config from "../../config.json"
 
 
 
@@ -14,6 +16,14 @@ export const NavBar = ({navigation}:any) => {
   const [isSearchVisible, setIsSearchVisible] = useState(false);
 const [searchQuery, setSearchQuery] = useState('');
 const {products,setFilteredProducts} = useContext(AuthContext)
+const [userConnected, setUserConncted] = useState('')
+const [allinf, setAllinf] = useState({})
+useEffect(() => {
+  getUserData().then((result: any) => {
+    setUserConncted(result.id)
+    setAllinf(result)
+  })
+}, []);
 
 const handleSearchPress = () => {
   setIsSearchVisible(!isSearchVisible);
@@ -72,7 +82,7 @@ useEffect(() => {
               </View>
             </View>
             <View style={{ flexDirection: 'row', gap: 25 }}>
-              <Pressable onPress={() => navigation.navigate('blog')}>
+              <Pressable onPress={() => navigation.navigate('blog',{allinf:allinf})}>
               <MaterialIcons name="post-add" size={30} color="#FF0000" />             
                </Pressable>
               <Image source={require('../../assets/strawberry.png')} style={styles.strawberry} />
