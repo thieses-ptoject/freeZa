@@ -12,19 +12,25 @@ import {
   Platform,
   KeyboardAvoidingView,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Ionicons from "react-native-vector-icons/MaterialCommunityIcons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons } from "@expo/vector-icons";
-import { getUserData, updateprofile } from "../../React-query/user/profileUser";
+import { getOneUserData, updateprofile } from "../../React-query/user/profileUser";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import * as ImagePicker from "expo-image-picker";
 import { storage } from "../../firebase";
+import axios from "axios";
+import  config from "../../config.json";
+import { getUserData } from './../../localStorage/getuser';
+
 
 export const EditProfil = ({ navigation }: any) => {
-  const { data, isLoading, isError, refetch } = getUserData();
 
-  // const [image, setImage] = useState<null | string>(null);
+  const [userConnected, setUserConncted] = useState<string>('')
+  const [data,setData]=useState()
+  const [ desplay, setDesplay]= useState(false)
+  // const { data, isLoading, isError, refetch } = getOneUserData();
   const [image, setImage] = useState(data?.image || "");
   const [firstName, setFirstName] = useState(data?.firstName || "");
   const [lastName, setLastName] = useState(data?.lastName || "");
@@ -32,20 +38,34 @@ export const EditProfil = ({ navigation }: any) => {
   const [address, setAddress] = useState(data?.address || "");
   const [phone, setPhone] = useState(data?.phone || "");
 
-  const updatePRo = updateprofile();
 
-  if (isLoading) {
-    return (
-      <View>
-        <ActivityIndicator size="large" color="#FC5A8D" />
-      </View>
-    );
-  }
-  if (isError) {
-    <View>
-      <Text>Error fetching user data</Text>
-    </View>;
-  }
+
+  const updatePRo = updateprofile();
+  
+  getUserData().then((result: any)=> {
+    setUserConncted(result.id)})
+
+  useEffect(() => {
+    axios.get(`http://${config.ip}:3001/user/getuser/${userConnected}`).then((result)=>{
+     setData(result.data)
+     setDesplay(true)
+   }).catch((err)=>console.log(err)) 
+      }, [userConnected]);
+
+
+
+  // if (isLoading) {
+  //   return (
+  //     <View>
+  //       <ActivityIndicator size="large" color="#FC5A8D" />
+  //     </View>
+  //   );
+  // }
+  // if (isError) {
+  //   <View>
+  //     <Text>Error fetching user data</Text>
+  //   </View>;
+  // }
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -90,20 +110,20 @@ export const EditProfil = ({ navigation }: any) => {
   //   }
   // };
 
-  const loglog = () => {
-    console.log(firstName, "ok"),
-      console.log(lastName, "ok"),
-      console.log(image, "ok"),
-      console.log(address, "ok"),
-      console.log(phone, "ok");
-  };
+
+    // console.log(firstName, "ok"),
+    //   console.log(lastName, "ok"),
+    //   console.log(image, "ok"),
+    //   console.log(address, "ok"),
+      console.log(firstName, "00000000000000000000000000000ok");
 
   return (
-      <KeyboardAvoidingView
+   
+       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.container}
       >
-    <SafeAreaView style={styles.SafeareaStyle}>
+   {desplay && <SafeAreaView style={styles.SafeareaStyle}>
         <ScrollView>
           <View style={styles.view1}>
             <TouchableOpacity>
@@ -236,8 +256,9 @@ export const EditProfil = ({ navigation }: any) => {
             </Text>
           </TouchableOpacity>
         </ScrollView>
-    </SafeAreaView>
+    </SafeAreaView>}
       </KeyboardAvoidingView>
+     
   );
 };
 
