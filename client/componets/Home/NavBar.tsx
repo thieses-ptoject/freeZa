@@ -29,7 +29,7 @@ export const NavBar = ({ navigation }: any) => {
      const savedData = await AsyncStorage.getItem('user');
      if (savedData) {
       const userData = JSON.parse(savedData);
-      console.log(userData.id); 
+      
       const response = await axios.get(`http://${config.ip}:3001/user/getUser/${userData.id}`)
       setUserData(response.data)
       console.log(response.data, "mmmmmmmmmmmmmmmmmmmmmmmm")
@@ -68,7 +68,7 @@ export const NavBar = ({ navigation }: any) => {
     fetchUserData()
     setFilteredProducts(products);
   }, [products]);
-
+console.log(userData,'userData')
   return (
     <SafeAreaView>
       <View>
@@ -106,7 +106,7 @@ export const NavBar = ({ navigation }: any) => {
                 </View>
               </View>
               <View style={{ flexDirection: "row", gap: 25 }}>
-                <Pressable onPress={() => navigation.navigate("blog")}>
+                <Pressable onPress={() => navigation.navigate("blog",{allinf:userData})}>
                   <MaterialIcons name="post-add" size={30} color="#FF0000" />
                 </Pressable>
                 <Image

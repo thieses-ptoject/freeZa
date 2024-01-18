@@ -6,7 +6,7 @@ export const getUserData = async () => {
     
     if (savedData) {
       var  data = JSON.parse(savedData);
-      console.log(data,  "data data ========================= ");
+      
       return data  
     } else {
       console.log('No user data found');

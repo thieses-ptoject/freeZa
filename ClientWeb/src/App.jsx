@@ -35,6 +35,10 @@ const App = () => {
         }
       ],
     },
+    // {
+    //   path: "adminLogin",
+    //   element: <SignIn/>,
+    // },
   ]);
 
   return <RouterProvider router={router} />;
