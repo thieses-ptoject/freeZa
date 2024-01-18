@@ -23,6 +23,7 @@ model User {
   phone           String
   Giver           Appointments[]   @relation("giver")
   Reciver         Appointments[]   @relation("reciver")
+  claims          Claims[]
   Comments        Comments[]
   Favourite       Favourite[]
   GiversFollowed  GiversFollowed[] @relation("followed")
@@ -34,7 +35,9 @@ model User {
   Posts           Posts[]
   Rated           Rate[]           @relation("rated")
   Rater           Rate[]           @relation("rater")
-  claims Claims []
+
+  RecieverNotification Notifications[] @relation("notificationreciver")
+  SenderNotification Notifications[] @relation("notificationsender")
 }
 
 model Item {
@@ -57,10 +60,10 @@ model Item {
 }
 
 model Admin {
-  id    String @id
-  name  String
-  image String
-  email String
+  id     String   @id
+  name   String
+  image  String
+  email  String
   claims Claims[]
 }
 
@@ -156,13 +159,24 @@ model Messages {
   createdAt      DateTime @default(now())
   recivermessage User     @relation("reciversmessage", fields: [recieverId], references: [id], onDelete: Cascade)
   sender         User     @relation("sender", fields: [senderId], references: [id], onDelete: Cascade)
-} 
+}
+
 model Claims {
   id             Int      @id @default(autoincrement())
-  claim        String
-  adminId       String
-  userId     String
+  claim          String
+  adminId        String
+  userId         String
   createdAt      DateTime @default(now())
-  recivermessage Admin     @relation( fields: [adminId], references: [id], onDelete: Cascade)
-  sender         User     @relation( fields: [userId], references: [id], onDelete: Cascade)
+  recivermessage Admin    @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  sender         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Notifications {
+  id                   Int      @id @default(autoincrement())
+  isRead               String
+  date                 DateTime @default(now())
+  senderId             String
+  reciever             String
+  recivernotifications User     @relation("notificationreciver", fields: [reciever], references: [id], onDelete: Cascade)
+  sendernotification   User     @relation("notificationsender", fields: [senderId], references: [id], onDelete: Cascade)
 }
