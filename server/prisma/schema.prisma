@@ -35,6 +35,9 @@ model User {
   Posts           Posts[]
   Rated           Rate[]           @relation("rated")
   Rater           Rate[]           @relation("rater")
+
+  RecieverNotification Notifications[] @relation("notificationreciver")
+  SenderNotification Notifications[] @relation("notificationsender")
 }
 
 model Item {
@@ -166,4 +169,14 @@ model Claims {
   createdAt      DateTime @default(now())
   recivermessage Admin    @relation(fields: [adminId], references: [id], onDelete: Cascade)
   sender         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Notifications {
+  id                   Int      @id @default(autoincrement())
+  isRead               String
+  date                 DateTime @default(now())
+  senderId             String
+  reciever             String
+  recivernotifications User     @relation("notificationreciver", fields: [reciever], references: [id], onDelete: Cascade)
+  sendernotification   User     @relation("notificationsender", fields: [senderId], references: [id], onDelete: Cascade)
 }

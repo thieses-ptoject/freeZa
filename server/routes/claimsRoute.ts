@@ -5,4 +5,4 @@ const router=Router()
 router.get("/:adminId/:userId",OneDisc)
 router.post("/new/:adminId/:userId",newChat)
 
-export default router
+export default router 
