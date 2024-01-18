@@ -1,6 +1,4 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import {
   createBrowserRouter,
@@ -8,12 +6,9 @@ import {
   Route,
   Link,
 } from "react-router-dom";
-import  Admin from "./admin/src/App"
-import ECommerce from './admin/src/./pages/Dashboard/ECommerce';
-import SignIn from './admin/src/./pages/Authentication/SignIn';
-import SignUp from './admin/src/./pages/Authentication/SignUp';
-import Loader from './admin/src/./common/Loader';
-import routes from './admin/src/./routes';
+import Admin from './components/admin/Admin';
+// import SignIn from './components/admin/loginAdmin/SignIn';
+
 function App() {
   
   const router = createBrowserRouter([
@@ -21,7 +16,7 @@ function App() {
       path: "/",
       element: (
         <div>
-          <h1>Hello World</h1>
+          <h1 className='text-red-600'>Hello World</h1>
         </div>
       ),
     },
@@ -29,6 +24,10 @@ function App() {
       path: "admin",
       element: <Admin/>,
     },
+    // {
+    //   path: "adminLogin",
+    //   element: <SignIn/>,
+    // },
   ]);
 
   return (

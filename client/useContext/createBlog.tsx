@@ -1,5 +1,4 @@
 import { createContext, useContext, useState } from "react";
-
 export const ContextPost = createContext<any>(null);
 
 export const ProviderPost = ({ children }: any) => {
