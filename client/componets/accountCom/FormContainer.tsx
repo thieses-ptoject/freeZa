@@ -8,8 +8,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../../useContext/authContext";
 import { useNavigation } from "@react-navigation/native";
 
-const FormContainer = ({ navigation }: any) => {
+const FormContainer = ({ navigation , userData }: any) => {
+
+
   const{ setIsAuthenticated}=React.useContext(AuthContext)
+console.log(userData,':userDat')
+
+  const{auth, setAuth}=React.useContext(AuthContext)
   const clearAsyncStorage = async () => {
     try {
       await AsyncStorage.clear();
@@ -36,7 +41,7 @@ const handleLogout = () => {
 
   return (
     <View style={styles.details}>
-      <Pressable >
+      <Pressable onPress={() => navigation.navigate("Wishlist")} >
         <View style={[styles.view, styles.viewLayout1]}>
         <View style={[styles.icon, styles.iconLayout]}>
             <Ionicons name="heart-outline" size={22} color="#FC5A8D" />
@@ -52,7 +57,7 @@ const handleLogout = () => {
           />
         </View>
       </Pressable>
-
+      
       <Pressable onPress={() => navigation.navigate("MySavedSearch")}>
         <View style={[styles.view1, styles.viewLayout1]}>
           <View style={[styles.icon, styles.iconLayout]}>
@@ -69,7 +74,7 @@ const handleLogout = () => {
         </View>
       </Pressable>
 
-      <Pressable onPress={() => navigation.navigate("GeeversIfllow")}>
+      <Pressable onPress={() => navigation.navigate("GeeversIfllow" ,{userid:userData})}>
         <View style={[styles.view2, styles.viewLayout1]}>
           <View style={[styles.icon, styles.iconLayout]}>
             <Ionicons name="account-heart-outline" size={25} color="#FC5A8D" />

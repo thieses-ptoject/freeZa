@@ -21,17 +21,12 @@ import { SceneMap, TabBar, TabView } from "react-native-tab-view";
 import { UserItems, UserPosts } from "../../React-query/user/otherUserProfil";
 import { followUnfollower, getFollows } from "../../React-query/user/Following";
 import Backgroundprofile from "../../componets/accountCom/Otheruser";
-import { getUserData } from "../../localStorage/getuser";
+import { getUserData } from '../../localStorage/getuser';
 
 export const OtheruserProfile = ({ navigation ,route}: any) => {
-  const { id} = route.params;
-const [userConnected, setUserConncted]=useState("")
-
-  getUserData().then((result: any) => {
-    setUserConncted(result.id)})
-    .catch((err)=>console.log(err.message,'gggg'))
-
-
+  const { id, userid} = route.params;
+ console.log(route.params,"********************************hhhhhhhmmmmoooooppp")
+  const [userConnected, setUserConncted] = useState<string>('')
   const layout = useWindowDimensions();
   const [index, setIndex] = useState(0);
   const [routes] = useState([
@@ -67,19 +62,19 @@ const [userConnected, setUserConncted]=useState("")
     isError: userDataError,
     refetch,
     isSuccess,
-  } = UserItems("1");
+  } = UserItems(id.id);
   const {
     data: userPostsData,
     isLoading: userPostsLoading,
     isError: userPostsError,
-  } = UserPosts("1");
+  } = UserPosts(id.id);
 
   const {
     data: FollowsData,
     isLoading: FollowsLoading,
     isError: FollowsError,
     refetch:  FollowsDataRefetch
-  } = getFollows("1",id.id);
+  } = getFollows(userid,id.id);
 
 
   if (userDataLoading || userPostsLoading || FollowsLoading  ) {
@@ -97,11 +92,19 @@ const [userConnected, setUserConncted]=useState("")
     );
   }
 
+  console.log(
+    id.id, userData ,"hhhhhhhhhhhhhhhhhhhh"
+  )
 
   const hundeldeletePress = async () => {
+    console.log({
+      followerId: userid,
+      followedId: id.id,
+    }, "=====================================================================================");
+    
     try {
       await FollowUnfollower.mutateAsync({
-        followerId: "1",
+        followerId: userid,
         followedId: id.id,
       });
       FollowsDataRefetch();
@@ -189,7 +192,7 @@ const [userConnected, setUserConncted]=useState("")
     <SafeAreaView style={styles.safearea}>
       <StatusBar backgroundColor="#FC5A8D" />
 
-      <Backgroundprofile />
+      <Backgroundprofile  idProfil={id?.id} />
 
       <View style={{ flex: 1, alignItems: "center" }}>
         <Image
@@ -248,6 +251,11 @@ const [userConnected, setUserConncted]=useState("")
             <Text style={{ color: "#000" }}> {id.nbrOfDonation}</Text>
             <Text style={{ color: "#000" }}> Takes</Text>
           </View>
+          <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("RatingUser", { rateData: id })
+              }
+            >
           <View
             style={{
               flexDirection: "column",
@@ -258,6 +266,8 @@ const [userConnected, setUserConncted]=useState("")
             <Text style={{ color: "#000" }}> {id.nbrOfDonation}/5 </Text>
             <Text style={{ color: "#000" }}> Rate</Text>
           </View>
+          </TouchableOpacity>
+
         </View>
 
         <View style={{ flexDirection: "row" }}>

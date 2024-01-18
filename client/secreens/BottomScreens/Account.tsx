@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import { getUserData } from "../../React-query/user/profileUser";
+import React, { useEffect, useState } from "react";
+import { getOneUserData } from "../../React-query/user/profileUser";
 import Ionicons from "react-native-vector-icons/MaterialCommunityIcons";
-
+import config from "../../config.json"
 import {
   View,
   Text,
@@ -13,34 +13,57 @@ import {
 } from "react-native";
 import { Color, FontFamily, FontSize } from "../../GlobalStyles/UserProfil";
 import FormContainer from "../../componets/accountCom/FormContainer";
+import { getUserData } from './../../localStorage/getuser';
+import axios from "axios";
+import { Console } from "console";
 
 
 const Account = ({ navigation,route }: any) => {
+ const [userConnected, setUserConncted] = useState<string>('')
+const [data,setData]=useState()
+const [ desplay, setDesplay]= useState(false)
+  getUserData().then((result: any)=> {
+    setUserConncted(result.id)})
+    
 
-   useEffect(() => {
-     console.log('ggg');
-   }, [route.params?.refresh]);
+
+// console.log(userConnected,"zzzzzzz")
+//    useEffect(() => {
   
+      
+  
+//    }, [route.params?.refresh]);
+   
+useEffect(() => {
+   axios.get(`http://${config.ip}:3001/user/getuser/${userConnected}`).then((result)=>{
+    setData(result.data)
+    setDesplay(true)
+  }).catch((err)=>console.log(err))
+     }, [userConnected,route.params?.refresh]);
 
-  const { data, isLoading, isError } = getUserData("azizabenhalima@yahoofr");
+     console.log(data, "fffffffff")
 
-  if (isLoading) {
-    return (
-      <View>
-        <ActivityIndicator size="large" color="#000" />
-      </View>
-    );
-  }
-  if (isError) {
-    <View>
-      <Text>Error fetching user data</Text>
-    </View>;
-  }
+  // const { data, isLoading, isError } = getOneUserData(userConnected);
+
+  // if (isLoading) {
+  //   return (
+  //     <View>
+  //       <ActivityIndicator size="large" color="#000" />
+  //     </View>
+  //   );
+  // }
+  // if (isError) {
+  //   <View>
+  //     <Text>Error fetching user data</Text>
+  //   </View>;
+  // }
 
 
+console.log(data, "hhhhhhhhhhhhhhhhhhhhh")
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollContainer}>
+    <View>
+     {desplay && <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={[styles.profiles, styles.profilesLayout]}>
         
         <Pressable
@@ -83,9 +106,10 @@ const Account = ({ navigation,route }: any) => {
             source={require("../../assets/account/star.png")}
           />
         </View>
-        <FormContainer navigation={navigation} />
+        <FormContainer navigation={navigation}  userData={data?.id} />
       </View>
-    </ScrollView>
+    </ScrollView>}
+    </View>
   );
 };
 
