@@ -5,6 +5,8 @@ const prisma = new PrismaClient();
 
 export const follow = async(req:Request,res:Response)=>{
     const {followerId, followedId }=req.body
+    console.log(req.body);
+    
     try{
     if(typeof followerId==='number' && typeof followedId==='number'){res.status(500).send('give a valid ')}
     else{
@@ -28,9 +30,7 @@ export const follow = async(req:Request,res:Response)=>{
     res.status(200).send(true)}}
     }catch(err){
         res.status(500).send(err)
-    }
-
-    
+    }  
 }
 
 export const getUserFollow= async (req:Request,res:Response)=>{
@@ -52,7 +52,7 @@ export const getUserFollow= async (req:Request,res:Response)=>{
 
 
 }
-export const getUserFollowing= async (req:Request,res:Response)=>{
+export const getUserFollowME= async (req:Request,res:Response)=>{
     const {followedId}=req.params
     try {
         const following  = await prisma.giversFollowed.findMany({
@@ -80,3 +80,21 @@ export const getUserFollowing= async (req:Request,res:Response)=>{
         res.status(500).send(err)
     }
   }
+
+
+  export const getfollow= async (req:Request,res:Response)=>{
+    const {followerId , followedId}=req.params
+    try {
+        const following  = await prisma.giversFollowed.findMany({
+            where: { followerId ,followedId },
+            include: {
+                followed:true,
+            
+              },
+          });
+       res.status(200).send(following)
+    }
+  catch(err){
+     res.status(500).send(err)
+  }
+}

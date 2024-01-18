@@ -3,12 +3,12 @@ import { ActivityIndicator, Image, StyleSheet, Text,View} from "react-native";
 import { UserItems } from "../../React-query/user/otherUserProfil";
 import Swiper from "react-native-swiper";
 
-const Backgroundprofile = () => {
+const Backgroundprofile = ({ navigation , idProfil }: any) => {
 
 
-    const { data, isLoading, isError, refetch, isSuccess } = UserItems("1");
+    const { data, isLoading, isError, refetch, isSuccess } = UserItems(idProfil);
  
-
+console.log(data,"zzzzzzzzzzzzzzzzzzzzzzzzzzz")
 
     if (isLoading) {
       return (

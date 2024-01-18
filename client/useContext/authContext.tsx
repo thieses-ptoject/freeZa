@@ -1,10 +1,11 @@
   import { createContext, useContext, useState } from "react";
-  import {getProducts} from  "../React-query/homeProducts/products"
-  import { filterProducts } from "../React-query/homeProducts/products"
+  import {getProducts, getCategories, filterProducts, getTypes, getUser} from  "../React-query/homeProducts/products"
+
   export const AuthContext = createContext<any>(null);
 
   export const AuthProvider = ({ children }: any) => {
       const [auth, setAuth] = useState<boolean>(false);
+      const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
       const [phone, setPhone] = useState("26251053")
       const [email, setEmail] = useState("")
       const [name, setName] = useState("");
@@ -13,10 +14,17 @@
       const [image, setImage] = useState("")
       const [filteredProducts, setFilteredProducts] = useState(products);
       const [id,setId]=useState('')
-
+      const {data:categories , isLoading: categoriesLoading, isError: categoryError} = getCategories()
+      const {data: userData, isLoading: userLoading, isError: userDataError} = getUser()
 
       
+
+    
+      
     const value = {
+      categories,
+      categoriesLoading,
+      categoryError,
       auth,
       setAuth,
       phone,
@@ -34,7 +42,10 @@
       isError,
       filteredProducts,
       setFilteredProducts,
-
+      userData,
+      isAuthenticated,
+      setIsAuthenticated
+      
     };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

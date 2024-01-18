@@ -19,6 +19,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavBlogPage } from './componets/blogPage/navBlogPage';
 import BlogPage from './secreens/BottomScreens/BlogPage'; 
 import { NavDetails } from "./componets/ProductDetails/Navdetails";
+import { OnePost } from "./secreens/OtherUserScreens/OnePost";
+import {RatingUser} from "./secreens/OtherUserScreens/Rating"
 
 
 const queryClient = new QueryClient();
@@ -28,27 +30,17 @@ import Chatscreen from "./componets/message/Chatscreen";
 import { NavBar } from "./componets/Home/NavBar";
 const Stack = createStackNavigator();
 export default function App({navigation}: any) {
-  const{auth, setAuth}=useContext(AuthContext)
+  const{isAuthenticated, setIsAuthenticated}=useContext(AuthContext)
   const [storage, setStorage] = useState(false);
-  useEffect(() => {
-    const fetchData = async () => {
-      const storage = await AsyncStorage.getItem("user") ;
-      console.log(storage, "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
-    };
-    (async ()=>{
+  console.log(storage, "ssssssssssssssss")
 
-      await fetchData();
-      const userData = await getUserData();
-      console.log('User data:',  userData);
-    })()
-  }, [auth]);
 
   const getUserData = async () => {
     try {
       const savedData = await AsyncStorage.getItem('user');
       
       if (savedData) {
-        setStorage(true )
+        setIsAuthenticated(true)
       } else {
         console.log('No user data found');
       }
@@ -56,11 +48,19 @@ export default function App({navigation}: any) {
       console.error('Error retrieving user data:', error);
     }
    };  
+
+   useEffect(() => {
+    (async ()=>{
+
+      const userData = await getUserData();
+      console.log('User data:',  userData);
+    })()
+  }, []);
   return (
     <NavigationContainer>
 
 
-          {(storage)? (
+          {(isAuthenticated)? (
 
             <Stack.Navigator>
               <Stack.Screen
@@ -81,9 +81,9 @@ export default function App({navigation}: any) {
           <Stack.Screen name="InviteFreind" options={{headerShown: true}} component={InviteFreind}/>
           <Stack.Screen name="EditProfil" options={{headerShown: true}} component={EditProfil}/>
           <Stack.Screen name="Chatscreen"   options={{headerShown: false}} component={Chatscreen}/>
-
           <Stack.Screen name="OtheruserProfile" options={{headerShown: true}} component={OtheruserProfile}/>
           <Stack.Screen name="ItemsDetails" options={{headerShown: true}} component={ItemsDetails}/>
+          <Stack.Screen name="RatingUser" options={{headerShown: true}} component={RatingUser}/>
           </Stack.Navigator>
           ) : (
             <StackScreens />

@@ -69,3 +69,22 @@ interface Products {
   ownerId: string,
   typeId: number,
 }
+interface Types {
+  id : number,
+  type: string,
+  categoryId : number
+}
+
+interface WishList {
+  id: number,
+  userId: string,
+  itemId: number
+}
+
+interface Rate {
+  id  :number,
+  nbrOfStars : number,
+  comments :  string,
+  raterId :   string,
+  ratedId  :  string,
+}

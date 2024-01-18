@@ -6,11 +6,11 @@ import config from "../../config.json"
 
 
 
-export const getUserData = () => {
+export const getOneUserData = (id:any) => {
   const query = useQuery<User[]>({
     queryKey: ["user"],
     queryFn: async () => {
-        const response = await axios.get(`http://${config.ip}:3001/user/wided@gmail.com`);
+        const response = await axios.get(`http://${config.ip}:3001/user/getuser/${id}`);
         return response.data; 
     },
   });
