@@ -41,8 +41,8 @@ const Header = () => {
   };
 
   return (
-    <div className="w-[100%]  float-right shadow-red-50 shadow-lg">
-      <form className="flex items-center pb-2 ml-5  gap-2 mt-1 ">
+    <div >
+      <form className="flex bg-white items-center pb-2 ml-5  gap-2 mt-1 ">
         <label htmlFor="voice-search" className="sr-only">
           Search
         </label>
@@ -68,7 +68,7 @@ const Header = () => {
           <input
             type="text"
             id="voice-search"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className=" border bg-white border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Search For Anything Mr Admin"
             required
           />
@@ -96,7 +96,7 @@ const Header = () => {
         </div>
         <button
           type="submit"
-          className="inline-flex items-center py-2.5 px-3 ms-2 text-sm font-medium text-white bg-red-100 rounded-lg border 0 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          className="inline-flex items-center py-2.5 px-3 ms-2 text-sm font-medium text-white bg-red-100 rounded-lg border 0 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-100 dark:hover:bg-green-700 dark:focus:ring-red-800"
         >
           <svg
             className="w-4 h-4 me-2"
