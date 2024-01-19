@@ -34,9 +34,9 @@ export const  getMessages=(userId:string) => {
   export const addmessage = () => {
     const query = useMutation({
       mutationKey: ["addMessage"],
-      mutationFn: async (object: {senderId:string,recieverId:string,message:string }) =>{
+      mutationFn: async (object: {senderId:string,recieverId:string,message:string,image:string }) =>{
         await axios.post(`http://${config.ip}:3001/message/add`, 
-          {senderId:object.senderId,recieverId:object.recieverId,message:object.message}
+          {senderId:object.senderId,recieverId:object.recieverId,message:object.message,image:object.image}
         )
        
       },

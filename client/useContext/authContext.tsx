@@ -1,4 +1,4 @@
-  import { createContext, useContext, useState } from "react";
+  import { createContext, useContext, useEffect, useState } from "react";
   import {getProducts, getCategories, filterProducts, getTypes, getUser} from  "../React-query/homeProducts/products"
 
   export const AuthContext = createContext<any>(null);
@@ -14,8 +14,10 @@
       const [image, setImage] = useState("")
       const [filteredProducts, setFilteredProducts] = useState(products);
       const [id,setId]=useState('')
+      const[user,setUser]=useState({})
       const {data:categories , isLoading: categoriesLoading, isError: categoryError} = getCategories()
       const {data: userData, isLoading: userLoading, isError: userDataError} = getUser()
+
 
       
 
@@ -26,7 +28,7 @@
       categoriesLoading,
       categoryError,
       auth,
-      setAuth,
+      setAuth,user,setUser,
       phone,
       setPhone,
       email,

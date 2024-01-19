@@ -15,23 +15,25 @@ import {
   Pressable,
   TouchableOpacity,
   SafeAreaView,
+  Modal
 } from "react-native";
 import { TabBar, TabView } from "react-native-tab-view";
 import { getallraters } from "../../React-query/user/Rating";
 import { useRef } from "react";
+
 
 export const RatingUser = ({ navigation, route }: any) => {
   const { rateData } = route.params;
 
   const layout = useWindowDimensions();
   const bottomSheet = useRef(null);
-  const snapPoints = ["48"]
+  const snapPoints = ["48"];
   const [index, setIndex] = useState(0);
   const focused = useIsFocused();
   const [routes] = useState([{ key: "first", title: "What other's think!" }]);
   const [defaultRating, setDefaultRating] = useState(2);
   const [maxRating, setMaxRating] = useState([1, 2, 3, 4, 5]);
-
+  const [openModal, setOpenModal] = useState(false);
   const satarImagFilled =
     "https://raw.githubusercontent.com/tranhonghan/images/main/star_filled.png";
   const satarImagCorner =
@@ -87,9 +89,24 @@ export const RatingUser = ({ navigation, route }: any) => {
     );
   }
 
-   const hundelPressModel =()=>{
+  const hundelPressModel = () => {
+    return (
+    <Modal
+      visible={openModal}
+      animationType="slide"
+      transparent={true}
+    >
+      <View style={{
+        flex:1,
+        
+      }}>
+        <View>
 
-   }
+        </View>
+      </View>
+    </Modal>
+  )};
+
   const renderTabBar = (props: any) => (
     <TabBar
       {...props}
@@ -188,7 +205,7 @@ export const RatingUser = ({ navigation, route }: any) => {
             borderWidth: 2,
             marginTop: 5,
             marginRight: 20,
-            objectFit: "cover"
+            objectFit: "cover",
           }}
         />
 
@@ -220,10 +237,7 @@ export const RatingUser = ({ navigation, route }: any) => {
                 marginHorizontal: 20,
               }}
             >
-              <Text style={{ color: "#000" }}>
-                {" "}
-                {rateData.rate}/5{" "}
-              </Text>
+              <Text style={{ color: "#000" }}> {rateData.rate}/5 </Text>
             </View>
           </View>
         </View>
@@ -238,21 +252,26 @@ export const RatingUser = ({ navigation, route }: any) => {
           renderTabBar={renderTabBar}
         />
       </View>
-
-      <View
-        style={{
-          top: "1%",
-          height: 44,
-          borderRadius: 1000,
-          marginLeft: "20%",
-          marginRight: "20%",
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: "#FC5A8D",
+      <TouchableOpacity
+        onPress={() => {
+          setOpenModal(true);
         }}
       >
-        <Text>Add your rate !</Text>
-      </View>
+        <View
+          style={{
+            top: "1%",
+            height: 44,
+            borderRadius: 1000,
+            marginLeft: "20%",
+            marginRight: "20%",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "#FC5A8D",
+          }}
+        >
+          <Text>Add your rate !</Text>
+        </View>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };

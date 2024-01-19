@@ -28,6 +28,7 @@ import { AuthContext, AuthProvider } from "./useContext/authContext";
 import { ProductDetails } from "./componets/ProductDetails/ProductDetails";
 import Chatscreen from "./componets/message/Chatscreen";
 import { NavBar } from "./componets/Home/NavBar";
+import Createappointement from "./componets/appointement/Createappointement";
 const Stack = createStackNavigator();
 export default function App({navigation}: any) {
   const{isAuthenticated, setIsAuthenticated}=useContext(AuthContext)
@@ -84,6 +85,8 @@ export default function App({navigation}: any) {
           <Stack.Screen name="OtheruserProfile" options={{headerShown: true}} component={OtheruserProfile}/>
           <Stack.Screen name="ItemsDetails" options={{headerShown: true}} component={ItemsDetails}/>
           <Stack.Screen name="RatingUser" options={{headerShown: true}} component={RatingUser}/>
+          <Stack.Screen name="Createappointement" options={{headerShown: false}} component={Createappointement}/>
+          
           </Stack.Navigator>
           ) : (
             <StackScreens />

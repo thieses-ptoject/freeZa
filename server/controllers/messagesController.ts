@@ -29,13 +29,15 @@ res.status(500).send(err)
     }
 }
 export const createChat=async (req:Request,res:Response)=>{
- const {message,recieverId,senderId}=req.body
+ const {message,recieverId,senderId,image}=req.body
+ console.log(req.body)
  try{
  const creatChat=await prisma.messages.create({
   data:{
     message:message, 
     senderId :senderId,
-   recieverId :recieverId
+    recieverId :recieverId,
+    image:image
   }  
 })
 res.status(200).send(creatChat)

@@ -20,7 +20,7 @@ import config from "../../config.json"
 export const NavBar = ({ navigation }: any) => {
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const { products, setFilteredProducts } = useContext(AuthContext);
+  const { products, setFilteredProducts,user,setUser} = useContext(AuthContext);
   const [userData , setUserData] = useState({}) 
   
   const fetchUserData  = async ()=>{
@@ -31,7 +31,8 @@ export const NavBar = ({ navigation }: any) => {
       const userData = JSON.parse(savedData);
       
       const response = await axios.get(`http://${config.ip}:3001/user/getUser/${userData.id}`)
-      setUserData(response.data)
+      setUserData(response.data);
+      setUser(response.data)
       console.log(response.data, "mmmmmmmmmmmmmmmmmmmmmmmm")
     }
   }catch(error){
