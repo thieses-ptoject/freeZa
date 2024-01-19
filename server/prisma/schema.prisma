@@ -8,36 +8,35 @@ datasource db {
 }
 
 model User {
-  id              String           @id
-  firstName       String
-  lastName        String
-  email           String           @unique
-  image           String
-  strawberries    Int              @default(5)
-  rate            Int              @default(0)
-  level           String           @default("BabyGiver")
-  accountType     Boolean          @default(false)
-  nbrOfDonation   Int              @default(0)
-  nbrOfTakes      Int              @default(0)
-  address         String
-  phone           String
-  Giver           Appointments[]   @relation("giver")
-  Reciver         Appointments[]   @relation("reciver")
-  claims          Claims[]
-  Comments        Comments[]
-  Favourite       Favourite[]
-  GiversFollowed  GiversFollowed[] @relation("followed")
-  GiversFollower  GiversFollowed[] @relation("follower")
-  Items           Item[]
-  Like            Like[]
-  Recievermessage Messages[]       @relation("reciversmessage")
-  sender          Messages[]       @relation("sender")
-  Posts           Posts[]
-  Rated           Rate[]           @relation("rated")
-  Rater           Rate[]           @relation("rater")
-
-  RecieverNotification Notifications[] @relation("notificationreciver")
-  SenderNotification Notifications[] @relation("notificationsender")
+  id                   String           @id
+  firstName            String
+  lastName             String
+  email                String           @unique
+  image                String
+  strawberries         Int              @default(5)
+  rate                 Int              @default(0)
+  level                String           @default("BabyGiver")
+  accountType          Boolean          @default(false)
+  nbrOfDonation        Int              @default(0)
+  nbrOfTakes           Int              @default(0)
+  address              String
+  phone                String
+  Giver                Appointments[]   @relation("giver")
+  Reciver              Appointments[]   @relation("reciver")
+  claims               Claims[]
+  Comments             Comments[]
+  Favourite            Favourite[]
+  GiversFollowed       GiversFollowed[] @relation("followed")
+  GiversFollower       GiversFollowed[] @relation("follower")
+  Items                Item[]
+  Like                 Like[]
+  Recievermessage      Messages[]       @relation("reciversmessage")
+  sender               Messages[]       @relation("sender")
+  RecieverNotification Notifications[]  @relation("notificationreciver")
+  SenderNotification   Notifications[]  @relation("notificationsender")
+  Posts                Posts[]
+  Rated                Rate[]           @relation("rated")
+  Rater                Rate[]           @relation("rater")
 }
 
 model Item {
@@ -157,6 +156,7 @@ model Messages {
   senderId       String
   recieverId     String
   createdAt      DateTime @default(now())
+  image          String?  @default("")
   recivermessage User     @relation("reciversmessage", fields: [recieverId], references: [id], onDelete: Cascade)
   sender         User     @relation("sender", fields: [senderId], references: [id], onDelete: Cascade)
 }
