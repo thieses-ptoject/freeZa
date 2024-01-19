@@ -79,3 +79,16 @@ export const DeleteType = async(req:Request,res:Response): Promise<void>=>{
      res.status(500).send(error)   
     }
 }
+export const GetAllTypes = async(req:Request,res:Response)=>{
+  try {
+    const Types= await prisma.types.findMany()
+    if(Types){
+      res.status(200).send(Types)
+    } else {
+      res.status(200).send([])
+    }
+  } catch (error) {
+    res.status(500).json(error)
+    
+  }
+}

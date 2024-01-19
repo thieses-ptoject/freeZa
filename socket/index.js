@@ -29,6 +29,7 @@ io.on("connection", (socket) => {
   socket.on('senMessage',(message)=>{
    const user= onlineUser.find((user)=>user.userId===message.recipientId)
    if(user){
+    
     io.to(user.socketId).emit('getMessage',message)
     
     io.to(user.socketId).emit('getNotification',
