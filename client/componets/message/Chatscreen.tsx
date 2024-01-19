@@ -17,7 +17,7 @@ import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios'
 import { Item } from 'react-native-paper/lib/typescript/components/List/List'
 const Chatscreen = ({ route }: any) => {
-  const { onlineUsers, setRecipient, setnewMessage, refetchM, setRefetchM } = useContext(ChatContext)
+  const {fetchNotifications, onlineUsers, setRecipient, setnewMessage, refetchM, setRefetchM,setFetchNotifications } = useContext(ChatContext)
   const { user, currentUser } = route.params
   const [onChangeMessage, setonChangeMessage] = useState('')
   const [data, setData] = useState([])
@@ -42,6 +42,7 @@ const Chatscreen = ({ route }: any) => {
     axios.delete(`http://${config.ip}:3001/notifications/${currentUser}/${user.id}`)
       .then(() => { console.log('done') })
       .catch((err) => { console.log('rrrrrrrrrrrrrrrrrr') })
+      setFetchNotifications(!fetchNotifications)
   }, [refetchM])
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({

@@ -12,11 +12,11 @@ import config from "../../config.json";
 const OneUser = ({ currentUser, message }: any) => {
   const navigation = useNavigation()
   const [notification, setNotification] = useState([])
-  const { onlineUsers, notifications } = useContext(ChatContext)
+  const { onlineUsers, notifications,fetchNotifications } = useContext(ChatContext)
   useEffect(() => {
     axios.get(`http://${config.ip}:3001/notifications/${currentUser}`)
       .then((res) => { setNotification(res.data) }).catch((err) => { console.log })
-  }, [notifications])
+  }, [notifications,fetchNotifications])
   
 
 
