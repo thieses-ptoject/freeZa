@@ -205,6 +205,7 @@ export const OtheruserProfile = ({ navigation ,route}: any) => {
             borderColor: "#FC5A8D",
             borderWidth: 2,
             marginTop: -90,
+            objectFit: "cover"
           }}
         />
         <Text
@@ -263,7 +264,7 @@ export const OtheruserProfile = ({ navigation ,route}: any) => {
               marginHorizontal: 20,
             }}
           >
-            <Text style={{ color: "#000" }}> {id.nbrOfDonation}/5 </Text>
+            <Text style={{ color: "#000" }}> {id.rate}/5 </Text>
             <Text style={{ color: "#000" }}> Rate</Text>
           </View>
           </TouchableOpacity>
