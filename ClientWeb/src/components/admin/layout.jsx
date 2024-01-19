@@ -1,13 +1,24 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
+import { Sidebar } from './Sidebar';
 
-export const Layout = () => {
+ const Layout = ({children}) => {
     return(
-    <div className="app-container">
-    <div>sidebar</div>
+      <div className='flex flex-row h-screen w-screen overflow-hidden'>
+    
+    <Sidebar/> 
+    <div className='flex-1'>
+      <div>header</div>
+    <div className='p-4'>
     <div className="main-content">
-      <Outlet /> {/* This will render the nested routes */}
+      <Outlet />
+    </div> 
     </div>
-  </div>
+    
+    {children}
+    </div>
+    </div>
+  
 );
-};
+}; 
+export default Layout 
