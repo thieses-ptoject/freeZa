@@ -24,7 +24,6 @@ const Users= async ()=>{
         try {
            const response = await axios.get(`http://${config.ip}:3001/item`) 
            setProducts(response.data)
-           console.log(users)
         } catch (error) {
             console.log(error)
             
@@ -41,10 +40,10 @@ const Users= async ()=>{
 
     
   return (
-    <div className='flex     gap-6 w-full ml-3 mt-40  bg-black '>
+    <div className='flex  gap-6 w-full ml-3 mr-3'>
        
    <div className='bg-white rounded-sm p-4 flex-1 border border-gray-200 flex items-center'>
-    <div className='rounded-full h-12 w-12 flex     items-center justify-center bg-pink-300'>
+    <div className='rounded-full h-12 w-12 flex items-center justify-center bg-pink-300'>
         <IoBagCheckOutline className='text-2xl text-white'/>   
     </div>
     <div className=' flex flex-col ml-4'>

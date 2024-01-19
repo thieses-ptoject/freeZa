@@ -1,11 +1,16 @@
+
 // App.jsx
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Layout from './components/admin/layout.jsx';
-import Admin from './components/admin/Admin';
-import Users from './components/admin/Users';
-import Dashboard from './components/admin/dashboard.jsx';
-import Claims from './components/admin/claims.jsx';
+import { BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
+import Layout from './components/adminComponents/layout.jsx';
+import Admin from './components/adminComponents/Admin';
+import Users from './components/adminComponents/Users';
+import Dashboard from './components/adminComponents/dashboard.jsx';
+import Claims from './components/adminComponents/claims.jsx';
+import SignIn from "./components/adminComponents/loginAdmin/SignIn"
+import CategoryType from './components/adminComponents/categoryType/categoryType';
+import './App.css'
+
 
 const App = () => (
   <Router>
@@ -13,8 +18,13 @@ const App = () => (
       <Route path="/" element={
         <div>
           <h1 className="text-red-600">Hello World</h1>
-        </div>
-      } />
+        </div> }
+        />
+        <Route path='adminLogin'
+        element= {
+          <SignIn/>
+        } 
+        />
       <Route
         path="/admin"
         element={
@@ -46,10 +56,19 @@ const App = () => (
             <Claims />
           </Layout>
         }
-      />
+      /> 
+      <Route 
+      path="/category"
+      element={
+        <Layout>
+          <CategoryType/>
+        </Layout>
+      }/>
     </Routes>
   </Router>
 );
+    
+  
 
 export default App;
 
