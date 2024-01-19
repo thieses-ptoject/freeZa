@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { getOneUserData } from "../../React-query/user/profileUser";
 import Ionicons from "react-native-vector-icons/MaterialCommunityIcons";
-import config from "../../config.json"
 import {
   View,
   Text,
@@ -9,21 +8,17 @@ import {
   StyleSheet,
   ScrollView,
   Pressable,
-  ActivityIndicator,
 } from "react-native";
 import { Color, FontFamily, FontSize } from "../../GlobalStyles/UserProfil";
 import FormContainer from "../../componets/accountCom/FormContainer";
-import { getUserData } from './../../localStorage/getuser';
-import axios from "axios";
-import { Console } from "console";
+import { AuthContext } from "../../useContext/authContext";
 
 
 const Account = ({ navigation,route }: any) => {
- const [userConnected, setUserConncted] = useState<string>('')
-const [data,setData]=useState()
 const [ desplay, setDesplay]= useState(false)
-  getUserData().then((result: any)=> {
-    setUserConncted(result.id)})
+const {  user,setUser} = useContext(AuthContext);
+
+  
     
 
 
@@ -35,13 +30,12 @@ const [ desplay, setDesplay]= useState(false)
 //    }, [route.params?.refresh]);
    
 useEffect(() => {
-   axios.get(`http://${config.ip}:3001/user/getuser/${userConnected}`).then((result)=>{
-    setData(result.data)
+   
     setDesplay(true)
-  }).catch((err)=>console.log(err))
-     }, [userConnected,route.params?.refresh]);
 
-     console.log(data, "fffffffff")
+     }, [route.params?.refresh]);
+
+  
 
   // const { data, isLoading, isError } = getOneUserData(userConnected);
 
@@ -57,9 +51,7 @@ useEffect(() => {
   //     <Text>Error fetching user data</Text>
   //   </View>;
   // }
-
-
-console.log(data, "hhhhhhhhhhhhhhhhhhhhh")
+console.log( user, "++++++++++++++++++++")
 
   return (
     <View>
@@ -78,22 +70,22 @@ console.log(data, "hhhhhhhhhhhhhhhhhhhhh")
         </Pressable>
 
         <View style={styles.container}>
-          <Image style={styles.imgProfil} source={{ uri: data?.image }} />
+          <Image style={styles.imgProfil} source={{ uri: user?.image }} />
           <Text style={styles.nameUser}>
-            {data?.firstName} {data?.lastName}
+            {user?.firstName} {user?.lastName}
           </Text>
-          <Text style={styles.emailUser}>{data?.email}</Text>
+          <Text style={styles.emailUser}>{user?.email}</Text>
 
           <View />
           <Text style={[styles.donations, styles.freezaTypo]}>Donations</Text>
           <Text style={[styles.freeza, styles.freezaTypo]}>Freeza</Text>
           <Text style={styles.note}>Note</Text>
-          <Text style={[styles.text, styles.textLayout]}>{data?.rate}</Text>
+          <Text style={[styles.text, styles.textLayout]}>{user?.rate}</Text>
           <Text style={[styles.text1, styles.textLayout]}>
-            {data?.strawberries}
+            {user?.strawberries}
           </Text>
           <Text style={[styles.text2, styles.textLayout]}>
-            {data?.nbrOfDonation}
+            {user?.nbrOfDonation}
           </Text>
           <Image
             style={styles.freezaIcon}
@@ -106,7 +98,7 @@ console.log(data, "hhhhhhhhhhhhhhhhhhhhh")
             source={require("../../assets/account/star.png")}
           />
         </View>
-        <FormContainer navigation={navigation}  userData={data?.id} />
+        <FormContainer navigation={navigation}  userData={user.id} />
       </View>
     </ScrollView>}
     </View>

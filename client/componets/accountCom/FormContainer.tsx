@@ -12,13 +12,12 @@ const FormContainer = ({ navigation , userData }: any) => {
 
 
   const{ setIsAuthenticated}=React.useContext(AuthContext)
-console.log(userData,':userDat')
+
 
   const{auth, setAuth}=React.useContext(AuthContext)
   const clearAsyncStorage = async () => {
     try {
       await AsyncStorage.clear();
-      // navigation.navigate('Welcome')
       console.log("AsyncStorage cleared successfully!");
     } catch (error) {
       console.error("Error clearing AsyncStorage: ", error);
