@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import './App.css'
 import {
   createBrowserRouter,
@@ -6,8 +5,10 @@ import {
   Route,
   Link,
 } from "react-router-dom";
-import Admin from './components/admin/Admin';
+import Admin from "./components/adminComponents/Admin"
 // import SignIn from './components/admin/loginAdmin/SignIn';
+import SignIn from "./components/adminComponents/loginAdmin/SignIn"
+import CategoryType from './components/adminComponents/categoryType/categoryType';
 
 function App() {
   
@@ -24,10 +25,14 @@ function App() {
       path: "admin",
       element: <Admin/>,
     },
-    // {
-    //   path: "adminLogin",
-    //   element: <SignIn/>,
-    // },
+    {
+      path: "adminLogin",
+      element: <SignIn/>,
+    },
+    {
+      path: "category",
+      element: <CategoryType/>
+    }
   ]);
 
   return (
