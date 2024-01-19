@@ -111,6 +111,8 @@ console.log(userConnected, '==============================================')
     }
 
   };
+
+  
   const gettype = (val: number) => {
     let data1 = category.filter((ele: Category) => {
       return ele.id = val
