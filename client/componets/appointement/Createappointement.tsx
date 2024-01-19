@@ -9,29 +9,28 @@ import Entypo from "react-native-vector-icons/Entypo";
 import { useNavigation } from '@react-navigation/native'
 import { UserItems } from '../../React-query/user/otherUserProfil'
 
-let data = [
-  { label: 'Item 1', value: '1' },
 
-]
 const Createappointement = ({ route }: any) => {
   const [firstName, setFirstName] = useState("");
   const [value, setValue] = useState<string>('');
   const [isFocus, setIsFocus] = useState(false);
-  const { user1 } = route.params
+
+  const { user1,currentUser } = route.params
   const navigation = useNavigation()
-  const { data: allitem, isLoading, isError, isSuccess,refetch,error } = UserItems(user1.id);
-  
+  const { data: allitem, isLoading, isError, isSuccess,refetch,error } = UserItems(currentUser);
+  let data:any[]=[]
   const filterData = () => {
     
    let data = allitem?.map((ele:any) => { return { label: ele.name, value: ele.id } })
     return data
   }
   if(isSuccess){
-    let data=filterData()
- 
+    data=filterData()
+ console.log(data,'allarticle')
    }
   return (
     <View style={styles.container}>
+      
      <Pressable onPress={()=>{navigation.navigate('OtheruserProfile',{id:user1})}}>
       <View >
         <Image
@@ -52,10 +51,11 @@ const Createappointement = ({ route }: any) => {
         </View>
       </View>
       </Pressable>
+      
       <View style={styles.container1}>
         <View style={styles.view3}>
           <Text style={styles.text}>Item</Text>
-          <Dropdown
+     {  isSuccess &&   <Dropdown
             style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
             placeholderStyle={styles.text}
             selectedTextStyle={styles.text}
@@ -85,7 +85,7 @@ const Createappointement = ({ route }: any) => {
                 size={20}
               />
             )}
-          />
+          />}
         </View>
       </View>
       <View style={styles.view3}>
@@ -116,7 +116,7 @@ const Createappointement = ({ route }: any) => {
               style={styles.iconStyle}
             />
             <TextInput
-              placeholder="Loacation"
+              placeholder="Location"
               value={firstName}
               onChangeText={(value) => setFirstName(value)}
               editable={true}
@@ -124,6 +124,7 @@ const Createappointement = ({ route }: any) => {
           </View>
         </View>
       </View>
+
     </View>
   )
 }

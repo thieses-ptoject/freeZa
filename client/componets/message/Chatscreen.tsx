@@ -137,7 +137,7 @@ const Chatscreen = ({ route }: any) => {
           />}
         </View>
         <Text style={styles.text1}>{user.firstName} {user.lastName}</Text>
-        <Pressable onPress={() => navigation.navigate('Createappointement', { user1: user })} style={{ marginTop: '4%', marginLeft: '25%' }}>
+        <Pressable onPress={() => navigation.navigate('Createappointement', { user1: user ,currentUser:currentUser})} style={{ marginTop: '4%', marginLeft: '25%' }}>
           <AntDesign name={'pluscircle'} style={{marginRight:5}}  size={30} color={'white'} />
         </Pressable>
       </View>
