@@ -88,7 +88,7 @@ export const RatingUser = ({ navigation, route }: any) => {
   }
 
    const hundelPressModel =()=>{
-    
+
    }
   const renderTabBar = (props: any) => (
     <TabBar
@@ -183,11 +183,12 @@ export const RatingUser = ({ navigation, route }: any) => {
           style={{
             height: 85,
             width: 85,
-            borderRadius: 999,
+            borderRadius: 10000,
             borderColor: "#FC5A8D",
             borderWidth: 2,
             marginTop: 5,
             marginRight: 20,
+            objectFit: "cover"
           }}
         />
 
@@ -221,7 +222,7 @@ export const RatingUser = ({ navigation, route }: any) => {
             >
               <Text style={{ color: "#000" }}>
                 {" "}
-                {rateData.nbrOfDonation}/5{" "}
+                {rateData.rate}/5{" "}
               </Text>
             </View>
           </View>
