@@ -2,6 +2,7 @@ import config from "../config.json";
 import { createContext, useEffect, useState } from "react";
 import { io, Socket } from 'socket.io-client'
 import { getUserData } from "../localStorage/getuser";
+import axios from "axios";
 export const ChatContext = createContext<any>(null)
 export const ChatContextProvider = ({ children, user }: any) => {
     const [socket, setSocket] = useState<Socket | null>(null)
@@ -11,8 +12,7 @@ export const ChatContextProvider = ({ children, user }: any) => {
     const [userConnected, setUserConncted] = useState<string>('')
     const [notifications,setNotifications]=useState<any[]>([])
     const[refetchM,setRefetchM]=useState(false)
-    console.log('notifications',notifications)
-    console.log(user,'user')
+    
     useEffect(() => {
         getUserData().then((result: any) => {
           setUserConncted(result.id)
@@ -33,7 +33,7 @@ export const ChatContextProvider = ({ children, user }: any) => {
         
         return () => { socket.off("getOlineUsers") }
     }, [socket])
-    console.log(onlineUsers)
+  
     //add message
     useEffect(() => {
         if (socket === null) return
@@ -51,11 +51,15 @@ export const ChatContextProvider = ({ children, user }: any) => {
     
         // Subscribe to the 'getMessage' event
         socket.on('getMessage', handleMessage);
-        socket.on('getNotification',(res)=>{
-            
-            setNotifications([...notifications,res])
+        socket.on('getNotification',(res:any)=>{
+              setNotifications([...notifications,res])
+              console.log(res,'this is the response frome the socket')
+              axios.post(`http://${config.ip}:3001/notifications/add`,res).then((res)=>{
+                  console.log('done save notification')
+              }).catch((err)=>{console.log(err,'dddddddd')})
         })
-    
+        
+      
         // Clean up by unsubscribing from the 'getMessage' event
         return () => {
             socket.off('getMessage', handleMessage);
