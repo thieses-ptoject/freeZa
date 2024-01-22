@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Image, Text, View } from 'react-native-animatable'
 import { addmessage, getonediscution } from '../../React-query/message/message'
 import { GiftedChat, Message } from 'react-native-gifted-chat'
-import { Alert, FlatList, Pressable, ScrollView, StyleSheet, TextInput } from 'react-native'
+import { Alert, FlatList, Platform, Pressable, ScrollView, StyleSheet, TextInput } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import moment from 'moment'
@@ -24,6 +24,9 @@ const Chatscreen = ({ route }: any) => {
   const [image, setImage] = useState<string>('');
   const navigation = useNavigation()
  
+
+  const MIN_HEIGHT = Platform.OS === "ios" ? 20 : 0;
+
   const verfycon = (userId: string) => {
 
     for (let i = 0; i < onlineUsers.length; i++) {
@@ -189,6 +192,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: '#FBF9F9',
+    
+    
 
   },
   messageContainer: {

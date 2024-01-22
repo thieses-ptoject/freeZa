@@ -80,7 +80,7 @@ const handleLogout = () => {
           </View>
 
           <Text style={[styles.notifications, styles.notificationsTypo]}>
-            Geevers I follow
+            Givers I follow
           </Text>
           <Image
             style={[styles.fill1Icon, styles.iconLayout]}
@@ -167,7 +167,6 @@ const styles = StyleSheet.create({
 
   viewLayout1: {
     height: 20,
-    position: "absolute",
   },
   notificationsTypo: {
     textAlign: "left",
