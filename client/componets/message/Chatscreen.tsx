@@ -24,6 +24,9 @@ const Chatscreen = ({ route }: any) => {
   const [image, setImage] = useState<string>('');
   const navigation = useNavigation()
  
+
+  const MIN_HEIGHT = Platform.OS === "ios" ? 20 : 0;
+
   const verfycon = (userId: string) => {
 
     for (let i = 0; i < onlineUsers.length; i++) {

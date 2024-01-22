@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { RefObject, createRef } from "react";
+import React, {  useRef, useState } from "react";
+import { RefObject} from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 import {
@@ -11,39 +11,51 @@ import {
   StatusBar,
   Platform,
   Pressable,
+  TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import {
   ImageHeaderScrollView,
   TriggeringView,
 } from "react-native-image-header-scroll-view";
-import HeaderImageScrollView from "react-native-image-header-scroll-view";
-//import * as Animatable from "react-native-animatable";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import moment from "moment";
-import { addfavDeletFav, GetFav } from "../../React-query/ProductDetails/Details";
+import {
+  addfavDeletFav,
+  GetFav,
+} from "../../React-query/ProductDetails/Details";
 import { getUserData } from "./../../localStorage/getuser";
-import axios from "axios";
-import config from "../../config.json"
-
+import {getOneUserData} from "./../../React-query/user/profileUser"
 
 const MIN_HEIGHT = Platform.OS === "ios" ? 90 : 55;
 const MAX_HEIGHT = 350;
 
 export const ItemsDetails = ({ navigation, route }: any) => {
-
-
-
   const { itemData } = route.params;
-  console.log(itemData);
   const [userConnected, setUserConncted] = useState<string>("");
-  const [desplay, setDesplay] = useState(false);
-  const [data,setData]=useState()
-
+  const { data, refetch, isSuccess } = GetFav(userConnected, itemData.id);
 
   getUserData().then((result: any) => {
     setUserConncted(result.id);
+    refetch();
   });
+
+
+
+  const {
+    data: OwnerData,
+    isLoading: OwnerLoading,
+    isError: OwnerError,
+  } = getOneUserData(itemData.ownerId);
+  
+
+ 
+
+
+
+
+
 
 
 
@@ -53,16 +65,13 @@ export const ItemsDetails = ({ navigation, route }: any) => {
     try {
       const fav = await addRemovFav.mutateAsync({
         itemId: itemData.id,
-        userId: userConnected
+        userId: userConnected,
       });
-      console.log(fav, 'fav -----------------------*********************--------------------------');
-      setData(fav)
+      refetch();
     } catch (errors) {
       console.log(errors);
     }
-  };  
-
-
+  };
   const RenderItem = () => {
     const strawberryImages = [];
     for (let i = 0; i < itemData?.strawberries; i++) {
@@ -78,12 +87,30 @@ export const ItemsDetails = ({ navigation, route }: any) => {
     return strawberryImages;
   };
   const navTitleView: RefObject<any> = useRef(null);
- 
- 
- 
- 
- 
- 
+
+
+
+
+  if (OwnerLoading ) {
+    return (
+      <View>
+        <ActivityIndicator size="large" color="#000" />
+      </View>
+    );
+  }
+  if (OwnerError) {
+    return (
+      <View>
+        <Text>Error fetching user data</Text>
+      </View>
+    );
+  }
+
+
+
+
+
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -96,11 +123,6 @@ export const ItemsDetails = ({ navigation, route }: any) => {
             <Image source={{ uri: itemData.image[0] }} style={styles.image} />
           </View>
         )}
-        //   renderFixedForeground={() => (
-        //     <Animatable.View style={styles.navTitleView} ref={navTitleView}>
-        //       <Text style={styles.navTitle}>wide</Text>
-        //     </Animatable.View>
-        //   )}
         foregroundExtrapolate="clamp"
       >
         <TriggeringView
@@ -123,7 +145,7 @@ export const ItemsDetails = ({ navigation, route }: any) => {
                     hundeldeletePress();
                   }}
                 >
-                  {data? (
+                  {isSuccess && data.length > 0 ? (
                     <Ionicons name={"heart"} size={30} color={"red"} />
                   ) : (
                     <Ionicons name={"heart-outline"} size={30} color={"red"} />
@@ -134,6 +156,50 @@ export const ItemsDetails = ({ navigation, route }: any) => {
           </View>
         </TriggeringView>
 
+        <View style={{ flexDirection: "row" }}>
+          <Image
+            source={{ uri: OwnerData?.image }}
+            style={{
+              height: "80%",
+              width: "13%",
+              borderRadius: 10000,
+              borderColor: "#FC5A8D",
+              borderWidth: 1,
+              marginTop: "3%",
+              marginRight: "3%",
+              objectFit: "cover",
+              padding: "5%",
+              marginLeft: "2%",
+            }}
+          />
+          <Text
+            style={{
+              fontSize: 16,
+              color: "#000",
+              marginTop: "8%",
+              fontWeight:"bold"
+            }}
+          >
+            {OwnerData?.firstName} {OwnerData?.lastName}
+            {"\n"}
+          </Text>
+            <TouchableOpacity
+              style={{
+                width: 124,
+                height: 36,
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "#8FD166",
+                borderRadius: 10,
+                marginTop: "5%",
+                marginLeft: "auto", 
+              }}
+              onPress={() => navigation.navigate("Chatscreen" , {currentUser: userConnected , user:OwnerData})}
+            >
+              <Text style={{ color: "#fff" }}> reserve it now! </Text>
+            </TouchableOpacity>
+        </View>
+
         <View style={[styles.section, styles.sectionLarge]}>
           <View style={{ flexDirection: "row" }}>
             <Ionicons
@@ -143,7 +209,6 @@ export const ItemsDetails = ({ navigation, route }: any) => {
             />
             <Text style={styles.sectionContent1}>
               {itemData?.name}
-              {"\n"}
               {"\n"}
             </Text>
             <View
