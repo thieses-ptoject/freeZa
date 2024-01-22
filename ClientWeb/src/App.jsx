@@ -14,15 +14,16 @@ import "./App.css";
 const App = () => (
   <Router>
     <Routes>
-      <Route
-        path="/"
-        element={
-          <div>
-            <h1 className="text-red-600">Hello World</h1>
-          </div>
-        }
-      />
-      <Route path="adminLogin" element={<SignIn />} />
+      <Route path="/" element={
+        <div>
+          <h1 className="text-red-600">Hello World</h1>
+        </div> }
+        />
+        <Route path='/adminLogin'
+        element= {
+          <SignIn/>
+        } 
+        />
       <Route
         path="/admin"
         element={

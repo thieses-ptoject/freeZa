@@ -71,7 +71,7 @@ const AddCategory = (props) => {
             id="categoryImage"
             name="categoryImage"
             onChange={handleImageChange}
-            className="w-full p-2 border border-gray-300 rounded-md"
+            className="w-full p-2 border text-white border-gray-300 rounded-md "
           />
           <button
             type="button"

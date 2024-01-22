@@ -3,6 +3,7 @@ import { useState } from "react";
 import freeza from "../../../assets/freeza.png";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../firebase";
+import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
   const [userName, setUserName] = useState("");
@@ -11,6 +12,7 @@ const SignIn = () => {
   const [users, setUsers] = useState([]);
   const [checkbox, setCheckbox] = useState(false);
   console.log(userName, password, Loginview);
+  const navigation = useNavigate();
   const handleLogin = async () => {
     try {
       // Sign in using Firebase Authentication
@@ -25,6 +27,7 @@ const SignIn = () => {
         // User is an admin, do something here
         console.log("Admin signed in!");
         setLoginView(true);
+        navigation("/dashboard");
       } else {
         // User is not an admin, handle accordingly
         console.log("Not an admin");
@@ -34,7 +37,6 @@ const SignIn = () => {
       console.error("Sign-in error", error.message);
     }
   };
-
 
   return (
     <div className="font-mono bg-red-50 ">
