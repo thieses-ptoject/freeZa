@@ -75,16 +75,16 @@ export default function App({navigation}: any) {
                 component={Test}
               />
           <Stack.Screen name="blog" options={{ headerShown: true , header:()=><NavBlogPage/> , headerStyle:{width:'100%'} }} component={BlogPage} />
-          <Stack.Screen name="MySavedSearch" options={{headerShown: true}} component={MySavedSearch }/>
-          <Stack.Screen name="GeeversIfllow" options={{headerShown: true}} component={GeeversIfllow}/>
-          <Stack.Screen name="TermAndConditions" options={{headerShown: true}} component={TermAndConditions}/>
-          <Stack.Screen name="HelpCenter" options={{headerShown: true}} component={HelpCenter}/>
+          <Stack.Screen name="MySavedSearch" options={{headerShown: true , headerBackTitleVisible: false, title:"", headerTintColor: "#000"}}  component={MySavedSearch }/>
+          <Stack.Screen name="GeeversIfllow" options={{headerShown: true , headerBackTitleVisible: false, title:"" , headerTintColor: "#000"}} component={GeeversIfllow}/>
+          <Stack.Screen name="TermAndConditions" options={{headerShown: true , headerBackTitleVisible: false, title:"", headerTintColor: "#000"}}  component={TermAndConditions}/>
+          <Stack.Screen name="HelpCenter" options={{headerShown: false}} component={HelpCenter}/>
           <Stack.Screen name="InviteFreind" options={{headerShown: true}} component={InviteFreind}/>
-          <Stack.Screen name="EditProfil" options={{headerShown: true}} component={EditProfil}/>
+          <Stack.Screen name="EditProfil" options={{headerShown: true , headerBackTitleVisible: false, title:"", headerTintColor: "#000"}}  component={EditProfil}/>
           <Stack.Screen name="Chatscreen"   options={{headerShown: false}} component={Chatscreen}/>
-          <Stack.Screen name="OtheruserProfile" options={{headerShown: true}} component={OtheruserProfile}/>
-          <Stack.Screen name="ItemsDetails" options={{headerShown: true}} component={ItemsDetails}/>
-          <Stack.Screen name="RatingUser" options={{headerShown: true}} component={RatingUser}/>
+          <Stack.Screen name="OtheruserProfile" options={{headerShown: true , headerBackTitleVisible: false , title:"", headerTintColor: "#000"}} component={OtheruserProfile}/>
+          <Stack.Screen name="ItemsDetails" options={{headerShown: true , headerBackTitleVisible: false, title:"" , headerTintColor: "#000"}} component={ItemsDetails}/>
+          <Stack.Screen name="RatingUser" options={{headerShown: true , headerBackTitleVisible: false, title:"" , headerTintColor: "#000"}}  component={RatingUser}/>
           <Stack.Screen name="Createappointement" options={{headerShown: false}} component={Createappointement}/>
           
           </Stack.Navigator>

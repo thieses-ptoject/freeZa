@@ -6,7 +6,6 @@ import {
   Image,
   TextInput,
   StyleSheet,
-  ActivityIndicator,
   Alert,
   Pressable,
   Platform,
@@ -16,8 +15,8 @@ import React, { useEffect, useState } from "react";
 import Ionicons from "react-native-vector-icons/MaterialCommunityIcons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons } from "@expo/vector-icons";
-import { getOneUserData, updateprofile } from "../../React-query/user/profileUser";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {  updateprofile } from "../../React-query/user/profileUser";
+import {ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import * as ImagePicker from "expo-image-picker";
 import { storage } from "../../firebase";
 import axios from "axios";
@@ -30,7 +29,6 @@ export const EditProfil = ({ navigation }: any) => {
   const [userConnected, setUserConncted] = useState<string>('')
   const [data,setData]=useState()
   const [ desplay, setDesplay]= useState(false)
-  // const { data, isLoading, isError, refetch } = getOneUserData();
   const [image, setImage] = useState(data?.image || "");
   const [firstName, setFirstName] = useState(data?.firstName || "");
   const [lastName, setLastName] = useState(data?.lastName || "");
@@ -52,20 +50,6 @@ export const EditProfil = ({ navigation }: any) => {
    }).catch((err)=>console.log(err)) 
       }, [userConnected]);
 
-
-
-  // if (isLoading) {
-  //   return (
-  //     <View>
-  //       <ActivityIndicator size="large" color="#FC5A8D" />
-  //     </View>
-  //   );
-  // }
-  // if (isError) {
-  //   <View>
-  //     <Text>Error fetching user data</Text>
-  //   </View>;
-  // }
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -100,22 +84,6 @@ export const EditProfil = ({ navigation }: any) => {
       throw error;
     }
   };
-
-  // const hundelSubmit = async () => {
-  //   try {
-  //     await updatePRo.mutateAsync({firstName,lastName,image,address,phone});
-  //     refetch();
-  //   } catch (errors) {
-  //     Alert.alert("errors");
-  //   }
-  // };
-
-
-    // console.log(firstName, "ok"),
-    //   console.log(lastName, "ok"),
-    //   console.log(image, "ok"),
-    //   console.log(address, "ok"),
-      console.log(firstName, "00000000000000000000000000000ok");
 
   return (
    

@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Image, Text, View } from 'react-native-animatable'
-import { addmessage, getonediscution } from '../../React-query/message/message'
-import { GiftedChat, Message } from 'react-native-gifted-chat'
-import { Alert, FlatList, Pressable, ScrollView, StyleSheet, TextInput } from 'react-native'
+import { addmessage } from '../../React-query/message/message'
+
+import { Alert, FlatList, Platform, Pressable, ScrollView, StyleSheet, TextInput } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import moment from 'moment'
@@ -10,20 +10,23 @@ import { useNavigation } from '@react-navigation/native'
 import { Badge } from 'react-native-elements'
 import { ChatContext } from '../../useContext/chatContext'
 import config from "../../config.json"
-import * as firebase from '../../firebase';
+
 import { storage } from '../../firebase';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios'
 import { Item } from 'react-native-paper/lib/typescript/components/List/List'
 const Chatscreen = ({ route }: any) => {
-  const { onlineUsers, setRecipient, setnewMessage, refetchM, setRefetchM } = useContext(ChatContext)
+  const {fetchNotifications, onlineUsers, setRecipient, setnewMessage, refetchM, setRefetchM,setFetchNotifications } = useContext(ChatContext)
   const { user, currentUser } = route.params
   const [onChangeMessage, setonChangeMessage] = useState('')
   const [data, setData] = useState([])
   const [image, setImage] = useState<string>('');
   const navigation = useNavigation()
  
+
+  const MIN_HEIGHT = Platform.OS === "ios" ? 20 : 0;
+
   const verfycon = (userId: string) => {
 
     for (let i = 0; i < onlineUsers.length; i++) {
@@ -42,6 +45,7 @@ const Chatscreen = ({ route }: any) => {
     axios.delete(`http://${config.ip}:3001/notifications/${currentUser}/${user.id}`)
       .then(() => { console.log('done') })
       .catch((err) => { console.log('rrrrrrrrrrrrrrrrrr') })
+      setFetchNotifications(!fetchNotifications)
   }, [refetchM])
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -54,7 +58,8 @@ const Chatscreen = ({ route }: any) => {
       // Check if 'uri' property exists on the result object
       uploadImage(result.uri as string, 'image').then(() => {
         Alert.alert('image uploaded')
-      }).catch((error) => { console.error('Firebase Storage Error:', error.code, error.message); Alert.alert("error") })
+      })
+      .catch((error) => { console.error('Firebase Storage Error:', error.code, error.message); Alert.alert("error") })
     } else {
 
       console.error("URI not found in image picker result");
@@ -92,6 +97,7 @@ const Chatscreen = ({ route }: any) => {
     
 
     return (
+      
       <View style={[styles.messageContainer, { alignSelf: isCurrentUser ? 'flex-end' : 'flex-start' }]}>
 
         <View style={[styles.messageTextContainer, { backgroundColor: isCurrentUser ? '#F9E9ED' : '#E8EFE4' }, { borderBottomRightRadius: isCurrentUser ? 0.001 : 30 }, { borderBottomLeftRadius: isCurrentUser ? 30 : 0.001 }]}>
@@ -119,6 +125,7 @@ const Chatscreen = ({ route }: any) => {
   };
 
   return (
+    
     <View style={styles.container}>
       <View style={styles.navbar}>
         <Pressable onPress={() => navigation.navigate('Chat')}>
@@ -136,7 +143,7 @@ const Chatscreen = ({ route }: any) => {
           />}
         </View>
         <Text style={styles.text1}>{user.firstName} {user.lastName}</Text>
-        <Pressable onPress={() => navigation.navigate('Createappointement', { user1: user })} style={{ marginTop: '4%', marginLeft: '25%' }}>
+        <Pressable onPress={() => navigation.navigate('Createappointement', { user1: user ,currentUser:currentUser})} style={{ marginTop: '4%', marginLeft: '25%' }}>
           <AntDesign name={'pluscircle'} style={{marginRight:5}}  size={30} color={'white'} />
         </Pressable>
       </View>
@@ -147,7 +154,7 @@ const Chatscreen = ({ route }: any) => {
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderMessage}
         contentContainerStyle={styles.messageList}
-        keyboardShouldPersistTaps="handled" // Add this prop to prevent dismissing the keyboard
+        keyboardShouldPersistTaps="handled" 
       />
 
       <View style={[styles.inputContainer]}>
@@ -188,7 +195,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: '#FBF9F9',
-
+    marginTop: Platform.OS === "ios" ? 40 : 0,
   },
   messageContainer: {
     padding: 10,

@@ -12,13 +12,12 @@ const FormContainer = ({ navigation , userData }: any) => {
 
 
   const{ setIsAuthenticated}=React.useContext(AuthContext)
-console.log(userData,':userDat')
+
 
   const{auth, setAuth}=React.useContext(AuthContext)
   const clearAsyncStorage = async () => {
     try {
       await AsyncStorage.clear();
-      // navigation.navigate('Welcome')
       console.log("AsyncStorage cleared successfully!");
     } catch (error) {
       console.error("Error clearing AsyncStorage: ", error);
@@ -63,8 +62,9 @@ const handleLogout = () => {
           <View style={[styles.icon, styles.iconLayout]}>
             <Ionicons name="briefcase-eye-outline" size={20} color="#FC5A8D" />
           </View>
+
           <Text style={[styles.security, styles.securityTypo]}>
-            My saved searches
+            My Appointements
           </Text>
           <Image
             style={[styles.fill1Icon, styles.iconLayout]}
@@ -81,7 +81,7 @@ const handleLogout = () => {
           </View>
 
           <Text style={[styles.notifications, styles.notificationsTypo]}>
-            Geevers I follow
+            Givers I follow
           </Text>
           <Image
             style={[styles.fill1Icon, styles.iconLayout]}
@@ -107,7 +107,7 @@ const handleLogout = () => {
         </View>
       </Pressable>
 
-      <Pressable onPress={() => navigation.navigate("HelpCenter")}>
+      <Pressable onPress={() => navigation.navigate("HelpCenter",{user:userData})}>
         <View style={[styles.view4, styles.viewLayout1]}>
         <View style={[styles.icon, styles.iconLayout]}>
             <Ionicons name="help-circle-outline" size={22} color="#FC5A8D" />
@@ -168,7 +168,6 @@ const styles = StyleSheet.create({
 
   viewLayout1: {
     height: 20,
-    position: "absolute",
   },
   notificationsTypo: {
     textAlign: "left",

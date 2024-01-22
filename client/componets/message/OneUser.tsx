@@ -12,25 +12,28 @@ import config from "../../config.json";
 const OneUser = ({ currentUser, message }: any) => {
   const navigation = useNavigation()
   const [notification, setNotification] = useState([])
-  const { onlineUsers, notifications } = useContext(ChatContext)
+  const [desplay , setDesplay] = useState(false)
+  const { onlineUsers, notifications,fetchNotifications } = useContext(ChatContext)
   useEffect(() => {
     axios.get(`http://${config.ip}:3001/notifications/${currentUser}`)
-      .then((res) => { setNotification(res.data) }).catch((err) => { console.log })
-  }, [notifications])
-  
+      .then((res) => { setNotification(res.data) ,setDesplay(true) }).catch((err) => { console.log })
+  }, [notifications,fetchNotifications])
+   console.log(onlineUsers,"+++++++++++++++++++")
 
 
   const isthereAnotifications = (iduser: string) => {
     const filtred = notification.filter((not: any) => {
       return not.senderId === iduser
     })
+    
     return filtred.length
 
   }
 
 
   const verfycon = (userId: string) => {
-
+    console.log(onlineUsers,'test test *-*--*-*-*-*-*-*-*-*-*-*');
+    
     for (let i = 0; i < onlineUsers.length; i++) {
       if (onlineUsers[i].userId === userId) {
 
@@ -43,7 +46,7 @@ const OneUser = ({ currentUser, message }: any) => {
 
   return (
     <View >
-      {currentUser === message.recieverId &&
+      {(currentUser === message.recieverId ) &&
         <Pressable onPress={() => { navigation.navigate("Chatscreen", { user: message.sender, currentUser: currentUser }) }}>
           <View style={styles.view1} >
             <View>
@@ -52,7 +55,7 @@ const OneUser = ({ currentUser, message }: any) => {
                 source={{ uri: message.sender.image }}
                 size="medium"
               />
-              {verfycon(message.sender.id) &&
+              {verfycon(message.sender.id )&&
                 <Badge
                   status="success"
                   containerStyle={{ position: 'absolute', top: 3, right: 1, }}

@@ -3,9 +3,7 @@ import { useState } from "react";
 import {
   View,
   StyleSheet,
-  Button,
   Image,
-  Alert,
   SafeAreaView,
   StatusBar,
   TouchableOpacity,
@@ -17,23 +15,25 @@ import {
 import { Text } from "react-native-paper";
 
 import { MaterialIcons } from "@expo/vector-icons";
-import { SceneMap, TabBar, TabView } from "react-native-tab-view";
+import { TabBar, TabView } from "react-native-tab-view";
 import { UserItems, UserPosts } from "../../React-query/user/otherUserProfil";
 import { followUnfollower, getFollows } from "../../React-query/user/Following";
 import Backgroundprofile from "../../componets/accountCom/Otheruser";
-import { getUserData } from '../../localStorage/getuser';
 
-export const OtheruserProfile = ({ navigation ,route}: any) => {
-  const { id, userid} = route.params;
- console.log(route.params,"********************************hhhhhhhmmmmoooooppp")
-  const [userConnected, setUserConncted] = useState<string>('')
+export const OtheruserProfile = ({ navigation, route }: any) => {
+  const { id, userid } = route.params;
+  const [userConnected, setUserConncted] = useState<string>("");
   const layout = useWindowDimensions();
   const [index, setIndex] = useState(0);
+  const satarImagFilled =
+    "https://raw.githubusercontent.com/tranhonghan/images/main/star_filled.png";
   const [routes] = useState([
     { key: "first", title: "Donations" },
     { key: "second", title: "Requests" },
   ]);
 
+  console.log(id, "hahaha")
+  console.log(userid, "loooooooooooooooooooooooool")
   const FollowUnfollower = followUnfollower();
 
   const renderTabBar = (props: any) => (
@@ -73,18 +73,17 @@ export const OtheruserProfile = ({ navigation ,route}: any) => {
     data: FollowsData,
     isLoading: FollowsLoading,
     isError: FollowsError,
-    refetch:  FollowsDataRefetch
-  } = getFollows(userid,id.id);
+    refetch: FollowsDataRefetch,
+  } = getFollows(userid, id.id);
 
-
-  if (userDataLoading || userPostsLoading || FollowsLoading  ) {
+  if (userDataLoading || userPostsLoading || FollowsLoading) {
     return (
       <View>
         <ActivityIndicator size="large" color="#000" />
       </View>
     );
   }
-  if (userDataError || userPostsError || FollowsError ) {
+  if (userDataError || userPostsError || FollowsError) {
     return (
       <View>
         <Text>Error fetching user data</Text>
@@ -92,16 +91,7 @@ export const OtheruserProfile = ({ navigation ,route}: any) => {
     );
   }
 
-  console.log(
-    id.id, userData ,"hhhhhhhhhhhhhhhhhhhh"
-  )
-
   const hundeldeletePress = async () => {
-    console.log({
-      followerId: userid,
-      followedId: id.id,
-    }, "=====================================================================================");
-    
     try {
       await FollowUnfollower.mutateAsync({
         followerId: userid,
@@ -158,26 +148,21 @@ export const OtheruserProfile = ({ navigation ,route}: any) => {
             }}
           >
             <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("OnePost", { itemData: item })
-              }
-              >
-            <Image
-              key={index}
-              source={{ uri: item?.image }}
-              style={{ width: "100%", height: "100%", borderRadius: 12 }}
-            />
+              onPress={() => navigation.navigate("OnePost", { itemData: item })}
+            >
+              <Image
+                key={index}
+                source={{ uri: item?.image }}
+                style={{ width: "100%", height: "100%", borderRadius: 12 }}
+              />
             </TouchableOpacity>
           </View>
         )}
       />
     </View>
-
-    
   );
 
   const renderScene = ({ route }: any) => {
-
     switch (route.key) {
       case "first":
         return <PhotosRoutes navigation={navigation} route={route} />;
@@ -192,7 +177,7 @@ export const OtheruserProfile = ({ navigation ,route}: any) => {
     <SafeAreaView style={styles.safearea}>
       <StatusBar backgroundColor="#FC5A8D" />
 
-      <Backgroundprofile  idProfil={id?.id} />
+      <Backgroundprofile idProfil={id?.id} />
 
       <View style={{ flex: 1, alignItems: "center" }}>
         <Image
@@ -204,7 +189,8 @@ export const OtheruserProfile = ({ navigation ,route}: any) => {
             borderRadius: 999,
             borderColor: "#FC5A8D",
             borderWidth: 2,
-            marginTop: -90,
+            marginTop: "-20%",
+            objectFit: "cover",
           }}
         />
         <Text
@@ -222,7 +208,7 @@ export const OtheruserProfile = ({ navigation ,route}: any) => {
         <View
           style={{
             flexDirection: "row",
-            marginVertical: 6,
+            marginVertical: "2%",
             alignItems: "center",
           }}
         >
@@ -235,7 +221,7 @@ export const OtheruserProfile = ({ navigation ,route}: any) => {
             style={{
               flexDirection: "column",
               alignItems: "center",
-              marginHorizontal: 5,
+              marginHorizontal: "5%",
             }}
           >
             <Text style={{ color: "#000" }}> {id.nbrOfDonation} </Text>
@@ -245,29 +231,42 @@ export const OtheruserProfile = ({ navigation ,route}: any) => {
             style={{
               flexDirection: "column",
               alignItems: "center",
-              marginHorizontal: 20,
+              marginHorizontal: "5%",
             }}
           >
             <Text style={{ color: "#000" }}> {id.nbrOfDonation}</Text>
             <Text style={{ color: "#000" }}> Takes</Text>
           </View>
           <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("RatingUser", { rateData: id })
-              }
-            >
-          <View
-            style={{
-              flexDirection: "column",
-              alignItems: "center",
-              marginHorizontal: 20,
-            }}
+            onPress={() => navigation.navigate("RatingUser", { rateData: id })}
           >
-            <Text style={{ color: "#000" }}> {id.nbrOfDonation}/5 </Text>
-            <Text style={{ color: "#000" }}> Rate</Text>
-          </View>
+            <View
+              style={{
+                flexDirection: "column",
+                alignItems: "center",
+                marginHorizontal: "5%",
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginHorizontal: "5%",
+                }}
+              >
+                <Text style={{ color: "#000" }}> {id.rate}/5 </Text>
+                <Image
+                  source={{ uri: satarImagFilled }}
+                  style={{
+                    height: 15,
+                    width: 15,
+                    resizeMode: "cover",
+                  }}
+                />
+              </View>
+              <Text style={{ color: "#000" }}> Rate</Text>
+            </View>
           </TouchableOpacity>
-
         </View>
 
         <View style={{ flexDirection: "row" }}>
@@ -279,35 +278,35 @@ export const OtheruserProfile = ({ navigation ,route}: any) => {
               justifyContent: "center",
               backgroundColor: "#FC5A8D",
               borderRadius: 10,
-              marginHorizontal: 30,
+              marginHorizontal: "10%",
             }}
           >
             <Text
               style={{ color: "#fff" }}
               onPress={() => {
-                hundeldeletePress()
+                hundeldeletePress();
               }}
             >
               {" "}
-              {FollowsData?.length ===1 ? "Unfollow" : "Follow"}{" "}
+              {FollowsData?.length === 1 ? "Unfollow" : "Follow"}{" "}
             </Text>
           </TouchableOpacity>
-          <Pressable >
-          <TouchableOpacity
-            style={{
-              width: 124,
-              height: 36,
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: "#8FD166",
-              borderRadius: 10,
-              marginHorizontal: 30,
-
-            }}
-             
-          >
-            <Text style={{ color: "#fff" }}  > Send Massege </Text>
-          </TouchableOpacity>
+          <Pressable>
+            <TouchableOpacity
+              style={{
+                width: 124,
+                height: 36,
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "#8FD166",
+                borderRadius: 10,
+                marginHorizontal: 30,
+              }}
+              
+              onPress={() => navigation.navigate("Chatscreen" , {currentUser: userid , user:id})}
+            >
+              <Text style={{ color: "#fff" }}> Send Massege </Text>
+            </TouchableOpacity>
           </Pressable>
         </View>
       </View>

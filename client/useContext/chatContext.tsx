@@ -11,6 +11,7 @@ export const ChatContextProvider = ({ children, user }: any) => {
     const [recipientId, setRecipient] = useState(null)
     const [userConnected, setUserConncted] = useState<string>('')
     const [notifications,setNotifications]=useState<any[]>([])
+    const [fetchNotifications,setFetchNotifications]=useState(false)
     const[refetchM,setRefetchM]=useState(false)
     
     useEffect(() => {
@@ -71,7 +72,7 @@ export const ChatContextProvider = ({ children, user }: any) => {
     const value = {
         socket,
         setSocket,
-        onlineUsers, setRecipient, setnewMessage,refetchM,setRefetchM
+        onlineUsers, setRecipient, setnewMessage,refetchM,setRefetchM,setFetchNotifications,fetchNotifications
     };
 
     return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>
