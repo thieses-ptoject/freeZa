@@ -20,10 +20,10 @@ const CategoryType = () => {
     fetchData();
   }, []);
   return (
-    <div className="min-h-screen bg-gray-100 overflow-y-scroll">
+    <div className="min-h-screen  ">
       <div className="">
-        <AddCategory />
-        <CategoryList data={data} />
+        <AddCategory fetchData={fetchData} />
+        <CategoryList data={data} fetchData={fetchData} />
       </div>
     </div>
   );

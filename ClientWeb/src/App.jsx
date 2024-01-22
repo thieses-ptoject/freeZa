@@ -8,6 +8,7 @@ import Dashboard from "./components/adminComponents/dashboard.jsx";
 import Claims from "./components/adminComponents/claims.jsx";
 import SignIn from "./components/adminComponents/loginAdmin/SignIn";
 import CategoryType from "./components/adminComponents/categoryType/category.jsx";
+import Type from "./components/adminComponents/type/type.jsx";
 import "./App.css";
 
 const App = () => (
@@ -59,6 +60,14 @@ const App = () => (
         element={
           <Layout>
             <CategoryType />
+          </Layout>
+        }
+      />
+      <Route
+        path="/types"
+        element={
+          <Layout>
+            <Type />
           </Layout>
         }
       />

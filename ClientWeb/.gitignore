@@ -23,3 +23,7 @@ config.json
 *.njsproj
 *.sln
 *.sw?
+
+
+# Contentlayer
+.contentlayer
