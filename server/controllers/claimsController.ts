@@ -12,15 +12,9 @@ export const OneDisc= async (req:Request,res:Response)=>{
             },
             
            }) 
-           const findManychatS=await prisma.claims.findMany({
-            where:{
-                userId:userId,
-                adminId:adminId,
-            },
           
-           }) 
-           const allchat=findManychatS.concat(findManychat)
-      const allchat1=allchat.sort((a,b)=>a.createdAt.getTime()-b.createdAt.getTime())
+           const allchat=findManychat.concat(findManychat)
+      const allchat1=allchat.sort((a:any,b:any)=>a.createdAt.getTime()-b.createdAt.getTime())
        res.status(200).send(allchat1)
         
     } catch (error) {

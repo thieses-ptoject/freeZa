@@ -78,7 +78,7 @@ export default function App({navigation}: any) {
           <Stack.Screen name="MySavedSearch" options={{headerShown: true , headerBackTitleVisible: false, title:"", headerTintColor: "#000"}}  component={MySavedSearch }/>
           <Stack.Screen name="GeeversIfllow" options={{headerShown: true , headerBackTitleVisible: false, title:"" , headerTintColor: "#000"}} component={GeeversIfllow}/>
           <Stack.Screen name="TermAndConditions" options={{headerShown: true , headerBackTitleVisible: false, title:"", headerTintColor: "#000"}}  component={TermAndConditions}/>
-          <Stack.Screen name="HelpCenter" options={{headerShown: true , headerBackTitleVisible: false, title:"", headerTintColor: "#000"}} component={HelpCenter}/>
+          <Stack.Screen name="HelpCenter" options={{headerShown: false}} component={HelpCenter}/>
           <Stack.Screen name="InviteFreind" options={{headerShown: true}} component={InviteFreind}/>
           <Stack.Screen name="EditProfil" options={{headerShown: true , headerBackTitleVisible: false, title:"", headerTintColor: "#000"}}  component={EditProfil}/>
           <Stack.Screen name="Chatscreen"   options={{headerShown: false}} component={Chatscreen}/>

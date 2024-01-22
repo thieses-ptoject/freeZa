@@ -62,8 +62,9 @@ const handleLogout = () => {
           <View style={[styles.icon, styles.iconLayout]}>
             <Ionicons name="briefcase-eye-outline" size={20} color="#FC5A8D" />
           </View>
+
           <Text style={[styles.security, styles.securityTypo]}>
-            My saved searches
+            My Appointements
           </Text>
           <Image
             style={[styles.fill1Icon, styles.iconLayout]}
@@ -106,7 +107,7 @@ const handleLogout = () => {
         </View>
       </Pressable>
 
-      <Pressable onPress={() => navigation.navigate("HelpCenter")}>
+      <Pressable onPress={() => navigation.navigate("HelpCenter",{user:userData})}>
         <View style={[styles.view4, styles.viewLayout1]}>
         <View style={[styles.icon, styles.iconLayout]}>
             <Ionicons name="help-circle-outline" size={22} color="#FC5A8D" />
