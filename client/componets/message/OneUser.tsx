@@ -24,13 +24,15 @@ const OneUser = ({ currentUser, message }: any) => {
     const filtred = notification.filter((not: any) => {
       return not.senderId === iduser
     })
+    
     return filtred.length
 
   }
 
 
   const verfycon = (userId: string) => {
-
+    console.log(onlineUsers,'test test *-*--*-*-*-*-*-*-*-*-*-*');
+    
     for (let i = 0; i < onlineUsers.length; i++) {
       if (onlineUsers[i].userId === userId) {
 

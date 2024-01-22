@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Image, Text, View } from 'react-native-animatable'
-import { addmessage, getonediscution } from '../../React-query/message/message'
-import { GiftedChat, Message } from 'react-native-gifted-chat'
-import { Alert, FlatList, Pressable, ScrollView, StyleSheet, TextInput } from 'react-native'
+import { addmessage } from '../../React-query/message/message'
+
+import { Alert, FlatList, Platform, Pressable, ScrollView, StyleSheet, TextInput } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import moment from 'moment'
@@ -10,7 +10,7 @@ import { useNavigation } from '@react-navigation/native'
 import { Badge } from 'react-native-elements'
 import { ChatContext } from '../../useContext/chatContext'
 import config from "../../config.json"
-import * as firebase from '../../firebase';
+
 import { storage } from '../../firebase';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import * as ImagePicker from 'expo-image-picker';
@@ -55,7 +55,8 @@ const Chatscreen = ({ route }: any) => {
       // Check if 'uri' property exists on the result object
       uploadImage(result.uri as string, 'image').then(() => {
         Alert.alert('image uploaded')
-      }).catch((error) => { console.error('Firebase Storage Error:', error.code, error.message); Alert.alert("error") })
+      })
+      .catch((error) => { console.error('Firebase Storage Error:', error.code, error.message); Alert.alert("error") })
     } else {
 
       console.error("URI not found in image picker result");
@@ -93,6 +94,7 @@ const Chatscreen = ({ route }: any) => {
     
 
     return (
+      
       <View style={[styles.messageContainer, { alignSelf: isCurrentUser ? 'flex-end' : 'flex-start' }]}>
 
         <View style={[styles.messageTextContainer, { backgroundColor: isCurrentUser ? '#F9E9ED' : '#E8EFE4' }, { borderBottomRightRadius: isCurrentUser ? 0.001 : 30 }, { borderBottomLeftRadius: isCurrentUser ? 30 : 0.001 }]}>
@@ -120,6 +122,7 @@ const Chatscreen = ({ route }: any) => {
   };
 
   return (
+    
     <View style={styles.container}>
       <View style={styles.navbar}>
         <Pressable onPress={() => navigation.navigate('Chat')}>
@@ -148,7 +151,7 @@ const Chatscreen = ({ route }: any) => {
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderMessage}
         contentContainerStyle={styles.messageList}
-        keyboardShouldPersistTaps="handled" // Add this prop to prevent dismissing the keyboard
+        keyboardShouldPersistTaps="handled" 
       />
 
       <View style={[styles.inputContainer]}>
@@ -189,7 +192,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: '#FBF9F9',
-
+    marginTop: Platform.OS === "ios" ? 40 : 0,
   },
   messageContainer: {
     padding: 10,

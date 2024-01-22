@@ -14,6 +14,7 @@ import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import { filterConfig } from 'react-native-gesture-handler/lib/typescript/handlers/gestureHandlerCommon';
 import { getUserData } from '../../localStorage/getuser';
+import { ActivityIndicator } from 'react-native-paper';
 
 const camera = require('../../assets/CreateItem/camera.png')
 const arrow = require('../../assets/CreateItem/rightarrow.png')
@@ -35,8 +36,11 @@ const CreateItem: React.FC = ({ navigation }: any) => {
   const [typeValue, setTypeValue] = useState<number>();
   const [type, setType] = useState([])
   const [exclusive, setExclusive] = useState('')
+  const [category, setCategory] = useState('');
   const [userConnected, setUserConncted] = useState<string>('')
-console.log(userConnected, '==============================================')
+  const handleCategoryChange = (selectedCategory: string) => {
+    setCategory(selectedCategory);
+  };
   const [data1, setData1] = useState([
     { label: 'Item 1', value: 1 },
 
@@ -53,7 +57,9 @@ console.log(userConnected, '==============================================')
   const [valueTypes, setValueTypes] = useState<string>('');
 
   const [nbrOfStraw, setNbrOfStraw] = useState<number>()
-  const { data: category, isLoading, isError, isSuccess } = getCategory();
+  const [display,setDisplay]=useState(false)
+  const { data, isLoading, isError, isSuccess } = getCategory();
+  
   const additem = addItem()
 
   useEffect(() => {
@@ -70,6 +76,10 @@ console.log(userConnected, '==============================================')
   //     }
   //   })();
   }, []);
+  const handleTypesChange = (item: any) => {
+    setTypeValue(item.value); 
+      setIsFocusType(false);
+  };
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
@@ -103,7 +113,7 @@ console.log(userConnected, '==============================================')
 
 
       const downloadURL = await getDownloadURL(imageRef);
-      console.log('Image uploaded successfully. Download URL:', downloadURL);
+      // console.log('Image uploaded successfully. Download URL:', downloadURL);
       setImage(downloadURL);
     } catch (error) {
       console.error('Error uploading image:', error);
@@ -113,38 +123,23 @@ console.log(userConnected, '==============================================')
   };
 
   
-  const gettype = (val: number) => {
-    let data1 = category.filter((ele: Category) => {
-      return ele.id = val
-    })
-    return data1[0].Types
+  const filterData1 =  (arr: any) => {
+    console.log(arr, '-------------------------------r');
+    
+    setData1( arr?.map((ele: type) => { return { label: ele.type, value: ele.id } }))
+    setDisplay(true)
+    setIsFocus(false);
   }
-
-  const filterData = () => {
-    let data = []
-    data = category?.map((ele: Category) => { return { label: ele.name, value: ele.id } })
-    return data
-  }
-  const filterData1 = (arr: any) => {
-    let data1 = []
-    data1 = arr?.map((ele: type) => { return { label: ele.type, value: ele.id } })
-    console.log(data1, 'eeeeeeeeeeeeeeeeeeeeeee')
-    return data1
-  }
-
-  if (isSuccess) {
-
-    data = filterData()
-
-  }
+  console.log(data1, "********************************************")
+if(isLoading){
+  return  ( <View>
+  <ActivityIndicator size="large" color="#000" />
+</View>)}
   return (
     <KeyboardAwareScrollView>
-
       <SafeAreaView style={styles.container} >
-
         <ScrollView>
           <View style={styles.souscontainer}>
-
             <View>
               <TextInput
                 style={styles.input}
@@ -201,13 +196,10 @@ console.log(userConnected, '==============================================')
                 value={value}
                 onFocus={() => setIsFocus(true)}
                 onBlur={() => setIsFocus(false)}
-                onChange={(item) => {
-
-                  setValue(item.value);
-
-                  setData1(filterData1(gettype(+item.value)))
-                  console.log(data1)
-                  setIsFocus(false);
+                onChange={ (item: any) => {
+                 console.log(item.types,'5555554');
+                 
+                 filterData1(item.types)
                 }}
                 renderLeftIcon={() => (
                   <AntDesign
@@ -219,7 +211,7 @@ console.log(userConnected, '==============================================')
                 )}
               />
             </View>
-            {value && <View>
+            {display && <View>
               <View style={styles.container}>
                 <Dropdown
                   style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
@@ -237,10 +229,7 @@ console.log(userConnected, '==============================================')
                   value={value}
                   onFocus={() => setIsFocusType(true)}
                   onBlur={() => setIsFocusType(false)}
-                  onChange={async (item) => {
-                    setTypeValue(item.value);
-                    setIsFocusType(false);
-                  }}
+                  onChange={handleTypesChange}
                   renderLeftIcon={() => (
                     <AntDesign
                       style={styles.icon}
@@ -270,7 +259,7 @@ console.log(userConnected, '==============================================')
                 onFocus={() => setIsFocusTypes(true)}
                 onBlur={() => setIsFocusTypes(false)}
                 onChange={(item) => {
-                  console.log(item.value, 'aaaaaaaaaaa')
+                  
                   setValueTypes(item.value);
                   setIsFocusTypes(false);
                 }}
@@ -353,8 +342,9 @@ console.log(userConnected, '==============================================')
             <TextInput
               numberOfLines={4}
               multiline={true}
+              value=''
               textAlignVertical={"top"}
-              onChangeText={setDescription}
+              onChangeText={(value)=> setDescription(value)}
               placeholder='description' style={styles.description}>
             </TextInput>
           </View>
