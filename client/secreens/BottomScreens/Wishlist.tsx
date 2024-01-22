@@ -53,6 +53,10 @@ const Reserve=(state:string)=>{
   useEffect(()=>{
     getUserData().then(result=>setUserId(result.id))
   },[])
+
+
+
+  
   const {data:favorite,isLoading,isError,refetch}=Getfavorite(userId)
   if(isLoading){
     return <Text>loading ...</Text>

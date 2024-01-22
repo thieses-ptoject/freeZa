@@ -54,3 +54,21 @@ export const DeleteCategory = async(req:Request,res:Response): Promise<void>=>{
         
     }
 }
+export const getFiltredcat=async(req:Request,res:Response): Promise<void>=>{
+    console.log('test');
+    
+    try {
+        const Categories = await prisma.category.findMany({
+            include: {
+               Types:true,
+              },
+        })
+   const data = Categories?.map((ele:any) => {  return { label: ele.name, value: ele.id.toString() ,types:ele.Types} })
+
+        res.status(200).send(data)
+        
+    } catch (error) {
+        res.status(500).send(error)
+    }
+    
+} 

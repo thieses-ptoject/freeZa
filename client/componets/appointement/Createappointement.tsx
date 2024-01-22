@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Image, Pressable } from 'react-native'
+import { Alert, Button, Image, Pressable } from 'react-native'
 import { StyleSheet, Text, View } from 'react-native'
 import { Dropdown } from 'react-native-element-dropdown'
 import { TextInput } from 'react-native-gesture-handler'
@@ -8,54 +8,60 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import Entypo from "react-native-vector-icons/Entypo";
 import { useNavigation } from '@react-navigation/native'
 import { UserItems } from '../../React-query/user/otherUserProfil'
+import { addappointement } from '../../React-query/appointement/appointement'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 
 const Createappointement = ({ route }: any) => {
-  const [firstName, setFirstName] = useState("");
+  const [time, setTime] = useState("");
   const [value, setValue] = useState<string>('');
+  const [location, setLocation] = useState<string>('');
   const [isFocus, setIsFocus] = useState(false);
 
-  const { user1,currentUser } = route.params
+  const { user1, currentUser } = route.params
   const navigation = useNavigation()
-  const { data: allitem, isLoading, isError, isSuccess,refetch,error } = UserItems(currentUser);
-  let data:any[]=[]
+  const { data: allitem, isLoading, isError, isSuccess, refetch, error } = UserItems(currentUser);
+ const addapp=addappointement()
+
   const filterData = () => {
-    
-   let data = allitem?.map((ele:any) => { return { label: ele.name, value: ele.id } })
+    let data1=allitem?.filter((ele:any)=>{return ele.state==="available" })
+
+    let data = data1?.map((ele: any) => { return { label: ele.name, value: ele.id } })
     return data
   }
-  if(isSuccess){
-    data=filterData()
- console.log(data,'allarticle')
-   }
+  if (isSuccess) {
+   var data = filterData()
+    console.log(data, 'allarticle')
+  }
   return (
+    <KeyboardAwareScrollView>
     <View style={styles.container}>
       
-     <Pressable onPress={()=>{navigation.navigate('OtheruserProfile',{id:user1})}}>
-      <View >
-        <Image
+      <Pressable onPress={() => { navigation.navigate('OtheruserProfile', { id: user1 }) }}>
+        <View >
+          <Image
 
-          source={{ uri: user1.image }}
-          style={styles.image1}
-        />
-        <View style={{ flexDirection: 'row', gap: 5, marginLeft: 'auto', marginRight: 'auto' }}>
-          <Entypo
-
-            color={'#FC5A8D'}
-            name="user"
-            size={20}
-            style={{ marginTop: 10 }}
-
+            source={{ uri: user1.image }}
+            style={styles.image1}
           />
-          <Text style={styles.name}>{user1.firstName} {user1.lastName}</Text>
+          <View style={{ flexDirection: 'row', gap: 5, marginLeft: 'auto', marginRight: 'auto' }}>
+            <Entypo
+
+              color={'#FC5A8D'}
+              name="user"
+              size={20}
+              style={{ marginTop: 10 }}
+
+            />
+            <Text style={styles.name}>{user1.firstName} {user1.lastName}</Text>
+          </View>
         </View>
-      </View>
       </Pressable>
-      
+
       <View style={styles.container1}>
         <View style={styles.view3}>
           <Text style={styles.text}>Item</Text>
-     {  isSuccess &&   <Dropdown
+          {isSuccess && <Dropdown
             style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
             placeholderStyle={styles.text}
             selectedTextStyle={styles.text}
@@ -72,9 +78,7 @@ const Createappointement = ({ route }: any) => {
             onFocus={() => setIsFocus(true)}
             onBlur={() => setIsFocus(false)}
             onChange={(item: any) => {
-
-              setValue(item.id);
-
+              setValue(item.value);
               setIsFocus(false);
             }}
             renderLeftIcon={() => (
@@ -99,9 +103,10 @@ const Createappointement = ({ route }: any) => {
             />
             <TextInput
               placeholder="time"
-              value={firstName}
-              onChangeText={(value) => setFirstName(value)}
+              value={time}
+              onChangeText={(value) => setTime(value)}
               editable={true}
+              multiline
             />
           </View>
         </View>
@@ -117,15 +122,23 @@ const Createappointement = ({ route }: any) => {
             />
             <TextInput
               placeholder="Location"
-              value={firstName}
-              onChangeText={(value) => setFirstName(value)}
+              value={location}
+              onChangeText={(value) => setLocation(value)}
               editable={true}
+              multiline
             />
           </View>
         </View>
+      
       </View>
-
-    </View>
+      <Pressable onPress={()=>{addapp.mutate({time:time, giverId:currentUser, reciverId:user1.id, ItemId:+value, location:location})
+     navigation.navigate('Home')}}>
+      <View style={styles.botton}>
+        <Text style={{ marginLeft: 'auto', marginRight: 'auto', color: 'white' }}>Add appointement</Text>
+     </View>
+     
+     </Pressable>
+      </View></KeyboardAwareScrollView>
   )
 }
 
@@ -140,7 +153,7 @@ const styles = StyleSheet.create({
     marginTop: '20%'
   },
   image1: {
-    borderColor: "#F20B32",
+    borderColor: "#FC5A8D",
     borderWidth: 2,
     height: 150,
     width: 150,
@@ -189,6 +202,19 @@ const styles = StyleSheet.create({
     marginTop: 20,
     alignSelf: 'center',
     width: "95%",
+  },
+  botton: {
+    marginTop: 20,
+    alignSelf: 'center',
+    width: "95%",
+    justifyContent: "center",
+    backgroundColor: '#FC5A8D',
+    height: 44,
+    borderWidth: 1,
+    borderRadius: 4,
+    paddingHorizontal: 8,
+    borderColor: "#F20B32"
+
   },
   view4: {
     height: 44,
