@@ -5,7 +5,6 @@ import {
   ActivityIndicator,
   FlatList,
   Image,
-  StatusBar,
   useWindowDimensions,
 } from "react-native";
 import {
@@ -15,29 +14,36 @@ import {
   Pressable,
   TouchableOpacity,
   SafeAreaView,
-  Modal
+  Modal,
+  TextInput,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { TabBar, TabView } from "react-native-tab-view";
-import { getallraters } from "../../React-query/user/Rating";
-import { useRef } from "react";
-
+import { getallraters, Rating } from "../../React-query/user/Rating";
+import { getUserData } from "./../../localStorage/getuser";
+import { Ionicons } from "@expo/vector-icons";
 
 export const RatingUser = ({ navigation, route }: any) => {
   const { rateData } = route.params;
-
   const layout = useWindowDimensions();
-  const bottomSheet = useRef(null);
-  const snapPoints = ["48"];
+  const transparnet = "rgba(0,0,0,0.5)";
+  const [userConnected, setUserConncted] = useState<string>("");
   const [index, setIndex] = useState(0);
+  const [comment, setComment] = useState("");
   const focused = useIsFocused();
   const [routes] = useState([{ key: "first", title: "What other's think!" }]);
-  const [defaultRating, setDefaultRating] = useState(2);
+  const [defaultRating, setDefaultRating] = useState(0);
   const [maxRating, setMaxRating] = useState([1, 2, 3, 4, 5]);
   const [openModal, setOpenModal] = useState(false);
   const satarImagFilled =
     "https://raw.githubusercontent.com/tranhonghan/images/main/star_filled.png";
   const satarImagCorner =
     "https://raw.githubusercontent.com/tranhonghan/images/main/star_corner.png";
+
+  getUserData().then((result: any) => {
+    setUserConncted(result.id);
+  });
 
   const CustumRating = () => (
     <View style={{ flexDirection: "row" }}>
@@ -64,12 +70,13 @@ export const RatingUser = ({ navigation, route }: any) => {
     data: ratersData,
     isLoading: ratersLoding,
     isError: ratersError,
-    refetch: ratersRefetch,
     isSuccess: ratersIsSuccess,
     refetch: refetchRaters,
   } = getallraters(rateData.id);
 
-  useEffect(() => {
+  const addRating = Rating(userConnected);
+
+  useEffect(() => {;
     refetchRaters();
   }, [focused]);
 
@@ -89,23 +96,119 @@ export const RatingUser = ({ navigation, route }: any) => {
     );
   }
 
-  const hundelPressModel = () => {
-    return (
-    <Modal
-      visible={openModal}
-      animationType="slide"
-      transparent={true}
-    >
-      <View style={{
-        flex:1,
-        
-      }}>
-        <View>
+  const handlePressOutside = () => {
+    Keyboard.dismiss();
+  };
 
-        </View>
-      </View>
-    </Modal>
-  )};
+  const HundelPressModel = () => {
+    return (
+      <Modal visible={openModal} animationType="slide" transparent={true}>
+        <TouchableWithoutFeedback onPress={handlePressOutside}>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "flex-end",
+              alignItems: "center",
+              backgroundColor: transparnet,
+            }}
+          >
+            <View
+              style={{
+                borderRadius: 10,
+                width: "100%",
+                padding: 10,
+                height: "80%",
+                backgroundColor: "white",
+                borderColor: "#FC5A8D",
+                borderWidth: 1,
+                alignItems: "center",
+              }}
+            >
+              <TouchableOpacity
+                onPress={() => {
+                  setOpenModal(false);
+                }}
+              >
+                <View
+                  style={{
+                    marginLeft: "90%",
+                    marginBottom: "10%",
+                  }}
+                >
+                  <Ionicons name="close-outline" size={30} />
+                </View>
+              </TouchableOpacity>
+
+              <View
+                style={{
+                  marginBottom: "10%",
+                }}
+              >
+                <Text
+                  style={{ color: "#000", fontWeight: "bold", fontSize: 20 }}
+                >
+                  {" "}
+                  How was your experience ?
+                </Text>
+              </View>
+              <View
+                style={{
+                  marginBottom: "10%",
+                }}
+              >
+                <CustumRating />
+              </View>
+
+              <TextInput
+                placeholder="Write your review"
+                multiline
+                numberOfLines={1}
+                value={comment}
+                onChangeText={(value) => setComment(value)}
+                style={{
+                  borderColor: "#FC5A8D",
+                  padding: "3%",
+                  height: "33%",
+                  width: "80%",
+                  borderWidth: 1,
+                  borderRadius: 4,
+                  marginBottom: "10%",
+                  backgroundColor: "#F7FCF4",
+                  fontSize: 15,
+                }}
+              />
+              <Pressable
+                onPress={() => {
+                  addRating.mutate({
+                    nbrOfStars: defaultRating,
+                    comments: comment,
+                    ratedId: rateData.id,
+                  });
+                  refetchRaters();
+                  setOpenModal(false);
+                }}
+              >
+                <View
+                  style={{
+                    borderColor: "#fff",
+                    height: "25%",
+                    width: 250,
+                    borderRadius: 10,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: "#FC5A8D",
+                    bottom: "2%",
+                  }}
+                >
+                  <Text> Save</Text>
+                </View>
+              </Pressable>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
+    );
+  };
 
   const renderTabBar = (props: any) => (
     <TabBar
@@ -228,9 +331,22 @@ export const RatingUser = ({ navigation, route }: any) => {
               flexDirection: "row",
             }}
           >
-            <CustumRating />
+            {Array.from({ length: rateData.rate }).map((_, index) => (
+              <Image
+                key={index}
+                source={{ uri: satarImagFilled }}
+                style={styles.starImgstyle2}
+              />
+            ))}
+            {Array.from({ length: 5 - rateData.rate }).map((_, index) => (
+              <Image
+                key={index}
+                source={{ uri: satarImagCorner }}
+                style={styles.starImgstyle2}
+              />
+            ))}
 
-            <View
+            {/* <View
               style={{
                 flexDirection: "column",
                 alignItems: "center",
@@ -238,7 +354,7 @@ export const RatingUser = ({ navigation, route }: any) => {
               }}
             >
               <Text style={{ color: "#000" }}> {rateData.rate}/5 </Text>
-            </View>
+            </View> */}
           </View>
         </View>
       </View>
@@ -272,6 +388,7 @@ export const RatingUser = ({ navigation, route }: any) => {
           <Text>Add your rate !</Text>
         </View>
       </TouchableOpacity>
+      {HundelPressModel()}
     </SafeAreaView>
   );
 };
@@ -325,13 +442,18 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   starImgstyle: {
-    height: 25,
-    width: 25,
+    height: 40,
+    width: 40,
     resizeMode: "cover",
   },
   starImgstyle1: {
     height: 15,
     width: 15,
+    resizeMode: "cover",
+  },
+  starImgstyle2: {
+    height: 35,
+    width: 35,
     resizeMode: "cover",
   },
   text1: {
