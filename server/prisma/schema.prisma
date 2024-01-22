@@ -18,10 +18,10 @@ model User {
   level                String           @default("BabyGiver")
   accountType          Boolean          @default(false)
   nbrOfDonation        Int              @default(0)
-  nbrOfTakes           Int               @default(0)
-   blocked           Boolean               @default(false)
+  nbrOfTakes           Int              @default(0)
   address              String
   phone                String
+  blocked              Boolean          @default(false)
   Giver                Appointments[]   @relation("giver")
   Reciver              Appointments[]   @relation("reciver")
   claims               Claims[]

@@ -38,7 +38,9 @@ export const Sidebar = () => {
           <span>Categories</span>
         </div>
         <div className='flex items-center gap-2 px-1 py-3'>
+          <Link to='/types'>
           <MdOutlineTypeSpecimen fontSize={24} />
+          </Link>
           <span>Types</span>
         </div>
         <div className='flex items-center gap-2 px-1 py-3'>
