@@ -1,4 +1,4 @@
-import { done , deleteAppo , addAppointment, getAppreciv,getappgiv } from "../controllers/appointmentController";
+import { done , deleteAppo ,getapprgivernotdone, addAppointment, getapprecidone,getappnotdone,getapprgiverdone } from "../controllers/appointmentController";
 import { Router } from "express";
 
 const router = Router();
@@ -6,6 +6,8 @@ const router = Router();
 router.post("/", addAppointment)
 router.put("/", done)
 router.delete("/:id", deleteAppo)
-router.get('/apprec/:id',getAppreciv)
-router.get('/appgiv/:id',getappgiv)
+router.get('/apprecnotdone/:id',getapprgivernotdone)
+router.get('/appgivdone/:id',getapprgiverdone)
+router.get('/apprecdone/:id',getapprecidone)
+router.get('/appgivnotdone/:id',getapprgivernotdone)
 export default router;

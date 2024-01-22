@@ -31,8 +31,7 @@ const OneUser = ({ currentUser, message }: any) => {
 
 
   const verfycon = (userId: string) => {
-    console.log(onlineUsers,'test test *-*--*-*-*-*-*-*-*-*-*-*');
-    
+     
     for (let i = 0; i < onlineUsers.length; i++) {
       if (onlineUsers[i].userId === userId) {
 

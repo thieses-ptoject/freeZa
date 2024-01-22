@@ -113,51 +113,115 @@ export const deleteAppo = async (req: Request, res: Response)=>{
         console.log(error)
     }
 }
-export const getAppreciv=async (req: Request, res: Response)=>{
+
+export const getapprecidone=async (req: Request, res: Response)=>{
   try {
     const {id}=req.params
-    const give=await prisma.appointments.findMany({
-       where:{giverId:id,
-    
-     }
-    })
-    let arr:any[]=[]
-    const giverObj=give.map(async(ele)=> {
-      const otherUser=await prisma.user.findUnique({
-        where:{
-          id:ele.reciverId
-        }   
-      })
-     const product=await prisma.item.findUnique({where:{id:ele.ItemId}})
-    return  arr.push({reciever:otherUser,product,ele})
-    })
-    res.status(200).send(arr)
+    const give= await prisma.appointments.findMany({
+       where:{
+        reciverId:id,
+        status:true
+     },
+     include:{
+      giver:true,
+      Item:true 
 
+     },
+    
+    })
+
+    
+    
+
+   
+   
+    res.status(200).send(give)
   }
   catch (err)
   {
     res.status(500).send(err)
   }
 }
-export const getappgiv=async (req: Request, res: Response)=>{
+export const getapprgiverdone=async (req:Request,res:Response)=>{
+  try {
+    const {id}=req.params
+    const recive= await prisma.appointments.findMany({
+    where:{
+    giverId:id,
+     status:true
+     
+ 
+  },
+  include:{
+   reciver:true,
+   Item:true 
+
+  },
+ 
+ })
+
+  }catch(err){
+
+  }
+}
+export const getapprgivernotdone=async (req:Request,res:Response)=>{
+  try {
+    const {id}=req.params
+    const recive= await prisma.appointments.findMany({
+    where:{
+    giverId:id,
+     status:false
+     
+ 
+  },
+  include:{
+   reciver:true,
+   Item:true 
+
+  },
+ 
+ })
+
+  }catch(err){
+
+  }
+}
+export const getappnotdone=async (req: Request, res: Response)=>{
   try {
     const {id}=req.params
     const give= await prisma.appointments.findMany({
-       where:{reciverId:id,
+       where:{
+        reciverId:id,
+        status:false
+        
     
-     }
+     },
+     include:{
+      giver:true,
+      Item:true 
+
+     }, 
     })
+    const recive= await prisma.appointments.findMany({
+      where:{
+      giverId:id,
+       status:false
+       
+   
+    },
+    include:{
+     reciver:true,
+     Item:true 
+
+    },
+   
+   })
+
     
     let arr:any[]=[]
-    const giverObj=give.map(async(ele)=> {
-      const otherUser=await prisma.user.findUnique({
-        where:{
-          id:ele.giverId
-        }   
-      })
-     const product=await prisma.item.findUnique({where:{id:ele.ItemId}})
-    return  arr.push({giver:otherUser,product,ele})})
-    res.status(200).send(arr)
+  
+   
+    res.status(200).send({recive,give})
   }
   catch (err)
   {
