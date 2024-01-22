@@ -11,7 +11,7 @@ export const  getCategory=() => {
       queryKey: ["AllCategory"],
       queryFn: async () => {
         const result = await axios.get(
-          `http://${config.ip}:3001/category/`
+          `http://${config.ip}:3001/category/category/`
         );
         return result.data;
       },
