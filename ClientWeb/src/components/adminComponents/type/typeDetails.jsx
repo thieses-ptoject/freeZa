@@ -16,7 +16,7 @@ const TypeDetails = (props) => {
   };
 
   return (
-    <div className="flex items-center justify-between bg-gray-100 p-4 mb-4 rounded-md shadow-md">
+    <div className="flex items-center justify-between  p-4 mb-4 rounded-md shadow-md">
       <div className="flex items-center">
         <div>
           <p className="text-lg font-semibold">Name: {props.data.type}</p>

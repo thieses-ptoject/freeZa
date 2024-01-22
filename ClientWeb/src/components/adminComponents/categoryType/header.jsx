@@ -1,7 +1,23 @@
-import React, { useState } from "react";
-
+import React, { useState, useContext } from "react";
+import { AuthContext } from "../../../useContext/adminContext";
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const { data, setData } = useContext(AuthContext);
+  const { setFiltredUsers } = useContext(AuthContext);
+
+  const performSearch = (query) => {
+    const searchResults = data.filter(
+      (item) =>
+        item.firstName.toLowerCase().includes(query.toLowerCase()) ||
+        item.lastName.toLowerCase().includes(query.toLowerCase())
+    );
+    setFiltredUsers(searchResults);
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    performSearch(searchQuery);
+  };
 
   return (
     <div className="shadow-lg shadow-red-50">
@@ -39,6 +55,7 @@ const Header = () => {
           />
         </div>
         <button
+          onClick={handleSearchSubmit}
           type="submit"
           className="inline-flex items-center  py-2.5 px-3 ms-2 text-sm font-medium text-white bg-red-100 rounded-lg border 0 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-100 dark:hover:bg-green-700 dark:focus:ring-red-800"
         >
