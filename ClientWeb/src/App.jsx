@@ -4,7 +4,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
 import Layout from './components/adminComponents/layout.jsx';
 import Admin from './components/adminComponents/Admin';
-import Users from './components/adminComponents/Users';
+import Users from './components/adminComponents/users';
 import Dashboard from './components/adminComponents/dashboard.jsx';
 import Claims from './components/adminComponents/claims.jsx';
 import SignIn from "./components/adminComponents/loginAdmin/SignIn"
@@ -20,7 +20,7 @@ const App = () => (
           <h1 className="text-red-600">Hello World</h1>
         </div> }
         />
-        <Route path='adminLogin'
+        <Route path='/adminLogin'
         element= {
           <SignIn/>
         } 

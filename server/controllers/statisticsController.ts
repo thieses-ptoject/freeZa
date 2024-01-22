@@ -6,15 +6,13 @@ const prisma = new PrismaClient();
 export const statisticType = async(req:Request,res:Response)=>{
     const {typeId}=req.params
     try {
-        const SameType= await prisma.types.findMany({
-            where:{id:+typeId},
-            include:{
-              Item:true
-            }
-        
+        const SameType= await prisma.item.findMany({
+            where:{typeId:+typeId},
+           
+
           }) 
           const allItem=await prisma.item.findMany() 
-          const stat:number=SameType.length/allItem.length
+          const stat:number=SameType.length*100/allItem.length
 
           res.status(200).send({stattype:stat})
     }catch(err){
@@ -35,10 +33,16 @@ export const itemstatistic=async (req:Request,res:Response)=>{
             where:{state:'available'}
         })
         const allItem=await prisma.item.findMany() 
-       const taken:number =itemtaken.length/allItem.length
-       const reserved:number =itemreserved.length/allItem.length
-       const available:number=itemreserved.length/allItem.length
-       res.status(200).send({taken,reserved,available})
+       const taken:number =itemtaken.length*100/allItem.length
+       const reserved:number =itemreserved.length*100/allItem.length
+       const available:number=itemreserved.length*100/allItem.length
+    //    res.status(200).send({taken,reserved,available}) 
+       const data = [
+        { name: 'taken', value: taken },
+        { name: 'reserved', value: reserved },
+        { name: 'available', value: available }
+    ]; 
+    res.status(200).send(data)
 
     }
     catch(err){res.status(500).send(err)}
@@ -52,9 +56,14 @@ export const appointementStatistics=async(req:Request,res:Response)=>{
             where:{status:false}
         })
         const allAppointment=await prisma.appointments.findMany()
-        const achieved=appointementAchieved.length/allAppointment.length
-        const notAchieved= appointementNotAchieved.length/appointementNotAchieved.length
-        res.status(200).send({achieved,notAchieved})
+        const achieved=appointementAchieved.length*100/allAppointment.length
+        const notAchieved= appointementNotAchieved.length*100/allAppointment.length
+        // res.status(200).send({achieved,notAchieved})
+        const data= [
+            {name:'achieved',value:achieved},
+            {name:'not achieved',value:notAchieved}
+        ] 
+        res.status(200).send(data)
     }
     catch(err){
         res.status(500).send(err)
