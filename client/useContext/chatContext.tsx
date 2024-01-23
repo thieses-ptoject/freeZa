@@ -54,7 +54,7 @@ export const ChatContextProvider = ({ children, user }: any) => {
         socket.on('getMessage', handleMessage);
         socket.on('getNotification',(res:any)=>{
               setNotifications([...notifications,res])
-              console.log(res,'this is the response frome the socket')
+              
               axios.post(`http://${config.ip}:3001/notifications/add`,res).then((res)=>{
                   console.log('done save notification')
               }).catch((err)=>{console.log(err,'dddddddd')})
@@ -72,7 +72,7 @@ export const ChatContextProvider = ({ children, user }: any) => {
     const value = {
         socket,
         setSocket,
-        onlineUsers, setRecipient, setnewMessage,refetchM,setRefetchM,setFetchNotifications,fetchNotifications
+        onlineUsers, setRecipient, setnewMessage,refetchM,setRefetchM,setFetchNotifications,fetchNotifications,notifications
     };
 
     return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>

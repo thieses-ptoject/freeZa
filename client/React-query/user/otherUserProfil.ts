@@ -6,9 +6,10 @@ import config from "../../config.json"
 
 export const UserItems = (ownerId:any) => {
   const query = useQuery<Item[]>({
-    queryKey: ["item"],
+    queryKey: ["items"],
     queryFn: async () => {
-        const response = await axios.get(`http://${config.ip}:3001/item/getitem/${ownerId}`);
+        const response = await axios.get(`http://${config.ip}:3001/item/getitems/${ownerId}`);
+        console.log(response.data)
         return response.data; 
     },
   });

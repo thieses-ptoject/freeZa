@@ -38,9 +38,19 @@ io.on("connection", (socket) => {
       isRead:false,
       date:new Date(),
       reciever:message.recipientId
-    })
+    })  
    }
   })
+  // add notification 
+  socket.on('sendNotification',(notifications)=>{
+    const user= onlineUser.find((user)=>user.userId===notifications.recipientId)
+    if(user){
+     
+     io.to(user.socketId).emit('getNotifications',notifications)
+      
+    }
+   })
+
 socket.on("disconnect",()=>{
     onlineUser=onlineUser.filter((user=>user.socketId!==socket.id))
     io.emit('getOlineUsers',onlineUser);

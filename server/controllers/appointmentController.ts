@@ -228,3 +228,25 @@ export const getappnotdone=async (req: Request, res: Response)=>{
     res.status(500).send(err)
   }
 }
+export const getapprrecivernotdone=async (req:Request,res:Response)=>{
+  try {
+    const {id}=req.params
+    const recive= await prisma.appointments.findMany({
+    where:{
+    reciverId:id,
+     status:false
+     
+ 
+  },
+  include:{
+   reciver:true,
+   Item:true 
+
+  },
+ 
+ })
+
+  }catch(err){
+
+  }
+}

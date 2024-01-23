@@ -18,7 +18,7 @@ const OneUser = ({ currentUser, message }: any) => {
     axios.get(`http://${config.ip}:3001/notifications/${currentUser}`)
       .then((res) => { setNotification(res.data) ,setDesplay(true) }).catch((err) => { console.log })
   }, [notifications,fetchNotifications])
-   console.log(onlineUsers,"+++++++++++++++++++")
+  
 
 
   const isthereAnotifications = (iduser: string) => {
