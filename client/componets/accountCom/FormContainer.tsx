@@ -168,6 +168,7 @@ const styles = StyleSheet.create({
 
   viewLayout1: {
     height: 20,
+    position:"absolute"
   },
   notificationsTypo: {
     textAlign: "left",

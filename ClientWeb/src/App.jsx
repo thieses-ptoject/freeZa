@@ -50,7 +50,7 @@ const App = () => (
         }
       />
       <Route
-        path="/claims"
+        path="/claims/:id"
         element={
           <Layout>
             <Claims />

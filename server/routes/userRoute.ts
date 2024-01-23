@@ -1,4 +1,4 @@
-import { getUserId,addUser, getUser, addFreeza, updateUser, deleteUser,GetAllUsers } from "../controllers/userController";
+import { getUserId,addUser, getUser, addFreeza, updateUser, deleteUser,GetAllUsers, BlockUser } from "../controllers/userController";
 import { Router } from "express";
 
 const router = Router();
@@ -10,5 +10,7 @@ router.post("/addFreeza", addFreeza)
 router.put("/updateUser/:email", updateUser)
 router.delete("/deleteUser/:id", deleteUser)
 router.get("/",GetAllUsers)
+router.put("/block/:id",BlockUser)
+
 
 export default router;

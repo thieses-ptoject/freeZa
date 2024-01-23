@@ -150,5 +150,25 @@ export const getUser = async (req: Request, res: Response) => {
     res.status(500).json(error)
     
    } 
+  } 
+
+ export  const BlockUser= async(req:Request,res:Response)=>{
+    const id = req.params.id
+    try {
+      const query = await prisma.user.update({
+        where: {
+           id:id 
+        },
+        data :{
+         blocked: true
+        }
+      
+      }) 
+      res.status(200).send(query)
+      
+    } catch (error) {
+      res.status(500).send(error)
+      
+    }
   }
   

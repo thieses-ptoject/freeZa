@@ -19,40 +19,36 @@ export const Sidebar = () => {
         <span className="text-lime-500 text-xl font-bold mt-2 ml-3">FreeZa</span>
       </div>
       <div className="flex-1">
-        <div className='flex items-center gap-2 px-1 py-3'>
-          <Link to="/dashboard">
+      <Link to="/dashboard">
+        <div className='flex items-center gap-2 px-1 py-3 hover:bg-red-400 hover:text-white'>
+          
             <MdDashboard fontSize={24} />
-          </Link>
+          
           <span>Dashboard</span>
-        </div>
-        <div className='flex items-center gap-2 px-1 py-3'>
-          <Link to='/users'>
+        </div> 
+        </Link>
+        <Link to='/users'>
+        <div className='flex items-center gap-2 px-1 py-3 hover:bg-red-400 hover:text-white'>
+         
             <FaUsersGear fontSize={24}/>
-          </Link>
+          
           <span>Customers</span>
-        </div>
-        <div className='flex items-center gap-2 px-1 py-3'>
-          <Link to='/category'>
+        </div> 
+        </Link>
+        <Link to='/category'>
+        <div className='flex items-center gap-2 px-1 py-3 hover:bg-red-400 hover:text-white'>   
             <MdCategory fontSize={24}/>
-          </Link>
           <span>Categories</span>
         </div>
-        <div className='flex items-center gap-2 px-1 py-3'>
+        </Link>
+        <div className='flex items-center gap-2 px-1 py-3 hover:bg-red-400 hover:text-white'>
           <MdOutlineTypeSpecimen fontSize={24} />
           <span>Types</span>
-        </div>
-        <div className='flex items-center gap-2 px-1 py-3'>
-          <Link to='/claims'>
-            <BiSolidMessageSquareDetail fontSize={24} />
-          </Link>
-          <span>Claims</span>
-        </div>
-      </div>
-      <div className="flex items-center gap-2 px-1 py-3 mt-auto">
-        <Link to="/dashboard">
+        </div> 
+        <div className="flex items-center gap-2 px-1 py-3 hover:bg-red-400 hover:text-white">  
           <CiSettings fontSize={24} />
-        </Link>
         <span>Settings</span>
+      </div>
       </div>
     </div>
   );
