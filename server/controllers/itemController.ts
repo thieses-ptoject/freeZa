@@ -61,13 +61,11 @@ export const DeleteItem = async (
     await prisma.item.deleteMany({
       where: { id: ItemId },
     });
-    res
-      .status(200)
-      .send({
-        success: true,
-        message: "Item removed successfully",
-        category: ItemTodelete,
-      });
+    res.status(200).send({
+      success: true,
+      message: "Item removed successfully",
+      category: ItemTodelete,
+    });
   } catch (error) {
     res.status(500).send(error);
   }
@@ -80,7 +78,16 @@ export const GetAllItems = async (
   res: Response
 ): Promise<void> => {
   try {
-    const All = await prisma.item.findMany();
+    const All = await prisma.item.findMany({
+      where: {
+        NOT: {
+          state: "taken",
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
 
     if (All.length > 0) {
       res.status(200).json(All);
@@ -93,27 +100,26 @@ export const GetAllItems = async (
   }
 };
 
-
-export const GetAllItemsOfOneUser = async(req:Request,res:Response): Promise<void>=>{
-  const {ownerId} = req.params
+export const GetAllItemsOfOneUser = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { ownerId } = req.params;
   try {
-      const All = await prisma.item.findMany(
-        {
-          where: {
-            ownerId:ownerId
-          }
-        }
-      );
-      if (All.length > 0) {
-        res.status(200).json(All);
-      } else {
-        res.status(200).json([]);
-      }
-    } catch (error) {
-      res.status(500).json(error);
+    const All = await prisma.item.findMany({
+      where: {
+        ownerId: ownerId,
+      },
+    });
+    if (All.length > 0) {
+      res.status(200).json(All);
+    } else {
+      res.status(200).json([]);
     }
-  };
-
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
 
 export const getItemByTypes = async (
   req: Request,
@@ -239,13 +245,11 @@ export const UpdateState = async (
         state: state,
       },
     });
-    res
-      .status(200)
-      .send({
-        success: true,
-        message: "Item Updated successfully",
-        item: ItemUpdated,
-      });
+    res.status(200).send({
+      success: true,
+      message: "Item Updated successfully",
+      item: ItemUpdated,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).send(error);
@@ -264,13 +268,11 @@ export const UpdateFreeza = async (
         strawberries: strawberries,
       },
     });
-    res
-      .status(200)
-      .send({
-        success: true,
-        message: "Item Updated successfully",
-        item: ItemUpdated,
-      });
+    res.status(200).send({
+      success: true,
+      message: "Item Updated successfully",
+      item: ItemUpdated,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).send(error);
@@ -289,13 +291,11 @@ export const UpdateDescription = async (
         description: description,
       },
     });
-    res
-      .status(200)
-      .send({
-        success: true,
-        message: "Item Updated successfully",
-        item: ItemUpdated,
-      });
+    res.status(200).send({
+      success: true,
+      message: "Item Updated successfully",
+      item: ItemUpdated,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).send(error);
@@ -315,13 +315,11 @@ export const UpdateName = async (
         name: name,
       },
     });
-    res
-      .status(200)
-      .send({
-        success: true,
-        message: "Item Updated successfully",
-        item: ItemUpdated,
-      });
+    res.status(200).send({
+      success: true,
+      message: "Item Updated successfully",
+      item: ItemUpdated,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).send(error);
@@ -341,38 +339,31 @@ export const UpdateLocation = async (
         location: location,
       },
     });
-    res
-      .status(200)
-      .send({
-        success: true,
-        message: "Item Updated successfully",
-        item: ItemUpdated,
-      });
+    res.status(200).send({
+      success: true,
+      message: "Item Updated successfully",
+      item: ItemUpdated,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).send(error);
   }
-}; 
-// Get one Product : 
-export const GetOne = async (
-req: Request,
-res: Response
-): Promise<void> => {
-try {
-  const id = parseInt(req.params.id);
-  const One = await prisma.item.findUnique({
-    where: { id: id },
-  });
-
-  if (!One) {
-    res.status(200).json([]);
-  } else {
-    res.status(200).json(One);
-  }
-} catch (error) {
-  console.log(error);
-  res.status(500).json(error);
-}
 };
+// Get one Product :
+export const GetOne = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const id = parseInt(req.params.id);
+    const One = await prisma.item.findUnique({
+      where: { id: id },
+    });
 
-
+    if (!One) {
+      res.status(200).json([]);
+    } else {
+      res.status(200).json(One);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+};

@@ -16,30 +16,32 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import config from "../../config.json"
+import config from "../../config.json";
 export const NavBar = ({ navigation }: any) => {
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const { products, setFilteredProducts,user,setUser} = useContext(AuthContext);
-  const [userData , setUserData] = useState({}) 
-  
-  const fetchUserData  = async ()=>{
-    try
-   {
-     const savedData = await AsyncStorage.getItem('user');
-     if (savedData) {
-      const userData = JSON.parse(savedData);
-      
-      const response = await axios.get(`http://${config.ip}:3001/user/getUser/${userData.id}`)
-      setUserData(response.data);
-      setUser(response.data)
-      console.log(response.data, "mmmmmmmmmmmmmmmmmmmmmmmm")
+  const { setView, setOtherView } = useContext(AuthContext);
+  const { products, setFilteredProducts, user, setUser } =
+    useContext(AuthContext);
+  const [userData, setUserData] = useState({});
+
+  const fetchUserData = async () => {
+    try {
+      const savedData = await AsyncStorage.getItem("user");
+      if (savedData) {
+        const userData = JSON.parse(savedData);
+
+        const response = await axios.get(
+          `http://${config.ip}:3001/user/getUser/${userData.id}`
+        );
+        setUserData(response.data);
+        setUser(response.data);
+        console.log(response.data, "mmmmmmmmmmmmmmmmmmmmmmmm");
+      }
+    } catch (error) {
+      console.log(error);
     }
-  }catch(error){
-    console.log(error)
-  }
-  }
-  
+  };
 
   const handleSearchPress = () => {
     setIsSearchVisible(!isSearchVisible);
@@ -66,19 +68,19 @@ export const NavBar = ({ navigation }: any) => {
 
   useEffect(() => {
     // Set filteredProducts to all products when the component mounts
-    fetchUserData()
+    fetchUserData();
     setFilteredProducts(products);
   }, [products]);
-console.log(userData,'userData')
+  console.log(userData, "userData");
   return (
     <SafeAreaView>
       <View>
         {isSearchVisible ? (
           // Render search component when isSearchVisible is true
           <View style={styles.searchContainer}>
-            <TouchableOpacity onPress={()=>setIsSearchVisible(false)}>
-    <Ionicons name="arrow-back" size={24} color="#000" />
-</TouchableOpacity>
+            <TouchableOpacity onPress={() => setIsSearchVisible(false)}>
+              <Ionicons name="arrow-back" size={24} color="#000" />
+            </TouchableOpacity>
             <TextInput
               style={styles.searchInput}
               placeholder="Type here to search..."
@@ -99,15 +101,27 @@ console.log(userData,'userData')
                 style={{ flexDirection: "row-reverse", alignItems: "center" }}
               >
                 <Text style={styles.Freeza}>FreeZa</Text>
-                <View style={styles.circle}>
-                  <Image
-                    source={require("../../assets/freeza.png")}
-                    style={styles.imageInCircle}
-                  />
-                </View>
+                <Pressable
+                  onPress={() => {
+                    setFilteredProducts(products);
+                    setOtherView(false)
+                    setView(false)
+                  }}
+                >
+                  <View style={styles.circle}>
+                    <Image
+                      source={require("../../assets/freeza.png")}
+                      style={styles.imageInCircle}
+                    />
+                  </View>
+                </Pressable>
               </View>
               <View style={{ flexDirection: "row", gap: 25 }}>
-                <Pressable onPress={() => navigation.navigate("blog",{allinf:userData})}>
+                <Pressable
+                  onPress={() =>
+                    navigation.navigate("blog", { allinf: userData })
+                  }
+                >
                   <MaterialIcons name="post-add" size={30} color="#FF0000" />
                 </Pressable>
                 <Image
