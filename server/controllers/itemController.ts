@@ -120,7 +120,8 @@ export const GetAllItemsOfOneUser = async(req:Request,res:Response): Promise<voi
         const All = await prisma.item.findMany(
           {
             where: {
-              ownerId:ownerId
+              ownerId:ownerId,
+              
             }
           }
         );

@@ -12,7 +12,7 @@ model User {
   firstName            String
   lastName             String
   email                String              @unique
-  image                String
+  image                String              
   strawberries         Int                 @default(5)
   rate                 Int                 @default(0)
   level                String              @default("BabyGiver")
@@ -189,6 +189,8 @@ model NotificationsRate {
   date                     DateTime @default(now())
   senderId                 String
   reciever                 String
+  rate                     Int      @default(0)
+  isRead                   Boolean  @default(false)
   recivernotificationsRate User     @relation("notificationreciverrate", fields: [reciever], references: [id], onDelete: Cascade)
   sendernotificationRate   User     @relation("notificationsenderrate", fields: [senderId], references: [id], onDelete: Cascade)
 }

@@ -7,7 +7,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Entypo from "react-native-vector-icons/Entypo";
 import { useNavigation } from '@react-navigation/native'
-import { UserItems } from '../../React-query/user/otherUserProfil'
+import { UserItem, UserItems } from '../../React-query/user/otherUserProfil'
 import { addappointement } from '../../React-query/appointement/appointement'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
@@ -20,7 +20,7 @@ const Createappointement = ({ route }: any) => {
 
   const { user1, currentUser } = route.params
   const navigation = useNavigation()
-  const { data: allitem, isLoading, isError, isSuccess, refetch, error } = UserItems(currentUser);
+  const { data: allitem, isLoading, isError, isSuccess, refetch, error } = UserItem(currentUser);
  const addapp=addappointement()
 
   const filterData = () => {

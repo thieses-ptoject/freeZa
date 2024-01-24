@@ -101,12 +101,21 @@ export const addAppointment = async (req: Request, res: Response) => {
     } 
 }
 export const deleteAppo = async (req: Request, res: Response)=>{
+  const {itemId,id}=req.params
     try{
         const query = await prisma.appointments.delete({
             where: {
                 id: parseInt(req.params.id),
               },
         })
+ const item=await prisma.item.update({
+  where: {
+    id: +itemId,
+},
+data: {
+    state: "available"
+}
+ })
         res.send(query)
     }catch(error){
         res.send(error)
