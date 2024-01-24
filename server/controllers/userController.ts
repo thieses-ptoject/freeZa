@@ -81,10 +81,11 @@ export const getUser = async (req: Request, res: Response) => {
   };
 
   export const addFreeza = async (req: Request, res: Response)=>{
+    const  id =req.params.id
     try{
-      const query = await prisma.user.update({
+   const query = await prisma.user.update({
         where:{
-          email: req.body.email
+          id: id
         },
         data :{
           strawberries : {
@@ -95,6 +96,26 @@ export const getUser = async (req: Request, res: Response) => {
       res.send(query)
     }catch(error){
       res.send(error)
+    } 
+  } 
+  export const UpdateAcc = async (req:Request,res:Response)=>{
+    const id= req.params.id
+    try {
+      const query= await prisma.user.update({
+       where:{
+        id:id
+       },
+       data:{
+        accountType: true,
+        strawberries : {
+         increment: 10
+        }
+       }
+      }) 
+      res.status(200).send(query)
+    } catch (error) {
+      res.status(500).send(error)
+      
     }
   }
   export const updateUser = async (req:Request, res: Response)=>{

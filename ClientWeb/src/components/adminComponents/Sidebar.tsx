@@ -40,11 +40,14 @@ export const Sidebar = () => {
             <MdCategory fontSize={24}/>
           <span>Categories</span>
         </div>
-        </Link>
+        </Link> 
+        <Link to ='/types' >
         <div className='flex items-center gap-2 px-1 py-3 hover:bg-red-400 hover:text-white'>
           <MdOutlineTypeSpecimen fontSize={24} />
+          
           <span>Types</span>
-        </div> 
+        </div>  
+        </Link>
         <div className="flex items-center gap-2 px-1 py-3 hover:bg-red-400 hover:text-white">  
           <CiSettings fontSize={24} />
         <span>Settings</span>

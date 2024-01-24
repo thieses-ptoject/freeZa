@@ -7,7 +7,7 @@ import Header from './categoryType/header';
     return(
       <div>
       <div className='flex flex-row h-screen w-screen '>
-    
+
     <Sidebar/> 
     <div className='flex-1 overflow-y-auto'>
         <Header/>
@@ -16,12 +16,12 @@ import Header from './categoryType/header';
       <Outlet />
     </div> 
     </div>
-    
+
     {children}
     </div>
     </div>
     </div>
-  
+
 );
 }; 
-export default Layout 
+export default Layout
