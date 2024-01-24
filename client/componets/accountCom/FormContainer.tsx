@@ -1,12 +1,9 @@
 import * as React from "react";
-import { Text, StyleSheet, Image, View, Pressable,Share } from "react-native";
-import { Color, FontFamily, FontSize } from "../../GlobalStyles/UserProfil";
+import { Text, StyleSheet, Image, View,TouchableOpacity, Pressable,Share } from "react-native";
+import { Color, FontSize } from "../../GlobalStyles/UserProfil";
 import Ionicons from "react-native-vector-icons/MaterialCommunityIcons";
-// import * as Sharing from 'expo-sharing';
-import { log } from "console";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../../useContext/authContext";
-import { useNavigation } from "@react-navigation/native";
 
 const FormContainer = ({ navigation , userData }: any) => {
 
@@ -40,7 +37,8 @@ const handleLogout = () => {
 
   return (
     <View style={styles.details}>
-      <Pressable onPress={() => navigation.navigate("Wishlist")} >
+      <View>
+      <TouchableOpacity onPress={() => navigation.navigate("Wishlist")} >
         <View style={[styles.view, styles.viewLayout1]}>
         <View style={[styles.icon, styles.iconLayout]}>
             <Ionicons name="heart-outline" size={22} color="#FC5A8D" />
@@ -49,15 +47,14 @@ const handleLogout = () => {
             My favourite Items
           </Text>
           <Image
-            //  onPress={() =>navigation.navigate("Wishlist")}
             style={[styles.fill1Icon, styles.iconLayout]}
             resizeMode="cover"
             source={require("../../assets/account/fill-1.png")}
           />
         </View>
-      </Pressable>
-      
-      <Pressable onPress={() => navigation.navigate("MySavedSearch")}>
+      </TouchableOpacity>
+      </View>
+      <TouchableOpacity onPress={() => navigation.navigate("MyAppointements")}>
         <View style={[styles.view1, styles.viewLayout1]}>
           <View style={[styles.icon, styles.iconLayout]}>
             <Ionicons name="briefcase-eye-outline" size={20} color="#FC5A8D" />
@@ -72,9 +69,9 @@ const handleLogout = () => {
             source={require("../../assets/account/fill-1.png")}
           />
         </View>
-      </Pressable>
+      </TouchableOpacity>
 
-      <Pressable onPress={() => navigation.navigate("GeeversIfllow" ,{userid:userData})}>
+      <TouchableOpacity onPress={() => navigation.navigate("GeeversIfllow" ,{userid:userData})}>
         <View style={[styles.view2, styles.viewLayout1]}>
           <View style={[styles.icon, styles.iconLayout]}>
             <Ionicons name="account-heart-outline" size={25} color="#FC5A8D" />
@@ -89,9 +86,9 @@ const handleLogout = () => {
             source={require("../../assets/account/fill-1.png")}
           />
         </View>
-      </Pressable>
+      </TouchableOpacity>
 
-      <Pressable onPress={() => navigation.navigate("TermAndConditions")}>
+      <TouchableOpacity onPress={() => navigation.navigate("TermAndConditions")}>
         <View style={[styles.view3, styles.viewLayout1]}>
           <View style={[styles.icon, styles.iconLayout]}>
             <Ionicons name="shield-key-outline" size={20} color="#FC5A8D" />
@@ -105,9 +102,9 @@ const handleLogout = () => {
             source={require("../../assets/account/fill-1.png")}
           />
         </View>
-      </Pressable>
+      </TouchableOpacity>
 
-      <Pressable onPress={() => navigation.navigate("HelpCenter",{user:userData})}>
+      <TouchableOpacity onPress={() => navigation.navigate("HelpCenter",{user:userData})}>
         <View style={[styles.view4, styles.viewLayout1]}>
         <View style={[styles.icon, styles.iconLayout]}>
             <Ionicons name="help-circle-outline" size={22} color="#FC5A8D" />
@@ -121,9 +118,9 @@ const handleLogout = () => {
             source={require("../../assets/account/fill-1.png")}
           />
         </View>
-      </Pressable>
+      </TouchableOpacity>
 
-      <Pressable   onPress={()=>{
+      <TouchableOpacity   onPress={()=>{
         console.log('hello');
         shareText('hello')
         }}>
@@ -140,9 +137,9 @@ const handleLogout = () => {
             source={require("../../assets/account/fill-1.png")}
           />
         </View>
-      </Pressable>
+      </TouchableOpacity>
 
-      <Pressable onPress={handleLogout}>
+      <TouchableOpacity onPress={handleLogout}>
         <View style={[styles.view6, styles.viewLayout1]}>
         <View style={[styles.icon, styles.iconLayout]}>
             <Ionicons name="account-arrow-left-outline" size={22} color="#FC5A8D" />
@@ -156,8 +153,28 @@ const handleLogout = () => {
             source={require("../../assets/account/fill-1.png")}
           />
         </View>
-      </Pressable>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => navigation.navigate("InviteFreind",{user:userData})}>
+        <View style={[styles.view7, styles.viewLayout1]}>
+        <View style={[styles.icon, styles.iconLayout]}>
+            <Ionicons name="help-circle-outline" size={22} color="#FC5A8D" />
+          </View>
+          <Text style={[styles.helpCenter, styles.securityTypo]}>
+            wided
+          </Text>
+          <Image
+            style={[styles.fill1Icon, styles.iconLayout]}
+            resizeMode="cover"
+            source={require("../../assets/account/fill-1.png")}
+          />
+        </View>
+      </TouchableOpacity>
+
     </View>
+
+
+
   );
 };
 const styles = StyleSheet.create({
@@ -168,6 +185,7 @@ const styles = StyleSheet.create({
 
   viewLayout1: {
     height: 20,
+    position:"absolute"
   },
   notificationsTypo: {
     textAlign: "left",
@@ -293,6 +311,10 @@ const styles = StyleSheet.create({
   },
   view6: {
     top: 330,     left: 17,
+    height: 20,
+  },
+  view7: {
+    top: 390,     left: 17,
     height: 20,
   },
 });

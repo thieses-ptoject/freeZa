@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Alert, Button, Image, Pressable } from 'react-native'
+import { ActivityIndicator, Alert, Button, Image, Pressable } from 'react-native'
 import { StyleSheet, Text, View } from 'react-native'
 import { Dropdown } from 'react-native-element-dropdown'
 import { TextInput } from 'react-native-gesture-handler'
@@ -29,10 +29,21 @@ const Createappointement = ({ route }: any) => {
     let data = data1?.map((ele: any) => { return { label: ele.name, value: ele.id } })
     return data
   }
-  if (isSuccess) {
-   var data = filterData()
-    console.log(data, 'allarticle')
+
+  
+  if (isLoading) {
+    return (
+      <View>
+        <ActivityIndicator size="large" color="#000" />
+      </View>
+    );
   }
+  if (isError) {
+    <View>
+      <Text>Error fetching user data</Text>
+    </View>;
+  }
+  
   return (
     <KeyboardAwareScrollView>
     <View style={styles.container}>
@@ -67,7 +78,7 @@ const Createappointement = ({ route }: any) => {
             selectedTextStyle={styles.text}
             inputSearchStyle={styles.inputSearchStyle}
             iconStyle={styles.iconStyle}
-            data={data}
+            data={allitem}
             search
             maxHeight={300}
             labelField="label"

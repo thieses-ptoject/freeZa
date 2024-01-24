@@ -121,6 +121,28 @@ export const GetAllItemsOfOneUser = async (
   }
 };
 
+  export const GetAllItemsOfOneUsers = async(req:Request,res:Response): Promise<void>=>{
+    const {ownerId} = req.params
+    try {
+        const All = await prisma.item.findMany(
+          {
+            where: {
+              ownerId:ownerId
+            }
+          }
+        );
+        if (All.length > 0) {
+          let data1=All?.filter((ele:any)=>{return ele.state==="available" })
+
+          let data = data1?.map((ele: any) => { return { label: ele.name, value: ele.id } })
+          res.status(200).json(data);
+        } else {
+          res.status(200).json([]);
+        }
+      } catch (error) {
+        res.status(500).json(error);
+      }
+    };
 export const getItemByTypes = async (
   req: Request,
   res: Response

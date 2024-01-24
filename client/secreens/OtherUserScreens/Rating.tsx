@@ -23,6 +23,7 @@ import { TabBar, TabView } from "react-native-tab-view";
 import { getallraters, Rating } from "../../React-query/user/Rating";
 import { getUserData } from "./../../localStorage/getuser";
 import { Ionicons } from "@expo/vector-icons";
+import { NotificationContext } from "../../useContext/notificationContext";
 
 export const RatingUser = ({ navigation, route }: any) => {
   const { rateData } = route.params;
@@ -36,6 +37,7 @@ export const RatingUser = ({ navigation, route }: any) => {
   const [defaultRating, setDefaultRating] = useState(0);
   const [maxRating, setMaxRating] = useState([1, 2, 3, 4, 5]);
   const [openModal, setOpenModal] = useState(false);
+  const { setRecipient1, setnewnotification,refetchM1,setRefetchM1,newnotification } =React.useContext(NotificationContext)
   const satarImagFilled =
     "https://raw.githubusercontent.com/tranhonghan/images/main/star_filled.png";
   const satarImagCorner =
@@ -186,6 +188,9 @@ export const RatingUser = ({ navigation, route }: any) => {
                   });
                   refetchRaters();
                   setOpenModal(false);
+                  setRecipient1(rateData.id)
+                  setnewnotification(!newnotification)
+
                 }}
               >
                 <View
