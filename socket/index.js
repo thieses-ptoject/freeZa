@@ -45,8 +45,10 @@ io.on("connection", (socket) => {
   socket.on('sendNotification',(notifications)=>{
     const user= onlineUser.find((user)=>user.userId===notifications.recipientId)
     if(user){
-     
-     io.to(user.socketId).emit('getNotifications',notifications)
+     io.to(user.socketId).emit('getNotifications', {
+      senderId:notifications.senderId,
+      reciever:notifications.recipientId
+    })
       
     }
    })

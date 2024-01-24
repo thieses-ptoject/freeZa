@@ -4,7 +4,8 @@ import { UserItems } from "../../React-query/user/otherUserProfil";
 import Swiper from "react-native-swiper";
 
 const Backgroundprofile = ({ navigation , idProfil }: any) => {
-
+    console.log(idProfil);
+    
 
     const { data, isLoading, isError, refetch, isSuccess } = UserItems(idProfil);
  

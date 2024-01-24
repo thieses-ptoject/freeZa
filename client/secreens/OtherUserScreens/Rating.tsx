@@ -24,6 +24,7 @@ import { getallraters, Rating } from "../../React-query/user/Rating";
 import { getUserData } from "./../../localStorage/getuser";
 import { Ionicons } from "@expo/vector-icons";
 import { NotificationContext } from "../../useContext/notificationContext";
+import { Padding } from "../../GlobalStyles/Singup";
 
 export const RatingUser = ({ navigation, route }: any) => {
   const { rateData } = route.params;
@@ -37,7 +38,7 @@ export const RatingUser = ({ navigation, route }: any) => {
   const [defaultRating, setDefaultRating] = useState(0);
   const [maxRating, setMaxRating] = useState([1, 2, 3, 4, 5]);
   const [openModal, setOpenModal] = useState(false);
-  const { setRecipient1, setnewnotification,refetchM1,setRefetchM1,newnotification } =React.useContext(NotificationContext)
+  const { setRecipient1, setnewnotification,refetchM1,setRefetchM1,newnotification,rate,setRate } =React.useContext(NotificationContext)
   const satarImagFilled =
     "https://raw.githubusercontent.com/tranhonghan/images/main/star_filled.png";
   const satarImagCorner =
@@ -105,6 +106,7 @@ export const RatingUser = ({ navigation, route }: any) => {
   const HundelPressModel = () => {
     return (
       <Modal visible={openModal} animationType="slide" transparent={true}>
+        
         <TouchableWithoutFeedback onPress={handlePressOutside}>
           <View
             style={{
@@ -190,6 +192,9 @@ export const RatingUser = ({ navigation, route }: any) => {
                   setOpenModal(false);
                   setRecipient1(rateData.id)
                   setnewnotification(!newnotification)
+                  setRefetchM1(!refetchM1)
+                  setRate(defaultRating)
+                
 
                 }}
               >
@@ -298,10 +303,10 @@ export const RatingUser = ({ navigation, route }: any) => {
   };
 
   return (
-    <SafeAreaView style={styles.safearea}>
+    <SafeAreaView style={[styles.safearea]}>
       {/* <StatusBar backgroundColor="#FC5A8D" /> */}
 
-      <View style={styles.view1}>
+      <View style={[styles.view1]}>
         <Image
           source={{ uri: rateData.image }}
           resizeMode="contain"
@@ -317,7 +322,7 @@ export const RatingUser = ({ navigation, route }: any) => {
           }}
         />
 
-        <View>
+        <View >
           <Text
             style={{
               color: "#000",
@@ -334,6 +339,8 @@ export const RatingUser = ({ navigation, route }: any) => {
             style={{
               alignItems: "center",
               flexDirection: "row",
+              padding:5
+              
             }}
           >
             {Array.from({ length: rateData.rate }).map((_, index) => (

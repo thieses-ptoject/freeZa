@@ -12,8 +12,7 @@ model User {
   firstName            String
   lastName             String
   email                String              @unique
-  image                String
-<<<<<<< HEAD
+  image                String              
   strawberries         Int              @default(5)
   rate                 Int              @default(0)
   level                String           @default("BabyGiver")
@@ -25,19 +24,6 @@ model User {
   blocked              Boolean          @default(false)
   Giver                Appointments[]   @relation("giver")
   Reciver              Appointments[]   @relation("reciver")
-=======
-  strawberries         Int                 @default(5)
-  rate                 Int                 @default(0)
-  level                String              @default("BabyGiver")
-  accountType          Boolean             @default(false)
-  nbrOfDonation        Int                 @default(0)
-  nbrOfTakes           Int                 @default(0)
-  blocked              Boolean             @default(false)
-  address              String
-  phone                String
-  Giver                Appointments[]      @relation("giver")
-  Reciver              Appointments[]      @relation("reciver")
->>>>>>> e0f37529a87456441456a070c11e043295be4d7d
   claims               Claims[]
   Comments             Comments[]
   Favourite            Favourite[]
@@ -203,6 +189,8 @@ model NotificationsRate {
   date                     DateTime @default(now())
   senderId                 String
   reciever                 String
+  rate                     Int      @default(0)
+  isRead                   Boolean  @default(false)
   recivernotificationsRate User     @relation("notificationreciverrate", fields: [reciever], references: [id], onDelete: Cascade)
   sendernotificationRate   User     @relation("notificationsenderrate", fields: [senderId], references: [id], onDelete: Cascade)
 }

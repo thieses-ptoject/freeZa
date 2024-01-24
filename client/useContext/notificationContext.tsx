@@ -12,14 +12,18 @@ export const NotificationContextProvider = ({ children, user }: any) => {
     const [notifications1,setNotifications1]=useState<any[]>([])
     const [fetchNotificationsnew,setFetchNotificationsnew]=useState(false)
     const[refetchM1,setRefetchM1]=useState(false)
+    const [rate,setRate]=useState(0)
     
     //add notification
     useEffect(() => {
         if (socket === null) return
         socket.emit('sendNotification', {recipient1Id,senderId:user })
+         axios.post(`http://${config.ip}:3001/notificationsRate/add`,{reciever:recipient1Id,senderId:user,rate}).then((res)=>{
+                  console.log('done save notification')
+              }).catch((err)=>{console.log(err,'dddddddd')})
 
     }, [newnotification])
-    // recieve massage and notification 
+    // recieve  notification 
    
     useEffect(() => {
         if (socket === null) return;
@@ -32,10 +36,8 @@ export const NotificationContextProvider = ({ children, user }: any) => {
     
         socket.on('getNotifications',(res:any)=>{
               setNotifications1([...notifications1,res])
-              
-              axios.post(`http://${config.ip}:3001/notifications/add`,res).then((res)=>{
-                  console.log('done save notification')
-              }).catch((err)=>{console.log(err,'dddddddd')})
+              setFetchNotificationsnew(!fetchNotificationsnew)
+             
         })
         
       
@@ -48,7 +50,7 @@ export const NotificationContextProvider = ({ children, user }: any) => {
 
 
     const value = {
-      setRecipient1, setnewnotification,refetchM1,setRefetchM1,newnotification
+      setRecipient1, setnewnotification,refetchM1,setRefetchM1,newnotification,rate,setRate
     };
 
     return <NotificationContext.Provider value={value}>{children}</NotificationContext.Provider>

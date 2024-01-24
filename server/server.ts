@@ -16,6 +16,7 @@ import userRouter from "./routes/userRoute"
 import messageRouter from "./routes/messageRoute"
 import claimsRouter from "./routes/claimsRoute"
 import notificationsRouter from "./routes/notificationsRoute"
+import notificationsRateRouter from "./routes/notificationsRateRoute"
 
 const app: Application = express();
 app.use(express.json());
@@ -52,7 +53,8 @@ app.use('/message',messageRouter)
 app.use('/claims',claimsRouter)
 //notifications 
 app.use('/notifications',notificationsRouter)
-
+//notificationsRate
+app.use('/notificationsRate',notificationsRateRouter)
 
 app.listen(3001, () => {
     console.log("listening on http://localhost:3001");
