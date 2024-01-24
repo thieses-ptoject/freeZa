@@ -26,7 +26,7 @@ const TypeDetails = (props) => {
         onClick={handleDelete}
         className="bg-darkRed text-white bg-red-300 font-semibold py-2 px-4 rounded-md shadow hover:bg-red-600 focus:outline-none focus:ring focus:border-blue-300"
       >
-        Delete Category
+        Delete Type
       </button>
     </div>
   );

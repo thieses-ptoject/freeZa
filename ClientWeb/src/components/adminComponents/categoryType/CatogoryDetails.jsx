@@ -7,10 +7,25 @@ const CategoryDetails = (props) => {
   const [typeName, setTypeName] = useState("");
   console.log(typeName);
   const handleDelete = async () => {
-    const response = await axios.delete(
-      `http://${config.ip}:3001/category/remove/${props.data.id}`
+    // Use window.confirm to show a browser-native confirmation dialog
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this category?"
     );
-    props.fetchData();
+
+    if (confirmDelete) {
+      // User clicked OK in the confirmation dialog
+      try {
+        alert("The category will get deleted");
+        const response = await axios.delete(
+          `http://${config.ip}:3001/category/remove/${props.data.id}`
+        );
+        props.fetchData();
+      } catch (error) {
+        console.error("Error deleting category:", error);
+        // Handle error appropriately (show an error message, log, etc.)
+      }
+    } else {
+    }
   };
 
   const handleTypeView = () => {

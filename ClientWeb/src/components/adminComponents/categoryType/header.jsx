@@ -1,9 +1,14 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../../../useContext/adminContext";
+import { useNavigate } from "react-router-dom";
+import secureLocalStorage from "react-secure-storage";
+
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const { data, setData } = useContext(AuthContext);
-  const { setFiltredUsers } = useContext(AuthContext);
+  const { data, setData, setFiltredUsers, setLoginView } =
+    useContext(AuthContext);
+
+  const navigation = useNavigate();
 
   const performSearch = (query) => {
     const searchResults = data.filter(
@@ -15,8 +20,8 @@ const Header = () => {
   };
 
   const handleSearchSubmit = (e) => {
-    e.preventDefault();
     performSearch(searchQuery);
+    navigation("/users");
   };
 
   return (
@@ -78,7 +83,7 @@ const Header = () => {
         </button>
 
         <div>
-          <p className=" border-b-2 border-white">khalil hamzaoui</p>
+          <p className=" border-b-2 border-white">aziza ben halima</p>
         </div>
         <div className="">
           <img
@@ -87,8 +92,14 @@ const Header = () => {
             alt=""
           />
         </div>
-        <div className="">
-          <button className="bg-transparent hover:bg-red-500 text-red-500 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent text-[14px] rounded-full">
+        <div>
+          <button
+            onClick={() => {
+              secureLocalStorage.setItem("isAuth", false);
+              navigation("/adminLogin");
+            }}
+            className="bg-transparent hover:bg-red-500 text-red-500 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent text-[14px] rounded-full"
+          >
             Log out
           </button>
         </div>

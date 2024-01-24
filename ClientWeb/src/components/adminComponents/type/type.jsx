@@ -1,11 +1,19 @@
 import axios from "axios";
 import config from "../../../../config.json";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import TypeList from "./typeList";
+import { useNavigate } from "react-router-dom";
+import secureLocalStorage from "react-secure-storage";
 
 const Type = () => {
   const [data, setData] = useState([]);
-  console.log(data);
+  navigation = useNavigate();
+  const storage = secureLocalStorage.getItem("isAuth");
+  useEffect(() => {
+    if (storage === false) {
+      navigation("/adminLogin");
+    }
+  }, []);
   const fetchData = async () => {
     try {
       const response = await axios.get(`http://${config.ip}:3001/type/`);
