@@ -8,7 +8,6 @@ export const addappointement = () => {
     const query = useMutation({
       mutationKey: ["addapp"],
       mutationFn: async (object: { time:string, giverId:string, reciverId:string, ItemId:number, location:string }) =>{
-       console.log(object)
         await axios.post(`http://${config.ip}:3001/appointment/`, 
           {
             time:object.time,
@@ -17,7 +16,6 @@ export const addappointement = () => {
            ItemId:object.ItemId,
            location:object.location}
         )
-        console.log('fffffffffffffffffff')
       },
 
       onSuccess: (data) => {
@@ -36,6 +34,70 @@ export const addappointement = () => {
           `http://${config.ip}:3001/post/getall`
         );
         return result.data;
+      },
+    });
+    return query;
+  };
+
+
+
+  // wided -myAppointements
+
+  export const getGivesDone = (giverId: string) => {
+    const query = useQuery<Appointments[]>({
+      queryKey: ["Appointments",1],
+      queryFn: async () => {
+        const response = await axios.get(`http://${config.ip}:3001/appointment/appgivdone/${giverId}`);
+        return response.data; 
+      },
+    });
+    return query;
+   };
+
+   export const getReceivedDone = (reciverId: string) => {
+    const query = useQuery<Appointments[]>({
+      queryKey: ["Appointments",2],
+      queryFn: async () => {
+        const response = await axios.get(`http://${config.ip}:3001/appointment/apprecdone/${reciverId}`);
+        return response.data; 
+      },
+    });
+    return query;
+   };
+
+   export const getGivesNotDone = (giverId: string) => {
+    const query = useQuery<Appointments[]>({
+      queryKey: ["Appointments",3],
+      queryFn: async () => {
+        const response = await axios.get(`http://${config.ip}:3001/appointment/appgivnotdone/${giverId}`);
+        return response.data; 
+      },
+    });
+    return query;
+   };
+
+   export const getReceiveNotDone = (reciverId: string) => {
+    const query = useQuery<Appointments[]>({
+      queryKey: ["Appointments",4],
+      queryFn: async () => {
+        const response = await axios.get(`http://${config.ip}:3001/appointment/apprecnotdone/${reciverId}`);
+        return response.data; 
+      },
+    });
+    return query;
+   };
+
+
+   export const DeleteAppointment = () => {
+    const query = useMutation({
+      mutationKey: ["Appointments"],
+      mutationFn: async (object:{id: number, ItemId:number}) => {
+        const res: any = await axios.delete(
+          `http://${config.ip}:3001/appointment/${object.id}/${object.ItemId}`  
+        )
+      },
+      onError: (error) => {
+        console.log(error);
       },
     });
     return query;
