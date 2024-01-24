@@ -12,7 +12,9 @@ const Dashboard = () => {
         <StatusPie/>
         </div>
         <div className='flex flex-row gap-4 w-full'>
+        <div className='mx-auto'>
           <AppointChart/>
+        </div> 
         </div>
     </div>
   )
