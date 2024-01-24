@@ -58,7 +58,7 @@ export const TypeChart = () => {
             <YAxis  />
             <Tooltip />
             <Legend />
-            <Bar dataKey="pv" fill="#ff4040" />
+            <Bar dataKey="pv" fill="#ff0000" />
           </BarChart>
         </ResponsiveContainer>
       </div>

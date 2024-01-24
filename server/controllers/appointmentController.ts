@@ -102,7 +102,7 @@ export const done = async (req: Request, res: Response) => {
 };
 
 export const deleteAppo = async (req: Request, res: Response)=>{
-  const {itemId,id}=req.params
+  const {ItemId,id}=req.params
     try{
         const query = await prisma.appointments.delete({
             where: {

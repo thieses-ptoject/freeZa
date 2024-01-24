@@ -1,21 +1,32 @@
-import * as React from "react";
-import { Text, StyleSheet, Image, View,TouchableOpacity, Pressable,Share } from "react-native";
-import { Color, FontSize } from "../../GlobalStyles/UserProfil";
-import Ionicons from "react-native-vector-icons/MaterialCommunityIcons";
+
+import React,{useEffect,useState} from "react";
+import { Text, StyleSheet, Image, View,TouchableOpacity, Pressable,Share,Alert } from "react-native";
+import { Color, FontFamily, FontSize } from "../../GlobalStyles/UserProfil";
+import Ionicons from "react-native-vector-icons/MaterialCommunityIcons"; 
+import MaterialIcons from "react-native-vector-icons/MaterialIcons"
+import { useStripe } from "@stripe/stripe-react-native";
+import { Updateacc,Addfreeza } from "../../React-query/payments/payment";
+// import * as Sharing from 'expo-sharing';
+import { log } from "console";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../../useContext/authContext";
+import { useNavigation } from "@react-navigation/native"; 
+import {ip} from '../../config.json'
+import axios from "axios";
+// import { useMutation } from "react-query";
+
 
 const FormContainer = ({ navigation , userData }: any) => {
 
-
   const{ setIsAuthenticated}=React.useContext(AuthContext)
-
-
+  
   const{auth, setAuth}=React.useContext(AuthContext)
+ 
+
   const clearAsyncStorage = async () => {
     try {
       await AsyncStorage.clear();
-      console.log("AsyncStorage cleared successfully!");
+      console.log("AsyncStorage cleared successfully!"); 
     } catch (error) {
       console.error("Error clearing AsyncStorage: ", error);
     }
@@ -27,13 +38,93 @@ const shareText = async (text:string) => {
       });
   } catch (error) {
       console.error('Error sharing:', error);
-  }
+  } 
 };
 
 const handleLogout = () => {
   setIsAuthenticated(false);
   clearAsyncStorage();
-}
+} 
+// Payment process : 
+const Updateacc=async(userData:string)=>{
+  try {
+    const response = await axios.put (`http://${ip}:3001/user/premium/${userData}`) 
+    console.log("account updated successfully")
+  } catch (error) {
+    console.log(error) 
+  }
+}  
+
+
+const { initPaymentSheet, presentPaymentSheet } = useStripe();
+  const [loading, setLoading] = useState(false);
+
+  const fetchPaymentSheetParams = async () => {
+    const response = await fetch(`http://${ip}:3001/payments/intent`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      }, 
+      // body: JSON.stringify({
+      //   userData: userData,
+      // })
+    });
+    const { paymentIntent, ephemeralKey, customer} = await response.json(); 
+    console.log('User Data:', userData);
+  console.log('Customer Data:', customer)
+
+    return {
+      paymentIntent,
+      ephemeralKey,
+      customer,
+    };
+  };
+
+  const initializePaymentSheet = async () => {
+    const {
+      paymentIntent,
+      ephemeralKey,
+      customer
+    } = await fetchPaymentSheetParams(); 
+    // console.log('current:', userData);
+
+    const { error } = await initPaymentSheet({
+      merchantDisplayName: "Example, Inc.",
+      customerId: customer,
+      customerEphemeralKeySecret: ephemeralKey,
+      paymentIntentClientSecret: paymentIntent,
+      // Set `allowsDelayedPaymentMethods` to true if your business can handle payment
+      //methods that complete payment after a delay, like SEPA Debit and Sofort.
+      allowsDelayedPaymentMethods: true,
+      defaultBillingDetails: {
+        name: customer.name,
+      }
+    }); 
+    
+    if (!error) {
+      setLoading(true);
+    }
+  };
+
+  const openPaymentSheet = async () => {
+    const { error } = await presentPaymentSheet();
+
+    if (error) {
+      Alert.alert(`Error code: ${error.code}`, error.message);
+    } else {
+      try {
+         await Updateacc(userData);
+        Alert.alert('Success', 'Your order is confirmed!');
+      } catch (mutationError) {
+        console.error('Mutation error:', mutationError);
+      }
+    }
+  };
+
+
+  useEffect(() => {
+    initializePaymentSheet();
+  }, []);
 
   return (
     <View style={styles.details}>
@@ -137,7 +228,27 @@ const handleLogout = () => {
             source={require("../../assets/account/fill-1.png")}
           />
         </View>
-      </TouchableOpacity>
+      </TouchableOpacity > 
+      
+      <Pressable onPress={openPaymentSheet}>
+        <View style={[styles.view8, styles.viewLayout1]}>
+        <View style={[styles.icon, styles.iconLayout]}>
+            <MaterialIcons name="workspace-premium" size={22} color="#FC5A8D" />
+          </View>
+          <Text style={[styles.notifications, styles.notificationsTypo]}>
+            Pass to Premium
+          </Text>
+          <Image
+            style={[styles.fill1Icon, styles.iconLayout]}
+            resizeMode="cover"
+            source={require("../../assets/account/fill-1.png")}
+          />
+        </View>
+      </Pressable>
+
+      {/* <Pressable onPress={handleLogout}>
+        <View style={[styles.view7, styles.viewLayout1]}> */}
+      {/* </TouchableOpacity> */}
 
       <TouchableOpacity onPress={handleLogout}>
         <View style={[styles.view6, styles.viewLayout1]}>
@@ -312,11 +423,19 @@ const styles = StyleSheet.create({
   view6: {
     top: 330,     left: 17,
     height: 20,
+  }, 
+  view7:{
+    top:380,
+    width:300,
+    left:17,
+    height:20
   },
-  view7: {
-    top: 390,     left: 17,
-    height: 20,
-  },
+  view8:{
+    top:430,
+    width:300,
+    left:17,
+    height:20
+  }
 });
 
 export default FormContainer;
