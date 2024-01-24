@@ -1,5 +1,6 @@
+
 import React,{useEffect,useState} from "react";
-import { Text, StyleSheet, Image, View, Pressable,Share,Alert } from "react-native";
+import { Text, StyleSheet, Image, View,TouchableOpacity, Pressable,Share,Alert } from "react-native";
 import { Color, FontFamily, FontSize } from "../../GlobalStyles/UserProfil";
 import Ionicons from "react-native-vector-icons/MaterialCommunityIcons"; 
 import MaterialIcons from "react-native-vector-icons/MaterialIcons"
@@ -14,32 +15,13 @@ import {ip} from '../../config.json'
 import axios from "axios";
 // import { useMutation } from "react-query";
 
+
 const FormContainer = ({ navigation , userData }: any) => {
 
   const{ setIsAuthenticated}=React.useContext(AuthContext)
-  // const {mutate}=Updateacc(userData)
-  // const {mutate:increment}= Addfreeza(userData)
-
+  
   const{auth, setAuth}=React.useContext(AuthContext)
-  // const { mutate: createPaymentIntentMutation } = 
-  // const fetchPaymentIntent=async (data:any) => { 
-  //   const response = await fetch('/payments/intents', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       // Add any additional headers needed, like authentication headers
-  //     },
-  //     body: JSON.stringify(data), 
-  //   }); 
-  // console.log(data)
-  
-  //   if (!response.ok) {
-  //     // Handle error scenarios if needed
-  //     throw new Error('Failed to create payment intent');
-  //   }
-  
-  //   return response.json();
-  // } 
+ 
 
   const clearAsyncStorage = async () => {
     try {
@@ -146,7 +128,8 @@ const { initPaymentSheet, presentPaymentSheet } = useStripe();
 
   return (
     <View style={styles.details}>
-      <Pressable onPress={() => navigation.navigate("Wishlist")} >
+      <View>
+      <TouchableOpacity onPress={() => navigation.navigate("Wishlist")} >
         <View style={[styles.view, styles.viewLayout1]}>
         <View style={[styles.icon, styles.iconLayout]}>
             <Ionicons name="heart-outline" size={22} color="#FC5A8D" />
@@ -155,15 +138,14 @@ const { initPaymentSheet, presentPaymentSheet } = useStripe();
             My favourite Items
           </Text>
           <Image
-            //  onPress={() =>navigation.navigate("Wishlist")}
             style={[styles.fill1Icon, styles.iconLayout]}
             resizeMode="cover"
             source={require("../../assets/account/fill-1.png")}
           />
         </View>
-      </Pressable>
-      
-      <Pressable onPress={() => navigation.navigate("MySavedSearch")}>
+      </TouchableOpacity>
+      </View>
+      <TouchableOpacity onPress={() => navigation.navigate("MyAppointements")}>
         <View style={[styles.view1, styles.viewLayout1]}>
           <View style={[styles.icon, styles.iconLayout]}>
             <Ionicons name="briefcase-eye-outline" size={20} color="#FC5A8D" />
@@ -178,9 +160,9 @@ const { initPaymentSheet, presentPaymentSheet } = useStripe();
             source={require("../../assets/account/fill-1.png")}
           />
         </View>
-      </Pressable>
+      </TouchableOpacity>
 
-      <Pressable onPress={() => navigation.navigate("GeeversIfllow" ,{userid:userData})}>
+      <TouchableOpacity onPress={() => navigation.navigate("GeeversIfllow" ,{userid:userData})}>
         <View style={[styles.view2, styles.viewLayout1]}>
           <View style={[styles.icon, styles.iconLayout]}>
             <Ionicons name="account-heart-outline" size={25} color="#FC5A8D" />
@@ -195,9 +177,9 @@ const { initPaymentSheet, presentPaymentSheet } = useStripe();
             source={require("../../assets/account/fill-1.png")}
           />
         </View>
-      </Pressable>
+      </TouchableOpacity>
 
-      <Pressable onPress={() => navigation.navigate("TermAndConditions")}>
+      <TouchableOpacity onPress={() => navigation.navigate("TermAndConditions")}>
         <View style={[styles.view3, styles.viewLayout1]}>
           <View style={[styles.icon, styles.iconLayout]}>
             <Ionicons name="shield-key-outline" size={20} color="#FC5A8D" />
@@ -211,9 +193,9 @@ const { initPaymentSheet, presentPaymentSheet } = useStripe();
             source={require("../../assets/account/fill-1.png")}
           />
         </View>
-      </Pressable>
+      </TouchableOpacity>
 
-      <Pressable onPress={() => navigation.navigate("HelpCenter",{user:userData})}>
+      <TouchableOpacity onPress={() => navigation.navigate("HelpCenter",{user:userData})}>
         <View style={[styles.view4, styles.viewLayout1]}>
         <View style={[styles.icon, styles.iconLayout]}>
             <Ionicons name="help-circle-outline" size={22} color="#FC5A8D" />
@@ -227,9 +209,9 @@ const { initPaymentSheet, presentPaymentSheet } = useStripe();
             source={require("../../assets/account/fill-1.png")}
           />
         </View>
-      </Pressable>
+      </TouchableOpacity>
 
-      <Pressable   onPress={()=>{
+      <TouchableOpacity   onPress={()=>{
         console.log('hello');
         shareText('hello')
         }}>
@@ -246,10 +228,10 @@ const { initPaymentSheet, presentPaymentSheet } = useStripe();
             source={require("../../assets/account/fill-1.png")}
           />
         </View>
-      </Pressable> 
+      </TouchableOpacity > 
       
       <Pressable onPress={openPaymentSheet}>
-        <View style={[styles.view6, styles.viewLayout1]}>
+        <View style={[styles.view8, styles.viewLayout1]}>
         <View style={[styles.icon, styles.iconLayout]}>
             <MaterialIcons name="workspace-premium" size={22} color="#FC5A8D" />
           </View>
@@ -264,8 +246,12 @@ const { initPaymentSheet, presentPaymentSheet } = useStripe();
         </View>
       </Pressable>
 
-      <Pressable onPress={handleLogout}>
-        <View style={[styles.view7, styles.viewLayout1]}>
+      {/* <Pressable onPress={handleLogout}>
+        <View style={[styles.view7, styles.viewLayout1]}> */}
+      {/* </TouchableOpacity> */}
+
+      <TouchableOpacity onPress={handleLogout}>
+        <View style={[styles.view6, styles.viewLayout1]}>
         <View style={[styles.icon, styles.iconLayout]}>
             <Ionicons name="account-arrow-left-outline" size={22} color="#FC5A8D" />
           </View>
@@ -278,8 +264,28 @@ const { initPaymentSheet, presentPaymentSheet } = useStripe();
             source={require("../../assets/account/fill-1.png")}
           />
         </View>
-      </Pressable> 
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => navigation.navigate("InviteFreind",{user:userData})}>
+        <View style={[styles.view7, styles.viewLayout1]}>
+        <View style={[styles.icon, styles.iconLayout]}>
+            <Ionicons name="help-circle-outline" size={22} color="#FC5A8D" />
+          </View>
+          <Text style={[styles.helpCenter, styles.securityTypo]}>
+            wided
+          </Text>
+          <Image
+            style={[styles.fill1Icon, styles.iconLayout]}
+            resizeMode="cover"
+            source={require("../../assets/account/fill-1.png")}
+          />
+        </View>
+      </TouchableOpacity>
+
     </View>
+
+
+
   );
 };
 const styles = StyleSheet.create({
@@ -420,6 +426,12 @@ const styles = StyleSheet.create({
   }, 
   view7:{
     top:380,
+    width:300,
+    left:17,
+    height:20
+  },
+  view8:{
+    top:430,
     width:300,
     left:17,
     height:20

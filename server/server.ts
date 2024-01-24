@@ -17,6 +17,7 @@ import messageRouter from "./routes/messageRoute"
 import claimsRouter from "./routes/claimsRoute"
 import notificationsRouter from "./routes/notificationsRoute"
 import paymentRouter from "./routes/paymentRoute"
+import notificationsRateRouter from "./routes/notificationsRateRoute"
 
 const app: Application = express();
 app.use(express.json());
@@ -56,6 +57,8 @@ app.use('/notifications',notificationsRouter)
 // Payment Stripe 
 app.use("/payments",paymentRouter)
 
+//notificationsRate
+app.use('/notificationsRate',notificationsRateRouter)
 
 app.listen(3001, () => {
     console.log("listening on http://localhost:3001");

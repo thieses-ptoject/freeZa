@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Alert, Button, Image, Pressable } from 'react-native'
+import { ActivityIndicator, Alert, Button, Image, Pressable } from 'react-native'
 import { StyleSheet, Text, View } from 'react-native'
 import { Dropdown } from 'react-native-element-dropdown'
 import { TextInput } from 'react-native-gesture-handler'
@@ -7,7 +7,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Entypo from "react-native-vector-icons/Entypo";
 import { useNavigation } from '@react-navigation/native'
-import { UserItems } from '../../React-query/user/otherUserProfil'
+import { UserItem, UserItems } from '../../React-query/user/otherUserProfil'
 import { addappointement } from '../../React-query/appointement/appointement'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
@@ -20,7 +20,7 @@ const Createappointement = ({ route }: any) => {
 
   const { user1, currentUser } = route.params
   const navigation = useNavigation()
-  const { data: allitem, isLoading, isError, isSuccess, refetch, error } = UserItems(currentUser);
+  const { data: allitem, isLoading, isError, isSuccess, refetch, error } = UserItem(currentUser);
  const addapp=addappointement()
 
   const filterData = () => {
@@ -29,10 +29,21 @@ const Createappointement = ({ route }: any) => {
     let data = data1?.map((ele: any) => { return { label: ele.name, value: ele.id } })
     return data
   }
-  if (isSuccess) {
-   var data = filterData()
-    console.log(data, 'allarticle')
+
+  
+  if (isLoading) {
+    return (
+      <View>
+        <ActivityIndicator size="large" color="#000" />
+      </View>
+    );
   }
+  if (isError) {
+    <View>
+      <Text>Error fetching user data</Text>
+    </View>;
+  }
+  
   return (
     <KeyboardAwareScrollView>
     <View style={styles.container}>
@@ -67,7 +78,7 @@ const Createappointement = ({ route }: any) => {
             selectedTextStyle={styles.text}
             inputSearchStyle={styles.inputSearchStyle}
             iconStyle={styles.iconStyle}
-            data={data}
+            data={allitem}
             search
             maxHeight={300}
             labelField="label"

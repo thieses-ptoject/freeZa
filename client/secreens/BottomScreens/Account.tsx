@@ -159,6 +159,7 @@ const styles = StyleSheet.create({
     borderColor: "#FE002A",
     marginTop: 100,
   },
+  
   nameUser: {
     top: "80%",
     fontSize: 26,

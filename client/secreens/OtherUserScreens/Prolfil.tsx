@@ -21,7 +21,9 @@ import { followUnfollower, getFollows } from "../../React-query/user/Following";
 import Backgroundprofile from "../../componets/accountCom/Otheruser";
 
 export const OtheruserProfile = ({ navigation, route }: any) => {
+  
   const { id, userid } = route.params;
+  console.log(id, userid,"-------------------------------------------" );
   const [userConnected, setUserConncted] = useState<string>("");
   const layout = useWindowDimensions();
   const [index, setIndex] = useState(0);
@@ -76,21 +78,6 @@ export const OtheruserProfile = ({ navigation, route }: any) => {
     refetch: FollowsDataRefetch,
   } = getFollows(userid, id.id);
 
-  if (userDataLoading || userPostsLoading || FollowsLoading) {
-    return (
-      <View>
-        <ActivityIndicator size="large" color="#000" />
-      </View>
-    );
-  }
-  if (userDataError || userPostsError || FollowsError) {
-    return (
-      <View>
-        <Text>Error fetching user data</Text>
-      </View>
-    );
-  }
-
   const hundeldeletePress = async () => {
     try {
       await FollowUnfollower.mutateAsync({
@@ -102,6 +89,7 @@ export const OtheruserProfile = ({ navigation, route }: any) => {
       console.log(errors);
     }
   };
+ 
 
   const PhotosRoutes = ({ navigation, route }: any) => (
     <View style={{ flex: 1 }}>
@@ -172,12 +160,26 @@ export const OtheruserProfile = ({ navigation, route }: any) => {
         return null;
     }
   };
+  if (userDataLoading || userPostsLoading || FollowsLoading) {
+    return (
+      <View>
+        <ActivityIndicator size="large" color="#000" />
+      </View>
+    );
+  }
+  if (userDataError || userPostsError || FollowsError) {
+    return (
+      <View>
+        <Text>Error fetching user data</Text>
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.safearea}>
       <StatusBar backgroundColor="#FC5A8D" />
 
-      <Backgroundprofile idProfil={id?.id} />
+      <Backgroundprofile idProfil={id.id} />
 
       <View style={{ flex: 1, alignItems: "center" }}>
         <Image

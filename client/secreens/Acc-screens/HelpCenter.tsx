@@ -1,7 +1,7 @@
 import moment from "moment";
 import * as React from "react";
-import { Text,View,StyleSheet,Pressable, Image, FlatList} from "react-native";
-import { TextInput } from "react-native-gesture-handler";
+import { Text,View,StyleSheet,Pressable, Image, FlatList, Platform} from "react-native";
+import { Directions, TextInput } from "react-native-gesture-handler";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { addMessageClaim, getAllMessage } from "../../React-query/help-center/helpCenter";
@@ -41,13 +41,14 @@ export const HelpCenter = ({ navigation ,route}: any) => {
   return (
    
     <View style={styles.container}>
-    <View style={[styles.navbar]}>
+    <View style={[styles.navbar,{marginTop: Platform.OS === "ios" ? 40 : 0,}]}>
+      <View style={{flexDirection:'row',marginLeft:'auto',marginRight:'auto'}}>
     <MaterialIcons name={'admin-panel-settings'} size={35} color={'white'} />
      <Text style={{color:'white',alignSelf:'center',fontSize:18,marginRight:'auto'}}>Contact us </Text>
-   
+     </View>
     </View>
 <View>
-  <Text style={ { alignSelf:  'flex-start',fontSize:23 }}>WellCome we are here to help YOu!</Text></View>
+  <Text style={ { alignSelf:  'center',fontSize:23,marginTop:40 }}>WellCome we are here to help YOu!</Text></View>
     <FlatList
         inverted
         data={allMessages}

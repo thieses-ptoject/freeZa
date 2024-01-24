@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native'
 import moment from 'moment'
 import { prependOnceListener } from 'process'
 import React, { useContext, useEffect, useState } from 'react'
-import { Pressable, StyleSheet } from 'react-native'
+import { Pressable, SafeAreaView, StyleSheet } from 'react-native'
 import { View, Text, Image } from 'react-native-animatable'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { Avatar, Badge, Icon, withBadge } from 'react-native-elements'
@@ -18,7 +18,7 @@ const OneUser = ({ currentUser, message }: any) => {
     axios.get(`http://${config.ip}:3001/notifications/${currentUser}`)
       .then((res) => { setNotification(res.data) ,setDesplay(true) }).catch((err) => { console.log })
   }, [notifications,fetchNotifications])
-   console.log(onlineUsers,"+++++++++++++++++++")
+  
 
 
   const isthereAnotifications = (iduser: string) => {
@@ -32,8 +32,7 @@ const OneUser = ({ currentUser, message }: any) => {
 
 
   const verfycon = (userId: string) => {
-    console.log(onlineUsers,'test test *-*--*-*-*-*-*-*-*-*-*-*');
-    
+     
     for (let i = 0; i < onlineUsers.length; i++) {
       if (onlineUsers[i].userId === userId) {
 
@@ -45,6 +44,7 @@ const OneUser = ({ currentUser, message }: any) => {
 
 
   return (
+    <SafeAreaView>
     <View >
       {(currentUser === message.recieverId ) &&
         <Pressable onPress={() => { navigation.navigate("Chatscreen", { user: message.sender, currentUser: currentUser }) }}>
@@ -107,7 +107,7 @@ const OneUser = ({ currentUser, message }: any) => {
             </View>
 
           </View></Pressable>}
-    </View>
+    </View></SafeAreaView>
   )
 }
 

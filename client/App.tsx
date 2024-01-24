@@ -13,6 +13,7 @@ const queryClient = new QueryClient();
 import { AuthContext, AuthProvider } from "./useContext/authContext";
 import { ContextPost, ProviderPost } from "./useContext/createBlog";
 import { ChatContext, ChatContextProvider } from "./useContext/chatContext";
+import { NotificationContextProvider } from "./useContext/notificationContext";
 import { getUserData } from "./localStorage/getuser";
 import { useEffect, useState } from "react";
 const Stack = createStackNavigator(); 
@@ -40,9 +41,11 @@ const handlePremium = async()=>{
      
       <AuthProvider>
         <ChatContextProvider user={user}>
+        <NotificationContextProvider user={user}>
         <ProviderPost>
         <App />
         </ProviderPost>
+        </NotificationContextProvider>
         </ChatContextProvider>
       </AuthProvider>
      
