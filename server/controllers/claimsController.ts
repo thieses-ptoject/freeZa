@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 export const OneDisc= async (req:Request,res:Response)=>{
     const {adminId,userId}= req.params 
     try {
-        const findManychat=await prisma.claims.findMany({
+        const UserClaims=await prisma.claims.findMany({
             where:{
                 userId:userId,
                 adminId:adminId,
@@ -13,8 +13,8 @@ export const OneDisc= async (req:Request,res:Response)=>{
             
            }) 
           
-           const allchat=findManychat.concat(findManychat)
-      const allchat1=allchat.sort((a:any,b:any)=>a.createdAt.getTime()-b.createdAt.getTime())
+        //    const allchat=findManychat.concat(findManychat)
+      const allchat1=UserClaims.sort((a:any,b:any)=>a.createdAt.getTime()-b.createdAt.getTime())
        res.status(200).send(allchat1)
         
     } catch (error) {
@@ -40,12 +40,20 @@ export const OneDisc= async (req:Request,res:Response)=>{
            res.status(500).send(err)
         } 
     }
-//  export const getDiscussions= async (req:Request,res:Response)=>{
-//     const {adminId}=req.params 
-//     try {
-//         const findchatreceved=await prisma.claims
+
+ export const getDiscussions= async (req:Request,res:Response)=>{
+    const {adminId}=req.params
+    try {
+        const Allclaims=await prisma.claims.findMany({
+            where: {
+                adminId: adminId,
+              }
+}) 
+   res.status(200).send(Allclaims)
         
-//     } catch (error) {
+    } catch (error) {
+        console.error('Error retrieving claims:', error);
+    res.status(500).send('Internal Server Error');
         
-//     }
-// }
+    }
+}

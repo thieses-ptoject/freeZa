@@ -55,6 +55,10 @@ const Password = ({ navigation, route }: any) => {
         );
         navigation.navigate("login");
       }
+      if (!response.data) {
+        Alert.alert("Sorry your account does not exist");
+        navigation.navigate("login");
+      }
     } catch (error) {
       console.log(error);
     }

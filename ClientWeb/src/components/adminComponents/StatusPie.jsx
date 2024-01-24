@@ -9,7 +9,7 @@ export const StatusPie = () => {
     const [data,setData]=useState([]) 
 
     const RADIAN = Math.PI / 180
-const COLORS = ['#ff4040', '#FFa372', '#809c13']
+const COLORS = ['#ff7676', '#ff0000', '#809c13']
 
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
 	const radius = innerRadius + (outerRadius - innerRadius) * 0.5
@@ -40,7 +40,7 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
  
  
     return (
-        <div className=' w-[25rem] h-[22rem] bg-white p-4 rounded-sm border border-gray-200 flex flex-col mr-5'>
+        <div className=' w-[20rem] h-[25rem] bg-white p-4 rounded-sm border border-gray-200 flex flex-col mr-5'>
         <strong className='text-gray-700 font-medium'> Status Statistics</strong>
         <div className='w-full mt-3 flex-1 text-xs'>
             <ResponsiveContainer width="100%" height="100%">
