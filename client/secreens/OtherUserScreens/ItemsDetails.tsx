@@ -156,22 +156,33 @@ export const ItemsDetails = ({ navigation, route }: any) => {
           </View>
         </TriggeringView>
 
-        <View style={{ flexDirection: "row" }}>
-          <Image
+        <View style={{ flexDirection: "row"  , height:"10%"}}>
+        <Pressable
+                  onPress={() =>
+                    navigation.navigate("OtheruserProfile", {
+                      id: OwnerData,
+                      userid: userConnected,
+                    })
+                  }
+                >
+                  <View style={{ flexDirection: "row"  }}>
+          <Image 
+           style={{
+            height: "100%",
+            width: "25%",
+            borderRadius: 10000,
+            borderColor: "#FC5A8D",
+            borderWidth: 1,
+            marginTop: "3%",
+            marginRight: "3%",
+            objectFit: "cover",
+            padding: "5%",
+            marginLeft: "2%",
+          }}
             source={{ uri: OwnerData?.image }}
-            style={{
-              height: "80%",
-              width: "13%",
-              borderRadius: 10000,
-              borderColor: "#FC5A8D",
-              borderWidth: 1,
-              marginTop: "3%",
-              marginRight: "3%",
-              objectFit: "cover",
-              padding: "5%",
-              marginLeft: "2%",
-            }}
+           
           />
+         
           <Text
             style={{
               fontSize: 16,
@@ -183,6 +194,9 @@ export const ItemsDetails = ({ navigation, route }: any) => {
             {OwnerData?.firstName} {OwnerData?.lastName}
             {"\n"}
           </Text>
+          </View>
+          </Pressable>
+          
             <TouchableOpacity
               style={{
                 width: 124,
@@ -306,7 +320,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
     fontWeight: "bold",
     color: "#FC5A8D",
-    marginVertical: 10,
+    marginVertical: 1,
     textTransform: "capitalize",
     marginLeft: 10,
   },

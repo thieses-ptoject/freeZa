@@ -11,7 +11,7 @@ import {InviteFreind} from "./secreens/Acc-screens/InviteFreind"
 import {EditProfil} from "./secreens/Acc-screens/EditProfil"
 import {OtheruserProfile} from "./secreens/OtherUserScreens/Prolfil"
 import {ItemsDetails} from "./secreens/OtherUserScreens/ItemsDetails"
-import { MySavedSearch } from "./secreens/Acc-screens/MySavedSearch";
+import { MyAppointements } from "./secreens/Acc-screens/MyAppointements";
 import { useContext, useEffect, useState } from "react";
 import { StackScreens } from "./secreens/FirstScreens/StackScreens";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -76,11 +76,11 @@ export default function App({navigation}: any) {
                 component={Test}
               />
           <Stack.Screen name="blog" options={{ headerShown: true , header:()=><NavBlogPage/> , headerStyle:{width:'100%'} }} component={BlogPage} />
-          <Stack.Screen name="MySavedSearch" options={{headerShown: true , headerBackTitleVisible: false, title:"", headerTintColor: "#000"}}  component={MySavedSearch }/>
+          <Stack.Screen name="MyAppointements" options={{headerShown: true , headerBackTitleVisible: false, title:"", headerTintColor: "#000"}}  component={MyAppointements}/>
           <Stack.Screen name="GeeversIfllow" options={{headerShown: true , headerBackTitleVisible: false, title:"" , headerTintColor: "#000"}} component={GeeversIfllow}/>
           <Stack.Screen name="TermAndConditions" options={{headerShown: true , headerBackTitleVisible: false, title:"", headerTintColor: "#000"}}  component={TermAndConditions}/>
           <Stack.Screen name="HelpCenter" options={{headerShown: false}} component={HelpCenter}/>
-          <Stack.Screen name="InviteFreind" options={{headerShown: true}} component={InviteFreind}/>
+          <Stack.Screen name="InviteFreind" options={{headerShown: true , headerBackTitleVisible: false, title:"", headerTintColor: "#000"}} component={InviteFreind}/>
           <Stack.Screen name="EditProfil" options={{headerShown: true , headerBackTitleVisible: false, title:"", headerTintColor: "#000"}}  component={EditProfil}/>
           <Stack.Screen name="Chatscreen"   options={{headerShown: false}} component={Chatscreen}/>
           <Stack.Screen name="OtheruserProfile" options={{headerShown: true , headerBackTitleVisible: false , title:"", headerTintColor: "#000"}} component={OtheruserProfile}/>

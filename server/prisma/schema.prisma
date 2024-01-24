@@ -13,17 +13,17 @@ model User {
   lastName             String
   email                String              @unique
   image                String              
-  strawberries         Int                 @default(5)
-  rate                 Int                 @default(0)
-  level                String              @default("BabyGiver")
-  accountType          Boolean             @default(false)
-  nbrOfDonation        Int                 @default(0)
-  nbrOfTakes           Int                 @default(0)
-  blocked              Boolean             @default(false)
+  strawberries         Int              @default(5)
+  rate                 Int              @default(0)
+  level                String           @default("BabyGiver")
+  accountType          Boolean          @default(false)
+  nbrOfDonation        Int              @default(0)
+  nbrOfTakes           Int              @default(0)
   address              String
   phone                String
-  Giver                Appointments[]      @relation("giver")
-  Reciver              Appointments[]      @relation("reciver")
+  blocked              Boolean          @default(false)
+  Giver                Appointments[]   @relation("giver")
+  Reciver              Appointments[]   @relation("reciver")
   claims               Claims[]
   Comments             Comments[]
   Favourite            Favourite[]

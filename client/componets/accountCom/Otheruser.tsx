@@ -8,8 +8,7 @@ const Backgroundprofile = ({ navigation , idProfil }: any) => {
     
 
     const { data, isLoading, isError, refetch, isSuccess } = UserItems(idProfil);
-    console.log(data,'//////////////////////////////////');
-    
+ 
 
 
     if (isLoading) {
