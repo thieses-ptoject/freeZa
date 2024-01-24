@@ -18,7 +18,7 @@ const OneUser = ({ currentUser, message }: any) => {
     axios.get(`http://${config.ip}:3001/notifications/${currentUser}`)
       .then((res) => { setNotification(res.data) ,setDesplay(true) }).catch((err) => { console.log })
   }, [notifications,fetchNotifications])
-   console.log(onlineUsers,"+++++++++++++++++++")
+  
 
 
   const isthereAnotifications = (iduser: string) => {
@@ -32,8 +32,7 @@ const OneUser = ({ currentUser, message }: any) => {
 
 
   const verfycon = (userId: string) => {
-    console.log(onlineUsers,'test test *-*--*-*-*-*-*-*-*-*-*-*');
-    
+     
     for (let i = 0; i < onlineUsers.length; i++) {
       if (onlineUsers[i].userId === userId) {
 
