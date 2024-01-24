@@ -102,17 +102,17 @@ export const done = async (req: Request, res: Response) => {
 };
 
 export const deleteAppo = async (req: Request, res: Response)=>{
-  const {itemId,id}=req.params
+  const {ItemId,id}=req.params
     try{
         const query = await prisma.appointments.delete({
             where: {
                 id: parseInt(req.params.id),
               },
         })
- const item=await prisma.item.update({
-  where: {
-    id: +ItemId,
-},
+       const item=await prisma.item.update({
+        where: {
+        id: +ItemId,
+         },
 data: {
     state: "available"
 }

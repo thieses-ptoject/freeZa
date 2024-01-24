@@ -37,7 +37,9 @@ export const NavBar = ({ navigation }: any) => {
       const userData = JSON.parse(savedData);
       
       const response = await axios.get(`http://${config.ip}:3001/user/getUser/${userData.id}`)
+      const resNotification=await axios.get(`http://${config.ip}:3001/notificationsRate/${userData.id}`)
       setUserData(response.data);
+      setNotification(resNotification.data)
       setUser(response.data)
       console.log(response.data, "mmmmmmmmmmmmmmmmmmmmmmmm")
     }
@@ -75,12 +77,15 @@ export const NavBar = ({ navigation }: any) => {
     fetchUserData()
     setFilteredProducts(products);
 
-    if(userData.id){
-      axios.get(`http://${config.ip}:3001/notificationsRate/${userData.id}`)
-      .then((res) => { setNotification(res.data) ;setDesplay(true) })
-      .catch((err) => { console.log('error fetching  data') })
-    }
+    // if(userData.id){
+    //   axios.get(`http://${config.ip}:3001/notificationsRate/${userData.id}`)
+    //   .then((res) => { setNotification(res.data) ;setDesplay(true) })
+    //   .catch((err) => { console.log('error fetching  data') })
+    // }
   }, [products,fetchNotificationsnew]);
+  const filterNotification=()=>{
+   return notification.filter((ele :any)=> ele?.isRead===false)
+  }
 
   return (
     <SafeAreaView>
@@ -138,8 +143,8 @@ export const NavBar = ({ navigation }: any) => {
                 />
                 </Pressable>
                 
-                <View style={styles.badgeContainer}>
-                  <Text style={styles.badgeText}>{notification.length}</Text>
+                 <View style={styles.badgeContainer}>
+                  <Text style={styles.badgeText}>{filterNotification().length}</Text>
                 </View>
                 <Pressable onPress={handleSearchPress}>
                   <Image
