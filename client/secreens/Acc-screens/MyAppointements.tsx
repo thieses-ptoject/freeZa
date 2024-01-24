@@ -23,9 +23,10 @@ import {
   getReceivedDone,
   getGivesNotDone,
   getReceiveNotDone,
-  DeleteAppointment
+  DeleteAppointment,
+  appointmentDone,
 } from "../../React-query/appointement/appointement";
-import Calander from "react-native-calendars/src/calendar"
+import Calander from "react-native-calendars/src/calendar";
 
 export const MyAppointements = ({ navigation }: any) => {
   const { user, setUser } = useContext(AuthContext);
@@ -38,7 +39,8 @@ export const MyAppointements = ({ navigation }: any) => {
     { key: "forth", title: "To Receive" },
   ]);
 
-  const DelateApp = DeleteAppointment()
+  const DelateApp = DeleteAppointment();
+  const AppointmentDone = appointmentDone();
 
   const {
     data: getDonated,
@@ -75,13 +77,8 @@ export const MyAppointements = ({ navigation }: any) => {
   console.log(user, "ggggggggggggggggggggggg");
   console.log(getDonated, "/////////////////////////////////////////////////");
   console.log(getReceived, "================================================");
-  console.log(
-    getToDonate,
-    "**************************++++++++++++++++++++**********************"
-  );
+  console.log(getToDonate,"**************************++++++++++++++++++++**********************");
   console.log(getToReceive, "--------------------------------------");
-
-
 
   const renderTabBar = (props: any) => (
     <TabBar
@@ -120,7 +117,7 @@ export const MyAppointements = ({ navigation }: any) => {
 
   const DoneGive = ({ navigation, route }: any) => (
     <View style={{ flex: 1, backgroundColor: "#FFF9FC" }}>
-      { DonatedIsSuccess && (
+      {DonatedIsSuccess && (
         <FlatList
           data={getDonated}
           keyExtractor={(item) => item.id.toString()}
@@ -166,14 +163,26 @@ export const MyAppointements = ({ navigation }: any) => {
                   </View>
 
                   <View style={styles.view4}>
-                    <Text style={styles.text2}>{"\u2022"} Name:  {item.Item.name}</Text>
-                    <Text style={styles.text2}>{"\u2022"} Location:  {item.location}</Text>
-                    <Text style={styles.text2}>{"\u2022"} Time:  {item.time}</Text>
+                    <Text style={styles.text2}>
+                      {"\u2022"} Name: {item.Item.name}
+                    </Text>
+                    <Text style={styles.text2}>
+                      {"\u2022"} Location: {item.location}
+                    </Text>
+                    <Text style={styles.text2}>
+                      {"\u2022"} Time: {item.time}
+                    </Text>
                   </View>
 
                   <View style={styles.view5}>
-                    <TouchableOpacity style={styles.button}
-                    onPress={() => navigation.navigate("RatingUser", { rateData: item.reciver })}>
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() =>
+                        navigation.navigate("RatingUser", {
+                          rateData: item.reciver,
+                        })
+                      }
+                    >
                       <Text style={styles.unfollowviwe}>Rate me</Text>
                     </TouchableOpacity>
                     {/* <TouchableOpacity style={styles.button1}>
@@ -184,9 +193,12 @@ export const MyAppointements = ({ navigation }: any) => {
 
                 <View style={styles.view6}>
                   <TouchableOpacity
-                   onPress={() =>
-                    navigation.navigate("ItemsDetails", { itemData: item.Item })
-                  }>
+                    onPress={() =>
+                      navigation.navigate("ItemsDetails", {
+                        itemData: item.Item,
+                      })
+                    }
+                  >
                     <Image
                       source={{ uri: item.Item.image[0] }}
                       style={styles.imageItem}
@@ -249,40 +261,74 @@ export const MyAppointements = ({ navigation }: any) => {
                   </View>
 
                   <View style={styles.view4}>
-                    <Text style={styles.text2}>{"\u2022"} Name:  {item.Item.name}</Text>
-                    <Text style={styles.text2}>{"\u2022"} Location:  {item.location}</Text>
-                    <Text style={styles.text2}>{"\u2022"} Time:  {item.time}</Text>
+                    <Text style={styles.text2}>
+                      {"\u2022"} Name: {item.Item.name}
+                    </Text>
+                    <Text style={styles.text2}>
+                      {"\u2022"} Location: {item.location}
+                    </Text>
+                    <Text style={styles.text2}>
+                      {"\u2022"} Time: {item.time}
+                    </Text>
                   </View>
 
                   <View style={styles.view5}>
-                  <TouchableOpacity style={styles.button}
-                    onPress={() => navigation.navigate("RatingUser", { rateData: item.giver })}>
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() =>
+                        navigation.navigate("RatingUser", {
+                          rateData: item.giver,
+                        })
+                      }
+                    >
                       <Text style={styles.unfollowviwe}>Rate me</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.button1}
-                    onPress={() => {
-                      Alert.alert('Are you encountering an issue?', 'Kindly select one of the choices', [
-                        {
-                          text: 'Cancel',
-                          onPress: () => console.log('Cancel Pressed'),
-                          style: 'cancel',
-                        },
-                        {text: 'Ask Giver', onPress: () => {navigation.navigate("Chatscreen" , {currentUser: user.id , user:item.giver})
-                        }},
-                        {text: 'Report Giver', onPress: () => { navigation.navigate("HelpCenter",{user:user.id})
-                        }}
-                      ]);
-                    }}>
+                    <TouchableOpacity
+                      style={styles.button1}
+                      onPress={() => {
+                        Alert.alert(
+                          "Are you encountering an issue?",
+                          "Kindly select one of the choices",
+                          [
+                            {
+                              text: "Cancel",
+                              onPress: () => console.log("Cancel Pressed"),
+                              style: "cancel",
+                            },
+                            {
+                              text: "Ask Giver",
+                              onPress: () => {
+                                navigation.navigate("Chatscreen", {
+                                  currentUser: user.id,
+                                  user: item.giver,
+                                });
+                              },
+                            },
+                            {
+                              text: "Report Giver",
+                              onPress: () => {
+                                navigation.navigate("HelpCenter", {
+                                  user: user.id,
+                                });
+                              },
+                            },
+                          ]
+                        );
+                      }}
+                    >
                       <Text style={styles.unfollowviwe}>Report</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
 
                 <View style={styles.view6}>
-                  <TouchableOpacity 
-                  onPress={() =>
-                    navigation.navigate("ItemsDetails", { itemData: item.Item })
-                  }>
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate("ItemsDetails", {
+                        itemData: item.Item,
+                      })
+                    }
+                  >
                     <Image
                       source={{ uri: item.Item.image[0] }}
                       style={styles.imageItem}
@@ -298,97 +344,131 @@ export const MyAppointements = ({ navigation }: any) => {
   );
   const NotyetGive = ({ navigation, route }: any) => (
     <View style={{ flex: 1, backgroundColor: "#FFF9FC" }}>
-    {ToDonateIsSuccess && (
-      <FlatList
-        data={getToDonate}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item, index }) => {
-          return (
-            <View style={styles.view1}>
-              <View style={styles.view2}>
-                <View style={styles.view3}>
+      {ToDonateIsSuccess && (
+        <FlatList
+          data={getToDonate}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item, index }) => {
+            return (
+              <View style={styles.view1}>
+                <View style={styles.view2}>
+                  <View style={styles.view3}>
+                    <TouchableOpacity
+                      onPress={() =>
+                        navigation.navigate("OtheruserProfile", {
+                          id: item.reciver,
+                        })
+                      }
+                    >
+                      <Image
+                        source={{ uri: item.reciver.image }}
+                        style={styles.image}
+                      />
+                    </TouchableOpacity>
+                    <View
+                      style={{
+                        marginTop: "2%",
+                      }}
+                    >
+                      <Text style={styles.text1}>
+                        {item.reciver.firstName} {item.reciver.lastName}
+                      </Text>
+                      <Text></Text>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                        }}
+                      >
+                        <Ionicons
+                          name="old-phone"
+                          size={20}
+                          style={styles.iconStyle}
+                        />
+                        <Text style={styles.text1}>{item.reciver.phone}</Text>
+                      </View>
+                    </View>
+                  </View>
+
+                  <View style={styles.view4}>
+                    <Text style={styles.text2}>
+                      {"\u2022"} Name: {item.Item.name}
+                    </Text>
+                    <Text style={styles.text2}>
+                      {"\u2022"} Location: {item.location}
+                    </Text>
+                    <Text style={styles.text2}>
+                      {"\u2022"} Time: {item.time}
+                    </Text>
+                  </View>
+
+                  <View style={styles.view5}>
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() => {
+                        Alert.alert(
+                          "Cancel Donation  ",
+                          "You have to inform the receiver that you will cancel the procedure",
+                          [
+                            {
+                              text: "Cancel",
+                              onPress: () => console.log("Cancel Pressed"),
+                              style: "cancel",
+                            },
+                            {
+                              text: "OK",
+                              onPress: () => {
+                                navigation.navigate("Chatscreen", {
+                                  currentUser: user.id,
+                                  user: item.reciver,
+                                });
+                                DelateApp.mutateAsync({
+                                  id: item.id,
+                                  ItemId: item.ItemId,
+                                });
+                                ToDonateRefetch();
+                              },
+                            },
+                          ]
+                        );
+                      }}
+                    >
+                      <Text style={styles.unfollowviwe}>cancel</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button1}
+                    onPress={() => {
+                      AppointmentDone.mutate({
+                        ItemId: item.ItemId,
+                         appointmentId: item.id ,
+                          reciverId: item.reciverId,
+                          giverId: item.giverId,
+                      });
+                      ToDonateRefetch();
+                    }}>
+                      <Text style={styles.unfollowviwe}>Done</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+
+                <View style={styles.view6}>
                   <TouchableOpacity
                     onPress={() =>
-                      navigation.navigate("OtheruserProfile", {
-                        id: item.reciver,
+                      navigation.navigate("ItemsDetails", {
+                        itemData: item.Item,
                       })
                     }
                   >
                     <Image
-                      source={{ uri: item.reciver.image }}
-                      style={styles.image}
+                      source={{ uri: item.Item.image[0] }}
+                      style={styles.imageItem}
                     />
                   </TouchableOpacity>
-                  <View
-                    style={{
-                      marginTop: "2%",
-                    }}
-                  >
-                    <Text style={styles.text1}>
-                      {item.reciver.firstName} {item.reciver.lastName}
-                    </Text>
-                    <Text></Text>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                      }}
-                    >
-                      <Ionicons
-                        name="old-phone"
-                        size={20}
-                        style={styles.iconStyle}
-                      />
-                      <Text style={styles.text1}>{item.reciver.phone}</Text>
-                    </View>
-                  </View>
-                </View>
-
-                <View style={styles.view4}>
-                  <Text style={styles.text2}>{"\u2022"} Name:  {item.Item.name}</Text>
-                  <Text style={styles.text2}>{"\u2022"} Location:  {item.location}</Text>
-                  <Text style={styles.text2}>{"\u2022"} Time:  {item.time}</Text>
-                </View>
-
-                <View style={styles.view5}>
-                  <TouchableOpacity style={styles.button} 
-                   onPress={() => {
-                    Alert.alert('Cancel Donation  ', 'You have to inform the receiver that you will cancel the procedure', [
-                      {
-                        text: 'Cancel',
-                        onPress: () => console.log('Cancel Pressed'),
-                        style: 'cancel',
-                      },
-                      {text: 'OK', onPress: () => {navigation.navigate("Chatscreen" , {currentUser: user.id , user:item.reciver})
-                      DelateApp.mutateAsync({id:item.id,ItemId:item.ItemId});
-                      ToDonateRefetch();}},
-                    ]);
-                  }}
-                 >
-                    <Text style={styles.unfollowviwe}>cancel</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.button1}>
-                    <Text style={styles.unfollowviwe}>Done</Text>
-                  </TouchableOpacity>
                 </View>
               </View>
-
-              <View style={styles.view6}>
-                <TouchableOpacity
-                 onPress={() =>
-                  navigation.navigate("ItemsDetails", { itemData: item.Item })
-                }>
-                  <Image
-                    source={{ uri: item.Item.image[0] }}
-                    style={styles.imageItem}
-                  />
-                </TouchableOpacity>
-              </View>
-            </View>
-          );
-        }}
-      />
-    )}
-  </View>
+            );
+          }}
+        />
+      )}
+    </View>
   );
   const NotyetRecieve = ({ navigation, route }: any) => (
     <View style={{ flex: 1, backgroundColor: "#FFF9FC" }}>
@@ -438,25 +518,42 @@ export const MyAppointements = ({ navigation }: any) => {
                   </View>
 
                   <View style={styles.view4}>
-                    <Text style={styles.text2}>{"\u2022"} Name:  {item.Item.name}</Text>
-                    <Text style={styles.text2}>{"\u2022"} Location:  {item.location}</Text>
-                    <Text style={styles.text2}>{"\u2022"} Time:  {item.time}</Text>
+                    <Text style={styles.text2}>
+                      {"\u2022"} Name: {item.Item.name}
+                    </Text>
+                    <Text style={styles.text2}>
+                      {"\u2022"} Location: {item.location}
+                    </Text>
+                    <Text style={styles.text2}>
+                      {"\u2022"} Time: {item.time}
+                    </Text>
                   </View>
 
                   <View style={styles.view5}>
-                    <TouchableOpacity style={styles.button}
-                    onPress={() => {
-                      Alert.alert('Stop operation', 'You have to inform the Giver that you will cancel the procedure', [
-                        {
-                          text: 'Cancel',
-                          onPress: () => console.log('Cancel Pressed'),
-                          style: 'cancel',
-                        },
-                        {text: 'OK', onPress: () => {navigation.navigate("Chatscreen" , {currentUser: user.id , user:item.giver})
-                       }},
-                      ]);
-                    }}
-                    
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() => {
+                        Alert.alert(
+                          "Stop operation",
+                          "You have to inform the Giver that you will cancel the procedure",
+                          [
+                            {
+                              text: "Cancel",
+                              onPress: () => console.log("Cancel Pressed"),
+                              style: "cancel",
+                            },
+                            {
+                              text: "OK",
+                              onPress: () => {
+                                navigation.navigate("Chatscreen", {
+                                  currentUser: user.id,
+                                  user: item.giver,
+                                });
+                              },
+                            },
+                          ]
+                        );
+                      }}
                     >
                       <Text style={styles.unfollowviwe}>cancel</Text>
                     </TouchableOpacity>
@@ -467,10 +564,13 @@ export const MyAppointements = ({ navigation }: any) => {
                 </View>
 
                 <View style={styles.view6}>
-                  <TouchableOpacity 
-                  onPress={() =>
-                    navigation.navigate("ItemsDetails", { itemData: item.Item })
-                  }>
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate("ItemsDetails", {
+                        itemData: item.Item,
+                      })
+                    }
+                  >
                     <Image
                       source={{ uri: item.Item.image[0] }}
                       style={styles.imageItem}
@@ -499,12 +599,12 @@ export const MyAppointements = ({ navigation }: any) => {
         return null;
     }
   };
-  
+
   return (
     <SafeAreaView style={styles.safearea}>
       <StatusBar backgroundColor="#FC5A8D" />
-      <Calander style={{borderRadius:10, elevation:4, margin: 10 }}/>
-    
+      <Calander style={{ borderRadius: 10, elevation: 4, margin: 10 }} />
+
       <View style={{ flex: 1, marginHorizontal: "1%" }}>
         <TabView
           navigationState={{ index, routes }}
@@ -603,28 +703,25 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    
     marginBottom: "10%",
     width: "50%",
     borderRadius: 10,
-    height:"100%",
+    height: "100%",
     borderColor: "#fff",
     borderWidth: 2,
     // justifyContent: "center",
     backgroundColor: "#FC5A8D",
   },
-  button1: { 
-    
+  button1: {
     marginBottom: "10%",
     width: "50%",
     borderRadius: 10,
-    height:"100%",
+    height: "100%",
     borderColor: "#fff",
     borderWidth: 2,
     backgroundColor: "#89AD72",
   },
   unfollowviwe: {
-    
     justifyContent: "center",
     // marginBottom: "0%",
     top: "26%",

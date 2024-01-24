@@ -19,38 +19,12 @@ const [ desplay, setDesplay]= useState(false)
 const {  user,setUser} = useContext(AuthContext);
 
   
-    
-
-
-// console.log(userConnected,"zzzzzzz")
-//    useEffect(() => {
-  
-      
-  
-//    }, [route.params?.refresh]);
-   
 useEffect(() => {
    
     setDesplay(true)
 
      }, [route.params?.refresh]);
 
-  
-
-  // const { data, isLoading, isError } = getOneUserData(userConnected);
-
-  // if (isLoading) {
-  //   return (
-  //     <View>
-  //       <ActivityIndicator size="large" color="#000" />
-  //     </View>
-  //   );
-  // }
-  // if (isError) {
-  //   <View>
-  //     <Text>Error fetching user data</Text>
-  //   </View>;
-  // }
 console.log( user, "++++++++++++++++++++")
 
   return (
