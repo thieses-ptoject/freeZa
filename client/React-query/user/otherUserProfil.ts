@@ -8,6 +8,17 @@ export const UserItems = (ownerId:any) => {
   const query = useQuery<Item[]>({
     queryKey: ["items"],
     queryFn: async () => {
+        const response = await axios.get(`http://${config.ip}:3001/item/getitem/${ownerId}`);
+        console.log(response.data)
+        return response.data; 
+    },
+  });
+  return query;
+};
+export const UserItem = (ownerId:any) => {
+  const query = useQuery<Item[]>({
+    queryKey: ["items"],
+    queryFn: async () => {
         const response = await axios.get(`http://${config.ip}:3001/item/getitems/${ownerId}`);
         console.log(response.data)
         return response.data; 
@@ -15,7 +26,6 @@ export const UserItems = (ownerId:any) => {
   });
   return query;
 };
-
 export const UserPosts = (userId:any) => {
   const query = useQuery<Posts[]>({
     queryKey: ["posts"],

@@ -128,7 +128,7 @@ const CommentLike = ({ idPost, iduser ,usercon}: any) => {
               multiline
 
             />
-            <Pressable onPress={() => { addComments.mutate({ postId: idPost, body: text, userId: userConnected }), setModalVisibleComment(false) }}>
+            <Pressable onPress={() => { addComments.mutate({ postId: idPost, body: text, userId: userConnected }), onChangeText('') ;refetchcom()}}>
               <MaterialCommunityIcons name={'send-outline'} size={30} color={'red'} />
             </Pressable>
           </View>

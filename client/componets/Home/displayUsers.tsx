@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   },
   bigContainer: {
     marginTop: "6%",
-    height: "6.9%",
+    height: 250,
   },
 });
 

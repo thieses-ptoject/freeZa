@@ -63,6 +63,7 @@ export const OthersType = ({ onClose, setView }: any) => {
                         </Pressable>
                     </TouchableOpacity>
                 </View>
+                
                 {categories?.map((category: any, index: number) => (
                     <View key={index}>
                         <TouchableOpacity

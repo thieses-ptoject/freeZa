@@ -17,13 +17,23 @@ import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import config from "../../config.json";
+import { NotificationContext } from "../../useContext/notificationContext";
+
 export const NavBar = ({ navigation }: any) => {
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const { setView, setOtherView } = useContext(AuthContext);
-  const { products, setFilteredProducts, user, setUser } =
-    useContext(AuthContext);
   const [userData, setUserData] = useState({});
+  const [notification, setNotification] = useState([]);
+  const [desplay, setDesplay] = useState(false);
+  const {
+    products,
+    setFilteredProducts,
+    user,
+    setUser,
+    setOtherView,
+    setView,
+  } = useContext(AuthContext);
+  const { fetchNotificationsnew } = useContext(NotificationContext);
 
   const fetchUserData = async () => {
     try {
@@ -67,11 +77,22 @@ export const NavBar = ({ navigation }: any) => {
   };
 
   useEffect(() => {
-    // Set filteredProducts to all products when the component mounts
     fetchUserData();
     setFilteredProducts(products);
-  }, [products]);
-  console.log(userData, "userData");
+
+    if (userData.id) {
+      axios
+        .get(`http://${config.ip}:3001/notificationsRate/${userData.id}`)
+        .then((res) => {
+          setNotification(res.data);
+          setDesplay(true);
+        })
+        .catch((err) => {
+          console.log("error fetching  data");
+        });
+    }
+  }, [products, fetchNotificationsnew]);
+
   return (
     <SafeAreaView>
       <View>
@@ -104,8 +125,8 @@ export const NavBar = ({ navigation }: any) => {
                 <Pressable
                   onPress={() => {
                     setFilteredProducts(products);
-                    setOtherView(false)
-                    setView(false)
+                    setOtherView(false);
+                    setView(false);
                   }}
                 >
                   <View style={styles.circle}>
@@ -133,12 +154,22 @@ export const NavBar = ({ navigation }: any) => {
                     {userData?.strawberries}
                   </Text>
                 </View>
-                <Image
-                  source={require("../../assets/bell.png")}
-                  style={styles.notification}
-                />
+                <Pressable
+                  onPress={() => {
+                    navigation.navigate("Notification", {
+                      user: userData,
+                      notification: notification,
+                    });
+                  }}
+                >
+                  <Image
+                    source={require("../../assets/bell.png")}
+                    style={styles.notification}
+                  />
+                </Pressable>
+
                 <View style={styles.badgeContainer}>
-                  <Text style={styles.badgeText}>0</Text>
+                  <Text style={styles.badgeText}>{notification.length}</Text>
                 </View>
                 <Pressable onPress={handleSearchPress}>
                   <Image

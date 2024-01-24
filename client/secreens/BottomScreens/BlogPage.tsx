@@ -148,7 +148,7 @@ const BlogPage = ({route}:any) => {
               <Image
                 source={{ uri: allinf?.image }} style={styles.image1}
               />
-                <Text style={{alignSelf:'center',color:'#FC5A8D'}}>{allinf?.name} {allinf?.LastName}</Text></View>
+                <Text style={{alignSelf:'center',color:'#FC5A8D'}}>{allinf?.firstName} {allinf?.lastName}</Text></View>
               
             <View style={styles.description} >
 
