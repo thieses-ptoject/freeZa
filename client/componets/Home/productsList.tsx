@@ -8,6 +8,7 @@ import {
   Pressable,
   Alert,
   Dimensions,
+  Platform,
 } from "react-native";
 import { AuthContext } from "../../useContext/authContext";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -56,7 +57,7 @@ export const ProductList = ({navigation}:any) => {
         <View style={styles.container}>
           {filteredProducts?.map((product: any) => (
              <View key={product.id} style={[styles.productContainer, { width: landscape === "landscape" ? "32.39%" : "48.5%"}]}>
-              <View style={[styles.imageContainer,{marginLeft: landscape === "landscape"? "12%": "0%"}]}>
+              <View style={[styles.imageContainer,{marginLeft: Platform.OS === "ios" ? "auto" : "auto" , marginRight: Platform.OS === "ios" ? "auto" : "auto" }]}>
                 <Pressable onPress={()=>navigation.navigate("ItemsDetails", { 
                     itemData :  product
                   })}>
@@ -142,15 +143,16 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   imageContainer: {
-    width: 200,
-    height: 200,
-    marginLeft: "auto",
-    marginRight: "auto"
+    width: "95%",
+    height: "73%",
+    marginTop:"3%",
+    alignContent:"center",
+   
   },
   image: {
-    height: 200,
+    height: '100%',
     borderRadius: 20,
-    width: 187,
+    width: '100%',
   },
   container: {
     flexDirection: "row",

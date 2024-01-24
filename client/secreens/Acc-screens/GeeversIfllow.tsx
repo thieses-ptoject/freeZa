@@ -108,6 +108,7 @@ export const GeeversIfllow = ({ navigation, route }: any) => {
                       userid: userid,
                     })
                   }
+                  
                 >
                   <Image
                     source={{ uri: item.follower.image }}
