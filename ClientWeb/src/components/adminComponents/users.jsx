@@ -7,10 +7,16 @@ import { MdBlockFlipped } from "react-icons/md";
 // import Claims from './claims';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../../useContext/adminContext";
+import { getAuth } from "firebase/auth";
+
+// import * as admin from 'firebase-admin';
+// import serviceAccount from './path/to/serviceAccountKey.json'
+// import { auth } from "../../firebase";
 const Users = () => {  
   const { filtredUsers, setFiltredUsers } = useContext(AuthContext);
   const [data,setData]=useState([])
-
+  const auth = getAuth()
+  console.log(auth.currentUser,':dddddddd')
  const navigate = useNavigate()
 
   const fetchAllUsers  = async () => {
@@ -27,29 +33,48 @@ const Users = () => {
   }, []);
   const DeleteUser = async (id) => {
     try {
-      const response = await axios.delete(
-        `http://${config.ip}:3001/user/deleteUser/${id}`
-      );
-      fetchAllUsers();
+       const response = await axios.delete(`http://${config.ip}:3001/user/deleteUser/${id}`);
+       fetchAllUsers();
     } catch (error) {
-      console.log(error);
+       console.log(error);
     }
-  } 
+   }
+   
   const blockUser= async(id)=>{
     try { 
       const response = await axios.put(`http://${config.ip}:3001/user/block/${id}`)
-      console.log('user blocked successfully',response)
+      console.log('user blocked successfully',response) 
+      fetchAllUsers()
       
     } catch (error) {
       console.log(error)
       
     }
   }  
+  const deblockUser= async(id)=>{
+    try { 
+      const response = await axios.put(`http://${config.ip}:3001/user/deblock/${id}`)
+      console.log('user deblocked successfully',response) 
+      fetchAllUsers()
+      
+    } catch (error) {
+      console.log(error)
+      
+    }
+  }
   const openClaims = (userId) => {
     // Use the navigate function to navigate to the Claims component with userId as a URL parameter
     navigate(`/claims/${userId}`);
   };
- 
+
+  // const deleteUser = async (userId) => {
+  //   try {
+  //     await admin.auth().deleteUser(userId);
+  //     console.log('User deleted successfully!');
+  //   } catch (error) {
+  //     console.error('Error deleting user:', error);
+  //   }
+  // };
   
  
 
@@ -81,7 +106,7 @@ const Users = () => {
               <td> 
               <div  className='flex items-center justify-center'>
               {user.blocked ? (
-                      <div className='text-red-600'>
+                      <div className='text-red-600' onClick={()=>deblockUser(user.id)}>
                         Blocked
                       </div>
                     ) : (
@@ -91,7 +116,7 @@ const Users = () => {
               </td>
               <td> 
                 <div className='flex items-center justify-center' >
-                <MdDelete  className='text-xl text-red-600' onClick={()=>DeleteUser(user.id)}/>
+                <MdDelete  className='text-xl text-red-600' onClick={()=>{DeleteUser(user.id)}}/>
                 </div>
               </td> 
               <td> 
