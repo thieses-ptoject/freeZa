@@ -13,7 +13,7 @@ export const NotificationContextProvider = ({ children, user }: any) => {
     const [fetchNotificationsnew,setFetchNotificationsnew]=useState(false)
     const[refetchM1,setRefetchM1]=useState(false)
     const [rate,setRate]=useState(0)
-    
+    console.log(notifications1,'notification')
     //add notification
     useEffect(() => {
         if (socket === null) return

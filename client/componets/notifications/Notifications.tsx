@@ -7,9 +7,11 @@ import Entypo from 'react-native-vector-icons/Entypo';
 
 
 const Notifications = ({ route, navigation }: any) => {
-    const { user, notification } = route.params
+    const { user, notification,fetchNotificationsnew ,setFetchNotificationsnew} = route.params
     useEffect(() => {
-        axios.put(`http://${config.ip}:3001/notificationsRate/${user.id}`,)
+        axios.put(`http://${config.ip}:3001/notificationsRate/${user.id}`)
+        .then(()=>{setFetchNotificationsnew(!fetchNotificationsnew)})
+        .catch((err)=>{console.log(err)})
     }, [])
     const deleteNotification=async(id:number)=>{
         console.log(id)
