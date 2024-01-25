@@ -18,7 +18,10 @@ const styles = StyleSheet.create({
     // alignSelf:'center',
     fontWeight: "700",
     top: 25,
-    height: 20,
+    height: 25,
     fontSize: 16,
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    borderRadius: 9999,
   },
 });
