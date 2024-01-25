@@ -29,7 +29,8 @@ const Wishlist = () => {
 
 // condition reserving:
 const Reserve=(state:string)=>{
-  if(state==='available' ||'avalaible'){
+  if(state==='available'){
+    console.log(state)
     return ( 
       
       <TouchableOpacity style={styles.buttonContainer}>

@@ -19,7 +19,7 @@ const Claims = () => {
       try { 
         const userResponse = await axios.get(`http://localhost:3001/user/getuser/${id}`);
         setSender(userResponse.data);
-        const response = await axios.get(`http://localhost:3001/claims/1/${id}`);
+        const response = await axios.put(`http://localhost:3001/claims/1/${id}`);
         console.log(response);
         setClaims(response.data);
       } catch (error) {
