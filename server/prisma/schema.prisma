@@ -171,7 +171,8 @@ model Claims {
   userId         String
   createdAt      DateTime @default(now())
   recivermessage Admin    @relation(fields: [adminId], references: [id], onDelete: Cascade)
-  sender         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sender         User     @relation(fields: [userId], references: [id], onDelete: Cascade) 
+  isRead         Boolean  @default(false)
 }
 
 model Notifications {

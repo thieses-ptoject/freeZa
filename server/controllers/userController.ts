@@ -191,5 +191,45 @@ export const getUser = async (req: Request, res: Response) => {
       res.status(500).send(error)
       
     }
+  } 
+  export  const deblockUser= async(req:Request,res:Response)=>{
+    const id = req.params.id
+    try {
+      const query = await prisma.user.update({
+        where: {
+           id:id 
+        },
+        data :{
+         blocked: false
+        }
+      
+      }) 
+      res.status(200).send(query)
+      
+    } catch (error) {
+      res.status(500).send(error)
+      
+    }
   }
   
+
+  export const signin = async (req: Request, res: Response) => {
+    try {
+       const { email } = req.body;
+   
+       // Check if user exists
+       const user = await prisma.user.findUnique({
+         where: {
+           email: email,
+         },
+       });
+   
+       if (!user) {
+         throw new Error("User does not exist");
+       }
+       res.send(user);
+    } catch (error:any) {
+       res.status(400).send(error.message);
+       console.log(error);
+    }
+   };

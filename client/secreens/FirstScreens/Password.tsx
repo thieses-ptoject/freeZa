@@ -15,6 +15,7 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import app from "../../firebase";
 import { AuthContext } from "../../useContext/authContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { checkUser } from "../../React-query/user/otherUserProfil"; //iyed
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import axios from "axios";
 import config from "../../config.json";
@@ -77,6 +78,7 @@ const Password = ({ navigation, route }: any) => {
         setAuth(true);
         setIsAuthenticated(true);
         AsyncStorage.setItem("auth", "true");
+        // mutate(email) // iyed
       })
       .catch((error) => {
         const errorCode = error.code;
