@@ -23,6 +23,9 @@ export const AuthProvider = ({ children }: any) => {
   const [user, setUser] = useState({});
   const [otherView, setOtherView] = useState(false);
   const [view, setView] = useState(false);
+  const [users, setUsers] = useState([]);
+  const [allUsers, setAllUsers] = useState(users);
+
   const {
     data: categories,
     isLoading: categoriesLoading,
@@ -63,7 +66,11 @@ export const AuthProvider = ({ children }: any) => {
     otherView,
     view,
     setOtherView,
-    setView
+    setView,
+    users,
+    setUsers,
+    allUsers,
+    setAllUsers,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -35,6 +35,10 @@ export const NavBar = ({ navigation }: any) => {
     setUser,
     setOtherView,
     setView,
+    users,
+    setUsers,
+    allUsers,
+    setAllUsers,
   } = useContext(AuthContext);
   const { fetchNotificationsnew } = useContext(NotificationContext);
 
@@ -72,9 +76,16 @@ export const NavBar = ({ navigation }: any) => {
         product.location.toLowerCase().includes(searchQuery.toLowerCase())
       );
     });
+    const newFilteredUsers = users.filter((user: any) => {
+      return (
+        user.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        user.lastName.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    });
 
     // Update the state with the new filtered products
     setFilteredProducts(newFilteredProducts);
+    setAllUsers(newFilteredUsers);
 
     // Reset the search query and hide the search component
     setSearchQuery("");
@@ -129,6 +140,7 @@ export const NavBar = ({ navigation }: any) => {
                     setFilteredProducts(products);
                     setOtherView(false);
                     setView(false);
+                    setAllUsers(users);
                   }}
                 >
                   <View style={styles.circle}>

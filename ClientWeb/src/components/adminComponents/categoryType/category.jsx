@@ -17,7 +17,7 @@ const CategoryType = () => {
   const navigation = useNavigate();
   useEffect(() => {
     if (storage === false) {
-      navigation("/adminLogin");
+      navigation("/");
     }
   }, []);
   const fetchData = async () => {
