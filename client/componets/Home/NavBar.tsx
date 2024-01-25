@@ -18,6 +18,7 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import config from "../../config.json";
 import { NotificationContext } from "../../useContext/notificationContext";
+import { useIsFocused } from "@react-navigation/native";
 
 export const NavBar = ({ navigation }: any) => {
   const [isSearchVisible, setIsSearchVisible] = useState(false);
@@ -25,6 +26,8 @@ export const NavBar = ({ navigation }: any) => {
   const [userData, setUserData] = useState({});
   const [notification, setNotification] = useState([]);
   const [desplay, setDesplay] = useState(false);
+
+  const focused = useIsFocused()
   const {
     products,
     setFilteredProducts,
@@ -98,7 +101,7 @@ export const NavBar = ({ navigation }: any) => {
     //   .then((res) => { setNotification(res.data) ;setDesplay(true) })
     //   .catch((err) => { console.log('error fetching  data') })
     // }
-  }, [products,fetchNotificationsnew]);
+  }, [products,fetchNotificationsnew, focused]);
   const filterNotification=()=>{
    return notification.filter((ele :any)=> ele?.isRead===false)
   }
