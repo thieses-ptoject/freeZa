@@ -15,6 +15,7 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import app from "../../firebase";
 import { AuthContext } from "../../useContext/authContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { checkUser } from "../../React-query/user/otherUserProfil"; //iyed
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 const Password = ({ navigation, route }: any) => {
   const { auth, setAuth } = React.useContext(AuthContext);
@@ -25,7 +26,8 @@ const Password = ({ navigation, route }: any) => {
   const { name, setName } = React.useContext(AuthContext);
   const { LastName, setLastName } = React.useContext(AuthContext);
   const { phone, setPhone, image } = React.useContext(AuthContext);
-  const {setIsAuthenticated} = React.useContext(AuthContext)
+  const {setIsAuthenticated} = React.useContext(AuthContext) 
+  const {mutate}= checkUser() // iyed
 
   console.log(name);
   const Fauth = getAuth(app);
@@ -39,6 +41,7 @@ const Password = ({ navigation, route }: any) => {
         setAuth(true);
         setIsAuthenticated(true)
         AsyncStorage.setItem("auth", "true");
+        mutate(email) // iyed
       })
       .catch((error) => {
         const errorCode = error.code;
