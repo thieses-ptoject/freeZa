@@ -7,7 +7,7 @@ export const getnotifications=async (req: Request, res: Response)=>{
     const notifications=await prisma.notificationsRate.findMany({
         where:{
             reciever,
-            isRead:false
+            
         },
         include:{
             sendernotificationRate:true
@@ -39,8 +39,9 @@ export const updateNotifications=async (req: Request, res: Response)=>{
     try {
   const {reciever,senderId}=req.params
 
-  const updateNotification=await prisma.notificationsRate.deleteMany({
-    where :{senderId,reciever},
+  const updateNotification=await prisma.notificationsRate.updateMany({
+    where :{reciever},
+    data:{isRead:true}
    
   })
   res.status(200).send(updateNotification)
@@ -49,3 +50,18 @@ export const updateNotifications=async (req: Request, res: Response)=>{
         res.status(500).send(err)
     }
 }
+export const deleteNotifications=async (req: Request, res: Response)=>{
+    try {
+  const {id}=req.params
+
+  const updateNotification=await prisma.notificationsRate.deleteMany({
+    where :{id:+id}
+  })
+  res.status(200).send(updateNotification)
+    }
+    catch(err){
+        res.status(500).send(err)
+    }
+}
+
+

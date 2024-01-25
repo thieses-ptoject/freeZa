@@ -11,7 +11,7 @@ const Type = () => {
   const storage = secureLocalStorage.getItem("isAuth");
   useEffect(() => {
     if (storage === false) {
-      navigation("/adminLogin");
+      navigation("/");
     }
   }, []);
   const fetchData = async () => {
