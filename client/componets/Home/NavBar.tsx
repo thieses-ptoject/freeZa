@@ -16,17 +16,26 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import config from "../../config.json"
+import config from "../../config.json";
 import { NotificationContext } from "../../useContext/notificationContext";
+
 export const NavBar = ({ navigation }: any) => {
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const { products, setFilteredProducts,user,setUser} = useContext(AuthContext);
-  const { fetchNotificationsnew} =useContext(NotificationContext)
+  const [userData, setUserData] = useState({});
+  const [notification, setNotification] = useState([]);
+  const [desplay, setDesplay] = useState(false);
+  const {
+    products,
+    setFilteredProducts,
+    user,
+    setUser,
+    setOtherView,
+    setView,
+  } = useContext(AuthContext);
+  const { fetchNotificationsnew } = useContext(NotificationContext);
 
-  const [userData , setUserData] = useState({}) 
-  const [notification, setNotification] = useState([])
-  const [desplay , setDesplay] = useState(false)
+
 
   
   const fetchUserData  = async ()=>{
@@ -43,12 +52,9 @@ export const NavBar = ({ navigation }: any) => {
       setUser(response.data)
       console.log(response.data, "mmmmmmmmmmmmmmmmmmmmmmmm")
     }
-  }catch(error){
-    console.log(error)
   }
-  }
-  
-
+ catch(err){console.log(err)} 
+}
   const handleSearchPress = () => {
     setIsSearchVisible(!isSearchVisible);
   };
@@ -73,8 +79,7 @@ export const NavBar = ({ navigation }: any) => {
   };
 
   useEffect(() => {
-    // Set filteredProducts to all products when the component mounts
-    fetchUserData()
+    fetchUserData();
     setFilteredProducts(products);
 
     // if(userData.id){
@@ -93,9 +98,9 @@ export const NavBar = ({ navigation }: any) => {
         {isSearchVisible ? (
           // Render search component when isSearchVisible is true
           <View style={styles.searchContainer}>
-            <TouchableOpacity onPress={()=>setIsSearchVisible(false)}>
-    <Ionicons name="arrow-back" size={24} color="#000" />
-</TouchableOpacity>
+            <TouchableOpacity onPress={() => setIsSearchVisible(false)}>
+              <Ionicons name="arrow-back" size={24} color="#000" />
+            </TouchableOpacity>
             <TextInput
               style={styles.searchInput}
               placeholder="Type here to search..."
@@ -116,15 +121,27 @@ export const NavBar = ({ navigation }: any) => {
                 style={{ flexDirection: "row-reverse", alignItems: "center" }}
               >
                 <Text style={styles.Freeza}>FreeZa</Text>
-                <View style={styles.circle}>
-                  <Image
-                    source={require("../../assets/freeza.png")}
-                    style={styles.imageInCircle}
-                  />
-                </View>
+                <Pressable
+                  onPress={() => {
+                    setFilteredProducts(products);
+                    setOtherView(false);
+                    setView(false);
+                  }}
+                >
+                  <View style={styles.circle}>
+                    <Image
+                      source={require("../../assets/freeza.png")}
+                      style={styles.imageInCircle}
+                    />
+                  </View>
+                </Pressable>
               </View>
               <View style={{ flexDirection: "row", gap: 25 }}>
-                <Pressable onPress={() => navigation.navigate("blog",{allinf:userData})}>
+                <Pressable
+                  onPress={() =>
+                    navigation.navigate("blog", { allinf: userData })
+                  }
+                >
                   <MaterialIcons name="post-add" size={30} color="#FF0000" />
                 </Pressable>
                 <Image
@@ -136,11 +153,18 @@ export const NavBar = ({ navigation }: any) => {
                     {userData?.strawberries}
                   </Text>
                 </View>
-                <Pressable onPress={()=>{navigation.navigate("Notification",{user:userData,notification:notification})}}>
-                <Image
-                  source={require("../../assets/bell.png")}
-                  style={styles.notification}
-                />
+                <Pressable
+                  onPress={() => {
+                    navigation.navigate("Notification", {
+                      user: userData,
+                      notification: notification,
+                    });
+                  }}
+                >
+                  <Image
+                    source={require("../../assets/bell.png")}
+                    style={styles.notification}
+                  />
                 </Pressable>
                 
                  <View style={styles.badgeContainer}>

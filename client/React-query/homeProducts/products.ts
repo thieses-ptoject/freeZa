@@ -61,11 +61,13 @@ export const getCategories = () => {
   });
   return query;
 };
-export const getUser = (userId : any) => {
+export const getUser = (userId: any) => {
   const query = useQuery<User[]>({
     queryKey: ["User"],
     queryFn: async () => {
-      const response = await axios.get(`http://${config.ip}:3001/user/getUser/${userId}`);
+      const response = await axios.get(
+        `http://${config.ip}:3001/user/getUser/${userId}`
+      );
 
       console.log("fetched : data");
       return response.data;
@@ -73,7 +75,4 @@ export const getUser = (userId : any) => {
   });
   return query;
 };
-
-
-
 

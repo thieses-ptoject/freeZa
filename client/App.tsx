@@ -8,7 +8,7 @@ import { Test } from "./componets/Test";
 import { StackScreens } from "./secreens/FirstScreens/StackScreens";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import App from "./appContext";
-
+import { StripeProvider } from "@stripe/stripe-react-native";
 const queryClient = new QueryClient();
 import { AuthContext, AuthProvider } from "./useContext/authContext";
 import { ContextPost, ProviderPost } from "./useContext/createBlog";
@@ -16,16 +16,28 @@ import { ChatContext, ChatContextProvider } from "./useContext/chatContext";
 import { NotificationContextProvider } from "./useContext/notificationContext";
 import { getUserData } from "./localStorage/getuser";
 import { useEffect, useState } from "react";
-const Stack = createStackNavigator();
+const Stack = createStackNavigator(); 
+const STRIPE_Key='pk_test_51ObgWwLDiPccFavSFtc8zJkEukmAAxX1SnCLl2UZe4y1cHUgGqcJp7CWtN4MDfg0obElh2cFmRWDwgxGZHpUO7wf00RcQlKJKJ'
 export default function Context() {
   const [user,setUserConncted]=useState('')
   useEffect(()=>{
   getUserData().then((result: any) => {
     setUserConncted(result.id)})
     .catch((err)=>console.log(err.message,'gggg'))},[])
+ 
+const handlePremium = async()=>{
 
-  return (
-    <QueryClientProvider client={queryClient}>
+}
+
+
+
+
+  return ( 
+      <StripeProvider publishableKey={STRIPE_Key}>
+    <QueryClientProvider 
+    client={queryClient}
+    
+    >
      
       <AuthProvider>
         <ChatContextProvider user={user}>
@@ -38,6 +50,7 @@ export default function Context() {
       </AuthProvider>
      
     </QueryClientProvider>
+    </StripeProvider>
   );
 
 

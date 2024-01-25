@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { getOneUserData } from "../../React-query/user/profileUser";
+// import { getOneUserData } from "../../React-query/user/profileUser";
 import Ionicons from "react-native-vector-icons/MaterialCommunityIcons";
 import {
   View,
@@ -14,9 +14,11 @@ import FormContainer from "../../componets/accountCom/FormContainer";
 import { AuthContext } from "../../useContext/authContext";
 
 
+
 const Account = ({ navigation,route }: any) => {
 const [ desplay, setDesplay]= useState(false)
 const {  user,setUser} = useContext(AuthContext);
+
 
   
     

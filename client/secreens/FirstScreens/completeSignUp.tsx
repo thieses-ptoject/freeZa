@@ -16,16 +16,25 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import app from "../../firebase";
 import axios from "axios";
 import { AuthContext } from "../../useContext/authContext";
-import config from "../../config.json"
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-
+import config from "../../config.json";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const CompleteSignUp = ({ route, navigation }: any) => {
   const { name, setName } = useContext(AuthContext);
   const { LastName, setLastName } = useContext(AuthContext);
   const { image, setImage } = useContext(AuthContext);
-  const [errorMessage, setErrorMessage] = useState(""); // New state for error message
+  const [errorMessage, setErrorMessage] = useState("");
 
+  const storeImageAndName = async () => {
+    try {
+      await AsyncStorage.setItem("image", image);
+      await AsyncStorage.setItem("name", name);
+      console.log("Image and Name stored successfully");
+    } catch (error) {
+      console.error("Error storing Image and Name:", error);
+    }
+  };
   const handleSignUp = async () => {
     try {
       const auth = getAuth();
@@ -37,18 +46,22 @@ export const CompleteSignUp = ({ route, navigation }: any) => {
 
       console.log(userCredential);
 
-      const response = await axios.post(`http://${config.ip}:3001/user/addUser`, {
-        id: userCredential.user.uid,
-        email: route.params.email,
-        password: route.params.password,
-        phone: route.params.phone,
-        firstName: name,
-        lastName: LastName,
-        address: "tunisia",
-        image: image,
-      });
+      const response = await axios.post(
+        `http://${config.ip}:3001/user/addUser`,
+        {
+          id: userCredential.user.uid,
+          email: route.params.email,
+          password: route.params.password,
+          phone: route.params.phone,
+          firstName: name,
+          lastName: LastName,
+          address: "tunisia",
+          image: image,
+        }
+      );
 
-      console.log(response, 'ggggggggggggggg');
+      console.log(response, "ggggggggggggggg");
+      navigation.navigate("login");
     } catch (error: any) {
       const errorCode = error.code;
       const errorMessage = getFirebaseErrorMessage(errorCode);
@@ -83,7 +96,7 @@ export const CompleteSignUp = ({ route, navigation }: any) => {
         <Pressable
           onPress={() => {
             handleSignUp();
-            // navigation.navigate("login");
+            storeImageAndName();
           }}
         >
           <View style={styles.button}>
@@ -118,7 +131,6 @@ export const CompleteSignUp = ({ route, navigation }: any) => {
   );
 };
 
-
 const styles = StyleSheet.create({
   errorMessage: {
     width: 400,
@@ -128,7 +140,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     position: "absolute",
     top: "70%", // Adjust the position based on your layout
-    left :"-5%"
+    left: "-5%",
   },
   barLayout: {
     height: 5,

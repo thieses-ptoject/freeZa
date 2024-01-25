@@ -29,7 +29,7 @@ const Wishlist = () => {
 
 // condition reserving:
 const Reserve=(state:string)=>{
-  if(state==='available' ||'avalaible'){
+  if(state==='available'){
     return ( 
       
       <TouchableOpacity style={styles.buttonContainer}>
@@ -193,7 +193,8 @@ const styles= StyleSheet.create({
     height: 2.125 * 16,
     backgroundColor:"#fff",
     alignItems:'flex-start',
-    justifyContent:'center',
+    // justifyContent:'center',
+    flexDirection:'row',
     // top:10,
     borderRadius:15,
     
@@ -201,6 +202,7 @@ const styles= StyleSheet.create({
   strawberry :{
     width: 30,
     height: 30,
+  
     
   },
   // dateRectangle:{

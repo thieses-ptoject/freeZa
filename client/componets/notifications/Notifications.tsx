@@ -40,7 +40,7 @@ const Notifications = ({ route, navigation }: any) => {
                                         }}
                                     /></Pressable>
                                 <Text style={{ marginLeft: 2, alignSelf: 'center', color: noti.isRead ? "grey" : 'black', fontWeight: 'bold', textTransform: "capitalize", }}>{noti.sendernotificationRate.firstName} {noti.sendernotificationRate.lastName} </Text>
-                                <Text style={{ marginLeft: 2, alignSelf: 'center', color: noti.isRead ? "grey" : 'black' }}>: has rated you {noti.rate} starts.</Text>
+                                <Text style={{ marginLeft: 2, alignSelf: 'center', color: noti.isRead ? "grey" : 'black' }}>: has rated you {noti.rate} stars.</Text>
                                 <Pressable onPress={() => {
                                     Alert.alert('delete', 'Delete notification', [
                                         {
@@ -51,7 +51,7 @@ const Notifications = ({ route, navigation }: any) => {
                                         { text: 'OK', onPress: () => {deleteNotification(noti?.id);navigation.navigate('Home') }},
                                     ])
                                 }}>
-                                    <Entypo name={'dots-three-horizontal'} size={20} color={'black'} style={{ marginLeft: 'auto', marginRight: 1 }} />
+                                    <Entypo name={'dots-three-horizontal'} size={20} color={'black'} style={{ marginLeft: '35%', marginRight: 1 }} />
                                 </Pressable>
                             </View>
                         )
