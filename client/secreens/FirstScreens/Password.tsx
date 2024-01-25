@@ -17,6 +17,9 @@ import { AuthContext } from "../../useContext/authContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { checkUser } from "../../React-query/user/otherUserProfil"; //iyed
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import axios from "axios";
+import config from "../../config.json";
+import { useFocusEffect } from "@react-navigation/native";
 const Password = ({ navigation, route }: any) => {
   const { auth, setAuth } = React.useContext(AuthContext);
   const [isPasswordCorrect, setIsPasswordCorrect] = React.useState(false);
@@ -26,12 +29,46 @@ const Password = ({ navigation, route }: any) => {
   const { name, setName } = React.useContext(AuthContext);
   const { LastName, setLastName } = React.useContext(AuthContext);
   const { phone, setPhone, image } = React.useContext(AuthContext);
-  const {setIsAuthenticated} = React.useContext(AuthContext) 
-  const {mutate}= checkUser() // iyed
-
-  console.log(name);
+  const { setIsAuthenticated } = React.useContext(AuthContext);
+  const [banned, setBanned] = React.useState(false);
+  const [userImage, setUserImage] = React.useState(
+    "https://img.freepik.com/premium-vector/man-avatar-profile-picture-vector-illustration_268834-538.jpg"
+  );
+  const [userName, setUserName] = React.useState("");
   const Fauth = getAuth(app);
 
+  console.log(banned, "sjqkldjqsdsqdkjqskdljqskdqslkskkkkkkkkkkkkkkkkkkkk");
+
+  const checkBan = async () => {
+    try {
+      const response = await axios.get(
+        `http://${config.ip}:3001/user/${email}`
+      );
+      console.log(response.data.blocked);
+      setBanned(response.data.blocked);
+      if (response.data.firstName || response.data.image) {
+        setUserName(response.data.firstName);
+        setUserImage(response.data.image);
+      }
+      if (banned) {
+        Alert.alert(
+          "Sorry, your account has been banned. Please contact support for assistance."
+        );
+        navigation.navigate("login");
+      }
+      if (!response.data) {
+        Alert.alert("Sorry your account does not exist");
+        navigation.navigate("login");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useFocusEffect(
+    React.useCallback(() => {
+      checkBan();
+    }, [banned])
+  );
   const login = () => {
     signInWithEmailAndPassword(Fauth, route.params.email, password)
       .then((userCredential) => {
@@ -39,9 +76,9 @@ const Password = ({ navigation, route }: any) => {
         console.log(user);
         storeData(user.uid);
         setAuth(true);
-        setIsAuthenticated(true)
+        setIsAuthenticated(true);
         AsyncStorage.setItem("auth", "true");
-        mutate(email) // iyed
+        // mutate(email) // iyed
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -101,12 +138,13 @@ const Password = ({ navigation, route }: any) => {
               maxLength={32}
               style={styles.ellispse01Icon}
               onChange={(e) => setPassword(e.nativeEvent.text)}
+              editable={!banned}
             />
-             {errorMessage !== "" && <Text style={styles.errorMessage}>{errorMessage} </Text>}
+            {errorMessage !== "" && (
+              <Text style={styles.errorMessage}>{errorMessage} </Text>
+            )}
             <View style={styles.button}>
-                <View
-                  style={[styles.buttonChild, styles.buttonChildPosition]}
-                />
+              <View style={[styles.buttonChild, styles.buttonChildPosition]} />
               <Pressable
                 onPress={() => {
                   console.log("hi");
@@ -125,11 +163,13 @@ const Password = ({ navigation, route }: any) => {
         >
           Forgot your password?
         </Text>
-        <Text style={styles.title1}>Hello, {name}!!</Text>
+        <Text style={styles.title1}>Hello, {userName}!!</Text>
         <Text style={styles.title2}>Type your password</Text>
         <Image
           style={[styles.ellispseIcon, styles.iconLayout]}
-          source={{ uri: image }}
+          source={{
+            uri: userImage,
+          }}
         />
       </View>
     </KeyboardAwareScrollView>
@@ -144,10 +184,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 10,
     position: "absolute",
-    top: "700%"
+    top: "700%",
   },
   done: {
-                    
     left: "42.39%",
     fontSize: 22,
     lineHeight: 31,
@@ -177,7 +216,8 @@ const styles = StyleSheet.create({
   ellispseIcon: {
     top: 149,
     right: 135,
-
+    height: 100,
+    width: 100,
     left: 135,
   },
   container: {
@@ -235,7 +275,6 @@ const styles = StyleSheet.create({
   labelLayout: {
     height: 21,
     lineHeight: 21,
-    fontSize: FontSize.size_base,
     left: "0%",
     top: "50%",
     color: Color.colorBlack,
@@ -259,7 +298,6 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   symbolTypo: {
-    fontSize: FontSize.size_3xl_5,
     marginTop: -15,
     letterSpacing: -1,
     top: "50%",

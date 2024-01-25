@@ -1,17 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import freeza from "../../../assets/freeza.png";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../firebase";
 import { useNavigate } from "react-router-dom";
-
+import { AuthContext } from "../../../useContext/adminContext";
+import secureLocalStorage from "react-secure-storage";
 const SignIn = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [Loginview, setLoginView] = useState(false);
+  const { Loginview, setLoginView } = useContext(AuthContext);
   const [users, setUsers] = useState([]);
   const [checkbox, setCheckbox] = useState(false);
-  console.log(userName, password, Loginview);
   const navigation = useNavigate();
   const handleLogin = async () => {
     try {
@@ -26,7 +26,7 @@ const SignIn = () => {
       if (isAdmin) {
         // User is an admin, do something here
         console.log("Admin signed in!");
-        setLoginView(true);
+        secureLocalStorage.setItem("isAuth", true);
         navigation("/dashboard");
       } else {
         // User is not an admin, handle accordingly
