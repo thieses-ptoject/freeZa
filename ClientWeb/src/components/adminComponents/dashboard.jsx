@@ -1,9 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import  Dashboardstats  from './Dashboardstats.jsx'
 import  {TypeChart}  from './StateChart.jsx'
 import { StatusPie } from './StatusPie.jsx'
 import {AppointChart} from './AppointChart.jsx'
+import secureLocalStorage from "react-secure-storage"
+import { useNavigate } from 'react-router-dom'
+
+
 const Dashboard = () => {
+  const navigation = useNavigate()
+  const storage = secureLocalStorage.getItem("isAuth");
+  useEffect(() => {
+    if (storage === false) {
+      navigation("/");
+    }
+  }, []);
   return (
     <div className='flex flex-col gap-4'>
         <Dashboardstats/>

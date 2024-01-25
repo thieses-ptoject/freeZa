@@ -8,6 +8,8 @@ import { MdBlockFlipped } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../../useContext/adminContext";
 import { getAuth } from "firebase/auth";
+import secureLocalStorage from "react-secure-storage";
+
 
 // import * as admin from 'firebase-admin';
 // import serviceAccount from './path/to/serviceAccountKey.json'
@@ -18,7 +20,13 @@ const Users = () => {
   const [count,setCount]=useState(0)
   const [unreadCounts, setUnreadCounts] = useState({});
 
-  
+  const navigation = useNavigate()
+  const storage = secureLocalStorage.getItem("isAuth");
+  useEffect(() => {
+    if (storage === false) {
+      navigation("/");
+    }
+  }, []);
   const auth = getAuth()
   console.log(auth.currentUser,':dddddddd')
  const navigate = useNavigate()

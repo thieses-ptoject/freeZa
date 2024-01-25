@@ -1,114 +1,160 @@
 import moment from "moment";
 import * as React from "react";
-import { Text,View,StyleSheet,Pressable, Image, FlatList, Platform} from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  Pressable,
+  Image,
+  FlatList,
+  Platform,
+} from "react-native";
 import { Directions, TextInput } from "react-native-gesture-handler";
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import Ionicons from 'react-native-vector-icons/Ionicons'
-import { addMessageClaim, getAllMessage } from "../../React-query/help-center/helpCenter";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import {
+  addMessageClaim,
+  getAllMessage,
+} from "../../React-query/help-center/helpCenter";
 import { addmessage } from "../../React-query/message/message";
 
-
-
-export const HelpCenter = ({ navigation ,route}: any) => {
-  const {user}=route.params
-  const [onChangeMessage, setonChangeMessage] = React.useState('')
-  const { data: allMessages, isLoading, isError, isSuccess,refetch,error } = getAllMessage(user);
-  console.log(allMessages,'userrrrrrrr')
-  const  addmessage=addMessageClaim()
+export const HelpCenter = ({ navigation, route }: any) => {
+  const { user } = route.params;
+  const [onChangeMessage, setonChangeMessage] = React.useState("");
+  const {
+    data: allMessages,
+    isLoading,
+    isError,
+    isSuccess,
+    refetch,
+    error,
+  } = getAllMessage(user);
+  console.log(allMessages, "userrrrrrrr");
+  const addmessage = addMessageClaim();
   const renderMessage = ({ item }: { item: any }) => {
     const isCurrentUser = item.userId === user;
-    
 
     return (
-      <View style={[styles.messageContainer, { alignSelf: isCurrentUser ? 'flex-end' : 'flex-start' }]}>
-
-        <View style={[styles.messageTextContainer, { backgroundColor: isCurrentUser ? '#F9E9ED' : '#E8EFE4' }, { borderBottomRightRadius: isCurrentUser ? 0.001 : 30 }, { borderBottomLeftRadius: isCurrentUser ? 30 : 0.001 }]}>
-          < View style={{ flexDirection: 'row' }}>
-            
-
-            <Text style={[styles.messageText, { color: isCurrentUser ? 'black' : 'black' }]}>{item.claim}</Text>
-           
+      <View
+        style={[
+          styles.messageContainer,
+          { alignSelf: isCurrentUser ? "flex-end" : "flex-start" },
+        ]}
+      >
+        <View
+          style={[
+            styles.messageTextContainer,
+            { backgroundColor: isCurrentUser ? "#F9E9ED" : "#E8EFE4" },
+            { borderBottomRightRadius: isCurrentUser ? 0.001 : 30 },
+            { borderBottomLeftRadius: isCurrentUser ? 30 : 0.001 },
+          ]}
+        >
+          <View style={{ flexDirection: "row" }}>
+            <Text
+              style={[
+                styles.messageText,
+                { color: isCurrentUser ? "black" : "black" },
+              ]}
+            >
+              {item.claim}
+            </Text>
           </View>
-          <Text style={[styles.messageDate, { alignSelf: 'flex-end' }]}>{moment(item.createdAt, "YYYYMMDD").fromNow()}</Text>
+          <Text style={[styles.messageDate, { alignSelf: "flex-end" }]}>
+            {moment(item.createdAt, "YYYYMMDD").fromNow()}
+          </Text>
         </View>
-
-
       </View>
     );
   };
 
-
   return (
-   
     <View style={styles.container}>
-    <View style={[styles.navbar,{marginTop: Platform.OS === "ios" ? 40 : 0,}]}>
-      <View style={{flexDirection:'row',marginLeft:'auto',marginRight:'auto'}}>
-    <MaterialIcons name={'admin-panel-settings'} size={35} color={'white'} />
-     <Text style={{color:'white',alignSelf:'center',fontSize:18,marginRight:'auto'}}>Contact us </Text>
-     </View>
-    </View>
-<View>
-  <Text style={ { alignSelf:  'center',fontSize:23,marginTop:40 }}>WellCome we are here to help YOu!</Text></View>
-    <FlatList
+      <View
+        style={[styles.navbar, { marginTop: Platform.OS === "ios" ? 40 : 0 }]}
+      >
+        <View
+          style={{
+            flexDirection: "row",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+        >
+          <MaterialIcons
+            name={"admin-panel-settings"}
+            size={35}
+            color={"white"}
+          />
+          <Text
+            style={{
+              color: "white",
+              alignSelf: "center",
+              fontSize: 18,
+              marginRight: "auto",
+            }}
+          >
+            Contact us{" "}
+          </Text>
+        </View>
+      </View>
+      <View>
+        <Text style={{ alignSelf: "center", fontSize: 23, marginTop: 40 }}>
+          WelCome we are here to help YOu!
+        </Text>
+      </View>
+      <FlatList
         inverted
         data={allMessages}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderMessage}
         contentContainerStyle={styles.messageList}
-        keyboardShouldPersistTaps="handled" 
+        keyboardShouldPersistTaps="handled"
       />
 
-    <View style={[styles.inputContainer]}>
-      <TextInput
-        value={onChangeMessage}
-        style={styles.input}
-        onChangeText={setonChangeMessage}
-        multiline
-        placeholder="write here ...."
-
-
-      />
-      <View style={{ flexDirection: 'row', gap: 22 }}>
-          <Pressable onPress={() => {
-          addmessage.mutate({  userid: user, claim: onChangeMessage });
-          refetch()
-          setonChangeMessage('')
-        }}>
-
-          <Ionicons name={'send'} size={35} color={'pink'} />
-        </Pressable>
+      <View style={[styles.inputContainer]}>
+        <TextInput
+          value={onChangeMessage}
+          style={styles.input}
+          onChangeText={setonChangeMessage}
+          multiline
+          placeholder="write here ...."
+        />
+        <View style={{ flexDirection: "row", gap: 22 }}>
+          <Pressable
+            onPress={() => {
+              addmessage.mutate({ userid: user, claim: onChangeMessage });
+              refetch();
+              setonChangeMessage("");
+            }}
+          >
+            <Ionicons name={"send"} size={35} color={"pink"} />
+          </Pressable>
+        </View>
       </View>
-
     </View>
-
-  </View>
-      
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
-    backgroundColor: '#FBF9F9',
-
+    flexDirection: "column",
+    backgroundColor: "#FBF9F9",
   },
   messageContainer: {
     padding: 10,
 
-    width: '60%',
-
+    width: "60%",
   },
   messageList: {
     flexGrow: 1,
     paddingBottom: 10, // Adjust as needed to prevent overlap with the input container
   },
   navbar: {
-    width: '100%',
+    width: "100%",
     height: 70,
-    backgroundColor: 'pink',
-    flexDirection: 'row',
-    alignItems: 'center',
+    backgroundColor: "pink",
+    flexDirection: "row",
+    alignItems: "center",
   },
   image: {
     height: 50,
@@ -124,7 +170,7 @@ const styles = StyleSheet.create({
     borderRadius: 70,
     marginRight: 2,
 
-    alignSelf: 'flex-start'
+    alignSelf: "flex-start",
   },
   image2: {
     height: 130,
@@ -132,7 +178,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginRight: 2,
 
-    alignSelf: 'flex-start'
+    alignSelf: "flex-start",
   },
   text1: {
     fontSize: 17,
@@ -140,45 +186,38 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginTop: 20,
     marginLeft: 2,
-    color: 'white',
-    borderColor: 'silver',
+    color: "white",
+    borderColor: "silver",
   },
   inputContainer: {
     // position: 'absolute',
     bottom: 0,
-    width: '100%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'white',
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "white",
     borderTopWidth: 2,
-    borderTopColor: 'pink',
-    height: '12%'
+    borderTopColor: "pink",
+    height: "12%",
   },
   input: {
-    width: '85%',
-    height: '50%',
+    width: "85%",
+    height: "50%",
     borderRadius: 30,
     margin: 6,
-    backgroundColor: '#F4F8F2',
-    color: 'black',
-    paddingHorizontal: 15
-
-
+    backgroundColor: "#F4F8F2",
+    color: "black",
+    paddingHorizontal: 15,
   },
   messageTextContainer: {
     borderRadius: 30,
     padding: 15,
     flex: 1,
-
   },
-  messageText: {
-
-  },
+  messageText: {},
   messageDate: {
-    color: 'gray',
+    color: "gray",
     fontSize: 12,
     marginTop: 5,
   },
-})
-
-
+});

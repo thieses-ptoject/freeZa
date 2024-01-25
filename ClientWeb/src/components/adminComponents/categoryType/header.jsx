@@ -96,7 +96,7 @@ const Header = () => {
           <button
             onClick={() => {
               secureLocalStorage.setItem("isAuth", false);
-              navigation("/adminLogin");
+              navigation("/");
             }}
             className="bg-transparent hover:bg-red-500 text-red-500 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent text-[14px] rounded-full"
           >
