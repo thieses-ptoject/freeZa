@@ -29,7 +29,7 @@ export const HelpCenter = ({ navigation, route }: any) => {
     refetch,
     error,
   } = getAllMessage(user);
-  console.log(allMessages, "userrrrrrrr");
+ 
   const addmessage = addMessageClaim();
   const renderMessage = ({ item }: { item: any }) => {
     const isCurrentUser = item.userId === user;
