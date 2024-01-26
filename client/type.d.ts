@@ -95,3 +95,14 @@ interface Appointments {
   reciverId: string;
   ItemId: number;
 }
+
+interface  comments {
+  body: string ,
+  postId: number,
+  userId: string
+}
+interface  like {
+  likerId: String,
+  postId:  number,
+  likes: number
+}

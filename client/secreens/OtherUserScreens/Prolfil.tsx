@@ -136,7 +136,7 @@ export const OtheruserProfile = ({ navigation, route }: any) => {
             }}
           >
             <TouchableOpacity
-              onPress={() => navigation.navigate("OnePost", { itemData: item })}
+              onPress={() =>  navigation.navigate("InviteFreind", { itemData: item })}
             >
               <Image
                 key={index}

@@ -1,128 +1,232 @@
-import React from 'react';
-import {View, Text, ScrollView} from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import {View, Text, ScrollView, TouchableOpacity, Image, FlatList, useWindowDimensions, ActivityIndicator} from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Ionic from 'react-native-vector-icons/Ionicons';
-
-const BottomTabView = () => {
-  const Tab = createMaterialTopTabNavigator();
-
-  
-  const Square: React.ReactNode[] = [];
-  let numberOfSquare = 7;
+import { TabBar } from 'react-native-tab-view';
+import { AuthContext } from "../../useContext/authContext";
+import { UserItems, UserPosts } from "../../React-query/user/otherUserProfil";
+import { useIsFocused } from '@react-navigation/native';
 
 
-  for (let index = 0; index < numberOfSquare; index++) {
-    Square.push(
-      <View key={index}>
+const BottomTabView = ({ navigation, route }: any) => {
+
+  const {  user,setUser} = useContext(AuthContext);
+  const Tab = createMaterialTopTabNavigator(); 
+  const focused = useIsFocused()
+
+
+
+
+
+  const {
+    data: userData,
+    isLoading: userDataLoading,
+    isError: userDataError,
+    refetch:refetchuserData,
+    isSuccess,
+  } = UserItems(user.id);
+  const {
+    data: userPostsData,
+    isLoading: userPostsLoading,
+    isError: userPostsError,
+    refetch:refetchuserPost,
+  } = UserPosts(user.id);
+
+
+  useEffect(() => {
+    refetchuserData()
+    refetchuserPost()
+  }, [focused]);
+
+  const Posts = ({ navigation, route }: any) => {
+    return (
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{
+          width: '100%',
+          height: '100%',
+        }}>
         <View
           style={{
-            width: 130,
-            height: 150,
-            marginVertical: 0.5,
-            backgroundColor: 'black',
-            opacity: 0.1,
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'white',
+            flexWrap: 'wrap',
+            flexDirection: 'row',
+            paddingVertical: 5,
+            justifyContent: 'space-between',
+          }}>
+          <FlatList
+        data={userData}
+        keyExtractor={(ele) => ele.id}
+        numColumns={3}
+        renderItem={({ item, index }) => (
+          <View
+            style={{
+              flex: 1,
+              aspectRatio: 1,
+              margin: 3,
+            }}
+          >
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("ItemsDetails", { itemData: item })
+              }
+            >
+              <Image
+                key={index}
+                source={{ uri: item.image[0] }}
+                style={{ width: "100%", height: "100%", borderRadius: 12 }}
+              />
+            </TouchableOpacity>
+          </View>
+        )}
+      />
+        </View>
+      </ScrollView>
+    );
+  };
+  // const Video = () => {
+  //   return (
+  //     <ScrollView
+  //       showsVerticalScrollIndicator={false}
+  //       style={{
+  //         width: '100%',
+  //         height: '100%',
+  //       }}>
+  //       <View
+  //         style={{
+  //           width: '100%',
+  //           height: '100%',
+  //           backgroundColor: 'white',
+  //           flexWrap: 'wrap',
+  //           flexDirection: 'row',
+  //           paddingVertical: 5,
+  //           justifyContent: 'space-between',
+  //         }}>
+  //         <FlatList
+      
+  //     data={userPostsData}
+  //     numColumns={3}
+  //     renderItem={({ item, index }) => (
+  //       <View
+  //         style={{
+  //           flex: 1,
+  //           aspectRatio: 1,
+  //           margin: 3,
+  //         }}
+  //       >
+  //         <TouchableOpacity
+  //           onPress={() => navigation.navigate("OnePost", { itemData: item })}
+  //         >
+  //           <Image
+  //             key={index}
+  //             source={{ uri: item?.image }}
+  //             style={{ width: "100%", height: "100%", borderRadius: 12 }}
+  //           />
+  //         </TouchableOpacity>
+  //       </View>
+  //     )}
+  //   />
+  //       </View>
+  //     </ScrollView>
+  //   );
+  // };
+  const Tags = ({ navigation, route }: any) => {
+    return (
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{
+          width: '100%',
+          height: '100%',
+        }}>
+        <View
+          style={{
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'white',
+            flexWrap: 'wrap',
+            flexDirection: 'row',
+            paddingVertical: 5,
+            justifyContent: 'space-between',
+          }}>
+          <FlatList
+      
+      data={userPostsData}
+      numColumns={3}
+      renderItem={({ item, index }) => (
+        <View
+          style={{
+            flex: 1,
+            aspectRatio: 1,
+            margin: 3,
           }}
-        ></View>
-      </View>,
+        >
+          <TouchableOpacity
+           onPress={() =>
+            navigation.navigate("InviteFreind", { itemData: item })
+          }
+          >
+            <Image
+              key={index}
+              source={{ uri: item?.image }}
+              style={{ width: "100%", height: "100%", borderRadius: 12 }}
+            />
+          </TouchableOpacity>
+        </View>
+      )}
+    />
+        </View>
+      </ScrollView>
+    );
+  };
+
+
+
+
+
+
+  if (userDataLoading || userPostsLoading ) {
+    return (
+      <View>
+        <ActivityIndicator size="large" color="#000" />
+      </View>
     );
   }
-
-  const Posts = () => {
+  if (userDataError || userPostsError ) {
     return (
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{
-          width: '100%',
-          height: '100%',
-        }}>
-        <View
-          style={{
-            width: '100%',
-            height: '100%',
-            backgroundColor: 'white',
-            flexWrap: 'wrap',
-            flexDirection: 'row',
-            paddingVertical: 5,
-            justifyContent: 'space-between',
-          }}>
-          {Square }
-        </View>
-      </ScrollView>
+      <View>
+        <Text>Error fetching user data</Text>
+      </View>
     );
-  };
-  const Video = () => {
-    return (
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{
-          width: '100%',
-          height: '100%',
-        }}>
-        <View
-          style={{
-            width: '100%',
-            height: '100%',
-            backgroundColor: 'white',
-            flexWrap: 'wrap',
-            flexDirection: 'row',
-            paddingVertical: 5,
-            justifyContent: 'space-between',
-          }}>
-          {Square }
-        </View>
-      </ScrollView>
-    );
-  };
-  const Tags = () => {
-    return (
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{
-          width: '100%',
-          height: '100%',
-        }}>
-        <View
-          style={{
-            width: '100%',
-            height: '100%',
-            backgroundColor: 'white',
-            flexWrap: 'wrap',
-            flexDirection: 'row',
-            paddingVertical: 5,
-            justifyContent: 'space-between',
-          }}>
-          {Square }
-        </View>
-      </ScrollView>
-    );
-  };
+  }
 
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
         tabBarShowLabel: false,
         tabBarIndicatorStyle: {
-          backgroundColor: 'black',
+          backgroundColor: '#FC5A8D',
           height: 1.5,
         },
         tabBarIcon: ({ focused, color }) => {
             let iconName;
             if (route.name === 'Posts') {
               iconName = focused ? 'ios-apps-sharp' : 'ios-apps-sharp';
-              color = focused ? 'black' : 'gray';
+              color = focused ? '#FC5A8D' : 'gray';
             } else if (route.name === 'Video') {
               iconName = focused ? 'ios-play-circle' : 'ios-play-circle-outline';
               color = focused ? 'black' : 'gray';
             } else if (route.name === 'Tags') {
               iconName = focused ? 'ios-person' : 'ios-person-outline';
-              color = focused ? 'black' : 'gray';
+              color = focused ? '#FC5A8D' : 'gray';
             }
           
             return iconName ? <Ionic name={iconName} color={color} size={22} /> : null;
           },
       })}>
       <Tab.Screen name="Posts" component={Posts} />
-      <Tab.Screen name="Video" component={Video} />
+      {/* <Tab.Screen name="Video" component={Video} /> */}
       <Tab.Screen name="Tags" component={Tags} />
     </Tab.Navigator>
   );

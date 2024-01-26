@@ -1,248 +1,601 @@
-import React, { useContext, useEffect, useState } from "react";
-// import { getOneUserData } from "../../React-query/user/profileUser";
-import Ionicons from "react-native-vector-icons/MaterialCommunityIcons";
+import * as React from "react";
 import {
-  View,
   Text,
-  Image,
+  View,
   StyleSheet,
-  ScrollView,
-  Pressable,
+  Image,
+  TouchableWithoutFeedback,
+  Modal,
+  TouchableOpacity,
+  Keyboard,
+  Alert,
+  Share,
 } from "react-native";
-import { Color, FontFamily, FontSize } from "../../GlobalStyles/UserProfil";
-import FormContainer from "../../componets/accountCom/FormContainer";
+import { ProfileButtons } from "../../componets/accountCom/ProfileBody";
+import BottomTabView from "../../componets/accountCom/BottomTabView";
+import { Feather } from "@expo/vector-icons";
+import Ionicons from "react-native-vector-icons/MaterialCommunityIcons";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../useContext/authContext";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import { ip } from "../../config.json";
+import { useStripe } from "@stripe/stripe-react-native";
+import { useIsFocused } from "@react-navigation/native";
 
 
 const Account = ({ navigation,route }: any) => {
-const [ desplay, setDesplay]= useState(false)
-const {  user,setUser} = useContext(AuthContext);
-
-
-  
+    const { user, setUser } = useContext(AuthContext);
+    const { setIsAuthenticated } = useContext(AuthContext);
+    const focused = useIsFocused()
     
-
-
-// console.log(userConnected,"zzzzzzz")
-//    useEffect(() => {
+    const [openModal, setOpenModal] = useState(false);
+    const transparnet = "rgba(0,0,0,0.2)";
+    const userData = user.id;
   
-      
+    const clearAsyncStorage = async () => {
+      try {
+        await AsyncStorage.clear();
+        console.log("AsyncStorage cleared successfully!");
+      } catch (error) {
+        console.error("Error clearing AsyncStorage: ", error);
+      }
+    };
+
+
+    useEffect(() => {
+     
+    }, [focused]);
+
+    const shareText = async (text: string) => {
+      try {
+        await Share.share({
+          message: text,
+        });
+      } catch (error) {
+        console.error("Error sharing:", error);
+      }
+    };
   
-//    }, [route.params?.refresh]);
-   
-useEffect(() => {
-   
-    setDesplay(true)
-
-     }, [route.params?.refresh]);
-
+    const handleLogout = () => {
+      setIsAuthenticated(false);
+      clearAsyncStorage();
+    };
+    // Payment process :
+    const Updateacc = async (userData: string) => {
+      try {
+        const response = await axios.put(
+          `http://${ip}:3001/user/premium/${userData}`
+        );
+        console.log("account updated successfully");
+      } catch (error) {
+        console.log(error);
+      }
+    };
   
-
-  // const { data, isLoading, isError } = getOneUserData(userConnected);
-
-  // if (isLoading) {
-  //   return (
-  //     <View>
-  //       <ActivityIndicator size="large" color="#000" />
-  //     </View>
-  //   );
-  // }
-  // if (isError) {
-  //   <View>
-  //     <Text>Error fetching user data</Text>
-  //   </View>;
-  // }
-console.log( user, "++++++++++++++++++++")
-
-  return (
-    <View>
-     {desplay && <ScrollView contentContainerStyle={styles.scrollContainer}>
-      <View style={[styles.profiles, styles.profilesLayout]}>
-        
-        <Pressable
-          onPress={() => {
-            console.log("Pressed Ionicons");
-            navigation.navigate("EditProfil");
-          }}
-        >
-          <View style={styles.novBar} >
-            <Ionicons name="account-edit-outline" size={25} color="#000"  />
+    const { initPaymentSheet, presentPaymentSheet } = useStripe();
+    const [loading, setLoading] = useState(false);
+  
+    const fetchPaymentSheetParams = async () => {
+      const response = await fetch(`http://${ip}:3001/payments/intent`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // body: JSON.stringify({
+        //   userData: userData,
+        // })
+      });
+      const { paymentIntent, ephemeralKey, customer } = await response.json();
+    
+  
+      return {
+        paymentIntent,
+        ephemeralKey,
+        customer,
+      };
+    };
+  
+    const initializePaymentSheet = async () => {
+      const { paymentIntent, ephemeralKey, customer } =
+        await fetchPaymentSheetParams();
+      // console.log('current:', userData);
+  
+      const { error } = await initPaymentSheet({
+        merchantDisplayName: "Example, Inc.",
+        customerId: customer,
+        customerEphemeralKeySecret: ephemeralKey,
+        paymentIntentClientSecret: paymentIntent,
+        // Set `allowsDelayedPaymentMethods` to true if your business can handle payment
+        //methods that complete payment after a delay, like SEPA Debit and Sofort.
+        allowsDelayedPaymentMethods: true,
+        defaultBillingDetails: {
+          name: customer.name,
+        },
+      });
+  
+      if (!error) {
+        setLoading(true);
+      }
+    };
+  
+    const openPaymentSheet = async () => {
+      const { error } = await presentPaymentSheet();
+  
+      if (error) {
+        Alert.alert(`Error code: ${error.code}`, error.message);
+      } else {
+        try {
+          await Updateacc(userData);
+          Alert.alert("Success", "Your order is confirmed!");
+        } catch (mutationError) {
+          console.error("Mutation error:", mutationError);
+        }
+      }
+    };
+  
+    React.useEffect(() => {
+      initializePaymentSheet();
+    }, []);
+  
+    const handlePressOutside = () => {
+      Keyboard.dismiss();
+    };
+  
+    const HundelPressModel = () => {
+      return (
+        <Modal visible={openModal} animationType="slide" transparent={true}>
+          <TouchableWithoutFeedback onPress={handlePressOutside}>
+            <View style={styles.modalView1}>
+              <View style={styles.modalView2}>
+                <TouchableOpacity
+                  onPress={() => {
+                    setOpenModal(false);
+                  }}
+                >
+                  <View
+                    style={{
+                      marginLeft: "90%",
+                      marginBottom: "5%",
+                    }}
+                  >
+                    <Ionicons name="close-outline" size={20} />
+                  </View>
+                </TouchableOpacity>
+  
+                <View style={styles.modalView3}>
+                  <View style={styles.modalView4}>
+                    <TouchableOpacity
+                      onPress={() =>{ navigation.navigate("Wishlist"),
+                      setOpenModal(false);}}
+                    >
+                      <View style={styles.modalView5}>
+                        <View style={styles.modalView6}>
+                          <Ionicons
+                            name="heart-outline"
+                            size={22}
+                            color="#FC5A8D"
+                          />
+                          <Text style={styles.modalText1}>
+                            My favourite Items{" "}
+                          </Text>
+                        </View>
+                        <View style={styles.ViewimgModal}>
+                          <Image
+                            resizeMode="cover"
+                            source={require("../../assets/account/fill-1.png")}
+                            style={styles.imgModal}
+                          />
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+  
+                  <View style={styles.modalView4}>
+                    <TouchableOpacity
+                      onPress={() => {navigation.navigate("MyAppointements")
+                      setOpenModal(false);}
+                      
+              }
+                    >
+                      <View style={styles.modalView5}>
+                        <View style={styles.modalView6}>
+                          <Ionicons
+                            name="briefcase-eye-outline"
+                            size={20}
+                            color="#FC5A8D"
+                          />
+                          <Text style={styles.modalText1}> My Appointements</Text>
+                        </View>
+                        <View style={styles.ViewimgModal} >
+                          <Image
+                            resizeMode="cover"
+                            source={require("../../assets/account/fill-1.png")}
+                            style={styles.imgModal}
+                          />
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+  
+                  <View style={styles.modalView4}>
+                    <TouchableOpacity
+                      onPress={() =>{
+                        navigation.navigate("GeeversIfllow", { userid: userData })
+                        setOpenModal(false);
+                      }
+                    }
+                    >
+                      <View style={styles.modalView5}>
+                        <View style={styles.modalView6}>
+                          <Ionicons
+                            name="account-heart-outline"
+                            size={25}
+                            color="#FC5A8D"
+                          />
+                          <Text style={styles.modalText1}>Givers I follow</Text>
+                        </View>
+                        <View style={styles.ViewimgModal}>
+                          <Image
+                            resizeMode="cover"
+                            source={require("../../assets/account/fill-1.png")}
+                            style={styles.imgModal}
+                          />
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+  
+                  <View style={styles.modalView4}>
+                    <TouchableOpacity
+                      onPress={() =>{ navigation.navigate("TermAndConditions")
+                      setOpenModal(false);}
+                  }
+                    >
+                      <View style={styles.modalView5}>
+                        <View style={styles.modalView6}>
+                          <Ionicons
+                            name="shield-key-outline"
+                            size={20}
+                            color="#FC5A8D"
+                          />
+                          <Text style={styles.modalText1}>
+                            Terms & Conditions
+                          </Text>
+                        </View>
+                        <View style={styles.ViewimgModal}>
+                          <Image
+                            resizeMode="cover"
+                            source={require("../../assets/account/fill-1.png")}
+                            style={styles.imgModal}
+                          />
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+  
+                  <View style={styles.modalView4}>
+                    <TouchableOpacity
+                      onPress={() =>{
+                        navigation.navigate("HelpCenter", { user: userData })
+                        setOpenModal(false)}
+                      }
+                    >
+                      <View style={styles.modalView5}>
+                        <View style={styles.modalView6}>
+                          <Ionicons
+                            name="help-circle-outline"
+                            size={22}
+                            color="#FC5A8D"
+                          />
+                          <Text style={styles.modalText1}>Help Center</Text>
+                        </View>
+                        <View style={styles.ViewimgModal}>
+                          <Image
+                            resizeMode="cover"
+                            source={require("../../assets/account/fill-1.png")}
+                            style={styles.imgModal}
+                          />
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+  
+                  <View style={styles.modalView4}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        shareText("We are delighted to invite you to our application, FREEZA. Feel free to visit the site whenever you want and explore the exciting features we have to offer.");
+                      }}
+                    >
+                      <View style={styles.modalView5}>
+                        <View style={styles.modalView6}>
+                          <Ionicons
+                            name="account-multiple-plus-outline"
+                            size={22}
+                            color="#FC5A8D"
+                          />
+                          <Text style={styles.modalText1}>Invite Friends</Text>
+                        </View>
+                        <View style={styles.ViewimgModal} >
+                          <Image
+                            resizeMode="cover"
+                            source={require("../../assets/account/fill-1.png")}
+                            style={styles.imgModal}
+                          />
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+  
+                  <View style={styles.modalView4}>
+                    <TouchableOpacity onPress={openPaymentSheet }
+                    >
+                      <View style={styles.modalView5}>
+                        <View style={styles.modalView6}>
+                        <MaterialIcons
+                            name="attach-money"
+                            size={22}
+                            color="#FC5A8D"
+                          />
+                          <Text style={styles.modalText1}>Buy More Freeza</Text>
+                        </View>
+                        <View style={styles.ViewimgModal}>
+                          <Image
+                            resizeMode="cover"
+                            source={require("../../assets/account/fill-1.png")}
+                            style={styles.imgModal}
+                          />
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+  
+                  <View style={styles.modalView4}>
+                    <TouchableOpacity 
+                     onPress={() => {
+                      Alert.alert(
+                        "LogOut",
+                        "Are you sure you want to logOut ?",
+                        [
+                          {
+                            text: "Cancel",
+                            onPress: () => console.log("Cancel Pressed"),
+                            style: "cancel",
+                          },
+                          {
+                            text: "OK",
+                            onPress: () => {
+                              handleLogout()
+                            },
+                          },
+                        ]
+                      );
+                    }}>
+                      <View style={styles.modalView5}>
+                        <View style={styles.modalView6}>
+                          <Ionicons
+                            name="account-arrow-left-outline"
+                            size={22}
+                            color="#FC5A8D"
+                          />
+                          <Text style={styles.modalText1}>Logout</Text>
+                        </View>
+                        <View style={styles.ViewimgModal}>
+                          <Image
+                            resizeMode="cover"
+                            source={require("../../assets/account/fill-1.png")}
+                            style={styles.imgModal}
+                          />
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </Modal>
+      );
+    };
+  
+    const ProfileBody = () => {
+      return (
+        <View>
+          {user ? (
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 18,
+                    fontWeight: "bold",
+                  }}
+                >
+                  {user.firstName} {user.lastName}
+                </Text>
+            
+              </View>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+               
+                <Feather
+                  name="menu"
+                  style={{
+                    fontSize: 25,
+                  }}
+                  onPress={() => {
+                    setOpenModal(true);
+                    console.log("hihihih");
+                  }}
+                />
+              </View>
+            </View>
+          ) : null}
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-around",
+              paddingVertical: 20,
+            }}
+          >
+            <View
+              style={{
+                alignItems: "center",
+              }}
+            >
+              <Image
+                source={{ uri: user.image }}
+                style={{
+                  resizeMode: "cover",
+                  width: 80,
+                  height: 80,
+                  borderRadius: 100,
+                  borderColor: "#FC5A8D",
+                  borderWidth: 2,
+                }}
+              />
+            
+            </View>
+            <TouchableOpacity
+            onPress={() => navigation.navigate("RatingUser", { rateData: user })}
+          >
+            <View style={{ alignItems: "center" }}>
+              <Image
+                style={{
+                  top: "-15%",
+                  left: "50%",
+                  width: 25,
+                  height: 20,
+                  position: "absolute",
+                }}
+                resizeMode="cover"
+                source={require("../../assets/account/star.png")}
+              />
+              <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+                {user.rate}
+              </Text>
+              <Text>Rate</Text>
+            </View>
+            </TouchableOpacity>
+            <View style={{ alignItems: "center" }}>
+              <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+                {user.nbrOfDonation}
+              </Text>
+              <Text>Donation</Text>
+            </View>
+            <View style={{ alignItems: "center" }}>
+              <Image
+                style={{
+                  top: "-24%",
+                  left: "20%",
+                  width: 45,
+                  height: 29,
+                  position: "absolute",
+                }}
+                resizeMode="cover"
+                source={require("../../assets/account/freza.png")}
+              />
+              <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+                {user.strawberries}
+              </Text>
+              <Text>Note</Text>
+            </View>
           </View>
-        </Pressable>
-
-        <View style={styles.container}>
-          <Image style={styles.imgProfil} source={{ uri: user?.image }} />
-          <Text style={styles.nameUser}>
-            {user?.firstName} {user?.lastName}
-          </Text>
-          <Text style={styles.emailUser}>{user?.email}</Text>
-
-          <View />
-          <Text style={[styles.donations, styles.freezaTypo]}>Donations</Text>
-          <Text style={[styles.freeza, styles.freezaTypo]}>Freeza</Text>
-          <Text style={styles.note}>Note</Text>
-          <Text style={[styles.text, styles.textLayout]}>{user?.rate}</Text>
-          <Text style={[styles.text1, styles.textLayout]}>
-            {user?.strawberries}
-          </Text>
-          <Text style={[styles.text2, styles.textLayout]}>
-            {user?.nbrOfDonation}
-          </Text>
-          <Image
-            style={styles.freezaIcon}
-            resizeMode="cover"
-            source={require("../../assets/account/freza.png")}
-          />
-          <Image
-            style={styles.starIcon}
-            resizeMode="cover"
-            source={require("../../assets/account/star.png")}
-          />
         </View>
-        <FormContainer navigation={navigation}  userData={user.id} />
-      </View>
-    </ScrollView>}
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  scrollContainer: {
-    flexGrow: 3,
-    paddingBottom: 2,
-  },
-  container: {
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  profilesLayout: {
-    width: "100%",
-    backgroundColor: "#FFF9FC",
-  },
-  freezaTypo: {
-    height: 18,
-    width: 89,
-    color: Color.colorLimegreen,
-    fontSize: FontSize.size_base,
-    top: 307,
-    fontWeight: "700",
-    textAlign: "left",
-    position: "absolute",
-  },
-  textLayout: {
-    height: 27,
-    position: "absolute",
-    top: 270,
-  },
-  profile: {
-    marginTop: -15,
-    top: "50%",
-    left: "27.62%",
-    fontSize: 15,
-    color: "#FFF9FC",
-    textAlign: "left",
-    fontFamily: FontFamily.jostSemiBold,
-    fontWeight: "600",
-  },
-  novBar: {
-    top: 10,
-    left: "85%",
-    width: 101,
-    height: 30,
-  },
-  imgProfil: {
-    top: "-25%",
-    height: 130,
-    width: 130,
-    borderRadius: 100,
-    borderColor: "#FE002A",
-    marginTop: 100,
-  },
+      );
+    };
   
-  nameUser: {
-    top: "80%",
-    fontSize: 26,
-    color: "#f8032c",
-    textAlign: "center",
-    fontFamily: FontFamily.jostSemiBold,
-    fontWeight: "600",
-    position: "absolute",
+    return (
+      <View style={{ width: "100%", height: "100%", backgroundColor: "white" }}>
+        <View style={{ width: "100%", padding: 10 }}>
+          {ProfileBody()}
+          <ProfileButtons navigation={navigation} />
+        </View>
+        <BottomTabView />
+        {HundelPressModel()}
+      </View>
+    );
+  };
+  
+  const styles = StyleSheet.create({
+    container: {
+      top: "50%",
+      left: 150,
+    },
+    modalView1: {
+      flex: 1,
+      justifyContent: "flex-end",
+      alignItems: "center",
+      backgroundColor: "rgba(0,0,0,0.2)",
+    },
+    modalView2: {
+      borderRadius: 10,
+      width: "100%",
+      padding: 10,
+      height: "73%",
+      backgroundColor: "#FFF8FB",
+      borderColor: "#FC5A8D",
+      borderWidth: 1,
+      alignItems: "center",
+    },
+    modalView3: {
+      width: "90%",
+      borderRadius: 10,
+      height: "100%",
+    },
+    modalView4: {
+      height: "8%",
+      justifyContent: "center",
+    },
+    modalView5: {
+      flexDirection: "row",
+      borderRadius: 10,
+      borderWidth: 1,
+      backgroundColor: "#FFF8FB",
+      justifyContent: "space-around",
+      borderColor: "#FC5A8D",
+      height: "90%",
+      shadowColor: "#000",
+  shadowOffset: {
+    width: 0,
+    height: 3,
   },
-  emailUser: {
-    top: 210,
-    fontSize: 13,
-    color: "#545454",
-    fontWeight: "700",
-    textAlign: "center",
-    position: "absolute",
-  },
-  donations: {
-    left: 79,
-  },
-  freeza: {
-    left: 295,
-  },
-  note: {
-    left: 200,
-    width: 47,
-    height: 50,
-    color: Color.colorLimegreen,
-    fontSize: FontSize.size_base,
-    top: 307,
-    fontWeight: "700",
-    textAlign: "left",
-    position: "absolute",
-  },
-  text: {
-    left: 209,
-    width: 34,
-    fontSize: FontSize.size_6xl,
-    height: 37,
-    color: Color.colorLimegreen,
-    fontWeight: "700",
-    textAlign: "left",
-    top: 310,
-  },
-  text1: {
-    top: 310,
-    left: 309,
-    width: 34,
-    fontSize: FontSize.size_6xl,
-    height: 37,
-    color: Color.colorLimegreen,
-    fontWeight: "700",
-    textAlign: "left",
-  },
-  text2: {
-    left: 109,
-    width: 34,
-    fontSize: FontSize.size_6xl,
-    height: 37,
-    color: Color.colorLimegreen,
-    fontWeight: "700",
-    textAlign: "left",
-  },
-  starIcon: {
-    top: 257,
-    left: 220,
-    width: 25,
-    height: 29,
-    position: "absolute",
-  },
-
-  freezaIcon: {
-    top: 257,
-    left: 310,
-    width: 45,
-    height: 29,
-    position: "absolute",
-  },
-  profiles: {
-    flex: 1,
-    height: 926,
-    overflow: "hidden",
-  },
-});
+  shadowOpacity: 0.27,
+  shadowRadius: 4.65,
+  
+  elevation: 6,
+    },
+    modalView6: {
+      flexDirection: "row",
+      borderRadius: 10,
+      height: "100%",
+      width: "70%",
+      top: "20%",
+    },
+    modalText1: {
+      color: "#000",
+      fontWeight: "500",
+      fontSize: 17,
+      marginLeft: "5%",
+    },
+    imgModal: {
+      height: "30%",
+    },
+    ViewimgModal: {
+      top: "4%",
+    },
+  
+  });
 
 export default Account;
