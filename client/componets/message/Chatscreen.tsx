@@ -22,6 +22,7 @@ const Chatscreen = ({ route }: any) => {
   const [onChangeMessage, setonChangeMessage] = useState('')
   const [data, setData] = useState([])
   const [image, setImage] = useState<string>('');
+  const [desplay,setdesplay]=useState(true)
   const navigation = useNavigation()
  
 
@@ -46,7 +47,7 @@ const Chatscreen = ({ route }: any) => {
       .then(() => { console.log('done') })
       .catch((err) => { console.log('rrrrrrrrrrrrrrrrrr') })
       setFetchNotifications(!fetchNotifications)
-  }, [refetchM])
+  }, [refetchM,desplay])
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
@@ -174,6 +175,7 @@ const Chatscreen = ({ route }: any) => {
           <Pressable onPress={() => {
             addMessage.mutate({ senderId: currentUser, recieverId: user.id, message: onChangeMessage, image:image });
             setRefetchM(!refetchM)
+            setdesplay(!desplay)
             setRecipient(user.id);
             setnewMessage(onChangeMessage)
             setonChangeMessage('')

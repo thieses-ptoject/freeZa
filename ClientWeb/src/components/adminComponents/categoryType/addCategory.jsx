@@ -9,6 +9,7 @@ const AddCategory = (props) => {
   const [categoryName, setCategoryName] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
+  const [doneView, setDoneView] = useState(false);
   console.log(imageUrl);
   const handleNameChange = (event) => {
     setCategoryName(event.target.value);
@@ -29,6 +30,7 @@ const AddCategory = (props) => {
       await uploadBytes(storageRef, imageFile);
       const url = await getDownloadURL(storageRef);
       setImageUrl(url);
+      setDoneView(true);
     }
   };
 
@@ -61,30 +63,50 @@ const AddCategory = (props) => {
             className="w-full p-2 border border-gray-300 rounded-md"
           />
         </div>
-        <div className="mb-4 flex items-center">
-          <label htmlFor="categoryImage" className="block text-gray-600 mr-2">
+        <div className="mb-4 gap-17 flex items-center">
+          <label
+            htmlFor="categoryImage"
+            className="block text-gray-600 mr-2 mb-1"
+          >
             Category Image:
           </label>
-          <FileInput
+          {/* <FileInput
             type="file"
-            accept="image/*"
-            id="categoryImage"
-            name="categoryImage"
-            onChange={handleImageChange}
-            className="w-full p-2 border text-white border-gray-300 rounded-md "
-          />
+            className=" hidden w-full p-2 border text-white border-gray-300 rounded-md "
+          /> */}
+          <div className="ml-5 mt-5 mb-5">
+            <label className="relative  cursor-pointer bg-red-300 text-white rounded-lg py-2 px-4 overflow-hidden">
+              <span className="absolute left-[-40px] top-0 right-0 bottom-0 z-10 bg-gradient-to-b "></span>
+              <FileInput
+                className="absolute inset-0 z-20 opacity-0 cursor-pointer"
+                name="categoryImage"
+                id="categoryImage"
+                accept="image/*"
+                onChange={handleImageChange}
+                type="file"
+              />
+
+              <span className="z-30    text-sm">Select a logo</span>
+            </label>
+          </div>
+
           <button
             type="button"
             onClick={handleUpload}
-            className="bg-red-300 h-10 text-white p-2 rounded-md ml-2 hover:bg-red-500 focus:outline-none "
+            className="bg-red-300  h-9  text-sm  w-28  text-white  rounded-md ml-9 hover:bg-red-500 focus:outline-none "
           >
             Upload
           </button>
+          {doneView && (
+            <p className="ml-7 text-green-500 border-2 border-red-100 px-5 rounded-full bg-red-50 mt-2">
+              done
+            </p>
+          )}
         </div>
         <div className="flex justify-between">
           <button
             type="submit"
-            className="bg-red-300 float-right text-white p-2 rounded-md hover:bg-green-600 focus:outline-none focus:border-green-800 focus:ring focus:ring-green-200"
+            className="bg-red-300 float-right text-sm text-white p-2 rounded-md hover:bg-green-600 focus:outline-none focus:border-green-800 focus:ring focus:ring-green-200"
           >
             Add Category
           </button>

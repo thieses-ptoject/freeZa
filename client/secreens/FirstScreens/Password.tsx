@@ -15,6 +15,7 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import app from "../../firebase";
 import { AuthContext } from "../../useContext/authContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { checkUser } from "../../React-query/user/otherUserProfil"; //iyed
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import axios from "axios";
 import config from "../../config.json";
@@ -35,6 +36,7 @@ const Password = ({ navigation, route }: any) => {
   );
   const [userName, setUserName] = React.useState("");
   const Fauth = getAuth(app);
+  const [view, setView] = React.useState(true);
 
   console.log(banned, "sjqkldjqsdsqdkjqskdljqskdqslkskkkkkkkkkkkkkkkkkkkk");
 
@@ -77,6 +79,7 @@ const Password = ({ navigation, route }: any) => {
         setAuth(true);
         setIsAuthenticated(true);
         AsyncStorage.setItem("auth", "true");
+        // mutate(email) // iyed
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -131,13 +134,22 @@ const Password = ({ navigation, route }: any) => {
             source={require("../../assets/password/bubbles.png")}
           />
           <View style={styles.dots}>
+            <Text style={styles.TextToWritePassword}>Type your password</Text>
             <TextInput
-              secureTextEntry={true}
+              secureTextEntry={view}
               maxLength={32}
               style={styles.ellispse01Icon}
               onChange={(e) => setPassword(e.nativeEvent.text)}
               editable={!banned}
+              placeholder=""
+              placeholderTextColor="#000"
             />
+            <Pressable onPress={() => setView(!view)}>
+              <Image
+                style={{ marginLeft: 190 }}
+                source={require("../../assets/Signup/eyeslash.png")}
+              />
+            </Pressable>
             {errorMessage !== "" && (
               <Text style={styles.errorMessage}>{errorMessage} </Text>
             )}
@@ -175,6 +187,10 @@ const Password = ({ navigation, route }: any) => {
 };
 
 const styles = StyleSheet.create({
+  TextToWritePassword: {
+    position: "absolute",
+    top: -40,
+  },
   errorMessage: {
     width: 500,
     color: "red",
@@ -350,13 +366,18 @@ const styles = StyleSheet.create({
   ellispse01Icon: {
     width: 230,
     left: 0,
-    top: 0,
+    top: -10,
     textAlign: "center",
     height: 30,
     position: "absolute",
-    backgroundColor: "#EC4E4E",
     borderRadius: 100,
-    color: Color.colorWhite,
+    paddingHorizontal: 16,
+    fontSize: 18,
+
+    backgroundColor: "#fff",
+    borderBottomWidth: 2,
+    borderBottomColor: "red",
+    color: "#333",
   },
   ellispse01Icon1: {
     left: 29,

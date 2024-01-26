@@ -18,6 +18,7 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import config from "../../config.json";
 import { NotificationContext } from "../../useContext/notificationContext";
+import { useIsFocused } from "@react-navigation/native";
 
 export const NavBar = ({ navigation }: any) => {
   const [isSearchVisible, setIsSearchVisible] = useState(false);
@@ -25,6 +26,8 @@ export const NavBar = ({ navigation }: any) => {
   const [userData, setUserData] = useState({});
   const [notification, setNotification] = useState([]);
   const [desplay, setDesplay] = useState(false);
+
+  const focused = useIsFocused()
   const {
     products,
     setFilteredProducts,
@@ -32,27 +35,33 @@ export const NavBar = ({ navigation }: any) => {
     setUser,
     setOtherView,
     setView,
+    users,
+    setUsers,
+    allUsers,
+    setAllUsers,
   } = useContext(AuthContext);
   const { fetchNotificationsnew } = useContext(NotificationContext);
 
-  const fetchUserData = async () => {
-    try {
-      const savedData = await AsyncStorage.getItem("user");
-      if (savedData) {
-        const userData = JSON.parse(savedData);
 
-        const response = await axios.get(
-          `http://${config.ip}:3001/user/getUser/${userData.id}`
-        );
-        setUserData(response.data);
-        setUser(response.data);
-        console.log(response.data, "mmmmmmmmmmmmmmmmmmmmmmmm");
-      }
-    } catch (error) {
-      console.log(error);
+
+  
+  const fetchUserData  = async ()=>{
+    try
+   {
+     const savedData = await AsyncStorage.getItem('user');
+     if (savedData) {
+      const userData = JSON.parse(savedData);
+      
+      const response = await axios.get(`http://${config.ip}:3001/user/getUser/${userData.id}`)
+      const resNotification=await axios.get(`http://${config.ip}:3001/notificationsRate/${userData.id}`)
+      setUserData(response.data);
+      setNotification(resNotification.data)
+      setUser(response.data)
+      console.log(response.data, "mmmmmmmmmmmmmmmmmmmmmmmm")
     }
-  };
-
+  }
+ catch(err){console.log(err)} 
+}
   const handleSearchPress = () => {
     setIsSearchVisible(!isSearchVisible);
   };
@@ -67,9 +76,16 @@ export const NavBar = ({ navigation }: any) => {
         product.location.toLowerCase().includes(searchQuery.toLowerCase())
       );
     });
+    const newFilteredUsers = users.filter((user: any) => {
+      return (
+        user.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        user.lastName.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    });
 
     // Update the state with the new filtered products
     setFilteredProducts(newFilteredProducts);
+    setAllUsers(newFilteredUsers);
 
     // Reset the search query and hide the search component
     setSearchQuery("");
@@ -80,18 +96,15 @@ export const NavBar = ({ navigation }: any) => {
     fetchUserData();
     setFilteredProducts(products);
 
-    if (userData.id) {
-      axios
-        .get(`http://${config.ip}:3001/notificationsRate/${userData.id}`)
-        .then((res) => {
-          setNotification(res.data);
-          setDesplay(true);
-        })
-        .catch((err) => {
-          console.log("error fetching  data");
-        });
-    }
-  }, [products, fetchNotificationsnew]);
+    // if(userData.id){
+    //   axios.get(`http://${config.ip}:3001/notificationsRate/${userData.id}`)
+    //   .then((res) => { setNotification(res.data) ;setDesplay(true) })
+    //   .catch((err) => { console.log('error fetching  data') })
+    // }
+  }, [products,fetchNotificationsnew, focused]);
+  const filterNotification=()=>{
+   return notification.filter((ele :any)=> ele?.isRead===false)
+  }
 
   return (
     <SafeAreaView>
@@ -127,6 +140,7 @@ export const NavBar = ({ navigation }: any) => {
                     setFilteredProducts(products);
                     setOtherView(false);
                     setView(false);
+                    setAllUsers(users);
                   }}
                 >
                   <View style={styles.circle}>
@@ -167,9 +181,9 @@ export const NavBar = ({ navigation }: any) => {
                     style={styles.notification}
                   />
                 </Pressable>
-
-                <View style={styles.badgeContainer}>
-                  <Text style={styles.badgeText}>{notification.length}</Text>
+                
+                 <View style={styles.badgeContainer}>
+                  <Text style={styles.badgeText}>{filterNotification().length}</Text>
                 </View>
                 <Pressable onPress={handleSearchPress}>
                   <Image

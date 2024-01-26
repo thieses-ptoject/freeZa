@@ -5,12 +5,22 @@ import { MdClose } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
 import moment from 'moment'
 import { useNavigate } from 'react-router-dom';
+import secureLocalStorage from 'react-secure-storage';
+
 
 const Claims = () => {
   const { id } = useParams();
   const navigate=useNavigate()
   const [claims, setClaims] = useState([]); 
   const[sender,setSender]=useState([])
+
+  const navigation = useNavigate()
+  const storage = secureLocalStorage.getItem("isAuth");
+  useEffect(() => {
+    if (storage === false) {
+      navigate("/");
+    }
+  }, []);
   
 
   useEffect(() => {
@@ -19,7 +29,7 @@ const Claims = () => {
       try { 
         const userResponse = await axios.get(`http://localhost:3001/user/getuser/${id}`);
         setSender(userResponse.data);
-        const response = await axios.get(`http://localhost:3001/claims/1/${id}`);
+        const response = await axios.put(`http://localhost:3001/claims/1/${id}`);
         console.log(response);
         setClaims(response.data);
       } catch (error) {

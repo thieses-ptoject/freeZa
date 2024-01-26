@@ -144,10 +144,10 @@ export const deleteAppo = async (req: Request, res: Response)=>{
                 id: parseInt(req.params.id),
               },
         })
- const item=await prisma.item.update({
-  where: {
-    id: +ItemId,
-},
+       const item=await prisma.item.update({
+        where: {
+        id: +ItemId,
+         },
 data: {
     state: "available"
 }

@@ -6,8 +6,10 @@ import { AuthContext } from "../../useContext/authContext";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 
+
 const Login = ({ navigation } : any) => {
   const {firstName, setfirstName} = React.useContext(AuthContext);
+ 
   const {email, setEmail} = React.useContext(AuthContext)
   console.log(email)
   return ( 

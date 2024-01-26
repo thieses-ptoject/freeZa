@@ -37,7 +37,24 @@ export const UserPosts = (userId:any) => {
 
 
   return query;
-};
+}; 
+// iyed jarrabnaa : 
+export const checkUser = ()=>{
+  const query= useMutation({
+    // mutationkey:["checking"],
+    mutationFn: async(object:{
+      email: string
+    })=>{
+       await axios.post(`http://${config.ip}:3001/user/signin`,
+      {
+       email: object.email
+      }) 
+      
+  },
+  onError:(err)=>{console.log(err)}  
+}) 
+return query 
+}
 
 // export const updateprofile = () => {
 //   const query = useMutation({
