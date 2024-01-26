@@ -27,6 +27,7 @@ import {
   appointmentDone,
 } from "../../React-query/appointement/appointement";
 import Calander from "react-native-calendars/src/calendar";
+import { ScrollView } from "react-native-gesture-handler";
 
 export const MyAppointements = ({ navigation }: any) => {
   const { user, setUser } = useContext(AuthContext);
@@ -74,11 +75,11 @@ export const MyAppointements = ({ navigation }: any) => {
     isSuccess: ToReceiveIsSuccess,
   } = getReceiveNotDone(user.id);
 
-  console.log(user, "ggggggggggggggggggggggg");
-  console.log(getDonated, "/////////////////////////////////////////////////");
-  console.log(getReceived, "================================================");
-  console.log(getToDonate,"**************************++++++++++++++++++++**********************");
-  console.log(getToReceive, "--------------------------------------");
+  // console.log(user, "ggggggggggggggggggggggg");
+  // console.log(getDonated, "/////////////////////////////////////////////////");
+  // console.log(getReceived, "================================================");
+  // console.log(getToDonate,"**************************++++++++++++++++++++**********************");
+  // console.log(getToReceive, "--------------------------------------");
 
   const renderTabBar = (props: any) => (
     <TabBar
@@ -601,11 +602,23 @@ export const MyAppointements = ({ navigation }: any) => {
   };
 
   return (
+    <View style={{ flex: 1, height:"100%"}}>
     <SafeAreaView style={styles.safearea}>
-      <StatusBar backgroundColor="#FC5A8D" />
-      <Calander style={{ borderRadius: 10, elevation: 4, margin: 10 }} />
-
-      <View style={{ flex: 1, marginHorizontal: "1%" }}>
+      <StatusBar backgroundColor="#FC5A8D"  />
+      <ScrollView>
+      <Calander 
+                    // Specify style for calendar container element. Default = {}
+                    style={{
+                        borderWidth: 5,
+                        borderColor: '#FFF8FB',
+                       
+                    }}
+                    /> 
+                    </ScrollView>
+     
+     
+    </SafeAreaView>
+    <View style={{ flex: 3,marginHorizontal: 5 ,height:"100%"}}>
         <TabView
           navigationState={{ index, routes }}
           renderScene={renderScene}
@@ -614,7 +627,7 @@ export const MyAppointements = ({ navigation }: any) => {
           renderTabBar={renderTabBar}
         />
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

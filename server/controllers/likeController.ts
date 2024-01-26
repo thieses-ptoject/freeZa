@@ -60,3 +60,19 @@ export const getPostLikes= async (req:Request,res:Response)=>{
      res.status(500).send(err)
   }
 }
+
+export const getallPostLikes= async (req:Request,res:Response)=>{
+    const {postId} =req.params
+    try {
+        const postlikes  = await prisma.like.findMany({
+            where: { postId: +postId },
+            include:{
+                user : true
+            }
+          });
+          res.status(200).send(postlikes)
+    }
+  catch(err){
+     res.status(500).send(err)
+  }
+}
