@@ -158,13 +158,20 @@ export const ItemsDetails = ({ navigation, route }: any) => {
 
         <View style={{ flexDirection: "row"  , height:"10%"}}>
         <Pressable
-                  onPress={() =>
-                    navigation.navigate("OtheruserProfile", {
-                      id: OwnerData,
-                      userid: userConnected,
-                    })
-                  }
-                >
+  onPress={() => {
+    if (OwnerData?.id === userConnected) {
+      navigation.navigate("Account", {
+        id: OwnerData,
+        userid: userConnected,
+      });
+    }else{
+    navigation.navigate("OtheruserProfile", {
+      id: OwnerData,
+      userid: userConnected,
+    });
+  }
+  }}
+>
                   <View style={{ flexDirection: "row"  }}>
           <Image 
            style={{

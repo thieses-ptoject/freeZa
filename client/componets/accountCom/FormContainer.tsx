@@ -230,7 +230,7 @@ const { initPaymentSheet, presentPaymentSheet } = useStripe();
         </View>
       </TouchableOpacity > 
       
-      <Pressable onPress={openPaymentSheet}>
+      <TouchableOpacity  onPress={openPaymentSheet}>
         <View style={[styles.view8, styles.viewLayout1]}>
         <View style={[styles.icon, styles.iconLayout]}>
             <MaterialIcons name="workspace-premium" size={22} color="#FC5A8D" />
@@ -244,7 +244,7 @@ const { initPaymentSheet, presentPaymentSheet } = useStripe();
             source={require("../../assets/account/fill-1.png")}
           />
         </View>
-      </Pressable>
+      </TouchableOpacity >
 
       {/* <Pressable onPress={handleLogout}>
         <View style={[styles.view7, styles.viewLayout1]}> */}

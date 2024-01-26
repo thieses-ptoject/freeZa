@@ -155,6 +155,10 @@ export const RatingUser = ({ navigation, route }: any) => {
                   How was your experience ?
                 </Text>
               </View>
+
+
+
+              
               <View
                 style={{
                   marginBottom: "10%",
@@ -250,7 +254,19 @@ export const RatingUser = ({ navigation, route }: any) => {
             return (
               <View style={styles.view1}>
                 <TouchableOpacity
-                  onPress={() => navigation.navigate("OtheruserProfile")}
+                  onPress={() => {
+                  if (item.rater?.id === userConnected) {
+                    navigation.navigate("Account", {
+                      id: item.rater,
+                      userid: userConnected,
+                    });
+                  } else {
+                    navigation.navigate("OtheruserProfile", {
+                      id: item.rater,
+                      userid: userConnected,
+                    });
+                  }
+                }}
                 >
                   <Image
                     source={{ uri: item.rater.image }}
@@ -307,6 +323,22 @@ export const RatingUser = ({ navigation, route }: any) => {
       {/* <StatusBar backgroundColor="#FC5A8D" /> */}
 
       <View style={[styles.view1]}>
+      <TouchableOpacity
+                  onPress={() => {
+                  if (rateData.id === userConnected) {
+                    navigation.navigate("Account", {
+                      id: rateData,
+                      userid: userConnected,
+                    });
+                  } else {
+                    navigation.navigate("OtheruserProfile", {
+                      id: rateData,
+                      userid: userConnected,
+                    });
+                  }
+                }}
+                >
+        
         <Image
           source={{ uri: rateData.image }}
           resizeMode="contain"
@@ -320,7 +352,9 @@ export const RatingUser = ({ navigation, route }: any) => {
             marginRight: 20,
             objectFit: "cover",
           }}
+        
         />
+         </TouchableOpacity>
 
         <View >
           <Text
