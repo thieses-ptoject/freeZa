@@ -136,3 +136,28 @@ export const deleteAllCommentS = async (
       res.status(500).json(error);
   }
 };
+
+
+
+export const getcommentsOfonePost = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { postId } = req.params;
+    console.log(postId, "post id");
+    
+    const getComments = await prisma.comments.findMany({
+      where: {
+        postId: +postId,
+      },
+      include: {
+        user: true,
+      },
+    });
+    res.status(201).json(getComments);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+};

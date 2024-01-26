@@ -48,14 +48,14 @@ export const addAppointment = async (req: Request, res: Response) => {
 
 export const done = async (req: Request, res: Response) => {
   try {
-    const itemId: number = parseInt(req.body.itemId);
-    const appointmentId: number = parseInt(req.body.id);
+    const ItemId = + req.body.ItemId;
+    const appointmentId: number = parseInt(req.body.appointmentId);
     const reciverId: string = req.body.reciverId;
     const giverId: string = req.body.giverId;
 
     const markItemDone = await prisma.item.update({
       where: {
-        id: itemId,
+        id: ItemId,
       },
       data: {
         state: "taken",
@@ -70,10 +70,11 @@ export const done = async (req: Request, res: Response) => {
       },
     });
     const product = await prisma.item.findUnique({
-      where: { id: itemId },
+      where: { id: ItemId },
     });
+    console.log(product)
     if (product !== null) {
-      const usergiver = await prisma.user.update({
+      const usergiver = await prisma.user.updateMany({
         where: { id: giverId },
         data: {
           strawberries: {
@@ -83,6 +84,38 @@ export const done = async (req: Request, res: Response) => {
         },
       });
     }
+    const updatGiver= await prisma.user.findMany({
+    where:{
+      id: giverId
+}
+    })
+if( updatGiver[0]?.nbrOfDonation !== undefined){
+  if(updatGiver[0]?.nbrOfDonation >=20 && updatGiver[0]?.nbrOfDonation <50 ){
+    const usergiver = await prisma.user.update({
+      where: { id: giverId },
+      data: {
+        level: "Junior Giver"
+      },
+    });
+  }
+ else if(updatGiver[0]?.nbrOfDonation >=50 && updatGiver[0]?.nbrOfDonation <100 ){
+    const usergiver = await prisma.user.update({
+      where: { id: giverId },
+      data: {
+        level: "Sinior Giver"
+      },
+    });
+  }
+  else if(updatGiver[0]?.nbrOfDonation >=100 ){
+    const usergiver = await prisma.user.update({
+      where: { id: giverId },
+      data: {
+        level: "Super Giver"
+      },
+    });
+  }
+}
+  
     if (product !== null) {
       const usergiver = await prisma.user.update({
         where: { id: reciverId },
@@ -100,6 +133,8 @@ export const done = async (req: Request, res: Response) => {
     res.status(500).send(error);
   }
 };
+
+
 
 export const deleteAppo = async (req: Request, res: Response)=>{
   const {ItemId,id}=req.params
