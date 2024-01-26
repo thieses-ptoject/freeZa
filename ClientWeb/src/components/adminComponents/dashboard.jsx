@@ -8,13 +8,7 @@ import { useNavigate } from 'react-router-dom'
 
 
 const Dashboard = () => {
-  const navigation = useNavigate()
-  const storage = secureLocalStorage.getItem("isAuth");
-  useEffect(() => {
-    if (storage === false) {
-      navigation("/");
-    }
-  }, []);
+
   return (
     <div className='flex flex-col gap-4'>
         <Dashboardstats/>
