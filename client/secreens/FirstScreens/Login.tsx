@@ -1,48 +1,58 @@
 import * as React from "react";
 import { StyleSheet, View, Text, Image, Pressable } from "react-native";
-import { Color, FontSize, Border } from "../../GlobalStyles/Login"
+import { Color, FontSize, Border } from "../../GlobalStyles/Login";
 import { TextInput } from "react-native-gesture-handler";
 import { AuthContext } from "../../useContext/authContext";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
+const Login = ({ navigation }: any) => {
+  const { firstName, setfirstName } = React.useContext(AuthContext);
 
-
-const Login = ({ navigation } : any) => {
-  const {firstName, setfirstName} = React.useContext(AuthContext);
- 
-  const {email, setEmail} = React.useContext(AuthContext)
-  console.log(email)
-  return ( 
+  const { email, setEmail } = React.useContext(AuthContext);
+  console.log(email);
+  return (
     <KeyboardAwareScrollView>
-    <View style={styles.login}>
-      <Image
-        style={styles.bubblesIcon}
-        source={require("../../assets/login/bubbles.png")}
-      />
+      <View style={styles.login}>
+        <Image
+          style={styles.bubblesIcon}
+          source={require("../../assets/login/bubbles.png")}
+        />
 
-      <Text style={[styles.title, styles.titleTypo]}>
-        Good to see you back!
-      </Text>
-      <Image
-        style={[styles.heartIcon1, styles.iconLayout1]}
-        source={require("../../assets/login/heart.png")}
-      />
-      <Text style={styles.title1}>Login</Text>
-      <Pressable onPress={()=>navigation.navigate("welcome")}>
-        
-      <Text style={[styles.title2, styles.timeFlexBox]}>Cancel</Text>
-      </Pressable>
-   
-      <View style={styles.form}>
-        <TextInput placeholder="Email"  onChange={e=>setEmail(e.nativeEvent.text)} style={styles.emailOrPhone1}></TextInput>
-      </View>
-      <Pressable onPress={()=>navigation.navigate('password',{email: email})}>
-        <View style={[styles.nextButton, styles.nextButtonPosition]}>
-          <View style={[styles.nextButtonChild, styles.backgroundIconPosition]} />
-          <Text style={[styles.next, styles.timeFlexBox]}>Next</Text>
+        <Text style={[styles.title, styles.titleTypo]}>
+          Good to see you back!
+        </Text>
+        <Image
+          style={[styles.heartIcon1, styles.iconLayout1]}
+          source={require("../../assets/login/heart.png")}
+        />
+        <Text style={styles.title1}>Login</Text>
+        <Pressable onPress={() => navigation.navigate("welcome")}>
+          <Text style={[styles.title2, styles.timeFlexBox]}>Cancel</Text>
+        </Pressable>
+
+        <View style={styles.form}>
+          <TextInput
+            placeholder="Email"
+            onChange={(e) => setEmail(e.nativeEvent.text)}
+            style={styles.emailOrPhone1}
+          ></TextInput>
+          <Text
+            style={{ position: "absolute", top: 70, color: "red", left: 10 }}
+          >
+            an email verification link has been sent
+          </Text>
         </View>
-      </Pressable>
-    </View>
+        <Pressable
+          onPress={() => navigation.navigate("password", { email: email })}
+        >
+          <View style={[styles.nextButton, styles.nextButtonPosition]}>
+            <View
+              style={[styles.nextButtonChild, styles.backgroundIconPosition]}
+            />
+            <Text style={[styles.next, styles.timeFlexBox]}>Next</Text>
+          </View>
+        </Pressable>
+      </View>
     </KeyboardAwareScrollView>
   );
 };
