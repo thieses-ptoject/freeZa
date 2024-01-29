@@ -76,6 +76,7 @@ export const CompleteSignUp = ({ route, navigation }: any) => {
       );
 
       console.log(response, "ggggggggggggggg");
+      Alert.alert("Please verify your email");
       navigation.navigate("login");
     } catch (error: any) {
       const errorCode = error.code;

@@ -36,11 +36,7 @@ const Login = ({ navigation }: any) => {
             onChange={(e) => setEmail(e.nativeEvent.text)}
             style={styles.emailOrPhone1}
           ></TextInput>
-          <Text
-            style={{ position: "absolute", top: 70, color: "red", left: 10 }}
-          >
-            an email verification link has been sent
-          </Text>
+
         </View>
         <Pressable
           onPress={() => navigation.navigate("password", { email: email })}
