@@ -34,9 +34,9 @@ const Login = ({ navigation }: any) => {
           <TextInput
             placeholder="Email"
             onChange={(e) => setEmail(e.nativeEvent.text)}
+            value={email}
             style={styles.emailOrPhone1}
           ></TextInput>
-
         </View>
         <Pressable
           onPress={() => navigation.navigate("password", { email: email })}

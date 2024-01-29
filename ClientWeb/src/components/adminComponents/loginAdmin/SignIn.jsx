@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import freeza from "../../../assets/freeza.png";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -13,6 +13,7 @@ const SignIn = () => {
   const [users, setUsers] = useState([]);
   const [checkbox, setCheckbox] = useState(false);
   const navigation = useNavigate();
+  console.log(userName);
   const handleLogin = async () => {
     try {
       // Sign in using Firebase Authentication
@@ -37,6 +38,21 @@ const SignIn = () => {
       console.error("Sign-in error", error.message);
     }
   };
+  const checkBoxFunctionality = () => {
+    const getCheckedValue = secureLocalStorage.getItem("checked");
+    const email = secureLocalStorage.getItem("email");
+    const password = secureLocalStorage.getItem("password");
+    setCheckbox(getCheckedValue);
+    console.log(getCheckedValue);
+    if (getCheckedValue) {
+      setUserName(email);
+      setPassword(password);
+      console.log(userName);
+    }
+  };
+  useEffect(() => {
+    checkBoxFunctionality();
+  }, []);
 
   return (
     <div className="font-mono bg-red-50 ">
@@ -65,7 +81,11 @@ const SignIn = () => {
                     id="username"
                     type="text"
                     placeholder="Username"
-                    onChange={(e) => setUserName(e.target.value)}
+                    value={userName}
+                    onChange={(e) => {
+                      secureLocalStorage.setItem("email", e.target.value);
+                      setUserName(e.target.value);
+                    }}
                   />
                 </div>
                 <div className="mb-4">
@@ -80,7 +100,11 @@ const SignIn = () => {
                     id="password"
                     type="password"
                     placeholder="******************"
-                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
+                    onChange={(e) => {
+                      secureLocalStorage.setItem("password", e.target.value);
+                      setPassword(e.target.value);
+                    }}
                   />
                   <p className="text-xs italic text-red-500">
                     Please choose a password.
@@ -93,7 +117,11 @@ const SignIn = () => {
                     id="checkbox_id"
                     checked={checkbox}
                     defaultChecked={checkbox}
-                    onChange={(e) => setCheckbox(e.target.checked)}
+                    onChange={(e) => {
+                      secureLocalStorage.setItem("checked", e.target.checked);
+                      console.log(e.target.checked);
+                      setCheckbox(e.target.checked);
+                    }}
                   />
                   <label className="text-sm" for="checkbox_id ">
                     Remember Me

@@ -88,7 +88,7 @@ const Header = () => {
         <div className="">
           <img
             className="rounded-[900px] h-11 w-11"
-            src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNELRPFm1ovlFg8Cx_GTAeJ2x2146A6mNebQ&usqp=CAU"
             alt=""
           />
         </div>
