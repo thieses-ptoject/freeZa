@@ -172,6 +172,27 @@ export const getUser = async (req: Request, res: Response) => {
     
    } 
   } 
+  export const GetAllUsersExceptOne = async (req:Request,res:Response)=>{
+    try {
+      const id = req.params.id
+     const All= await prisma.user.findMany({
+       where:{
+        NOT:{
+          id: id 
+        }
+       }
+     })
+     if(All){
+       res.status(200).send(All)
+     } else {
+       res.status(200).json([])
+     }
+     
+    } catch (error) {
+     res.status(500).json(error)
+     
+    } 
+   } 
 
  export  const BlockUser= async(req:Request,res:Response)=>{
     const id = req.params.id

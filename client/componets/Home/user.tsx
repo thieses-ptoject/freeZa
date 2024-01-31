@@ -74,8 +74,7 @@ const UserDetails = (props: any) => {
       </Pressable>
       <View>
         <Text style={styles.name}>
-          {props.user.firstName}
-          {props.user.lastName}
+          {props.user.firstName} {props.user.lastName}
         </Text>
         <View>
           <Text style={styles.level}>{props.user.level}</Text>

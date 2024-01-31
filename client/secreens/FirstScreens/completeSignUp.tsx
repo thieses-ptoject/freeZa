@@ -29,7 +29,6 @@ export const CompleteSignUp = ({ route, navigation }: any) => {
   const { LastName, setLastName } = useContext(AuthContext);
   const { image, setImage } = useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState("");
-
   const storeImageAndName = async () => {
     try {
       await AsyncStorage.setItem("image", image);

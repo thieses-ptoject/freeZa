@@ -5,12 +5,21 @@ import UserList from "./userList";
 import axios from "axios";
 import config from "../../config.json";
 import { AuthContext } from "../../useContext/authContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const DisplayUsers = ({ navigation }: any) => {
-  const { users, setUsers, setAllUsers, allUsers } = useContext(AuthContext);
+  const { users, setUsers, setAllUsers, allUsers, user } =
+    useContext(AuthContext);
+  const [id, userId] = useState("");
   console.log(users, "slmqkdlsqkdlskqldklsqklllllllllllsllllllmlllllllll");
   const fetchUsers = async () => {
     try {
-      const response = await axios.get(`http://${config.ip}:3001/user/`);
+      const fetchUserId = await AsyncStorage.getItem("user");
+      const parsedUserData = JSON.parse(fetchUserId);
+      console.log(parsedUserData.id, "jkkkkk");
+      const response = await axios.get(
+        `http://${config.ip}:3001/user/getUsersExceptOne/${parsedUserData.id}`
+      );
+      console.log(response.data, "kkkkkkkkhhhhhhhhhhhhh");
       setUsers(response.data);
       setAllUsers(response.data);
     } catch (error) {
