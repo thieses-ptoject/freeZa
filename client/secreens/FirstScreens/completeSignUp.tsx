@@ -12,7 +12,11 @@ import {
 import { Color, FontSize } from "../../GlobalStyles/Singup";
 import { TextInput } from "react-native-gesture-handler";
 import GreenRed from "../../componets/LoginComponents/greenRed";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 import app from "../../firebase";
 import axios from "axios";
 import { AuthContext } from "../../useContext/authContext";
@@ -25,7 +29,6 @@ export const CompleteSignUp = ({ route, navigation }: any) => {
   const { LastName, setLastName } = useContext(AuthContext);
   const { image, setImage } = useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState("");
-
   const storeImageAndName = async () => {
     try {
       await AsyncStorage.setItem("image", image);
@@ -35,6 +38,7 @@ export const CompleteSignUp = ({ route, navigation }: any) => {
       console.error("Error storing Image and Name:", error);
     }
   };
+
   const handleSignUp = async () => {
     try {
       const auth = getAuth();
@@ -45,6 +49,16 @@ export const CompleteSignUp = ({ route, navigation }: any) => {
       );
 
       console.log(userCredential);
+      await sendEmailVerification(userCredential.user)
+        .then((response) => {
+          console.log(
+            response,
+            "qsklmlllllllllllllllllllllkkkkkkkkkkkkkkkkkkkkklmmmmmmmmmmmmmmmm"
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+        });
 
       const response = await axios.post(
         `http://${config.ip}:3001/user/addUser`,
@@ -61,6 +75,7 @@ export const CompleteSignUp = ({ route, navigation }: any) => {
       );
 
       console.log(response, "ggggggggggggggg");
+      Alert.alert("Please verify your email");
       navigation.navigate("login");
     } catch (error: any) {
       const errorCode = error.code;

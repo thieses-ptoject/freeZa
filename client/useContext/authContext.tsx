@@ -17,7 +17,9 @@ export const AuthProvider = ({ children }: any) => {
   const [name, setName] = useState("");
   const [LastName, setLastName] = useState("");
   var { data: products, isLoading, isError } = getProducts();
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1svffVj7poxJxBjyZpyx_7Wh9xfT6AQaEArPXOHuH9fetQ3XKjP4WVWrIV7f0hBibN3U&usqp=CAU"
+  );
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [id, setId] = useState("");
   const [user, setUser] = useState({});

@@ -1,6 +1,6 @@
 
 
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View , LogBox} from "react-native";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { BottomScreenTab } from "./secreens/BottomScreens/BottomScreenTab";
@@ -19,6 +19,7 @@ import { useEffect, useState } from "react";
 const Stack = createStackNavigator(); 
 const STRIPE_Key='pk_test_51ObgWwLDiPccFavSFtc8zJkEukmAAxX1SnCLl2UZe4y1cHUgGqcJp7CWtN4MDfg0obElh2cFmRWDwgxGZHpUO7wf00RcQlKJKJ'
 export default function Context() {
+  LogBox.ignoreAllLogs()
   const [user,setUserConncted]=useState('')
   useEffect(()=>{
   getUserData().then((result: any) => {

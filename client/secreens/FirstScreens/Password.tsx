@@ -11,7 +11,11 @@ import {
 } from "react-native";
 import { Color, FontSize, Border } from "../../GlobalStyles/password";
 import { TextInput } from "react-native-gesture-handler";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  sendEmailVerification,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import app from "../../firebase";
 import { AuthContext } from "../../useContext/authContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -70,16 +74,24 @@ const Password = ({ navigation, route }: any) => {
       checkBan();
     }, [banned])
   );
-  const login = () => {
+  const login =  () => {
     signInWithEmailAndPassword(Fauth, route.params.email, password)
-      .then((userCredential) => {
+      .then(async (userCredential) => {
         const user = userCredential.user;
-        console.log(user);
-        storeData(user.uid);
-        setAuth(true);
-        setIsAuthenticated(true);
-        AsyncStorage.setItem("auth", "true");
-        // mutate(email) // iyed
+        await sendEmailVerification(user);
+
+        if (user.emailVerified) {
+          console.log("User is logged in and email is verified");
+          // Continue with your logic after successful login and verified email
+          storeData(user.uid);
+          setAuth(true);
+          setIsAuthenticated(true);
+          AsyncStorage.setItem("auth", "true");
+          // mutate(email) // iyed
+        } else {
+          console.log("Email not verified. Please verify your email.");
+          setErrorMessage("Email not verified. Please verify your email.");
+        }
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -198,7 +210,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 10,
     position: "absolute",
-    top: "700%",
+    top: "760%",
   },
   done: {
     left: "42.39%",
